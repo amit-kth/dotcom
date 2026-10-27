@@ -117,6 +117,9 @@
     <!-- Intl-Tel-Input CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.min.css">
 
+    <!-- Header styles (separate file so it can never be served stale) -->
+    <link rel="stylesheet" href="css/kp-header.css">
+
 
     <!-- Service Worker & PWA -->
     <script type="module">
@@ -151,7 +154,7 @@
                                 <nav class="navbar navbar-expand-lg navbar-light p-0">
                                     <div class="navbar-header navbar-header-custom">
                                         <a href="https://kriscent.in/" class="navbar-brand logodefault" target="_blank">
-                                            <img width="274" height="72" id="logo" src="./img/logo/logo.png"
+                                            <img width="auto" height="auto" id="logo" src="./img/logo/logo.png"
                                                 alt="header-logo" class="img-fluid" />
                                         </a>
                                     </div>

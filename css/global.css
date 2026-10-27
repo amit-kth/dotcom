@@ -36,6 +36,11 @@
   --kp-deep: #07101a; /* dark base */
   --kp-scrim-rgb: 5, 12, 19; /* image scrims, glass over photography */
 
+  /* --- metal ------------------------------------------------------------ */
+  /* used for the certification seal's rim and glow */
+  --kp-gold: #dfb45c;
+  --kp-gold-rgb: 223, 180, 92;
+
   /* --- product hues ----------------------------------------------------- */
   --kp-astrofy: #7b2ff7;
   --kp-smart: #2563eb;

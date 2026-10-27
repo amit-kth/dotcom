@@ -1,39 +1,55 @@
 /* =========================================================================
-   ABOUT  ·  kp-about.css
+   ABOUT  ·  kp-about.css   —   dark editorial band
    -------------------------------------------------------------------------
-   The section previously ran three dense paragraphs (about 130 words) beside
-   two scrapbook images — a wavy red rectangle behind an offset photo. This is
-   an editorial two-column block instead:
+   Sits between the light proof band above and the light product section
+   below, so the section itself becomes the divider.
 
-     copy  — short lead, one supporting line, three fact rows, one CTA
-     visual — the two real photographs, layered, with a hairline frame
+   Layout is deliberately not two equal columns: a wide headline block with the
+   lead set against its baseline, a hairline rule across the width, then a
+   heavier image column against a narrower copy column separated by a vertical
+   rule. The photographs do the talking on the left; the facts stay scannable
+   on the right.
 
-   Content is cut, not invented: every clause comes from the strings that were
-   already in the section. The third paragraph (AI tools, the Metaverse) is now
-   the "Focus" row, and the country list is the "Reach" row, so the prose that
-   carried them is gone.
+   Copy is unchanged from the previous version except for the two em dashes,
+   which are now commas.
 
-   The photographs stay near their native width — about7.webp is 420px wide and
-   was previously drawn at roughly 570px. At 416px it is effectively 1:1.
-
-   Colours and easing come from css/global.css. Only .kp-* classes are used, so
-   no theme rule can reach into this block.
+   Colours and easing come from css/global.css. Only .kp-* classes are used.
    ========================================================================= */
 
 .kp-about {
   position: relative;
-  /* clears the CMMI badge that hangs 64px into this section from the counter
-     band above, and then some */
-  padding: 96px 0 104px;
+  padding: 104px 0 112px;
+  background: var(--kp-deep);
+  color: #fff;
+  overflow: hidden;
 }
 
-.kp-about-grid {
+/* two faint washes so the plate has depth instead of reading as flat black */
+.kp-about::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 50% 44% at 84% -8%, rgba(var(--kp-accent-rgb), 0.16), rgba(var(--kp-accent-rgb), 0) 62%),
+    radial-gradient(ellipse 46% 42% at 0% 108%, rgba(var(--kp-navy-rgb), 0.55), rgba(var(--kp-navy-rgb), 0) 66%);
+  pointer-events: none;
+}
+
+.kp-about .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* --- head ---------------------------------------------------------------- */
+.kp-about .kp-about-head {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.06fr) minmax(0, 0.84fr);
+  align-items: end;
   gap: 56px;
+  padding-bottom: 44px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* --- copy ---------------------------------------------------------------- */
 .kp-about .kp-about-eyebrow {
   display: flex;
   align-items: center;
@@ -43,7 +59,7 @@
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--kp-accent-deep); /* 6.9:1 on white */
+  color: var(--kp-accent-light); /* 5.6:1 on --kp-deep */
 }
 
 .kp-about .kp-about-eyebrow::before {
@@ -51,60 +67,117 @@
   width: 28px;
   height: 1px;
   background: currentColor;
-  opacity: 0.65;
+  opacity: 0.7;
 }
 
 .kp-about .kp-about-title {
-  margin: 0 0 22px;
+  margin: 0;
   font-family: "Poppins", sans-serif;
-  font-size: clamp(1.75rem, 1.5vw + 1.1rem, 2.6rem);
+  font-size: clamp(2.1rem, 2.2vw + 1.2rem, 3.4rem);
   font-weight: 600;
-  line-height: 1.14;
-  letter-spacing: -0.025em;
-  color: var(--kp-ink);
+  line-height: 1.06;
+  letter-spacing: -0.03em;
+  color: #fff;
 }
 
 .kp-about .kp-about-lead {
-  margin: 0 0 16px;
-  max-width: 48ch;
-  font-size: 17px;
+  margin: 0;
+  max-width: 46ch;
+  font-size: 16.5px;
   line-height: 1.72;
-  color: rgba(var(--kp-ink-rgb), 0.78); /* 9.3:1 */
-}
-
-.kp-about .kp-about-body {
-  margin: 0 0 30px;
-  max-width: 52ch;
-  font-size: 14.5px;
-  line-height: 1.72;
-  color: rgba(var(--kp-ink-rgb), 0.7); /* 5.6:1 */
+  color: rgba(255, 255, 255, 0.74); /* 9.4:1 */
 }
 
 .kp-about .kp-about-link {
-  color: var(--kp-accent-deep);
+  color: rgba(255, 255, 255, 0.95);
   text-decoration: none;
-  border-bottom: 1px solid rgba(var(--kp-accent-rgb), 0.35);
-  transition: border-color 0.2s ease, color 0.2s ease;
+  border-bottom: 1px solid rgba(var(--kp-accent-rgb), 0.75);
+  transition: color 0.2s ease, border-color 0.2s ease;
 }
 
 .kp-about .kp-about-link:hover {
-  color: var(--kp-accent);
-  border-bottom-color: var(--kp-accent);
+  color: var(--kp-accent-light);
+  border-bottom-color: var(--kp-accent-light);
 }
 
-/* --- fact rows ----------------------------------------------------------- */
+/* --- body ---------------------------------------------------------------- */
+.kp-about .kp-about-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: 64px;
+  margin-top: 64px;
+  align-items: center;
+}
+
+/* --- media --------------------------------------------------------------- */
+.kp-about .kp-about-media {
+  position: relative;
+  width: 100%;
+  max-width: 470px;
+  padding: 0 0 48px 56px;
+}
+
+.kp-about .kp-about-shot {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 50px 80px -60px #000;
+}
+
+.kp-about .kp-about-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.kp-about .kp-about-shot--inset {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 2;
+  width: 196px;
+  margin: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 30px 50px -34px #000;
+}
+
+.kp-about .kp-about-shot--inset img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* --- copy column --------------------------------------------------------- */
+.kp-about .kp-about-copy {
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  padding-left: 56px;
+}
+
+.kp-about .kp-about-text {
+  margin: 0 0 30px;
+  max-width: 42ch;
+  font-size: 15px;
+  line-height: 1.72;
+  color: rgba(255, 255, 255, 0.66); /* 7.6:1 */
+}
+
 .kp-about .kp-about-facts {
   margin: 0 0 34px;
   padding: 0;
-  border-top: 1px solid rgba(var(--kp-ink-rgb), 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .kp-about .kp-about-fact {
   display: grid;
-  grid-template-columns: 86px minmax(0, 1fr);
+  grid-template-columns: 84px minmax(0, 1fr);
   gap: 16px;
   padding: 13px 0;
-  border-bottom: 1px solid rgba(var(--kp-ink-rgb), 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .kp-about .kp-about-fact dt {
@@ -113,14 +186,14 @@
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(var(--kp-ink-rgb), 0.7); /* 5.6:1 — .55 fails at this size */
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .kp-about .kp-about-fact dd {
   margin: 0;
   font-size: 14px;
   line-height: 1.5;
-  color: var(--kp-ink);
+  color: rgba(255, 255, 255, 0.92);
 }
 
 /* --- call to action ------------------------------------------------------ */
@@ -136,7 +209,7 @@
   background: var(--kp-accent);
   border-radius: 999px;
   text-decoration: none;
-  box-shadow: 0 12px 26px -16px rgba(var(--kp-accent-shadow-rgb), 0.9);
+  box-shadow: 0 16px 34px -18px rgba(var(--kp-accent-shadow-rgb), 0.95);
   transition: background-color 0.22s ease, transform 0.22s var(--kp-ease),
     box-shadow 0.22s ease;
 }
@@ -151,7 +224,7 @@
   color: #fff;
   background: var(--kp-accent-deep);
   transform: translateY(-1px);
-  box-shadow: 0 16px 30px -16px rgba(var(--kp-accent-shadow-rgb), 0.95);
+  box-shadow: 0 20px 38px -18px rgba(var(--kp-accent-shadow-rgb), 1);
 }
 
 .kp-about .kp-about-cta:hover i,
@@ -159,104 +232,34 @@
   transform: translateX(3px);
 }
 
-/* --- visual -------------------------------------------------------------- */
-/* the padding is the room the hairline frame and the inset photograph sit in,
-   so nothing here can overflow the grid column */
-.kp-about .kp-about-visual {
-  position: relative;
-  width: 100%;
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 20px 24px 56px 56px;
-}
-
-.kp-about .kp-about-visual::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 40px;
-  left: 44px;
-  border: 1px solid rgba(var(--kp-ink-rgb), 0.14);
-  border-radius: 26px;
-  pointer-events: none;
-}
-
-.kp-about .kp-about-shot {
-  position: relative;
-  z-index: 1;
-  margin: 0;
-  border-radius: 18px;
-  overflow: hidden;
-  box-shadow: 0 28px 54px -38px rgba(var(--kp-ink-deep-rgb), 0.55);
-}
-
-.kp-about .kp-about-shot img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-.kp-about .kp-about-shot--inset {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  z-index: 2;
-  width: 176px;
-  margin: 0;
-  border-radius: 14px;
-  overflow: hidden;
-  border: 6px solid #fff;
-  box-shadow: 0 18px 36px -22px rgba(var(--kp-ink-deep-rgb), 0.6);
-}
-
-.kp-about .kp-about-shot--inset img {
-  display: block;
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-}
-
-/* --- split layout -------------------------------------------------------- */
-/* Split at 992, the same lg breakpoint the rest of the page turns on, but
-   weighted towards the visual: an even split squeezed the main photograph to
-   340px at 992, so it shrank by 80px the moment the breakpoint was crossed.
-   With 1.15fr it moves 420 -> 395 and settles at 416. */
-@media (min-width: 992px) {
-  .kp-about .kp-about-grid {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
-    align-items: center;
-    gap: 64px;
-  }
-
-  .kp-about .kp-about-visual {
-    margin-left: auto;
-    padding: 20px 20px 60px 64px;
-  }
-}
-
 /* --- reveal -------------------------------------------------------------- */
-.kp-about.kp-js .kp-about-copy,
-.kp-about.kp-js .kp-about-visual {
+.kp-about.kp-js .kp-about-head,
+.kp-about.kp-js .kp-about-media,
+.kp-about.kp-js .kp-about-copy {
   opacity: 0;
   transform: translateY(14px);
 }
 
-.kp-about.is-in .kp-about-copy,
-.kp-about.is-in .kp-about-visual {
+.kp-about.is-in .kp-about-head,
+.kp-about.is-in .kp-about-media,
+.kp-about.is-in .kp-about-copy {
   opacity: 1;
   transform: none;
   transition: opacity 0.6s ease, transform 0.6s var(--kp-ease);
 }
 
-.kp-about.is-in .kp-about-visual {
-  transition-delay: 0.12s;
+.kp-about.is-in .kp-about-media {
+  transition-delay: 0.1s;
+}
+
+.kp-about.is-in .kp-about-copy {
+  transition-delay: 0.16s;
 }
 
 /* --- focus --------------------------------------------------------------- */
 .kp-about .kp-about-cta:focus-visible,
 .kp-about .kp-about-link:focus-visible {
-  outline: 2px solid var(--kp-accent);
+  outline: 2px solid var(--kp-accent-light);
   outline-offset: 3px;
 }
 
@@ -266,17 +269,37 @@
     padding: 80px 0 88px;
   }
 
-  .kp-about-grid {
-    gap: 48px;
+  .kp-about .kp-about-head {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+    padding-bottom: 36px;
   }
 
-  /* single column: let the prose use the width instead of stopping at 48ch */
   .kp-about .kp-about-lead {
     max-width: 62ch;
   }
 
   .kp-about .kp-about-body {
-    max-width: 66ch;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 48px;
+    margin-top: 48px;
+  }
+
+  .kp-about .kp-about-media {
+    margin: 0 auto;
+    max-width: 500px;
+    padding: 0 0 52px 56px;
+  }
+
+  .kp-about .kp-about-copy {
+    border-left: 0;
+    padding-left: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 40px;
+  }
+
+  .kp-about .kp-about-text {
+    max-width: 58ch;
   }
 }
 
@@ -285,32 +308,16 @@
     padding: 64px 0 72px;
   }
 
-  .kp-about-grid {
-    gap: 44px;
-  }
-
   .kp-about .kp-about-title {
-    font-size: 1.6rem;
+    font-size: 1.75rem;
   }
 
   .kp-about .kp-about-lead {
-    font-size: 15.5px;
+    font-size: 15px;
   }
 
-  .kp-about .kp-about-fact {
-    grid-template-columns: 74px minmax(0, 1fr);
-    gap: 12px;
-    padding: 11px 0;
-  }
-
-  .kp-about .kp-about-visual {
-    padding: 16px 16px 44px 40px;
-  }
-
-  .kp-about .kp-about-visual::before {
-    left: 24px;
-    bottom: 28px;
-    border-radius: 20px;
+  .kp-about .kp-about-media {
+    padding: 0 0 44px 40px;
   }
 
   .kp-about .kp-about-shot {
@@ -319,17 +326,24 @@
 
   .kp-about .kp-about-shot--inset {
     width: 132px;
-    border-width: 5px;
     border-radius: 12px;
+  }
+
+  .kp-about .kp-about-fact {
+    grid-template-columns: 74px minmax(0, 1fr);
+    gap: 12px;
+    padding: 11px 0;
   }
 }
 
 /* --- motion -------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
+  .kp-about.kp-js .kp-about-head,
+  .kp-about.kp-js .kp-about-media,
   .kp-about.kp-js .kp-about-copy,
-  .kp-about.kp-js .kp-about-visual,
-  .kp-about.is-in .kp-about-copy,
-  .kp-about.is-in .kp-about-visual {
+  .kp-about.is-in .kp-about-head,
+  .kp-about.is-in .kp-about-media,
+  .kp-about.is-in .kp-about-copy {
     opacity: 1;
     transform: none;
     transition: none !important;

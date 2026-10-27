@@ -227,11 +227,18 @@
 
 .counter-style-01 .kp-badge a {
   display: block;
+  /* the icon is a transparent PNG — 87% of it is empty, so the page behind it
+     (including the seam between this band and #about) showed straight through
+     the seal. A solid plate gives it a body to sit on. */
+  padding: 8px;
   border-radius: 50%;
+  background: radial-gradient(circle at 50% 30%, #fff 0%, #f8f4ec 68%, #efe7d8 100%);
   transition: transform 0.28s var(--kp-ease), box-shadow 0.28s ease;
   box-shadow:
-    0 0 0 8px #fff,
-    0 16px 30px -16px rgba(var(--kp-ink-deep-rgb), 0.5);
+    0 0 0 1px rgba(var(--kp-gold-rgb), 0.55),
+    0 0 0 9px rgba(var(--kp-gold-rgb), 0.08),
+    0 0 32px 4px rgba(var(--kp-gold-rgb), 0.34),
+    0 22px 36px -22px rgba(var(--kp-ink-deep-rgb), 0.6);
 }
 
 .counter-style-01 .kp-badge img {
@@ -245,8 +252,10 @@
 .counter-style-01 .kp-badge a:focus-visible {
   transform: translateY(-3px);
   box-shadow:
-    0 0 0 8px #fff,
-    0 22px 34px -16px rgba(var(--kp-ink-deep-rgb), 0.58);
+    0 0 0 1px rgba(var(--kp-gold-rgb), 0.8),
+    0 0 0 9px rgba(var(--kp-gold-rgb), 0.12),
+    0 0 44px 6px rgba(var(--kp-gold-rgb), 0.46),
+    0 26px 40px -22px rgba(var(--kp-ink-deep-rgb), 0.65);
 }
 
 /* --- reveal -------------------------------------------------------------- */
@@ -327,9 +336,12 @@
   }
 
   .counter-style-01 .kp-badge a {
+    padding: 6px;
     box-shadow:
-      0 0 0 6px #fff,
-      0 12px 24px -14px rgba(var(--kp-ink-deep-rgb), 0.5);
+      0 0 0 1px rgba(var(--kp-gold-rgb), 0.55),
+      0 0 0 7px rgba(var(--kp-gold-rgb), 0.08),
+      0 0 24px 3px rgba(var(--kp-gold-rgb), 0.32),
+      0 16px 28px -18px rgba(var(--kp-ink-deep-rgb), 0.55);
   }
 }
 

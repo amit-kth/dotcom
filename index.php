@@ -125,6 +125,7 @@
     <link rel="stylesheet" href="css/kp-hero.css?v=<?php echo @filemtime('css/kp-hero.css') ?: 1; ?>">
     <link rel="stylesheet" href="css/kp-stats.css?v=<?php echo @filemtime('css/kp-stats.css') ?: 1; ?>">
     <link rel="stylesheet" href="css/kp-about.css?v=<?php echo @filemtime('css/kp-about.css') ?: 1; ?>">
+    <link rel="stylesheet" href="css/kp-loader.css?v=<?php echo @filemtime('css/kp-loader.css') ?: 1; ?>">
     <script src="js/kp-header.js?v=<?php echo @filemtime('js/kp-header.js') ?: 1; ?>" defer></script>
     <script src="js/kp-hero.js?v=<?php echo @filemtime('js/kp-hero.js') ?: 1; ?>" defer></script>
     <script src="js/kp-stats.js?v=<?php echo @filemtime('js/kp-stats.js') ?: 1; ?>" defer></script>
@@ -147,7 +148,13 @@
 
     <!-- PAGE LOADING
     ================================================== -->
-    <div id="preloader"></div>
+    <div id="preloader">
+        <div class="kp-loader">
+            <img class="kp-loader__logo" src="img/logo/logo.png" alt="Kriscent" width="274" height="72">
+            <span class="kp-loader__track" aria-hidden="true"><i></i></span>
+            <span class="kp-loader__sr" role="status">Loading</span>
+        </div>
+    </div>
 
     <!-- MAIN WRAPPER
     ================================================== -->

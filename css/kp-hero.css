@@ -1,0 +1,303 @@
+/* =========================================================================
+   HERO  ·  kp-hero.css
+   -------------------------------------------------------------------------
+   Replaces the theme's hero presentation.
+
+   The problem it fixes
+   --------------------
+   The three banner files are 1920x907 (ratio 2.1169, not 16:9) and carry
+   their headline and product shots baked into the artwork. The theme forced
+   the slider into an 80vh box and let the images fill it, so the visible
+   ratio changed with every viewport: object-fit cropped the composition and
+   the theme's own img rule (width/height 100%) distorted it.
+
+   The fix
+   -------
+   The image box is given the artwork's real ratio (1920/907), so the frame
+   and the picture share one ratio and cover == contain: at no width is a
+   single pixel cropped or stretched. Narrow screens get a slightly taller
+   box with a per-slide object-position, because the CRM slide is composed
+   to the left and a centre crop would cut its logo and headline off.
+
+   Only .kp-hero-* classes are used, so nothing in the theme can reach in.
+   ========================================================================= */
+
+/* --- 1. section --------------------------------------------------------- */
+.kp-hero {
+  position: relative;
+  padding: 10px 0 38px;
+  background: #08121a;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* ambient light so the framed artwork sits in the page, not on it */
+.kp-hero::before,
+.kp-hero::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+  border-radius: 50%;
+  filter: blur(70px);
+}
+
+.kp-hero::before {
+  width: 46vw;
+  height: 46vw;
+  max-width: 620px;
+  max-height: 620px;
+  top: -26%;
+  right: -8%;
+  background: radial-gradient(circle, rgba(220, 38, 38, 0.22), transparent 62%);
+}
+
+.kp-hero::after {
+  width: 40vw;
+  height: 40vw;
+  max-width: 520px;
+  max-height: 520px;
+  bottom: -34%;
+  left: -10%;
+  background: radial-gradient(circle, rgba(24, 69, 93, 0.5), transparent 64%);
+}
+
+.kp-hero-wrap {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1320px; /* matches the header's inner width, so edges align */
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* --- 2. frame ----------------------------------------------------------- */
+.kp-hero-frame {
+  position: relative;
+  border-radius: 26px;
+  background: #0a1520;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 40px 80px -44px rgba(0, 0, 0, 0.8),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  isolation: isolate;
+}
+
+/* the slider itself — theme classes kept so main.js keeps working */
+.kp-hero .kp-slider {
+  border-radius: 26px;
+  overflow: hidden;
+}
+
+/* --- 3. the images: one ratio, therefore no crop, therefore no stretch -- */
+.kp-hero .kp-slider .item {
+  position: relative;
+  height: auto;
+  aspect-ratio: 1920 / 907;
+  background: #0a1520;
+}
+
+.kp-hero .kp-slider .item img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 0;
+}
+
+/* the theme drops a 75% white veil over the hero under 1200px — there is no
+   text on top any more, so it only washes the artwork out */
+.kp-hero .kp-slider .item::before,
+.kp-hero .kp-slider .item::after {
+  display: none !important;
+  content: none !important;
+}
+
+/* defensive: if the carousel never initialises, show the first slide only
+   instead of three stacked images */
+.kp-hero .kp-slider:not(.owl-loaded) .item + .item {
+  display: none;
+}
+
+/* --- 4. arrows ---------------------------------------------------------- */
+.kp-hero-arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  margin-top: -23px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 50%;
+  color: #fff;
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  background: rgba(8, 18, 26, 0.4);
+  -webkit-backdrop-filter: blur(10px) saturate(160%);
+  backdrop-filter: blur(10px) saturate(160%);
+  opacity: 0.55;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: opacity 0.22s ease, background-color 0.22s ease, transform 0.22s ease;
+}
+
+.kp-hero-arrow--prev {
+  left: 18px;
+}
+
+.kp-hero-arrow--next {
+  right: 18px;
+}
+
+.kp-hero-frame:hover .kp-hero-arrow,
+.kp-hero-arrow:focus-visible {
+  opacity: 1;
+}
+
+.kp-hero-arrow:hover {
+  background: rgba(220, 38, 38, 0.85);
+  transform: scale(1.06);
+}
+
+.kp-hero-arrow:active {
+  transform: scale(0.96);
+}
+
+/* --- 5. dots ------------------------------------------------------------ */
+/* Each dot sits in a glass pill so it stays legible on the dark cosmic
+   artwork and on the light CRM slide alike, without a scrim over the image. */
+.kp-hero-dots {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  background: rgba(8, 18, 26, 0.42);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  backdrop-filter: blur(12px) saturate(160%);
+  box-shadow: 0 6px 18px -10px rgba(0, 0, 0, 0.6);
+  transform: translateX(-50%);
+}
+
+.kp-hero-dots:empty {
+  display: none;
+}
+
+.kp-hero-dots button {
+  display: block;
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.45);
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: width 0.3s cubic-bezier(0.16, 0.84, 0.44, 1), background-color 0.25s ease;
+}
+
+.kp-hero-dots button:hover {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.kp-hero-dots button[aria-current="true"] {
+  width: 22px;
+  background: #fff;
+}
+
+/* the theme's own dots are replaced by the ones above */
+.kp-hero .kp-slider .owl-dots,
+.kp-hero .kp-slider .owl-nav {
+  display: none !important;
+}
+
+/* --- 6. keyboard focus --------------------------------------------------- */
+.kp-hero-arrow:focus-visible,
+.kp-hero-dots button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+/* --- 7. breakpoints ------------------------------------------------------ */
+@media (max-width: 991.98px) {
+  .kp-hero {
+    padding: 8px 0 26px;
+  }
+
+  .kp-hero-wrap {
+    padding: 0 14px;
+  }
+
+  .kp-hero-frame,
+  .kp-hero .kp-slider {
+    border-radius: 20px;
+  }
+
+  /* slightly taller than the artwork so the hero still reads as a hero on a
+     tablet; crop is ~29% of the width, tuned per slide below */
+  .kp-hero .kp-slider .item {
+    aspect-ratio: 3 / 2;
+  }
+
+  .kp-hero-arrow {
+    display: none; /* swipe is the affordance on touch */
+  }
+
+  .kp-hero-dots {
+    bottom: 14px;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .kp-hero-wrap {
+    padding: 0 12px;
+  }
+
+  .kp-hero-frame,
+  .kp-hero .kp-slider {
+    border-radius: 16px;
+  }
+
+  .kp-hero .kp-slider .item {
+    aspect-ratio: 4 / 3;
+  }
+
+  .kp-hero-dots {
+    bottom: 12px;
+    gap: 7px;
+    padding: 7px 10px;
+  }
+}
+
+/* Slider 5 (K-SMART CRM) is composed to the left — its wordmark and laptop
+   sit at the left edge, so anchor the crop there and only lose empty
+   background on the right. The other two are centre-composed. */
+.kp-hero .kp-slider img[src$="slider-5.webp"] {
+  object-position: 18% center;
+}
+
+@media (max-width: 991.98px) {
+  .kp-hero .kp-slider img[src$="slider-5.webp"] {
+    object-position: 12% center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kp-hero-arrow,
+  .kp-hero-dots button {
+    transition: none !important;
+    transform: none !important;
+  }
+}

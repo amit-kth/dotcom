@@ -119,7 +119,9 @@
 
     <!-- Header styles (separate file so it can never be served stale) -->
     <link rel="stylesheet" href="css/kp-header.css">
+    <link rel="stylesheet" href="css/kp-hero.css">
     <script src="js/kp-header.js" defer></script>
+    <script src="js/kp-hero.js" defer></script>
 
 
     <!-- Service Worker & PWA -->
@@ -190,17 +192,29 @@
 
         <!-- BANNER
         ================================================== -->
-        <section class="py-0 banner" id="home"> <!--slider-fade1 -->
-            <div class="slider-fade1 owl-carousel owl-theme w-100" id="home-slider">
-                <div class="item bg-img cover-background">
-                    <img src="img/banner/slider-4.webp" alt="banner slider">
-                </div>
-                <div class="item bg-img cover-background">
-                    <img src="img/banner/slider-5.webp" alt="banner slider">
-                </div>
-                <div class="item bg-img cover-background">
+        <section class="kp-hero" id="home">
+            <div class="kp-hero-wrap">
+                <div class="kp-hero-frame">
+                    <div class="slider-fade1 owl-carousel owl-theme kp-slider" id="home-slider">
+                        <div class="item">
+                            <img src="img/banner/slider-4.webp" alt="banner slider" fetchpriority="high">
+                        </div>
+                        <div class="item">
+                            <img src="img/banner/slider-5.webp" alt="banner slider" decoding="async">
+                        </div>
+                        <div class="item">
+                            <img src="img/banner/slider-6.webp" alt="banner slider" decoding="async">
+                        </div>
+                    </div>
 
-                    <img src="img/banner/slider-6.webp" alt="banner slider">
+                    <button type="button" class="kp-hero-arrow kp-hero-arrow--prev" aria-label="Previous slide">
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" class="kp-hero-arrow kp-hero-arrow--next" aria-label="Next slide">
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </button>
+
+                    <div class="kp-hero-dots"></div>
                 </div>
             </div>
         </section>

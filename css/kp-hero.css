@@ -260,6 +260,11 @@
   position: absolute;
   left: 50%;
   bottom: var(--kp-edge);
+  /* required: this pill is a sibling of .kp-hero-inner, not a child of it, and
+     .kp-hero-slide.is-active is z-index 1. Without a z-index of its own the pill
+     paints below the active slide — i.e. underneath the hero photograph. The
+     ladder is slide 0 -> active slide 1 -> inner 2 -> controls 4. */
+  z-index: 4;
   transform: translateX(-50%);
   display: flex;
   align-items: center;

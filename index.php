@@ -123,8 +123,10 @@
     <!-- Component styles (separate files so they can never be served stale) -->
     <link rel="stylesheet" href="css/kp-header.css">
     <link rel="stylesheet" href="css/kp-hero.css">
+    <link rel="stylesheet" href="css/kp-stats.css">
     <script src="js/kp-header.js" defer></script>
     <script src="js/kp-hero.js" defer></script>
+    <script src="js/kp-stats.js" defer></script>
 
 
     <!-- Service Worker & PWA -->
@@ -350,61 +352,54 @@
             </div>
         </section> -->
 
-        <!-- COUNTER
+        <!-- COUNTER / PROOF BAND
         ================================================== -->
-        <section class="counter-style-01 bg-light pb-16 pt-3 overflow-visible">
-            <div class="container overflow-hidden">
-                <div class="row g-5 g-lg-0 position-relative z-index-9">
-                    <div class="col-md-6 col-lg-3 order-2 order-lg-1 mt-1-9 wow fadeInUp" data-wow-delay="200ms">
-                        <div class="text-center text-md-start">
-                            <div
-                                class="display-3 font-weight-800 mb-3 lh-1 text-primary d-flex justify-content-center justify-content-md-start">
-                                <div class="countup">1,549</div>+
-                            </div>
-                            <span class="text-uppercase letter-spacing-4 d-block font-weight-700 mb-2">Project
-                                Completed</span>
-                            <p class="mb-3">Before dealing with projects, we explore with clients about technology,
-                                time, and cost.</p>
-                            <a href="https://kriscent.in/portfolio" class="text-primary projectBtn" target="_blank">
-                                <span>Projects</span>
-                                <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
-                            </a>
-                        </div>
+        <section class="kp-stats">
+            <div class="kp-stats-wrap">
+                <div class="kp-stats-grid">
+                    <div class="kp-stat kp-stat--lead">
+                        <p class="kp-stat-num">
+                            <span class="kp-stat-figure" data-count="1549">1,549</span><span
+                                class="kp-stat-suffix">+</span>
+                        </p>
+                        <p class="kp-stat-label">Projects completed</p>
+                        <p class="kp-stat-note">Before dealing with projects, we explore with clients about
+                            technology, time, and cost.</p>
+                        <a href="https://kriscent.in/portfolio" class="kp-stat-link" target="_blank">
+                            <span>Projects</span>
+                            <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                        </a>
                     </div>
-                    <div class="col-lg-6 order-1 order-lg-2 wow fadeInUp" data-wow-delay="400ms">
-                        <div class="text-center">
-                            <span class="bg-img cover-background count-no" data-background="img/bg/bg-08.webp">12</span>
-                            <span class="text-primary text-uppercase letter-spacing-4 d-block font-weight-700">Years Of
-                                Experience</span>
+
+                    <div class="kp-stat-stack">
+                        <div class="kp-stat">
+                            <p class="kp-stat-num">
+                                <span class="kp-stat-figure" data-count="12">12</span>
+                            </p>
+                            <p class="kp-stat-label">Years of experience</p>
                         </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3 order-2 mt-1-9 wow fadeInUp" data-wow-delay="600ms">
-                        <div class="text-center text-md-end">
-                            <div class="mb-3 d-flex justify-content-center justify-content-md-end">
-                                <div class="display-3 font-weight-800 lh-1 text-primary d-flex">
-                                    <div class="countup">1245</div>+
-                                </div>
-                            </div>
-                            <span class="text-uppercase letter-spacing-4 d-block font-weight-700 mb-2">Trusted By 1245+
-                                Clients</span>
-                            <p class="mb-3">95% of our clients are satisfied with our services because we do work on the
-                                latest technologies.</p>
-                            <a href="https://kriscent.in/clients" class="text-primary projectBtn" target="_blank">
+
+                        <div class="kp-stat">
+                            <p class="kp-stat-num">
+                                <span class="kp-stat-figure" data-count="1245">1,245</span><span
+                                    class="kp-stat-suffix">+</span>
+                            </p>
+                            <p class="kp-stat-label">Clients served</p>
+                            <p class="kp-stat-note">95% of our clients are satisfied with our services because we
+                                work on the latest technologies.</p>
+                            <a href="https://kriscent.in/clients" class="kp-stat-link" target="_blank">
                                 <span>Clients</span>
-                                <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                                <i class="fa fa-arrow-right" aria-hidden="true"></i>
                             </a>
                         </div>
+                    </div>
+
+                    <div class="kp-stat-trust">
+                        <a href="https://kriscent.in/" target="_blank">
+                            <img src="img/icons/cmmi.webp" alt="logo" width="200" height="200">
+                        </a>
                     </div>
                 </div>
-            </div>
-            <div class="position-absolute top-100 start-50 translate-middle z-index-9 wow fadeIn"
-                data-wow-delay="800ms">
-                <a href="https://kriscent.in/" target="_blank">
-                    <img src="img/icons/cmmi.webp" alt="logo" width="140" height="160" class="count-img">
-                </a>
-            </div>
-            <div class="position-absolute bottom-0 left-0 opacity3">
-                <img src="img/bg/bg-06.webp" width="190" height="190" alt="bg">
             </div>
         </section>
 

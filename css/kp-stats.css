@@ -1,0 +1,319 @@
+/* =========================================================================
+   PROOF BAND  ·  kp-stats.css
+   -------------------------------------------------------------------------
+   Replaces .counter-style-01.
+
+   What was wrong there
+   - the middle figure was a 300px numeral filled with a photograph
+     (background-clip: text), which outranked the other two numbers and was
+     hard to read against a light band;
+   - the two smaller figures were static text — the count-up plugin is
+     commented out in js/main.js — so the section claimed to animate and did
+     not;
+   - the CMMI mark is a 200x200 file rendered at 140x160, so it was already
+     stretched, and it hung half outside the section with an endless
+     zoom animation;
+   - the label repeated the figure above it ("Trusted By 1245+ Clients" under
+     "1245+").
+
+   What this is
+   - one clear focal figure, two supporting ones, and the credential, arranged
+     asymmetrically rather than as three equal boxes;
+   - figures count up once when scrolled into view;
+   - the credential sits inside the band, square, and still.
+
+   Colours and easing come from css/global.css. Only .kp-* classes are used.
+   ========================================================================= */
+
+.kp-stats {
+  position: relative;
+  padding: 64px 0;
+  background: rgba(var(--kp-ink-rgb), 0.032);
+  border-top: 1px solid rgba(var(--kp-ink-rgb), 0.07);
+  border-bottom: 1px solid rgba(var(--kp-ink-rgb), 0.07);
+  overflow: hidden;
+}
+
+.kp-stats-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.kp-stats-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 4fr) minmax(0, 3fr);
+  align-items: start;
+  gap: 0;
+}
+
+/* --- figures ------------------------------------------------------------- */
+.kp-stat-num {
+  display: flex;
+  align-items: baseline;
+  margin: 0 0 10px;
+  font-family: "Poppins", sans-serif;
+  font-size: clamp(2.1rem, 2.4vw + 1rem, 3.1rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  color: var(--kp-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.kp-stat-suffix {
+  font-size: 0.55em;
+  font-weight: 500;
+  color: var(--kp-accent);
+}
+
+.kp-stat-label {
+  margin: 0;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  /* 0.70 rather than 0.55: measured 5.64:1 against the band, where 0.55 gave
+     3.58:1 and failed AA for text this small */
+  color: rgba(var(--kp-ink-rgb), 0.7);
+}
+
+.kp-stat-note {
+  margin: 14px 0 0;
+  max-width: 34ch;
+  font-size: 14.5px;
+  line-height: 1.62;
+  color: rgba(var(--kp-ink-rgb), 0.7); /* measured 5.64:1 */
+}
+
+.kp-stat-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--kp-accent);
+  text-decoration: none;
+  transition: color 0.22s ease;
+}
+
+.kp-stat-link i {
+  font-size: 11px;
+  transition: transform 0.25s var(--kp-ease);
+}
+
+.kp-stat-link:hover {
+  color: var(--kp-accent-deep);
+}
+
+.kp-stat-link:hover i {
+  transform: translateX(4px);
+}
+
+/* --- lead figure --------------------------------------------------------- */
+/* 1,549 is the strongest proof on the page, so it gets the size and the accent;
+   the other two support it instead of competing. */
+.kp-stat--lead {
+  padding-right: 48px;
+}
+
+.kp-stat--lead .kp-stat-num {
+  font-size: clamp(3.1rem, 4.6vw + 1rem, 5rem);
+  color: var(--kp-accent);
+  letter-spacing: -0.045em;
+}
+
+.kp-stat--lead .kp-stat-suffix {
+  color: var(--kp-accent);
+}
+
+.kp-stat--lead .kp-stat-label {
+  color: var(--kp-ink);
+}
+
+/* --- supporting figures -------------------------------------------------- */
+.kp-stat-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 34px;
+  padding: 4px 48px;
+  border-left: 1px solid rgba(var(--kp-ink-rgb), 0.1);
+}
+
+.kp-stat-stack .kp-stat-num {
+  margin-bottom: 8px;
+}
+
+/* --- credential ---------------------------------------------------------- */
+.kp-stat-trust {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 14px;
+  padding-left: 40px;
+  border-left: 1px solid rgba(var(--kp-ink-rgb), 0.1);
+}
+
+/* square: the file is 200x200, so it is never stretched, and it no longer
+   hangs outside the section or pulses forever */
+.kp-stat-trust img {
+  display: block;
+  width: 104px;
+  height: 104px;
+  object-fit: contain;
+  border-radius: 50%;
+  background: #fff;
+  padding: 10px;
+  box-shadow:
+    0 0 0 1px rgba(var(--kp-ink-rgb), 0.08),
+    0 14px 28px -18px rgba(var(--kp-ink-deep-rgb), 0.55);
+  transition: transform 0.3s var(--kp-ease), box-shadow 0.3s ease;
+}
+
+.kp-stat-trust a:hover img {
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 0 1px rgba(var(--kp-ink-rgb), 0.12),
+    0 18px 32px -18px rgba(var(--kp-ink-deep-rgb), 0.6);
+}
+
+.kp-stat-trust p {
+  margin: 0;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: rgba(var(--kp-ink-rgb), 0.7);
+}
+
+/* --- reveal -------------------------------------------------------------- */
+/* the band itself is visible by default; only the figures rise, so nothing
+   disappears if JavaScript never runs */
+.kp-stat-figure {
+  display: block;
+}
+
+.kp-stats.is-in .kp-stat-figure {
+  animation: kpStatRise 0.6s var(--kp-ease) both;
+}
+
+/* stagger the two supporting figures rather than the span inside each one */
+.kp-stats.is-in .kp-stat-stack .kp-stat:nth-child(2) .kp-stat-figure {
+  animation-delay: 0.1s;
+}
+
+/* --- focus --------------------------------------------------------------- */
+.kp-stats a:focus-visible {
+  outline: 2px solid var(--kp-accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* --- breakpoints --------------------------------------------------------- */
+@media (max-width: 991.98px) {
+  .kp-stats {
+    padding: 52px 0;
+  }
+
+  .kp-stats-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 40px 0;
+  }
+
+  .kp-stat--lead {
+    grid-column: 1 / -1;
+    padding-right: 0;
+    padding-bottom: 36px;
+    border-bottom: 1px solid rgba(var(--kp-ink-rgb), 0.1);
+  }
+
+  .kp-stat--lead .kp-stat-num {
+    font-size: clamp(2.8rem, 8vw, 4rem);
+  }
+
+  .kp-stat-stack {
+    padding: 0 40px 0 0;
+    border-left: 0;
+    border-right: 1px solid rgba(var(--kp-ink-rgb), 0.1);
+  }
+
+  .kp-stat-trust {
+    padding-left: 40px;
+    border-left: 0;
+  }
+
+  .kp-stat-note {
+    max-width: 46ch;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .kp-stats-wrap {
+    padding: 0 14px;
+  }
+
+  .kp-stats-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 30px 0;
+  }
+
+  .kp-stat-stack {
+    padding: 30px 0;
+    border-right: 0;
+    border-top: 1px solid rgba(var(--kp-ink-rgb), 0.1);
+    border-bottom: 1px solid rgba(var(--kp-ink-rgb), 0.1);
+  }
+
+  .kp-stat-trust {
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .kp-stat-trust img {
+    width: 72px;
+    height: 72px;
+    padding: 7px;
+  }
+
+  .kp-stat-num {
+    font-size: 2rem;
+  }
+
+  .kp-stat--lead .kp-stat-num {
+    font-size: 3rem;
+  }
+}
+
+/* --- motion -------------------------------------------------------------- */
+@keyframes kpStatRise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kp-stats.is-in .kp-stat-figure {
+    animation: none !important;
+  }
+
+  .kp-stat-trust img,
+  .kp-stat-link i {
+    transition: none !important;
+  }
+
+  .kp-stat-trust a:hover img {
+    transform: none !important;
+  }
+}

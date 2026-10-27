@@ -142,36 +142,36 @@
 
         <!-- HEADER
         ================================================== -->
-        <header class="header-style2">
-            <div class="navbar-default bg-white bg-opacity-75 shadow-sm border-bottom border-light">
-                <div class="container-fluid px-lg-4 px-xl-5 px-xxl-5 py-2">
+        <header class="header-style2 kp-header">
+            <div class="navbar-default kp-header-bar">
+                <div class="container-fluid px-lg-4 px-xl-5 px-xxl-5">
                     <div class="row align-items-center">
-                        <div class="col-12 col-lg-12">
+                        <div class="col-12">
                             <div class="menu_area alt-font">
                                 <nav class="navbar navbar-expand-lg navbar-light p-0">
                                     <div class="navbar-header navbar-header-custom">
                                         <a href="https://kriscent.in/" class="navbar-brand logodefault" target="_blank">
-                                            <img width="auto" height="auto" id="logo" src="./img/logo/logo.png"
+                                            <img width="274" height="72" id="logo" src="./img/logo/logo.png"
                                                 alt="header-logo" class="img-fluid" />
                                         </a>
                                     </div>
 
-                                    <div class="navbar-toggler bg-primary rounded-2 shadow-sm border-0"></div>
+                                    <!-- toggler must stay immediately before the ul (menu plugin targets its next ul) -->
+                                    <div class="navbar-toggler"></div>
 
                                     <!-- start menu area -->
-                                    <ul class="navbar-nav ms-auto gap-lg-1" id="nav">
+                                    <ul class="navbar-nav" id="nav">
                                         <li class="active">
-                                            <a href="#home" class="nav-link fw-semibold text-primary px-3">Home</a>
+                                            <a href="#home" class="nav-link">Home</a>
                                         </li>
                                         <li>
-                                            <a href="#about" class="nav-link fw-medium text-dark px-3">About</a>
+                                            <a href="#about" class="nav-link">About</a>
                                         </li>
                                         <li>
-                                            <a href="#product" class="nav-link fw-medium text-dark px-3">Product</a>
+                                            <a href="#product" class="nav-link">Product</a>
                                         </li>
                                         <li>
-                                            <a href="#testimonial"
-                                                class="nav-link fw-medium text-dark px-3">Testimonial</a>
+                                            <a href="#testimonial" class="nav-link">Testimonial</a>
                                         </li>
                                     </ul>
                                     <!-- end menu area -->
@@ -181,12 +181,21 @@
                                         <ul class="list-unstyled mb-0">
                                             <li class="d-none d-xl-inline-block">
                                                 <a href="https://kriscent.in/contact" target="_blank"
-                                                    class="btn btn-primary rounded-pill px-4 py-2 fw-semibold shadow-sm">
-                                                    Free Quote
+                                                    class="kp-cta kp-cta--full">
+                                                    <span>Free Quote</span>
+                                                    <i class="fa fa-arrow-right" aria-hidden="true"></i>
                                                 </a>
                                             </li>
                                         </ul>
                                     </div>
+                                    <!-- end attribute navigation -->
+
+                                    <!-- same destination as the desktop CTA, shown where that one is hidden -->
+                                    <a href="https://kriscent.in/contact" target="_blank"
+                                        class="kp-cta kp-cta--compact d-xl-none">
+                                        <span>Free Quote</span>
+                                        <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                    </a>
                                 </nav>
                             </div>
                         </div>
@@ -194,6 +203,36 @@
                 </div>
             </div>
         </header>
+
+        <script>
+            /* Header menu toggle: keyboard + screen-reader support only.
+               Mirrors the existing toggle state; no existing handler is touched. */
+            (function () {
+                var t = document.querySelector('.kp-header .navbar-toggler');
+                if (!t) return;
+                t.setAttribute('role', 'button');
+                t.setAttribute('tabindex', '0');
+                t.setAttribute('aria-controls', 'nav');
+                t.setAttribute('aria-expanded', 'false');
+                t.setAttribute('aria-label', 'Open navigation menu');
+                t.addEventListener('click', function () {
+                    var open = t.classList.contains('menu-opened');
+                    t.setAttribute('aria-expanded', open ? 'true' : 'false');
+                    t.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
+                });
+                t.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+                        e.preventDefault();
+                        t.click();
+                    }
+                });
+                document.addEventListener('keydown', function (e) {
+                    if (e.key === 'Escape' && t.classList.contains('menu-opened')) {
+                        t.click();
+                    }
+                });
+            })();
+        </script>
 
         <!-- BANNER
         ================================================== -->

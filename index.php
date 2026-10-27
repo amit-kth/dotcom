@@ -420,21 +420,10 @@
         ================================================== -->
         <section class="kp-about" id="about">
             <div class="container">
-                <div class="kp-about-head">
-                    <div class="kp-about-head-main">
-                        <p class="kp-about-eyebrow">About Us</p>
-                        <h1 class="kp-about-title f-two">Kriscent Techno Hub Pvt Ltd.</h1>
-                    </div>
-                    <p class="kp-about-lead">A trusted global IT company offering innovative digital solutions
-                        since 2014. Founded by <a href="https://in.linkedin.com/in/kapil-gautam" target="_blank"
-                            class="kp-about-link">Mr. Kapil Gautam</a> in Kota, Rajasthan, we help businesses grow
-                        and succeed worldwide.</p>
-                </div>
-
-                <div class="kp-about-body">
+                <div class="kp-about-grid">
                     <div class="kp-about-media">
                         <figure class="kp-about-shot">
-                            <img src="img/content/about-main.webp" alt="about us" width="760" height="1140"
+                            <img src="img/content/about-main.webp" alt="about us" width="760" height="950"
                                 loading="lazy" decoding="async">
                         </figure>
                         <figure class="kp-about-shot--inset">
@@ -444,6 +433,12 @@
                     </div>
 
                     <div class="kp-about-copy">
+                        <p class="kp-about-eyebrow">About Us</p>
+                        <h1 class="kp-about-title f-two">Kriscent Techno Hub Pvt Ltd.</h1>
+                        <p class="kp-about-lead">A trusted global IT company offering innovative digital solutions
+                            since 2014. Founded by <a href="https://in.linkedin.com/in/kapil-gautam" target="_blank"
+                                class="kp-about-link">Mr. Kapil Gautam</a> in Kota, Rajasthan, we help businesses grow
+                            and succeed worldwide.</p>
                         <p class="kp-about-text">Ready-to-use products, from advanced CRM software to efficient ERP
                             systems, built for instant use with no long development cycles.</p>
 

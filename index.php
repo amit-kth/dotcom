@@ -117,7 +117,10 @@
     <!-- Intl-Tel-Input CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.min.css">
 
-    <!-- Header styles (separate file so it can never be served stale) -->
+    <!-- Design tokens: colours and easing, single source of truth -->
+    <link rel="stylesheet" href="css/global.css">
+
+    <!-- Component styles (separate files so they can never be served stale) -->
     <link rel="stylesheet" href="css/kp-header.css">
     <link rel="stylesheet" href="css/kp-hero.css">
     <script src="js/kp-header.js" defer></script>

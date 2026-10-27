@@ -1,0 +1,45 @@
+/* =========================================================================
+   GLOBAL  ·  global.css
+   -------------------------------------------------------------------------
+   Single source of truth for the design system's colour and motion tokens.
+
+   Loaded FIRST, before kp-header.css and kp-hero.css. Those files consume
+   these variables and never re-declare them, so changing a value here changes
+   it everywhere in one edit.
+
+   Naming
+   ------
+   --kp-*     our own tokens (the theme's --theme / --white / --black in
+              styles.css are separate and untouched).
+   *-rgb      bare channel triplets, so any tint of a colour can be written as
+              rgba(var(--kp-accent-rgb), 0.16) instead of a new literal.
+
+   To rebrand: change --kp-accent* here and nothing else needs touching.
+   ========================================================================= */
+
+:root {
+  /* --- brand ------------------------------------------------------------ */
+  --kp-accent: #dc2626; /* primary red — buttons, active states, glow */
+  --kp-accent-light: #ef5350; /* top of the gradient */
+  --kp-accent-deep: #a91919; /* bottom of the gradient */
+  --kp-accent-rgb: 220, 38, 38; /* tints: rings, borders, soft glows */
+  --kp-accent-shadow-rgb: 185, 18, 18; /* the darker red behind shadows */
+
+  /* --- ink (light surfaces: page, header) ------------------------------- */
+  --kp-ink: #0d2735; /* headings, nav labels */
+  --kp-ink-hover: #061a24; /* hover state of the above */
+  --kp-ink-rgb: 13, 39, 53; /* hairlines, borders, soft text */
+  --kp-ink-deep-rgb: 8, 30, 44; /* elevation shadows on light surfaces */
+  --kp-navy-rgb: 24, 69, 93; /* cool ambient tint */
+
+  /* --- deep surfaces (hero, dark panels) -------------------------------- */
+  --kp-deep: #07101a; /* dark base */
+  --kp-scrim-rgb: 5, 12, 19; /* image scrims, glass over photography */
+
+  /* --- product hues ----------------------------------------------------- */
+  --kp-astrofy: #7b2ff7;
+  --kp-smart: #2563eb;
+
+  /* --- motion ----------------------------------------------------------- */
+  --kp-ease: cubic-bezier(0.16, 0.84, 0.44, 1);
+}

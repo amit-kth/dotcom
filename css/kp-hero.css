@@ -16,8 +16,9 @@
    ========================================================================= */
 
 .kp-hero {
-  --kp-accent: #dc2626;
-  --kp-ease: cubic-bezier(0.16, 0.84, 0.44, 1);
+  /* colours and easing come from css/global.css */
+  /* autoplay length, mirrored by js/kp-hero.js via style.setProperty */
+  --kp-dur: 6000ms;
 
   position: relative;
   /* the header sits above the hero in the flow, so the hero fills exactly what
@@ -26,7 +27,7 @@
      bottom of the hero off-screen. */
   --kp-header-h: 70px;
   min-height: clamp(500px, calc(100vh - var(--kp-header-h)), 780px);
-  background: #07101a;
+  background: var(--kp-deep);
   overflow: hidden;
   isolation: isolate;
 }
@@ -70,8 +71,8 @@
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(90deg, rgba(5, 12, 19, 0.82) 0%, rgba(5, 12, 19, 0.55) 32%, rgba(5, 12, 19, 0.08) 58%, transparent 72%),
-    linear-gradient(0deg, rgba(5, 12, 19, 0.6) 0%, rgba(5, 12, 19, 0.12) 26%, transparent 46%);
+    linear-gradient(90deg, rgba(var(--kp-scrim-rgb), 0.82) 0%, rgba(var(--kp-scrim-rgb), 0.55) 32%, rgba(var(--kp-scrim-rgb), 0.08) 58%, transparent 72%),
+    linear-gradient(0deg, rgba(var(--kp-scrim-rgb), 0.6) 0%, rgba(var(--kp-scrim-rgb), 0.12) 26%, transparent 46%);
 }
 
 /* --- 2. content well ----------------------------------------------------- */
@@ -123,7 +124,7 @@
   height: 6px;
   border-radius: 50%;
   background: var(--kp-accent);
-  box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.22);
+  box-shadow: 0 0 0 4px rgba(var(--kp-accent-rgb), 0.22);
 }
 
 .kp-hero-title {
@@ -179,10 +180,10 @@
 
 .kp-btn--primary {
   color: #fff;
-  background: linear-gradient(135deg, #ef5350 0%, #dc2626 46%, #a91919 100%);
+  background: linear-gradient(135deg, var(--kp-accent-light) 0%, var(--kp-accent) 46%, var(--kp-accent-deep) 100%);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.28),
-    0 16px 30px -16px rgba(185, 18, 18, 0.95);
+    0 16px 30px -16px rgba(var(--kp-accent-shadow-rgb), 0.95);
 }
 
 .kp-btn--primary:hover {
@@ -190,7 +191,7 @@
   transform: translateY(-1px);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.34),
-    0 20px 36px -16px rgba(185, 18, 18, 1);
+    0 20px 36px -16px rgba(var(--kp-accent-shadow-rgb), 1);
 }
 
 .kp-btn--primary:hover i {
@@ -249,7 +250,7 @@
   padding: 5px 5px 5px 12px;
   border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 999px;
-  background: rgba(6, 14, 22, 0.45);
+  background: rgba(var(--kp-scrim-rgb), 0.45);
   -webkit-backdrop-filter: blur(14px) saturate(160%);
   backdrop-filter: blur(14px) saturate(160%);
   box-shadow: 0 8px 22px -14px rgba(0, 0, 0, 0.9);
@@ -382,7 +383,7 @@
   /* heavier bottom weighting, because the copy now sits over the middle */
   .kp-hero-slide::after {
     background:
-      linear-gradient(0deg, rgba(5, 12, 19, 0.92) 0%, rgba(5, 12, 19, 0.7) 34%, rgba(5, 12, 19, 0.28) 62%, rgba(5, 12, 19, 0.12) 100%);
+      linear-gradient(0deg, rgba(var(--kp-scrim-rgb), 0.92) 0%, rgba(var(--kp-scrim-rgb), 0.7) 34%, rgba(var(--kp-scrim-rgb), 0.28) 62%, rgba(var(--kp-scrim-rgb), 0.12) 100%);
   }
 
   .kp-hero-controls {

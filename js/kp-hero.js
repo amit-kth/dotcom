@@ -5,12 +5,17 @@
    its matching copy panel, and the slides advance on their own every 6s.
 
    Autoplay rules
-   - pauses while the pointer is over the hero, while focus is inside it, when
-     the tab is hidden, and when the hero is scrolled out of view;
-   - does not start at all under prefers-reduced-motion;
-   - always has an explicit pause/play control (WCAG 2.2.2), and the active
-     rail track fills over the interval so the wait is visible rather than
-     surprising.
+   - advances every 3s; pauses only when the tab is hidden or when the hero is
+     scrolled out of view, and can be stopped with the explicit play/pause
+     control (WCAG 2.2.2);
+   - there is deliberately NO hover pause. The hero fills the first screen, so
+     the pointer is essentially always somewhere over it — a hover rule meant
+     the slideshow never advanced at all;
+   - runs under prefers-reduced-motion too, where the CSS makes the swap
+     instant instead of cross-fading, so the content still rotates for anyone
+     who has asked for less animation;
+   - the active rail track fills over the interval so the wait is visible
+     rather than surprising.
 
    No jQuery, no globals. Without this file the first slide and panel stay
    visible, which is the correct fallback.
@@ -73,20 +78,17 @@
     }
 
     /* --- autoplay --------------------------------------------------------- */
-    var DURATION = 6000;
-    var reduce = window.matchMedia
-        ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
-        : false;
-
-    var playing = !reduce; /* an explicit click on play can start it anyway */
-    var hovered = false;
+    var DURATION = 3000;
+    /* starts on unless the visitor presses pause; reduced motion is handled in
+       CSS by making the slide change immediate rather than animated */
+    var playing = true;
     var inView = true;
     var timer = null;
 
     root.style.setProperty("--kp-dur", DURATION + "ms");
 
     function blocked() {
-        return !playing || hovered || !inView || document.hidden;
+        return !playing || !inView || document.hidden;
     }
 
     function syncControls() {
@@ -123,21 +125,13 @@
 
     document.addEventListener("visibilitychange", restart);
 
-    root.addEventListener("mouseenter", function () {
-        hovered = true;
-        restart();
-    });
-
-    root.addEventListener("mouseleave", function () {
-        hovered = false;
-        restart();
-    });
-
-    /* NOTE: there is deliberately no focus-based pause. Every click on the rail
-       or the play button moves focus into the hero, and a focus rule then made
-       autoplay impossible to resume after any interaction. Holding on hover,
-       when the tab is hidden, when the hero is off-screen, and the explicit
-       pause control together cover the same ground. */
+    /* NOTE: no hover pause and no focus pause.
+       - Hover: the hero fills the viewport, so the pointer is over it almost
+         permanently; pausing there stopped the carousel for good.
+       - Focus: every click on the rail moves focus into the hero, so a focus
+         rule made autoplay impossible to resume after any interaction.
+       The tab being hidden, the hero being off-screen and the explicit pause
+       control cover the same ground without either trap. */
 
     if ("IntersectionObserver" in window) {
         new IntersectionObserver(function (entries) {

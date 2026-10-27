@@ -118,17 +118,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.min.css">
 
     <!-- Design tokens: colours and easing, single source of truth -->
-    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/global.css?v=<?php echo @filemtime('css/global.css') ?: 1; ?>">
 
     <!-- Component styles (separate files so they can never be served stale) -->
-    <link rel="stylesheet" href="css/kp-header.css">
-    <link rel="stylesheet" href="css/kp-hero.css">
-    <link rel="stylesheet" href="css/kp-stats.css">
-    <link rel="stylesheet" href="css/kp-about.css">
-    <script src="js/kp-header.js" defer></script>
-    <script src="js/kp-hero.js" defer></script>
-    <script src="js/kp-stats.js" defer></script>
-    <script src="js/kp-about.js" defer></script>
+    <link rel="stylesheet" href="css/kp-header.css?v=<?php echo @filemtime('css/kp-header.css') ?: 1; ?>">
+    <link rel="stylesheet" href="css/kp-hero.css?v=<?php echo @filemtime('css/kp-hero.css') ?: 1; ?>">
+    <link rel="stylesheet" href="css/kp-stats.css?v=<?php echo @filemtime('css/kp-stats.css') ?: 1; ?>">
+    <link rel="stylesheet" href="css/kp-about.css?v=<?php echo @filemtime('css/kp-about.css') ?: 1; ?>">
+    <script src="js/kp-header.js?v=<?php echo @filemtime('js/kp-header.js') ?: 1; ?>" defer></script>
+    <script src="js/kp-hero.js?v=<?php echo @filemtime('js/kp-hero.js') ?: 1; ?>" defer></script>
+    <script src="js/kp-stats.js?v=<?php echo @filemtime('js/kp-stats.js') ?: 1; ?>" defer></script>
+    <script src="js/kp-about.js?v=<?php echo @filemtime('js/kp-about.js') ?: 1; ?>" defer></script>
 
 
     <!-- Service Worker & PWA -->

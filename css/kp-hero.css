@@ -22,10 +22,10 @@
 
   /* The controls are pinned this far above the hero's bottom edge. The hero
      fills the viewport, so that edge is the bottom of the screen — where a
-     Windows taskbar sits (about 52px). 64-80px keeps the pill clear of it.
+     Windows taskbar sits (about 52px). 72-88px keeps the pill well clear of it.
      The inner's bottom padding is derived from these three values, so the
      space reserved for the pill and its position can never drift apart. */
-  --kp-edge: clamp(64px, 9vh, 80px);
+  --kp-edge: clamp(72px, 9vh, 88px);
   --kp-pill-h: 36px;
   --kp-pill-gap: 8px;
 

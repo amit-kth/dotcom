@@ -119,6 +119,7 @@
 
     <!-- Header styles (separate file so it can never be served stale) -->
     <link rel="stylesheet" href="css/kp-header.css">
+    <script src="js/kp-header.js" defer></script>
 
 
     <!-- Service Worker & PWA -->
@@ -145,97 +146,47 @@
 
         <!-- HEADER
         ================================================== -->
-        <header class="header-style2 kp-header">
-            <div class="navbar-default kp-header-bar">
-                <div class="container-fluid px-lg-4 px-xl-5 px-xxl-5">
-                    <div class="row align-items-center">
-                        <div class="col-12">
-                            <div class="menu_area alt-font">
-                                <nav class="navbar navbar-expand-lg navbar-light p-0">
-                                    <div class="navbar-header navbar-header-custom">
-                                        <a href="https://kriscent.in/" class="navbar-brand logodefault" target="_blank">
-                                            <img width="auto" height="auto" id="logo" src="./img/logo/logo.png"
-                                                alt="header-logo" class="img-fluid" />
-                                        </a>
-                                    </div>
+        <header class="kp-header">
+            <div class="kp-bar">
+                <div class="kp-bar-inner">
+                    <a href="https://kriscent.in/" class="kp-brand" target="_blank">
+                        <img width="auto" height="auto" id="logo" src="./img/logo/logo.png" alt="header-logo" />
+                    </a>
 
-                                    <!-- toggler must stay immediately before the ul (menu plugin targets its next ul) -->
-                                    <div class="navbar-toggler"></div>
-
-                                    <!-- start menu area -->
-                                    <ul class="navbar-nav" id="nav">
-                                        <li class="active">
-                                            <a href="#home" class="nav-link">Home</a>
-                                        </li>
-                                        <li>
-                                            <a href="#about" class="nav-link">About</a>
-                                        </li>
-                                        <li>
-                                            <a href="#product" class="nav-link">Product</a>
-                                        </li>
-                                        <li>
-                                            <a href="#testimonial" class="nav-link">Testimonial</a>
-                                        </li>
-                                    </ul>
-                                    <!-- end menu area -->
-
-                                    <!-- start attribute navigation -->
-                                    <div class="attr-nav align-items-xl-center ms-xl-auto main-font">
-                                        <ul class="list-unstyled mb-0">
-                                            <li class="d-none d-xl-inline-block">
-                                                <a href="https://kriscent.in/contact" target="_blank"
-                                                    class="kp-cta kp-cta--full">
-                                                    <span>Free Quote</span>
-                                                    <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <!-- end attribute navigation -->
-
-                                    <!-- same destination as the desktop CTA, shown where that one is hidden -->
-                                    <a href="https://kriscent.in/contact" target="_blank"
-                                        class="kp-cta kp-cta--compact d-xl-none">
-                                        <span>Free Quote</span>
-                                        <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                                    </a>
-                                </nav>
-                            </div>
-                        </div>
+                    <div class="kp-nav" role="navigation" aria-label="Main navigation">
+                        <ul id="nav">
+                            <li class="active">
+                                <a href="#home">Home</a>
+                            </li>
+                            <li>
+                                <a href="#about">About</a>
+                            </li>
+                            <li>
+                                <a href="#product">Product</a>
+                            </li>
+                            <li>
+                                <a href="#testimonial">Testimonial</a>
+                            </li>
+                        </ul>
                     </div>
+
+                    <a href="https://kriscent.in/contact" target="_blank" class="kp-cta kp-cta--desk">
+                        <span>Free Quote</span>
+                        <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                    </a>
+
+                    <a href="https://kriscent.in/contact" target="_blank" class="kp-cta kp-cta--mob">
+                        <span>Free Quote</span>
+                        <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                    </a>
+
+                    <button type="button" class="kp-burger" aria-controls="nav" aria-expanded="false"
+                        aria-label="Open menu">
+                        <span></span>
+                    </button>
                 </div>
             </div>
         </header>
-
-        <script>
-            /* Header menu toggle: keyboard + screen-reader support only.
-               Mirrors the existing toggle state; no existing handler is touched. */
-            (function () {
-                var t = document.querySelector('.kp-header .navbar-toggler');
-                if (!t) return;
-                t.setAttribute('role', 'button');
-                t.setAttribute('tabindex', '0');
-                t.setAttribute('aria-controls', 'nav');
-                t.setAttribute('aria-expanded', 'false');
-                t.setAttribute('aria-label', 'Open navigation menu');
-                t.addEventListener('click', function () {
-                    var open = t.classList.contains('menu-opened');
-                    t.setAttribute('aria-expanded', open ? 'true' : 'false');
-                    t.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
-                });
-                t.addEventListener('keydown', function (e) {
-                    if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
-                        e.preventDefault();
-                        t.click();
-                    }
-                });
-                document.addEventListener('keydown', function (e) {
-                    if (e.key === 'Escape' && t.classList.contains('menu-opened')) {
-                        t.click();
-                    }
-                });
-            })();
-        </script>
 
         <!-- BANNER
         ================================================== -->

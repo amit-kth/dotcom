@@ -352,54 +352,58 @@
             </div>
         </section> -->
 
-        <!-- COUNTER / PROOF BAND
+        <!-- COUNTER
         ================================================== -->
-        <section class="kp-stats">
-            <div class="kp-stats-wrap">
-                <div class="kp-stats-grid">
-                    <div class="kp-stat kp-stat--lead">
-                        <p class="kp-stat-num">
-                            <span class="kp-stat-figure" data-count="1549">1,549</span><span
-                                class="kp-stat-suffix">+</span>
-                        </p>
-                        <p class="kp-stat-label">Projects completed</p>
-                        <p class="kp-stat-note">Before dealing with projects, we explore with clients about
-                            technology, time, and cost.</p>
-                        <a href="https://kriscent.in/portfolio" class="kp-stat-link" target="_blank">
-                            <span>Projects</span>
-                            <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                        </a>
-                    </div>
-
-                    <div class="kp-stat-stack">
-                        <div class="kp-stat">
-                            <p class="kp-stat-num">
-                                <span class="kp-stat-figure" data-count="12">12</span>
+        <section class="counter-style-01 bg-light">
+            <div class="container">
+                <div class="row g-5 g-lg-0 position-relative z-index-9">
+                    <div class="col-md-6 col-lg-3 order-2 order-lg-1" data-kp-reveal>
+                        <div class="text-center text-md-start">
+                            <p class="kp-figure display-3">
+                                <span class="countup" data-count="1549">1,549</span><span class="kp-plus">+</span>
                             </p>
-                            <p class="kp-stat-label">Years of experience</p>
-                        </div>
-
-                        <div class="kp-stat">
-                            <p class="kp-stat-num">
-                                <span class="kp-stat-figure" data-count="1245">1,245</span><span
-                                    class="kp-stat-suffix">+</span>
-                            </p>
-                            <p class="kp-stat-label">Clients served</p>
-                            <p class="kp-stat-note">95% of our clients are satisfied with our services because we
-                                work on the latest technologies.</p>
-                            <a href="https://kriscent.in/clients" class="kp-stat-link" target="_blank">
-                                <span>Clients</span>
-                                <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                            <span class="kp-label d-block">Project Completed</span>
+                            <p class="kp-copy">Before dealing with projects, we explore with clients about technology,
+                                time, and cost.</p>
+                            <a href="https://kriscent.in/portfolio" class="projectBtn kp-link" target="_blank">
+                                <span>Projects</span>
+                                <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
                             </a>
                         </div>
                     </div>
 
-                    <div class="kp-stat-trust">
-                        <a href="https://kriscent.in/" target="_blank">
-                            <img src="img/icons/cmmi.webp" alt="logo" width="200" height="200">
-                        </a>
+                    <div class="col-lg-6 order-1 order-lg-2" data-kp-reveal>
+                        <div class="kp-years text-center">
+                            <span class="count-no">13</span>
+                            <span class="kp-label kp-label--accent d-block">Years Of Experience</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-3 order-2" data-kp-reveal>
+                        <div class="text-center text-md-end">
+                            <p class="kp-figure display-3">
+                                <span class="countup" data-count="1245">1,245</span><span class="kp-plus">+</span>
+                            </p>
+                            <span class="kp-label d-block">Trusted By 1,245+ Clients</span>
+                            <p class="kp-copy">95% of our clients are satisfied with our services because we do work on
+                                the latest technologies.</p>
+                            <a href="https://kriscent.in/clients" class="projectBtn kp-link" target="_blank">
+                                <span>Clients</span>
+                                <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="kp-badge" data-kp-reveal>
+                <a href="https://kriscent.in/" target="_blank">
+                    <img src="img/icons/cmmi.webp" alt="logo" width="200" height="200">
+                </a>
+            </div>
+
+            <div class="kp-texture" aria-hidden="true">
+                <img src="img/bg/bg-06.webp" width="190" height="190" alt="">
             </div>
         </section>
 

@@ -1,319 +1,362 @@
 /* =========================================================================
-   PROOF BAND  ·  kp-stats.css
+   COUNTER  ·  kp-stats.css
    -------------------------------------------------------------------------
-   Replaces .counter-style-01.
+   Refinement layer for the original .counter-style-01 block.
 
-   What was wrong there
-   - the middle figure was a 300px numeral filled with a photograph
-     (background-clip: text), which outranked the other two numbers and was
-     hard to read against a light band;
-   - the two smaller figures were static text — the count-up plugin is
-     commented out in js/main.js — so the section claimed to animate and did
-     not;
-   - the CMMI mark is a 200x200 file rendered at 140x160, so it was already
-     stretched, and it hung half outside the section with an endless
-     zoom animation;
-   - the label repeated the figure above it ("Trusted By 1245+ Clients" under
-     "1245+").
+   The layout is the one that was here before: three columns, the giant
+   image-filled numeral in the middle, the CMMI badge straddling the bottom
+   edge. Nothing about that structure is changed — this file only repairs what
+   was broken and tightens what was loose:
 
-   What this is
-   - one clear focal figure, two supporting ones, and the credential, arranged
-     asymmetrically rather than as three equal boxes;
-   - figures count up once when scrolled into view;
-   - the credential sits inside the band, square, and still.
+   - .count-no used the .cover-background utility, which sets a hard
+     `background-size: 100% 709px`; a 709px-tall strip was being squashed into
+     a ~250px box. It also depended on js/main.js copying data-background into
+     an inline style after load. Both are replaced with a real background rule.
+   - .pb-16 and .mt-1-9 are not defined in this theme, so the section had no
+     bottom padding at all and the badge's top half sat over the columns.
+   - .opacity3 is also undefined, so the bg-06 hexagon texture rendered at
+     full opacity — a black block in the bottom-left corner.
+   - the badge is a 200x200 file rendered at 140x160, i.e. already stretched,
+     under an endless zoom-in-zoom-out.
+   - display-3 numerals at weight 800 with a full-size "+" read as shouting.
 
-   Colours and easing come from css/global.css. Only .kp-* classes are used.
+   Colours and easing come from css/global.css; no literals here.
    ========================================================================= */
 
-.kp-stats {
+.counter-style-01 {
   position: relative;
-  padding: 64px 0;
-  background: rgba(var(--kp-ink-rgb), 0.032);
+  /* 104px bottom clearance holds the badge's top half (76px) clear of the
+     columns. The badge's lower half lands in the 70px top padding that
+     `section` already gives #about, and protrudes 64px of it, so nothing
+     collides — see .kp-badge for the arithmetic */
+  padding: 72px 0 104px;
   border-top: 1px solid rgba(var(--kp-ink-rgb), 0.07);
-  border-bottom: 1px solid rgba(var(--kp-ink-rgb), 0.07);
-  overflow: hidden;
+  overflow: visible;
 }
 
-.kp-stats-wrap {
+/* soft wash behind the middle column so the band is not flat */
+.counter-style-01::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 46% 62% at 50% 42%,
+    rgba(var(--kp-accent-rgb), 0.05),
+    rgba(var(--kp-accent-rgb), 0) 70%
+  );
+  pointer-events: none;
+}
+
+.counter-style-01 .container {
   position: relative;
-  width: 100%;
-  max-width: 1320px;
-  margin: 0 auto;
-  padding: 0 20px;
+  z-index: 3;
 }
 
-.kp-stats-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 5fr) minmax(0, 4fr) minmax(0, 3fr);
-  align-items: start;
-  gap: 0;
+/* the texture the markup always intended at 30% — .opacity3 does not exist */
+.counter-style-01 .kp-texture {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 0;
+  opacity: 0.3;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to top right, #000, transparent 72%);
+  mask-image: linear-gradient(to top right, #000, transparent 72%);
+}
+
+.counter-style-01 .kp-texture img {
+  display: block;
+  width: 150px;
+  height: auto;
 }
 
 /* --- figures ------------------------------------------------------------- */
-.kp-stat-num {
+.counter-style-01 .kp-figure {
   display: flex;
   align-items: baseline;
-  margin: 0 0 10px;
-  font-family: "Poppins", sans-serif;
-  font-size: clamp(2.1rem, 2.4vw + 1rem, 3.1rem);
-  font-weight: 600;
+  justify-content: center;
+  margin: 0 0 14px;
+  font-size: clamp(2.75rem, 3.4vw, 3.5rem);
+  font-weight: 700;
   line-height: 1;
   letter-spacing: -0.035em;
-  color: var(--kp-ink);
   font-variant-numeric: tabular-nums;
-}
-
-.kp-stat-suffix {
-  font-size: 0.55em;
-  font-weight: 500;
   color: var(--kp-accent);
 }
 
-.kp-stat-label {
+.counter-style-01 .kp-plus {
+  margin-left: 0.04em;
+  font-size: 0.46em;
+  font-weight: 600;
+  line-height: 1;
+  color: rgba(var(--kp-accent-rgb), 0.6);
+}
+
+/* --- labels and copy ----------------------------------------------------- */
+.counter-style-01 .kp-label {
   margin: 0;
   font-size: 11.5px;
-  font-weight: 600;
-  letter-spacing: 0.13em;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  /* 0.70 rather than 0.55: measured 5.64:1 against the band, where 0.55 gave
-     3.58:1 and failed AA for text this small */
+  color: rgba(var(--kp-ink-rgb), 0.7); /* 5.6:1 on the band */
+}
+
+.counter-style-01 .kp-label--accent {
+  color: var(--kp-accent-deep); /* 6.9:1 — accent itself is only 4.5:1 at this size */
+}
+
+.counter-style-01 .kp-copy {
+  margin: 14px auto 0;
+  max-width: 34ch;
+  font-size: 14.5px;
+  line-height: 1.68;
   color: rgba(var(--kp-ink-rgb), 0.7);
 }
 
-.kp-stat-note {
-  margin: 14px 0 0;
-  max-width: 34ch;
-  font-size: 14.5px;
-  line-height: 1.62;
-  color: rgba(var(--kp-ink-rgb), 0.7); /* measured 5.64:1 */
+/* --- links --------------------------------------------------------------- */
+@media (min-width: 768px) {
+  .counter-style-01 .text-md-start .kp-figure {
+    justify-content: flex-start;
+  }
+
+  .counter-style-01 .text-md-end .kp-figure {
+    justify-content: flex-end;
+  }
+
+  .counter-style-01 .text-md-start .kp-copy {
+    margin-left: 0;
+  }
+
+  .counter-style-01 .text-md-end .kp-copy {
+    margin-left: auto;
+    margin-right: 0;
+  }
 }
 
-.kp-stat-link {
+.counter-style-01 .kp-link {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  margin-top: 16px;
+  margin-top: 18px;
+  padding: 9px 15px;
   font-size: 13.5px;
   font-weight: 600;
-  color: var(--kp-accent);
-  text-decoration: none;
-  transition: color 0.22s ease;
-}
-
-.kp-stat-link i {
-  font-size: 11px;
-  transition: transform 0.25s var(--kp-ease);
-}
-
-.kp-stat-link:hover {
-  color: var(--kp-accent-deep);
-}
-
-.kp-stat-link:hover i {
-  transform: translateX(4px);
-}
-
-/* --- lead figure --------------------------------------------------------- */
-/* 1,549 is the strongest proof on the page, so it gets the size and the accent;
-   the other two support it instead of competing. */
-.kp-stat--lead {
-  padding-right: 48px;
-}
-
-.kp-stat--lead .kp-stat-num {
-  font-size: clamp(3.1rem, 4.6vw + 1rem, 5rem);
-  color: var(--kp-accent);
-  letter-spacing: -0.045em;
-}
-
-.kp-stat--lead .kp-stat-suffix {
-  color: var(--kp-accent);
-}
-
-.kp-stat--lead .kp-stat-label {
+  line-height: 1;
   color: var(--kp-ink);
+  border: 1px solid rgba(var(--kp-accent-rgb), 0.28);
+  border-radius: 999px;
+  text-decoration: none;
+  transition: color 0.22s ease, background-color 0.22s ease,
+    border-color 0.22s ease, transform 0.22s var(--kp-ease);
 }
 
-/* --- supporting figures -------------------------------------------------- */
-.kp-stat-stack {
-  display: flex;
-  flex-direction: column;
-  gap: 34px;
-  padding: 4px 48px;
-  border-left: 1px solid rgba(var(--kp-ink-rgb), 0.1);
+.counter-style-01 .kp-link i {
+  font-size: 12px;
+  color: var(--kp-accent);
+  transition: transform 0.25s var(--kp-ease), color 0.22s ease;
 }
 
-.kp-stat-stack .kp-stat-num {
-  margin-bottom: 8px;
+.counter-style-01 .kp-link:hover,
+.counter-style-01 .kp-link:focus-visible {
+  color: #fff;
+  background: var(--kp-accent-deep);
+  border-color: var(--kp-accent-deep);
+  transform: translateY(-1px);
 }
 
-/* --- credential ---------------------------------------------------------- */
-.kp-stat-trust {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: 14px;
-  padding-left: 40px;
-  border-left: 1px solid rgba(var(--kp-ink-rgb), 0.1);
+.counter-style-01 .kp-link:hover i,
+.counter-style-01 .kp-link:focus-visible i {
+  color: #fff;
+  transform: translateX(3px);
 }
 
-/* square: the file is 200x200, so it is never stretched, and it no longer
-   hangs outside the section or pulses forever */
-.kp-stat-trust img {
-  display: block;
-  width: 104px;
-  height: 104px;
-  object-fit: contain;
-  border-radius: 50%;
-  background: #fff;
-  padding: 10px;
-  box-shadow:
-    0 0 0 1px rgba(var(--kp-ink-rgb), 0.08),
-    0 14px 28px -18px rgba(var(--kp-ink-deep-rgb), 0.55);
-  transition: transform 0.3s var(--kp-ease), box-shadow 0.3s ease;
-}
-
-.kp-stat-trust a:hover img {
-  transform: translateY(-2px);
-  box-shadow:
-    0 0 0 1px rgba(var(--kp-ink-rgb), 0.12),
-    0 18px 32px -18px rgba(var(--kp-ink-deep-rgb), 0.6);
-}
-
-.kp-stat-trust p {
+/* --- the image-filled numeral -------------------------------------------- */
+.counter-style-01 .count-no {
+  display: inline-block;
   margin: 0;
-  font-size: 11.5px;
-  font-weight: 600;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
-  color: rgba(var(--kp-ink-rgb), 0.7);
+  font-size: clamp(9rem, 19vw, 19rem);
+  font-weight: 800;
+  line-height: 0.84;
+  letter-spacing: -0.05em;
+
+  /* the image itself */
+  background-image: url("../img/bg/count-13.webp");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: var(--kp-ink); /* keeps the numeral solid if the file fails */
+
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* if background-clip:text is unsupported the transparent fill would leave an
+   invisible numeral floating over a dark rectangle, so fall back to solid */
+@supports not (background-clip: text) and not (-webkit-background-clip: text) {
+  .counter-style-01 .count-no {
+    background-image: none;
+    -webkit-text-fill-color: var(--kp-ink);
+    color: var(--kp-ink);
+  }
+}
+
+.counter-style-01 .kp-years .kp-label {
+  display: block;
+  margin-top: 10px;
+}
+
+/* --- badge --------------------------------------------------------------- */
+/* square: the file is 200x200, so 132x132 cannot stretch it.
+
+   Geometry, which is why `top` is not a round 100%: #about beneath starts its
+   content after section{padding:70px 0 0}. Centred exactly on the edge, a
+   132px badge with an 8px ring protruded 74px and clipped that 70px band.
+   Lifting the anchor 10px leaves a 76px top half (inside this section's 104px
+   bottom padding) and a 64px protrusion (inside #about's 70px), 6px of slack
+   on the tight side. */
+.counter-style-01 .kp-badge {
+  position: absolute;
+  top: calc(100% - 10px);
+  left: 50%;
+  z-index: 9;
+  transform: translate(-50%, -50%);
+}
+
+.counter-style-01 .kp-badge a {
+  display: block;
+  border-radius: 50%;
+  transition: transform 0.28s var(--kp-ease), box-shadow 0.28s ease;
+  box-shadow:
+    0 0 0 8px #fff,
+    0 16px 30px -16px rgba(var(--kp-ink-deep-rgb), 0.5);
+}
+
+.counter-style-01 .kp-badge img {
+  display: block;
+  width: 132px;
+  height: 132px;
+  border-radius: 50%;
+}
+
+.counter-style-01 .kp-badge a:hover,
+.counter-style-01 .kp-badge a:focus-visible {
+  transform: translateY(-3px);
+  box-shadow:
+    0 0 0 8px #fff,
+    0 22px 34px -16px rgba(var(--kp-ink-deep-rgb), 0.58);
 }
 
 /* --- reveal -------------------------------------------------------------- */
-/* the band itself is visible by default; only the figures rise, so nothing
-   disappears if JavaScript never runs */
-.kp-stat-figure {
-  display: block;
+/* nothing is hidden unless JavaScript is present, so the block never depends
+   on it; .kp-js is added by js/kp-stats.js before first paint */
+.counter-style-01.kp-js .row [data-kp-reveal] {
+  opacity: 0;
+  transform: translateY(10px);
 }
 
-.kp-stats.is-in .kp-stat-figure {
-  animation: kpStatRise 0.6s var(--kp-ease) both;
+.counter-style-01.is-in .row [data-kp-reveal] {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.55s ease, transform 0.55s var(--kp-ease);
 }
 
-/* stagger the two supporting figures rather than the span inside each one */
-.kp-stats.is-in .kp-stat-stack .kp-stat:nth-child(2) .kp-stat-figure {
-  animation-delay: 0.1s;
+.counter-style-01.is-in .row [data-kp-reveal]:nth-child(2) {
+  transition-delay: 0.08s;
+}
+
+.counter-style-01.is-in .row [data-kp-reveal]:nth-child(3) {
+  transition-delay: 0.16s;
+}
+
+/* the badge keeps its -50%,-50% centring while it fades in */
+.counter-style-01.kp-js .kp-badge[data-kp-reveal] {
+  opacity: 0;
+  transform: translate(-50%, calc(-50% + 10px));
+}
+
+.counter-style-01.is-in .kp-badge[data-kp-reveal] {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.55s ease 0.18s, transform 0.55s var(--kp-ease) 0.18s;
 }
 
 /* --- focus --------------------------------------------------------------- */
-.kp-stats a:focus-visible {
+.counter-style-01 a:focus-visible,
+.counter-style-01 .kp-badge a:focus-visible {
   outline: 2px solid var(--kp-accent);
-  outline-offset: 3px;
-  border-radius: 6px;
+  outline-offset: 4px;
 }
 
 /* --- breakpoints --------------------------------------------------------- */
 @media (max-width: 991.98px) {
-  .kp-stats {
-    padding: 52px 0;
+  .counter-style-01 {
+    padding: 56px 0 92px;
   }
 
-  .kp-stats-grid {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 40px 0;
-  }
+  /* .row uses g-5 below lg, which already spaces the stacked middle column,
+     so no extra margin here — 3rem gutter + 44px would have been 92px */
 
-  .kp-stat--lead {
-    grid-column: 1 / -1;
-    padding-right: 0;
-    padding-bottom: 36px;
-    border-bottom: 1px solid rgba(var(--kp-ink-rgb), 0.1);
-  }
-
-  .kp-stat--lead .kp-stat-num {
-    font-size: clamp(2.8rem, 8vw, 4rem);
-  }
-
-  .kp-stat-stack {
-    padding: 0 40px 0 0;
-    border-left: 0;
-    border-right: 1px solid rgba(var(--kp-ink-rgb), 0.1);
-  }
-
-  .kp-stat-trust {
-    padding-left: 40px;
-    border-left: 0;
-  }
-
-  .kp-stat-note {
+  .counter-style-01 .kp-copy {
     max-width: 46ch;
   }
 }
 
 @media (max-width: 575.98px) {
-  .kp-stats-wrap {
-    padding: 0 14px;
+  .counter-style-01 {
+    padding: 48px 0 84px;
   }
 
-  .kp-stats-grid {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 30px 0;
+  .counter-style-01 .kp-figure {
+    font-size: 2.4rem;
   }
 
-  .kp-stat-stack {
-    padding: 30px 0;
-    border-right: 0;
-    border-top: 1px solid rgba(var(--kp-ink-rgb), 0.1);
-    border-bottom: 1px solid rgba(var(--kp-ink-rgb), 0.1);
+  .counter-style-01 .count-no {
+    font-size: 8.5rem;
   }
 
-  .kp-stat-trust {
-    flex-direction: row;
-    align-items: center;
-    gap: 16px;
-    padding-left: 0;
-    border-left: 0;
+  .counter-style-01 .kp-copy {
+    max-width: 34ch;
   }
 
-  .kp-stat-trust img {
-    width: 72px;
-    height: 72px;
-    padding: 7px;
+  .counter-style-01 .kp-badge img {
+    width: 96px;
+    height: 96px;
   }
 
-  .kp-stat-num {
-    font-size: 2rem;
-  }
-
-  .kp-stat--lead .kp-stat-num {
-    font-size: 3rem;
+  .counter-style-01 .kp-badge a {
+    box-shadow:
+      0 0 0 6px #fff,
+      0 12px 24px -14px rgba(var(--kp-ink-deep-rgb), 0.5);
   }
 }
 
 /* --- motion -------------------------------------------------------------- */
-@keyframes kpStatRise {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
+@media (prefers-reduced-motion: reduce) {
+  .counter-style-01.kp-js .row [data-kp-reveal],
+  .counter-style-01.is-in .row [data-kp-reveal] {
     opacity: 1;
     transform: none;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .kp-stats.is-in .kp-stat-figure {
-    animation: none !important;
-  }
-
-  .kp-stat-trust img,
-  .kp-stat-link i {
     transition: none !important;
   }
 
-  .kp-stat-trust a:hover img {
-    transform: none !important;
+  .counter-style-01.kp-js .kp-badge[data-kp-reveal],
+  .counter-style-01.is-in .kp-badge[data-kp-reveal] {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+    transition: none !important;
+  }
+
+  .counter-style-01 .kp-link,
+  .counter-style-01 .kp-link i,
+  .counter-style-01 .kp-badge a {
+    transition: none !important;
+  }
+
+  .counter-style-01 .kp-link:hover,
+  .counter-style-01 .kp-badge a:hover {
+    transform: none;
   }
 }

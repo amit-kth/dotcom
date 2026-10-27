@@ -20,6 +20,15 @@
   /* autoplay length, mirrored by js/kp-hero.js via style.setProperty */
   --kp-dur: 3000ms;
 
+  /* The controls are pinned this far above the hero's bottom edge. The hero
+     fills the viewport, so that edge is the bottom of the screen — where a
+     Windows taskbar sits (about 52px). 64-80px keeps the pill clear of it.
+     The inner's bottom padding is derived from these three values, so the
+     space reserved for the pill and its position can never drift apart. */
+  --kp-edge: clamp(64px, 9vh, 80px);
+  --kp-pill-h: 36px;
+  --kp-pill-gap: 8px;
+
   position: relative;
   /* the header sits above the hero in the flow, so the hero fills exactly what
      is left of the viewport instead of adding its own 78vh on top of it.
@@ -80,16 +89,15 @@
   position: relative;
   z-index: 2;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: flex-start;
+  align-items: flex-end;
   min-height: inherit;
   width: 100%;
   max-width: 1320px; /* aligns with the header */
   margin: 0 auto;
   /* generous, viewport-aware top/bottom padding: the last row of content has
      ~90px below it, so nothing ever sits in the clipped part of the screen */
-  padding: clamp(64px, 8.5vh, 96px) 20px clamp(92px, 10vh, 116px);
+  padding: clamp(64px, 8.5vh, 96px) 20px
+    calc(var(--kp-edge) + var(--kp-pill-h) + var(--kp-pill-gap));
 }
 
 .kp-hero-copy-wrap {
@@ -249,8 +257,10 @@
    of the live-chat widget and the floating WhatsApp / phone buttons, which sit
    bottom-right. */
 .kp-hero-controls {
-  align-self: center;
-  margin-top: 28px;
+  position: absolute;
+  left: 50%;
+  bottom: var(--kp-edge);
+  transform: translateX(-50%);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -375,7 +385,8 @@
   }
 
   .kp-hero-inner {
-    padding: clamp(72px, 10vh, 96px) 18px clamp(64px, 9vh, 88px);
+    padding: clamp(72px, 10vh, 96px) 18px
+    calc(var(--kp-edge) + var(--kp-pill-h) + var(--kp-pill-gap));
   }
 
   .kp-hero-copy-wrap {
@@ -392,18 +403,17 @@
       linear-gradient(0deg, rgba(var(--kp-scrim-rgb), 0.92) 0%, rgba(var(--kp-scrim-rgb), 0.7) 34%, rgba(var(--kp-scrim-rgb), 0.28) 62%, rgba(var(--kp-scrim-rgb), 0.12) 100%);
   }
 
-  .kp-hero-controls {
-    margin-top: 20px;
-  }
 }
 
 @media (max-width: 575.98px) {
   .kp-hero {
+    --kp-edge: 48px;
     min-height: clamp(540px, calc(100vh - var(--kp-header-h)), 660px);
   }
 
   .kp-hero-inner {
-    padding: clamp(68px, 10vh, 88px) 16px clamp(74px, 9vh, 92px);
+    padding: clamp(68px, 10vh, 88px) 16px
+    calc(var(--kp-edge) + var(--kp-pill-h) + var(--kp-pill-gap));
   }
 
   .kp-hero-title {
@@ -444,9 +454,6 @@
 @media (min-width: 992px) and (max-height: 720px) {
   .kp-hero-inner {
     padding-top: 48px;
-    /* 86px, not 74px: the controls now end at this distance from the bottom of
-       the screen, and a Windows taskbar covers roughly 52px of it */
-    padding-bottom: 86px;
   }
 
   .kp-hero-title {
@@ -463,9 +470,6 @@
     margin-top: 16px;
   }
 
-  .kp-hero-controls {
-    margin-top: 16px;
-  }
 }
 
 /* very short windows (small laptops, browser chrome + taskbar): tighten the
@@ -489,9 +493,6 @@
     margin-top: 12px;
   }
 
-  .kp-hero-controls {
-    margin-top: 12px;
-  }
 }
 
 /* --- 9. motion ----------------------------------------------------------- */

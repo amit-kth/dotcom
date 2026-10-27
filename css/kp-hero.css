@@ -25,41 +25,44 @@
 /* --- 1. section --------------------------------------------------------- */
 .kp-hero {
   position: relative;
-  padding: 10px 0 38px;
+  padding: 16px 0 40px;
+  /* dark base only as a fallback / to seat the blur; the visible colour comes
+     from the blurred copy of the slide below */
   background: #08121a;
   overflow: hidden;
   isolation: isolate;
 }
 
-/* ambient light so the framed artwork sits in the page, not on it */
-.kp-hero::before,
+/* Two stacked layers hold a blurred, low-opacity copy of the slide, so the
+   area around the frame takes on the artwork's colour instead of reading as
+   a black band. They are crossfaded when the slide changes. */
+.kp-hero-bg {
+  position: absolute;
+  inset: -70px;
+  z-index: 0;
+  pointer-events: none;
+  background-image: url("../img/banner/slider-4.webp");
+  background-position: center;
+  background-size: cover;
+  filter: blur(46px) saturate(135%);
+  transform: scale(1.04);
+  opacity: 0;
+  transition: opacity 0.9s ease;
+  will-change: opacity;
+}
+
+.kp-hero-bg.is-active {
+  opacity: 0.5;
+}
+
+/* a whisper of contrast so the frame edge still separates from the glow */
 .kp-hero::after {
   content: "";
   position: absolute;
-  pointer-events: none;
+  inset: 0;
   z-index: 0;
-  border-radius: 50%;
-  filter: blur(70px);
-}
-
-.kp-hero::before {
-  width: 46vw;
-  height: 46vw;
-  max-width: 620px;
-  max-height: 620px;
-  top: -26%;
-  right: -8%;
-  background: radial-gradient(circle, rgba(220, 38, 38, 0.22), transparent 62%);
-}
-
-.kp-hero::after {
-  width: 40vw;
-  height: 40vw;
-  max-width: 520px;
-  max-height: 520px;
-  bottom: -34%;
-  left: -10%;
-  background: radial-gradient(circle, rgba(24, 69, 93, 0.5), transparent 64%);
+  pointer-events: none;
+  background: radial-gradient(120% 90% at 50% 30%, transparent 40%, rgba(4, 10, 15, 0.55) 100%);
 }
 
 .kp-hero-wrap {
@@ -233,7 +236,7 @@
 /* --- 7. breakpoints ------------------------------------------------------ */
 @media (max-width: 991.98px) {
   .kp-hero {
-    padding: 8px 0 26px;
+    padding: 12px 0 28px;
   }
 
   .kp-hero-wrap {

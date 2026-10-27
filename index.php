@@ -193,6 +193,10 @@
         <!-- BANNER
         ================================================== -->
         <section class="kp-hero" id="home">
+            <div class="kp-hero-bg is-active" aria-hidden="true"
+                style="background-image:url('img/banner/slider-4.webp')"></div>
+            <div class="kp-hero-bg" aria-hidden="true"></div>
+
             <div class="kp-hero-wrap">
                 <div class="kp-hero-frame">
                     <div class="slider-fade1 owl-carousel owl-theme kp-slider" id="home-slider">

@@ -36,17 +36,35 @@
     if (next) next.addEventListener("click", function () { go(1); });
 
     /* --- dots ------------------------------------------------------------ */
-    var slides = [];
-    $(slider).children(".item").each(function () {
-        var img = this.querySelector("img");
-        slides.push(img ? img.getAttribute("src") : "");
-    });
-
     var buttons = [];
 
     function fileOf(src) {
         return (src || "").split("/").pop();
     }
+
+    /* Works whether or not Owl has already wrapped the slides: before init the
+       .item elements are direct children, after init they sit inside .owl-item.
+       Clones (added for loop:true) are skipped and duplicates removed, so the
+       dot count always equals the number of real slides. */
+    function slideSources() {
+        var out = [];
+        var seen = {};
+        Array.prototype.forEach.call(slider.querySelectorAll(".item img"), function (img) {
+            var wrapper = img.parentNode;
+            while (wrapper && wrapper !== slider && !wrapper.classList.contains("owl-item")) {
+                wrapper = wrapper.parentNode;
+            }
+            if (wrapper && wrapper.classList && wrapper.classList.contains("cloned")) return;
+            var src = img.getAttribute("src") || "";
+            var key = fileOf(src);
+            if (!key || seen[key]) return;
+            seen[key] = true;
+            out.push(src);
+        });
+        return out;
+    }
+
+    var slides = slideSources();
 
     function buildDots() {
         if (!dotsBox || !slides.length || buttons.length) return;
@@ -78,10 +96,29 @@
         });
     }
 
+    /* --- blurred backdrop ------------------------------------------------ */
+    /* The area around the frame shows a blurred, low-opacity copy of the
+       current slide, crossfaded between two stacked layers. */
+    var bgLayers = root.querySelectorAll(".kp-hero-bg");
+    var front = 0;
+
+    function setBackdrop(src) {
+        if (!src || bgLayers.length < 2) return;
+        var incoming = bgLayers[1 - front];
+        var outgoing = bgLayers[front];
+        incoming.style.backgroundImage = 'url("' + src + '")';
+        incoming.classList.add("is-active");
+        outgoing.classList.remove("is-active");
+        front = 1 - front;
+    }
+
     buildDots();
+    sync();
 
     $slider.on("initialized.owl.carousel refreshed.owl.carousel changed.owl.carousel translated.owl.carousel", function () {
         buildDots();
         sync();
+        var active = slider.querySelector(".owl-item.active .item img");
+        if (active) setBackdrop(active.getAttribute("src"));
     });
 })();

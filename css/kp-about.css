@@ -1,0 +1,347 @@
+/* =========================================================================
+   ABOUT  ·  kp-about.css
+   -------------------------------------------------------------------------
+   The section previously ran three dense paragraphs (about 130 words) beside
+   two scrapbook images — a wavy red rectangle behind an offset photo. This is
+   an editorial two-column block instead:
+
+     copy  — short lead, one supporting line, three fact rows, one CTA
+     visual — the two real photographs, layered, with a hairline frame
+
+   Content is cut, not invented: every clause comes from the strings that were
+   already in the section. The third paragraph (AI tools, the Metaverse) is now
+   the "Focus" row, and the country list is the "Reach" row, so the prose that
+   carried them is gone.
+
+   The photographs stay near their native width — about7.webp is 420px wide and
+   was previously drawn at roughly 570px. At 416px it is effectively 1:1.
+
+   Colours and easing come from css/global.css. Only .kp-* classes are used, so
+   no theme rule can reach into this block.
+   ========================================================================= */
+
+.kp-about {
+  position: relative;
+  /* clears the CMMI badge that hangs 64px into this section from the counter
+     band above, and then some */
+  padding: 96px 0 104px;
+}
+
+.kp-about-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 56px;
+}
+
+/* --- copy ---------------------------------------------------------------- */
+.kp-about .kp-about-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 20px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--kp-accent-deep); /* 6.9:1 on white */
+}
+
+.kp-about .kp-about-eyebrow::before {
+  content: "";
+  width: 28px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.65;
+}
+
+.kp-about .kp-about-title {
+  margin: 0 0 22px;
+  font-family: "Poppins", sans-serif;
+  font-size: clamp(1.75rem, 1.5vw + 1.1rem, 2.6rem);
+  font-weight: 600;
+  line-height: 1.14;
+  letter-spacing: -0.025em;
+  color: var(--kp-ink);
+}
+
+.kp-about .kp-about-lead {
+  margin: 0 0 16px;
+  max-width: 48ch;
+  font-size: 17px;
+  line-height: 1.72;
+  color: rgba(var(--kp-ink-rgb), 0.78); /* 9.3:1 */
+}
+
+.kp-about .kp-about-body {
+  margin: 0 0 30px;
+  max-width: 52ch;
+  font-size: 14.5px;
+  line-height: 1.72;
+  color: rgba(var(--kp-ink-rgb), 0.7); /* 5.6:1 */
+}
+
+.kp-about .kp-about-link {
+  color: var(--kp-accent-deep);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(var(--kp-accent-rgb), 0.35);
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.kp-about .kp-about-link:hover {
+  color: var(--kp-accent);
+  border-bottom-color: var(--kp-accent);
+}
+
+/* --- fact rows ----------------------------------------------------------- */
+.kp-about .kp-about-facts {
+  margin: 0 0 34px;
+  padding: 0;
+  border-top: 1px solid rgba(var(--kp-ink-rgb), 0.1);
+}
+
+.kp-about .kp-about-fact {
+  display: grid;
+  grid-template-columns: 86px minmax(0, 1fr);
+  gap: 16px;
+  padding: 13px 0;
+  border-bottom: 1px solid rgba(var(--kp-ink-rgb), 0.1);
+}
+
+.kp-about .kp-about-fact dt {
+  padding-top: 2px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(var(--kp-ink-rgb), 0.7); /* 5.6:1 — .55 fails at this size */
+}
+
+.kp-about .kp-about-fact dd {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--kp-ink);
+}
+
+/* --- call to action ------------------------------------------------------ */
+.kp-about .kp-about-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 24px;
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1;
+  color: #fff;
+  background: var(--kp-accent);
+  border-radius: 999px;
+  text-decoration: none;
+  box-shadow: 0 12px 26px -16px rgba(var(--kp-accent-shadow-rgb), 0.9);
+  transition: background-color 0.22s ease, transform 0.22s var(--kp-ease),
+    box-shadow 0.22s ease;
+}
+
+.kp-about .kp-about-cta i {
+  font-size: 11px;
+  transition: transform 0.25s var(--kp-ease);
+}
+
+.kp-about .kp-about-cta:hover,
+.kp-about .kp-about-cta:focus-visible {
+  color: #fff;
+  background: var(--kp-accent-deep);
+  transform: translateY(-1px);
+  box-shadow: 0 16px 30px -16px rgba(var(--kp-accent-shadow-rgb), 0.95);
+}
+
+.kp-about .kp-about-cta:hover i,
+.kp-about .kp-about-cta:focus-visible i {
+  transform: translateX(3px);
+}
+
+/* --- visual -------------------------------------------------------------- */
+/* the padding is the room the hairline frame and the inset photograph sit in,
+   so nothing here can overflow the grid column */
+.kp-about .kp-about-visual {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px 24px 56px 56px;
+}
+
+.kp-about .kp-about-visual::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 40px;
+  left: 44px;
+  border: 1px solid rgba(var(--kp-ink-rgb), 0.14);
+  border-radius: 26px;
+  pointer-events: none;
+}
+
+.kp-about .kp-about-shot {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 28px 54px -38px rgba(var(--kp-ink-deep-rgb), 0.55);
+}
+
+.kp-about .kp-about-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.kp-about .kp-about-shot--inset {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 2;
+  width: 176px;
+  margin: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 6px solid #fff;
+  box-shadow: 0 18px 36px -22px rgba(var(--kp-ink-deep-rgb), 0.6);
+}
+
+.kp-about .kp-about-shot--inset img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* --- split layout -------------------------------------------------------- */
+/* Split at 992, the same lg breakpoint the rest of the page turns on, but
+   weighted towards the visual: an even split squeezed the main photograph to
+   340px at 992, so it shrank by 80px the moment the breakpoint was crossed.
+   With 1.15fr it moves 420 -> 395 and settles at 416. */
+@media (min-width: 992px) {
+  .kp-about .kp-about-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    align-items: center;
+    gap: 64px;
+  }
+
+  .kp-about .kp-about-visual {
+    margin-left: auto;
+    padding: 20px 20px 60px 64px;
+  }
+}
+
+/* --- reveal -------------------------------------------------------------- */
+.kp-about.kp-js .kp-about-copy,
+.kp-about.kp-js .kp-about-visual {
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+.kp-about.is-in .kp-about-copy,
+.kp-about.is-in .kp-about-visual {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.6s ease, transform 0.6s var(--kp-ease);
+}
+
+.kp-about.is-in .kp-about-visual {
+  transition-delay: 0.12s;
+}
+
+/* --- focus --------------------------------------------------------------- */
+.kp-about .kp-about-cta:focus-visible,
+.kp-about .kp-about-link:focus-visible {
+  outline: 2px solid var(--kp-accent);
+  outline-offset: 3px;
+}
+
+/* --- breakpoints --------------------------------------------------------- */
+@media (max-width: 991.98px) {
+  .kp-about {
+    padding: 80px 0 88px;
+  }
+
+  .kp-about-grid {
+    gap: 48px;
+  }
+
+  /* single column: let the prose use the width instead of stopping at 48ch */
+  .kp-about .kp-about-lead {
+    max-width: 62ch;
+  }
+
+  .kp-about .kp-about-body {
+    max-width: 66ch;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .kp-about {
+    padding: 64px 0 72px;
+  }
+
+  .kp-about-grid {
+    gap: 44px;
+  }
+
+  .kp-about .kp-about-title {
+    font-size: 1.6rem;
+  }
+
+  .kp-about .kp-about-lead {
+    font-size: 15.5px;
+  }
+
+  .kp-about .kp-about-fact {
+    grid-template-columns: 74px minmax(0, 1fr);
+    gap: 12px;
+    padding: 11px 0;
+  }
+
+  .kp-about .kp-about-visual {
+    padding: 16px 16px 44px 40px;
+  }
+
+  .kp-about .kp-about-visual::before {
+    left: 24px;
+    bottom: 28px;
+    border-radius: 20px;
+  }
+
+  .kp-about .kp-about-shot {
+    border-radius: 14px;
+  }
+
+  .kp-about .kp-about-shot--inset {
+    width: 132px;
+    border-width: 5px;
+    border-radius: 12px;
+  }
+}
+
+/* --- motion -------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .kp-about.kp-js .kp-about-copy,
+  .kp-about.kp-js .kp-about-visual,
+  .kp-about.is-in .kp-about-copy,
+  .kp-about.is-in .kp-about-visual {
+    opacity: 1;
+    transform: none;
+    transition: none !important;
+  }
+
+  .kp-about .kp-about-cta,
+  .kp-about .kp-about-cta i,
+  .kp-about .kp-about-link {
+    transition: none !important;
+  }
+
+  .kp-about .kp-about-cta:hover {
+    transform: none;
+  }
+}

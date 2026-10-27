@@ -124,9 +124,11 @@
     <link rel="stylesheet" href="css/kp-header.css">
     <link rel="stylesheet" href="css/kp-hero.css">
     <link rel="stylesheet" href="css/kp-stats.css">
+    <link rel="stylesheet" href="css/kp-about.css">
     <script src="js/kp-header.js" defer></script>
     <script src="js/kp-hero.js" defer></script>
     <script src="js/kp-stats.js" defer></script>
+    <script src="js/kp-about.js" defer></script>
 
 
     <!-- Service Worker & PWA -->
@@ -409,47 +411,49 @@
 
         <!-- ABOUT
         ================================================== -->
-        <section class="overflow-visible" id="about">
-            <div class="container position-relative z-index-3">
-                <div class="row align-items-center about-style-03">
-                    <div class="col-lg-6 wow fadeIn" data-wow-delay="200ms">
-                        <div class="">
-                            <div class="section-title mb-1">
-                                <span class="sm-title">About Us</span>
-                                <h1 class="f-two">Kriscent Techno Hub Pvt Ltd.</h1>
+        <section class="kp-about" id="about">
+            <div class="container">
+                <div class="kp-about-grid">
+                    <div class="kp-about-copy">
+                        <p class="kp-about-eyebrow">About Us</p>
+                        <h1 class="kp-about-title f-two">Kriscent Techno Hub Pvt Ltd.</h1>
+                        <p class="kp-about-lead">A trusted global IT company offering innovative digital solutions
+                            since 2014. Founded by <a href="https://in.linkedin.com/in/kapil-gautam" target="_blank"
+                                class="kp-about-link">Mr. Kapil Gautam</a> in Kota, Rajasthan, we help businesses grow
+                            and succeed worldwide.</p>
+                        <p class="kp-about-body">Ready-to-use products — from advanced CRM software to efficient ERP
+                            systems — built for instant use, with no long development cycles.</p>
+
+                        <dl class="kp-about-facts">
+                            <div class="kp-about-fact">
+                                <dt>Founded</dt>
+                                <dd>2014, Kota, Rajasthan</dd>
                             </div>
-                            <div class="mb-1">
-                                <div class="about-text rounded">
-                                    <p class="mb-2 text-justify">Innovating IT Solutions for a Brighter Future Since
-                                        2014 Kriscent is a trusted global IT company offering innovative digital
-                                        solutions since 2014. Founded by <a
-                                            href="https://in.linkedin.com/in/kapil-gautam" target="_blank"
-                                            class="text-theme">Mr. Kapil Gautam</a> in Kota, Rajasthan, we provide
-                                        technology services that help businesses grow and succeed worldwide, including
-                                        in the USA, UK, Australia, Dubai, New Zealand, and more.</p>
-                                    <p class="mb-3 text-justify">Running a business is challenging, but getting the
-                                        right tools shouldn’t be. At Kriscent, we offer ready-to-use products that help
-                                        businesses work smarter, not harder. From advanced CRM software to efficient ERP
-                                        systems, our solutions are designed for instant use—no long development cycles,
-                                        no hassle.</p>
-                                    <p class="text-justify">We are committed to staying ahead of the curve, constantly
-                                        adapting to the latest industry trends and tools, such as AI technologies like
-                                        ChatGPT, DALL-E 2, GPT-4, and the Metaverse. </p>
-                                </div>
-                                <a href="https://kriscent.in/" class="btn-style10 p-4-16 mb-4" target="_blank">
-                                    <span>Visit Website</span>
-                                    <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
-                                </a>
+                            <div class="kp-about-fact">
+                                <dt>Reach</dt>
+                                <dd>USA · UK · Australia · Dubai · New Zealand</dd>
                             </div>
-                        </div>
+                            <div class="kp-about-fact">
+                                <dt>Focus</dt>
+                                <dd>CRM · ERP · AI · Metaverse</dd>
+                            </div>
+                        </dl>
+
+                        <a href="https://kriscent.in/" class="kp-about-cta" target="_blank">
+                            <span>Visit Website</span>
+                            <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                        </a>
                     </div>
-                    <div class="col-lg-6 wow fadeIn" data-wow-delay="400ms">
-                        <div class="ps-lg-2-9 position-relative text-center text-sm-start">
-                            <img src="img/content/about7.webp" alt="about us" width="auto" height="auto">
-                            <div class="about-img d-none d-sm-block">
-                                <img src="img/content/about6.webp" alt="about us" width="auto" height="auto">
-                            </div>
-                        </div>
+
+                    <div class="kp-about-visual">
+                        <figure class="kp-about-shot">
+                            <img src="img/content/about7.webp" alt="about us" width="420" height="506"
+                                loading="lazy" decoding="async">
+                        </figure>
+                        <figure class="kp-about-shot--inset">
+                            <img src="img/content/about6.webp" alt="about us" width="218" height="364"
+                                loading="lazy" decoding="async">
+                        </figure>
                     </div>
                 </div>
             </div>

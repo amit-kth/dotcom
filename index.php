@@ -211,8 +211,6 @@
 
             <div class="kp-hero-inner">
                 <div class="kp-hero-copy-wrap">
-                    <p class="kp-hero-kicker">Software products &amp; IT services since 2014</p>
-
                     <div class="kp-hero-panel is-active" id="kp-panel-0" role="tabpanel" aria-labelledby="kp-rail-0"
                         aria-hidden="false">
                         <p class="kp-hero-name">K-Astrofy</p>
@@ -268,33 +266,34 @@
 
                     <p class="kp-hero-trust">
                         <i class="fa fa-check-circle" aria-hidden="true"></i>
-                        1,549+ projects delivered for 1,245+ clients over 12 years
+                        1,549+ projects · 1,245+ clients · building software since 2014
                     </p>
 
-                    <div class="kp-hero-controls">
-                        <div class="kp-hero-rail" role="tablist" aria-label="Product showcase">
-                            <button type="button" role="tab" id="kp-rail-0" aria-controls="kp-panel-0"
-                                aria-selected="true">
-                                <span class="kp-num">01</span>
-                                <span class="kp-track"><i></i></span>
-                            </button>
-                            <button type="button" role="tab" id="kp-rail-1" aria-controls="kp-panel-1"
-                                aria-selected="false" tabindex="-1">
-                                <span class="kp-num">02</span>
-                                <span class="kp-track"><i></i></span>
-                            </button>
-                            <button type="button" role="tab" id="kp-rail-2" aria-controls="kp-panel-2"
-                                aria-selected="false" tabindex="-1">
-                                <span class="kp-num">03</span>
-                                <span class="kp-track"><i></i></span>
-                            </button>
-                        </div>
-
-                        <button type="button" class="kp-hero-play" aria-pressed="false" aria-label="Pause slideshow">
-                            <i class="fa fa-pause" aria-hidden="true"></i>
-                        </button>
-                    </div>
                 </div>
+            </div>
+
+            <div class="kp-hero-controls">
+                <div class="kp-hero-rail" role="tablist" aria-label="Product showcase">
+                    <button type="button" role="tab" id="kp-rail-0" aria-controls="kp-panel-0"
+                        aria-selected="true" aria-label="K-Astrofy, slide 1 of 3">
+                        <span class="kp-num">01</span>
+                        <span class="kp-track"><i></i></span>
+                    </button>
+                    <button type="button" role="tab" id="kp-rail-1" aria-controls="kp-panel-1"
+                        aria-selected="false" tabindex="-1" aria-label="K-SMART, slide 2 of 3">
+                        <span class="kp-num">02</span>
+                        <span class="kp-track"><i></i></span>
+                    </button>
+                    <button type="button" role="tab" id="kp-rail-2" aria-controls="kp-panel-2"
+                        aria-selected="false" tabindex="-1" aria-label="K-Exam, slide 3 of 3">
+                        <span class="kp-num">03</span>
+                        <span class="kp-track"><i></i></span>
+                    </button>
+                </div>
+
+                <button type="button" class="kp-hero-play" aria-pressed="false" aria-label="Pause slideshow">
+                    <i class="fa fa-pause" aria-hidden="true"></i>
+                </button>
             </div>
         </section>
 

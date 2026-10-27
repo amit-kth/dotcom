@@ -86,32 +86,12 @@
   margin: 0 auto;
   /* generous, viewport-aware top/bottom padding: the last row of content has
      ~90px below it, so nothing ever sits in the clipped part of the screen */
-  padding: clamp(64px, 8.5vh, 96px) 20px clamp(76px, 9vh, 104px);
+  padding: clamp(64px, 8.5vh, 96px) 20px clamp(86px, 10vh, 112px);
 }
 
 .kp-hero-copy-wrap {
   width: 100%;
   max-width: 620px;
-}
-
-/* static brand line, above the rotating content */
-.kp-hero-kicker {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  margin: 0 0 22px;
-  font-size: 11.5px;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.72);
-}
-
-.kp-hero-kicker::before {
-  content: "";
-  width: 26px;
-  height: 1px;
-  background: rgba(255, 255, 255, 0.42);
 }
 
 /* --- 3. rotating copy ---------------------------------------------------- */
@@ -127,8 +107,8 @@
 .kp-hero-name {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin: 0 0 14px;
+  gap: 9px;
+  margin: 0 0 16px;
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.06em;
@@ -138,6 +118,7 @@
 
 .kp-hero-name::before {
   content: "";
+  flex: 0 0 auto;
   width: 6px;
   height: 6px;
   border-radius: 50%;
@@ -253,54 +234,69 @@
 }
 
 /* --- 6. slide controls --------------------------------------------------- */
-/* Deliberately inside the copy column, bottom-left. The previous vertical rail
-   sat against the right edge, where the live-chat widget and the floating
-   WhatsApp / phone buttons live, and was covered by them. */
+/* Small, centred on the bottom edge of the hero and out of the copy column —
+   the copy already carries a name, headline, description, actions and proof,
+   and a control cluster made it a list. Kept clear of the live-chat widget and
+   the floating WhatsApp / phone buttons, which sit bottom-right. */
 .kp-hero-controls {
+  position: absolute;
+  left: 50%;
+  bottom: 20px;
+  z-index: 4;
   display: flex;
-  align-items: flex-end;
-  gap: 18px;
-  margin-top: 30px;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 5px 5px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  background: rgba(6, 14, 22, 0.45);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  backdrop-filter: blur(14px) saturate(160%);
+  box-shadow: 0 8px 22px -14px rgba(0, 0, 0, 0.9);
+  transform: translateX(-50%);
 }
 
 .kp-hero-rail {
   display: flex;
-  align-items: flex-end;
-  gap: 10px;
-  width: 100%;
-  max-width: 250px;
+  align-items: center;
+  gap: 7px;
 }
 
 .kp-hero-rail button {
-  flex: 1 1 0;
+  position: relative;
   display: block;
-  padding: 6px 0 0;
+  width: 26px;
+  height: 14px;
+  padding: 0;
   border: 0;
   background: none;
-  font-family: inherit;
-  font-size: 10.5px;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-align: left;
-  color: rgba(255, 255, 255, 0.4);
   cursor: pointer;
   -webkit-appearance: none;
   appearance: none;
-  transition: color 0.25s ease;
 }
 
+/* the number is read out by aria-label instead; this keeps the pill tiny */
 .kp-hero-rail .kp-num {
-  display: block;
-  margin-bottom: 9px;
-  transition: color 0.25s ease;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .kp-hero-rail .kp-track {
-  display: block;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
   height: 2px;
+  margin-top: -1px;
   border-radius: 2px;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.26);
   overflow: hidden;
+  transition: background-color 0.25s ease;
 }
 
 .kp-hero-rail .kp-track i {
@@ -311,15 +307,14 @@
   background: var(--kp-accent);
 }
 
-.kp-hero-rail button:hover {
-  color: rgba(255, 255, 255, 0.85);
+.kp-hero-rail button:hover .kp-track {
+  background: rgba(255, 255, 255, 0.45);
 }
 
-.kp-hero-rail button[aria-selected="true"] {
-  color: #fff;
+.kp-hero-rail button[aria-selected="true"] .kp-track {
+  background: rgba(255, 255, 255, 0.3);
 }
 
-/* the active track fills over the autoplay interval, so the wait is visible */
 .kp-hero-rail button[aria-selected="true"] .kp-track i {
   animation: kpFill var(--kp-dur, 6000ms) linear both;
 }
@@ -334,25 +329,24 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 34px;
+  width: 24px;
+  height: 24px;
   padding: 0;
-  border: 1px solid rgba(255, 255, 255, 0.28);
+  border: 0;
   border-radius: 50%;
-  color: #fff;
-  font-size: 10px;
-  background: rgba(255, 255, 255, 0.08);
-  -webkit-backdrop-filter: blur(10px) saturate(160%);
-  backdrop-filter: blur(10px) saturate(160%);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 8px;
+  line-height: 1;
+  background: rgba(255, 255, 255, 0.12);
   cursor: pointer;
   -webkit-appearance: none;
   appearance: none;
-  transition: background-color 0.22s ease, border-color 0.22s ease, transform 0.22s ease;
+  transition: background-color 0.22s ease, color 0.22s ease;
 }
 
 .kp-hero-play:hover {
-  background: rgba(255, 255, 255, 0.18);
-  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.24);
+  color: #fff;
 }
 
 .kp-hero-play:active {
@@ -392,11 +386,7 @@
   }
 
   .kp-hero-controls {
-    margin-top: 26px;
-  }
-
-  .kp-hero-rail {
-    max-width: 220px;
+    bottom: 16px;
   }
 }
 
@@ -406,7 +396,7 @@
   }
 
   .kp-hero-inner {
-    padding: clamp(68px, 10vh, 88px) 16px clamp(56px, 8vh, 72px);
+    padding: clamp(68px, 10vh, 88px) 16px clamp(74px, 9vh, 92px);
   }
 
   .kp-hero-title {
@@ -436,11 +426,6 @@
     flex: 1 1 auto;
   }
 
-  .kp-hero-kicker {
-    margin-bottom: 16px;
-    font-size: 10.5px;
-  }
-
   .kp-hero-trust {
     margin-top: 18px;
     font-size: 11.5px;
@@ -452,7 +437,7 @@
 @media (min-width: 992px) and (max-height: 720px) {
   .kp-hero-inner {
     padding-top: 54px;
-    padding-bottom: 58px;
+    padding-bottom: 74px;
   }
 
   .kp-hero-title {

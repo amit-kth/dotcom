@@ -1,301 +1,623 @@
 /* =========================================================================
    HERO  ·  kp-hero.css
    -------------------------------------------------------------------------
-   Replaces the theme's hero presentation.
+   Editorial split hero.
 
-   The problem it fixes
-   --------------------
-   The three banner files are 1920x907 (ratio 2.1169, not 16:9) and carry
-   their headline and product shots baked into the artwork. The theme forced
-   the slider into an 80vh box and let the images fill it, so the visible
-   ratio changed with every viewport: object-fit cropped the composition and
-   the theme's own img rule (width/height 100%) distorted it.
+   Why it changed
+   --------------
+   The previous hero was a full-width slideshow of three 1920x907 posters with
+   their headlines baked into the artwork. Whatever the framing, the hero could
+   only ever repeat three fixed pictures and could not state what the company
+   does. This version keeps the three product visuals — they are the real
+   content — but demotes them to a product switcher and gives the hero a real
+   headline, a real action and the three real numbers that already exist
+   further down the page.
 
-   The fix
-   -------
-   The image box is given the artwork's real ratio (1920/907), so the frame
-   and the picture share one ratio and cover == contain: at no width is a
-   single pixel cropped or stretched. Narrow screens get a slightly taller
-   box with a per-slide object-position, because the CRM slide is composed
-   to the left and a centre crop would cut its logo and headline off.
+     desktop   copy (5/12)                        product stage (7/12)
+     ------------------------------------------------------------------
+     mobile    copy, then stage, then the numbers
 
-   Only .kp-hero-* classes are used, so nothing in the theme can reach in.
+   Every string in the markup is taken from content already on the page; no
+   claim, figure or quote is invented here.
    ========================================================================= */
 
-/* --- 1. section --------------------------------------------------------- */
 .kp-hero {
+  --kp-ink: #0d2735;
+  --kp-ink-soft: #46606f;
+  --kp-accent: #dc2626;
+  --kp-ease: cubic-bezier(0.16, 0.84, 0.44, 1);
+
   position: relative;
-  padding: 22px 0 54px;
-  /* the page's own colour: the surround is a glow, not a coloured slab, so
-     there is no hard edge where the hero starts or ends */
+  padding: 44px 0 64px;
   background: #fff;
   overflow: hidden;
   isolation: isolate;
 }
 
-/* Two stacked layers hold a blurred, low-opacity copy of the slide. A radial
-   mask feathers the glow out in every direction, which is what removes the
-   hard top/bottom edges, and they crossfade when the slide changes. */
-.kp-hero-bg {
+/* --- 1. ambient light ---------------------------------------------------- */
+/* One glow per product, crossfaded with the active tab. Decorative only. */
+.kp-hero-glow {
   position: absolute;
-  inset: -60px;
+  inset: 0;
   z-index: 0;
   pointer-events: none;
-  background-image: url("../img/banner/slider-4.webp");
-  background-position: center;
-  background-size: cover;
-  filter: blur(42px) saturate(130%);
-  transform: scale(1.05);
+}
+
+.kp-hero-glow span {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
   opacity: 0;
-  -webkit-mask-image: radial-gradient(115% 95% at 50% 46%, #000 26%, rgba(0, 0, 0, 0.5) 62%, transparent 86%);
-  mask-image: radial-gradient(115% 95% at 50% 46%, #000 26%, rgba(0, 0, 0, 0.5) 62%, transparent 86%);
-  transition: opacity 0.9s ease;
-  will-change: opacity;
+  transition: opacity 0.8s ease;
 }
 
-.kp-hero-bg.is-active {
-  opacity: 0.62;
+.kp-hero-glow span.is-active {
+  opacity: 1;
 }
 
+.kp-hero-glow span:nth-child(1) {
+  top: -18%;
+  right: 2%;
+  width: 46vw;
+  height: 46vw;
+  max-width: 560px;
+  max-height: 560px;
+  background: radial-gradient(circle, rgba(123, 47, 247, 0.22), transparent 66%);
+}
+
+.kp-hero-glow span:nth-child(2) {
+  top: -14%;
+  right: 6%;
+  width: 42vw;
+  height: 42vw;
+  max-width: 520px;
+  max-height: 520px;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.2), transparent 66%);
+}
+
+.kp-hero-glow span:nth-child(3) {
+  top: -16%;
+  right: 3%;
+  width: 44vw;
+  height: 44vw;
+  max-width: 540px;
+  max-height: 540px;
+  background: radial-gradient(circle, rgba(220, 38, 38, 0.22), transparent 66%);
+}
+
+/* a fixed warm wash low-left, so the composition is not lit from one corner */
+.kp-hero::before {
+  content: "";
+  position: absolute;
+  left: -12%;
+  bottom: -30%;
+  z-index: 0;
+  width: 44vw;
+  height: 44vw;
+  max-width: 520px;
+  max-height: 520px;
+  pointer-events: none;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(24, 69, 93, 0.07), transparent 68%);
+  filter: blur(50px);
+}
+
+/* --- 2. layout ----------------------------------------------------------- */
 .kp-hero-wrap {
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: 1320px; /* matches the header's inner width, so edges align */
+  max-width: 1320px; /* aligns with the header's inner width */
   margin: 0 auto;
   padding: 0 20px;
 }
 
-/* --- 2. frame ----------------------------------------------------------- */
-.kp-hero-frame {
+.kp-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 34px;
+  align-items: center;
+}
+
+/* --- 3. copy column ------------------------------------------------------ */
+.kp-hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 18px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--kp-ink-soft);
+}
+
+.kp-hero-eyebrow::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--kp-accent);
+  box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.12);
+}
+
+.kp-hero-title {
+  margin: 0 0 18px;
+  font-family: "Poppins", sans-serif;
+  font-size: clamp(2.05rem, 1.35rem + 2.5vw, 3.4rem);
+  font-weight: 600;
+  line-height: 1.06;
+  letter-spacing: -0.025em;
+  color: var(--kp-ink);
+  text-wrap: balance;
+}
+
+/* the one phrase that carries the whole promise */
+.kp-hero-title em {
+  font-style: normal;
   position: relative;
-  border-radius: 26px;
-  background: #0a1520;
+  white-space: nowrap;
+  color: var(--kp-accent);
+}
+
+/* hand-drawn underline, drawn once on load */
+.kp-hero-title em::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.08em;
+  height: 0.28em;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(220, 38, 38, 0.28), rgba(220, 38, 38, 0.08));
+  transform: scaleX(0);
+  transform-origin: left center;
+  animation: kpUnderline 0.7s var(--kp-ease) 0.35s both;
+}
+
+.kp-hero-sub {
+  margin: 0 0 28px;
+  max-width: 44ch;
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--kp-ink-soft);
+}
+
+/* --- 4. actions ---------------------------------------------------------- */
+.kp-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 38px;
+}
+
+.kp-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  height: 48px;
+  padding: 0 22px;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: transform 0.22s var(--kp-ease), box-shadow 0.22s ease, background-color 0.22s ease, color 0.22s ease;
+}
+
+.kp-btn i {
+  font-size: 12px;
+  transition: transform 0.25s var(--kp-ease);
+}
+
+.kp-btn--primary {
+  color: #fff;
+  background: linear-gradient(135deg, #ef5350 0%, #dc2626 46%, #a91919 100%);
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.22),
-    0 0 0 2px rgba(9, 26, 38, 0.07),
-    0 34px 70px -38px rgba(9, 26, 38, 0.55),
-    inset 0 1px 0 rgba(255, 255, 255, 0.16);
-  isolation: isolate;
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    0 14px 26px -14px rgba(185, 18, 18, 0.85);
 }
 
-/* the slider itself — theme classes kept so main.js keeps working */
-.kp-hero .kp-slider {
-  border-radius: 26px;
-  overflow: hidden;
+.kp-btn--primary:hover {
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.36),
+    0 18px 32px -14px rgba(185, 18, 18, 0.95);
 }
 
-/* --- 3. the images: one ratio, therefore no crop, therefore no stretch -- */
-.kp-hero .kp-slider .item {
+.kp-btn--primary:hover i {
+  transform: translateX(4px);
+}
+
+.kp-btn--ghost {
+  color: var(--kp-ink);
+  background: #fff;
+  box-shadow: inset 0 0 0 1px rgba(13, 39, 53, 0.13), 0 6px 16px -12px rgba(8, 30, 44, 0.5);
+}
+
+.kp-btn--ghost:hover {
+  color: var(--kp-ink);
+  background: #f7f9fa;
+  transform: translateY(-1px);
+  box-shadow: inset 0 0 0 1px rgba(13, 39, 53, 0.2), 0 10px 22px -12px rgba(8, 30, 44, 0.55);
+}
+
+.kp-btn:active {
+  transform: translateY(0) scale(0.985);
+}
+
+/* --- 5. numbers ---------------------------------------------------------- */
+.kp-hero-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.kp-hero-stats li {
+  padding: 0 26px;
+  border-left: 1px solid rgba(13, 39, 53, 0.1);
+}
+
+.kp-hero-stats li:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.kp-hero-stats strong {
+  display: block;
+  font-family: "Poppins", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--kp-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.kp-hero-stats span {
+  display: block;
+  margin-top: 3px;
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--kp-ink-soft);
+}
+
+/* --- 6. product stage ---------------------------------------------------- */
+.kp-hero-stage {
   position: relative;
-  height: auto;
-  aspect-ratio: 1920 / 907;
-  background: #0a1520;
+  min-width: 0;
 }
 
-.kp-hero .kp-slider .item img {
+.kp-hero-tabs {
+  display: flex;
+  gap: 6px;
+  margin: 0 0 12px;
+  padding: 5px;
+  border-radius: 999px;
+  background: rgba(13, 39, 53, 0.04);
+  box-shadow: inset 0 0 0 1px rgba(13, 39, 53, 0.06);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.kp-hero-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.kp-hero-tabs button {
+  flex: 1 1 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 9px 12px;
+  border: 0;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--kp-ink-soft);
+  background: transparent;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.kp-hero-tabs button::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.45;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.kp-hero-tabs button:hover {
+  color: var(--kp-ink);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.kp-hero-tabs button[aria-selected="true"] {
+  color: var(--kp-ink);
+  background: #fff;
+  box-shadow:
+    0 0 0 1px rgba(13, 39, 53, 0.07),
+    0 6px 16px -10px rgba(8, 30, 44, 0.5);
+}
+
+.kp-hero-tabs button[aria-selected="true"]::before {
+  opacity: 1;
+  transform: scale(1.15);
+}
+
+.kp-hero-tabs button:nth-child(1)[aria-selected="true"]::before {
+  background: #7b2ff7;
+}
+
+.kp-hero-tabs button:nth-child(2)[aria-selected="true"]::before {
+  background: #2563eb;
+}
+
+.kp-hero-tabs button:nth-child(3)[aria-selected="true"]::before {
+  background: #dc2626;
+}
+
+/* the frame ---------------------------------------------------------------- */
+.kp-hero-view {
+  position: relative;
+  border-radius: 22px;
+  background: #0b1420;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(13, 39, 53, 0.08),
+    0 40px 70px -46px rgba(8, 30, 44, 0.75),
+    0 4px 14px -8px rgba(8, 30, 44, 0.25);
+}
+
+/* the artwork's own ratio, so nothing is cropped or stretched */
+.kp-hero-view::before {
+  content: "";
+  display: block;
+  padding-top: 47.24%; /* 907 / 1920 */
+}
+
+.kp-hero-slide {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.kp-hero-slide.is-active {
+  opacity: 1;
+}
+
+.kp-hero-slide img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
-  border-radius: 0;
 }
 
-/* the theme drops a 75% white veil over the hero under 1200px — there is no
-   text on top any more, so it only washes the artwork out */
-.kp-hero .kp-slider .item::before,
-.kp-hero .kp-slider .item::after {
-  display: none !important;
-  content: none !important;
+/* K-SMART CRM is composed to the left; anchor its crop there */
+.kp-hero-slide img[src$="slider-5.webp"] {
+  object-position: 20% center;
 }
 
-/* defensive: if the carousel never initialises, show the first slide only
-   instead of three stacked images */
-.kp-hero .kp-slider:not(.owl-loaded) .item + .item {
-  display: none;
-}
-
-/* --- 4. arrows ---------------------------------------------------------- */
-.kp-hero-arrow {
+/* product link, glass, bottom-left ---------------------------------------- */
+.kp-hero-product {
   position: absolute;
-  top: 50%;
-  z-index: 4;
+  left: 14px;
+  bottom: 14px;
+  z-index: 3;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: 46px;
-  height: 46px;
-  margin-top: -23px;
-  padding: 0;
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: 50%;
-  color: #fff;
-  font-size: 15px;
-  line-height: 1;
-  cursor: pointer;
-  background: rgba(8, 18, 26, 0.5);
-  -webkit-backdrop-filter: blur(10px) saturate(160%);
-  backdrop-filter: blur(10px) saturate(160%);
-  opacity: 0.7;
-  -webkit-appearance: none;
-  appearance: none;
-  transition: opacity 0.22s ease, background-color 0.22s ease, transform 0.22s ease;
-}
-
-.kp-hero-arrow--prev {
-  left: 18px;
-}
-
-.kp-hero-arrow--next {
-  right: 18px;
-}
-
-.kp-hero-frame:hover .kp-hero-arrow,
-.kp-hero-arrow:focus-visible {
-  opacity: 1;
-}
-
-.kp-hero-arrow:hover {
-  background: rgba(220, 38, 38, 0.85);
-  transform: scale(1.06);
-}
-
-.kp-hero-arrow:active {
-  transform: scale(0.96);
-}
-
-/* --- 5. dots ------------------------------------------------------------ */
-/* Each dot sits in a glass pill so it stays legible on the dark cosmic
-   artwork and on the light CRM slide alike, without a scrim over the image. */
-.kp-hero-dots {
-  position: absolute;
-  left: 50%;
-  bottom: 18px;
-  z-index: 4;
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  padding: 9px 13px;
-  border: 1px solid rgba(255, 255, 255, 0.26);
-  border-radius: 999px;
-  background: rgba(8, 18, 26, 0.62);
+  gap: 12px;
+  padding: 10px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 14px;
+  background: rgba(9, 20, 30, 0.55);
   -webkit-backdrop-filter: blur(14px) saturate(160%);
   backdrop-filter: blur(14px) saturate(160%);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.16),
-    0 8px 22px -12px rgba(0, 0, 0, 0.7);
-  transform: translateX(-50%);
+    0 10px 24px -14px rgba(0, 0, 0, 0.8);
+  color: #fff;
+  text-decoration: none;
+  transition: background-color 0.22s ease, transform 0.22s var(--kp-ease);
 }
 
-.kp-hero-dots:empty {
-  display: none;
+.kp-hero-product:hover {
+  color: #fff;
+  background: rgba(220, 38, 38, 0.8);
+  transform: translateY(-1px);
 }
 
-.kp-hero-dots button {
+.kp-hero-product-text {
   display: block;
-  width: 8px;
-  height: 8px;
-  padding: 0;
-  border: 0;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.55);
-  cursor: pointer;
-  -webkit-appearance: none;
-  appearance: none;
-  transition: width 0.3s cubic-bezier(0.16, 0.84, 0.44, 1), background-color 0.25s ease;
+  min-width: 0;
 }
 
-.kp-hero-dots button:hover {
-  background: rgba(255, 255, 255, 0.8);
+.kp-hero-product-name {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.2;
 }
 
-.kp-hero-dots button[aria-current="true"] {
-  width: 24px;
-  background: #fff;
+.kp-hero-product-kind {
+  display: block;
+  margin-top: 2px;
+  font-size: 11px;
+  line-height: 1.2;
+  color: rgba(255, 255, 255, 0.68);
 }
 
-/* the theme's own dots are replaced by the ones above */
-.kp-hero .kp-slider .owl-dots,
-.kp-hero .kp-slider .owl-nav {
-  display: none !important;
+.kp-hero-product:hover .kp-hero-product-kind {
+  color: rgba(255, 255, 255, 0.92);
 }
 
-/* --- 6. keyboard focus --------------------------------------------------- */
-.kp-hero-arrow:focus-visible,
-.kp-hero-dots button:focus-visible {
-  outline: 2px solid #fff;
+.kp-hero-product i {
+  font-size: 12px;
+  transition: transform 0.22s var(--kp-ease);
+}
+
+.kp-hero-product:hover i {
+  transform: translateX(3px);
+}
+
+/* --- 7. focus ------------------------------------------------------------ */
+.kp-hero a:focus-visible,
+.kp-hero .kp-hero-tabs button:focus-visible {
+  outline: 2px solid var(--kp-accent);
   outline-offset: 3px;
+  border-radius: 999px;
 }
 
-/* --- 7. breakpoints ------------------------------------------------------ */
-@media (max-width: 991.98px) {
-  .kp-hero {
-    padding: 14px 0 34px;
+/* --- 8. breakpoints ------------------------------------------------------ */
+@media (min-width: 992px) {
+  .kp-hero-grid {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: 54px;
   }
 
+  .kp-hero {
+    padding: 60px 0 76px;
+  }
+}
+
+@media (max-width: 1199.98px) and (min-width: 992px) {
+  .kp-hero-grid {
+    gap: 36px;
+  }
+
+  .kp-hero-stats li {
+    padding: 0 18px;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .kp-hero {
+    padding: 34px 0 46px;
+  }
+
+  .kp-hero-title {
+    max-width: 20ch;
+  }
+
+  .kp-hero-sub {
+    max-width: 52ch;
+  }
+
+  .kp-hero-actions {
+    margin-bottom: 32px;
+  }
+
+  .kp-hero-stats strong {
+    font-size: 1.35rem;
+  }
+}
+
+@media (max-width: 575.98px) {
   .kp-hero-wrap {
     padding: 0 14px;
   }
 
-  .kp-hero-frame,
-  .kp-hero .kp-slider {
-    border-radius: 20px;
+  .kp-hero-title {
+    font-size: 1.95rem;
+    max-width: none;
   }
 
-  /* slightly taller than the artwork so the hero still reads as a hero on a
-     tablet; crop is ~29% of the width, tuned per slide below */
-  .kp-hero .kp-slider .item {
-    aspect-ratio: 3 / 2;
+  .kp-hero-title em {
+    white-space: normal;
   }
 
-  .kp-hero-arrow {
-    display: none; /* swipe is the affordance on touch */
+  .kp-btn {
+    height: 46px;
+    padding: 0 18px;
+    font-size: 13.5px;
   }
 
-  .kp-hero-dots {
-    bottom: 14px;
-  }
-}
-
-@media (max-width: 767.98px) {
-  .kp-hero-wrap {
-    padding: 0 12px;
+  .kp-hero-actions .kp-btn {
+    flex: 1 1 auto;
   }
 
-  .kp-hero-frame,
-  .kp-hero .kp-slider {
+  .kp-hero-stats {
+    gap: 18px 0;
+  }
+
+  .kp-hero-stats li {
+    flex: 1 1 50%;
+    padding: 0 14px;
+  }
+
+  .kp-hero-stats li:nth-child(3) {
+    flex-basis: 100%;
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .kp-hero-view {
     border-radius: 16px;
   }
 
-  .kp-hero .kp-slider .item {
-    aspect-ratio: 4 / 3;
+  .kp-hero-product {
+    left: 10px;
+    bottom: 10px;
+    padding: 8px 11px;
+    border-radius: 12px;
   }
 
-  .kp-hero-dots {
-    bottom: 12px;
-    gap: 7px;
-    padding: 7px 10px;
+  .kp-hero-product-kind {
+    display: none;
+  }
+
+  .kp-hero-tabs button {
+    font-size: 12px;
+    padding: 8px 10px;
   }
 }
 
-/* Slider 5 (K-SMART CRM) is composed to the left — its wordmark and laptop
-   sit at the left edge, so anchor the crop there and only lose empty
-   background on the right. The other two are centre-composed. */
-.kp-hero .kp-slider img[src$="slider-5.webp"] {
-  object-position: 18% center;
-}
-
-@media (max-width: 991.98px) {
-  .kp-hero .kp-slider img[src$="slider-5.webp"] {
-    object-position: 12% center;
+/* --- 9. motion ----------------------------------------------------------- */
+@keyframes kpUnderline {
+  to {
+    transform: scaleX(1);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .kp-hero-arrow,
-  .kp-hero-dots button {
+  .kp-hero .kp-hero-title em::after {
+    animation: none;
+    transform: scaleX(1);
+  }
+
+  .kp-hero-glow span,
+  .kp-hero-slide,
+  .kp-btn,
+  .kp-hero-product,
+  .kp-hero-tabs button {
     transition: none !important;
+  }
+
+  .kp-btn:hover,
+  .kp-hero-product:hover {
     transform: none !important;
   }
 }

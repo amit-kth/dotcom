@@ -1,14 +1,12 @@
 /* =========================================================================
-   HERO  ·  kp-hero.js  —  arrows + slide dots
+   HERO  ·  kp-hero.js  —  product switcher + number count-up
    -------------------------------------------------------------------------
-   js/main.js already initialises the carousel on #home-slider (and again via
-   .slider-fade1); this file adds no second instance. It only talks to the
-   instance that already exists through Owl's public events and API, so the
-   carousel keeps its existing config, timing and touch behaviour.
+   Replaces the Owl carousel for the hero only. The three product visuals are
+   driven by real tabs: click, arrow keys, or Home/End. Nothing is
+   auto-rotated, so the hero never changes under the reader.
 
-   The active dot is resolved by matching the visible slide's image file, not
-   by index arithmetic: with loop:true Owl clones slides, so index maths
-   shifts by the clone count and silently breaks.
+   No jQuery, no globals, and no second carousel instance. Everything degrades
+   to "the first product is showing" if this file never runs.
    ========================================================================= */
 (function () {
     "use strict";
@@ -16,109 +14,114 @@
     var root = document.querySelector(".kp-hero");
     if (!root) return;
 
-    var slider = root.querySelector("#home-slider");
-    var dotsBox = root.querySelector(".kp-hero-dots");
-    var prev = root.querySelector(".kp-hero-arrow--prev");
-    var next = root.querySelector(".kp-hero-arrow--next");
-    if (!slider) return;
+    var tabs = Array.prototype.slice.call(root.querySelectorAll(".kp-hero-tabs button"));
+    var slides = Array.prototype.slice.call(root.querySelectorAll(".kp-hero-slide"));
+    var glows = Array.prototype.slice.call(root.querySelectorAll(".kp-hero-glow span"));
+    var link = root.querySelector(".kp-hero-product");
+    var nameEl = root.querySelector(".kp-hero-product-name");
+    var kindEl = root.querySelector(".kp-hero-product-kind");
 
-    var $ = window.jQuery;
-    if (!$) return;
+    /* --- product switcher ------------------------------------------------- */
+    function select(index, focusTab) {
+        if (index < 0 || index >= tabs.length) return;
 
-    var $slider = $(slider);
-
-    /* if the project ever drops jQuery, the arrows stay inert rather than throwing */
-    function go(step) {
-        $slider.trigger(step > 0 ? "next.owl.carousel" : "prev.owl.carousel", [400]);
-    }
-
-    if (prev) prev.addEventListener("click", function () { go(-1); });
-    if (next) next.addEventListener("click", function () { go(1); });
-
-    /* --- dots ------------------------------------------------------------ */
-    var buttons = [];
-
-    function fileOf(src) {
-        return (src || "").split("/").pop();
-    }
-
-    /* Works whether or not Owl has already wrapped the slides: before init the
-       .item elements are direct children, after init they sit inside .owl-item.
-       Clones (added for loop:true) are skipped and duplicates removed, so the
-       dot count always equals the number of real slides. */
-    function slideSources() {
-        var out = [];
-        var seen = {};
-        Array.prototype.forEach.call(slider.querySelectorAll(".item img"), function (img) {
-            var wrapper = img.parentNode;
-            while (wrapper && wrapper !== slider && !wrapper.classList.contains("owl-item")) {
-                wrapper = wrapper.parentNode;
-            }
-            if (wrapper && wrapper.classList && wrapper.classList.contains("cloned")) return;
-            var src = img.getAttribute("src") || "";
-            var key = fileOf(src);
-            if (!key || seen[key]) return;
-            seen[key] = true;
-            out.push(src);
+        tabs.forEach(function (tab, i) {
+            var on = i === index;
+            tab.setAttribute("aria-selected", on ? "true" : "false");
+            tab.setAttribute("tabindex", on ? "0" : "-1");
         });
-        return out;
+
+        slides.forEach(function (slide, i) {
+            var on = i === index;
+            slide.classList.toggle("is-active", on);
+            slide.setAttribute("aria-hidden", on ? "false" : "true");
+        });
+
+        glows.forEach(function (glow, i) {
+            glow.classList.toggle("is-active", i === index);
+        });
+
+        /* the product link follows the active tab */
+        var tab = tabs[index];
+        if (link) {
+            if (tab.getAttribute("data-href")) link.setAttribute("href", tab.getAttribute("data-href"));
+            if (tab.getAttribute("data-name")) link.setAttribute("aria-label", "View " + tab.getAttribute("data-name"));
+        }
+        if (nameEl && tab.getAttribute("data-name")) nameEl.textContent = tab.getAttribute("data-name");
+        if (kindEl && tab.getAttribute("data-kind")) kindEl.textContent = tab.getAttribute("data-kind");
+
+        if (focusTab) tab.focus();
     }
 
-    var slides = slideSources();
-
-    function buildDots() {
-        if (!dotsBox || !slides.length || buttons.length) return;
-
-        slides.forEach(function (src, i) {
-            var b = document.createElement("button");
-            b.type = "button";
-            b.setAttribute("aria-label", "Show slide " + (i + 1) + " of " + slides.length);
-            b.setAttribute("aria-current", i === 0 ? "true" : "false");
-            b.addEventListener("click", function () {
-                /* jump through the slider's own API so loop/clones stay consistent */
-                if ($slider.data("owl.carousel")) {
-                    $slider.trigger("to.owl.carousel", [i, 400]);
-                }
+    if (tabs.length && slides.length) {
+        tabs.forEach(function (tab, i) {
+            tab.addEventListener("click", function () {
+                select(i, false);
             });
-            dotsBox.appendChild(b);
-            buttons.push(b);
+
+            tab.addEventListener("keydown", function (event) {
+                var next = -1;
+                if (event.key === "ArrowRight" || event.key === "ArrowDown") next = (i + 1) % tabs.length;
+                else if (event.key === "ArrowLeft" || event.key === "ArrowUp") next = (i - 1 + tabs.length) % tabs.length;
+                else if (event.key === "Home") next = 0;
+                else if (event.key === "End") next = tabs.length - 1;
+                if (next < 0) return;
+                event.preventDefault();
+                select(next, true);
+            });
         });
+
+        /* initial state */
+        select(0, false);
     }
 
-    function sync() {
-        if (!buttons.length) return;
-        /* bias to the incoming slide while a crossfade is mid-flight */
-        var actives = slider.querySelectorAll(".owl-item.active .item img");
-        var active = actives.length ? actives[actives.length - 1] : null;
-        var current = fileOf(active && active.getAttribute("src"));
-        buttons.forEach(function (b, i) {
-            b.setAttribute("aria-current", fileOf(slides[i]) === current ? "true" : "false");
+    /* --- numbers ---------------------------------------------------------- */
+    /* Real figures that already appear on the page; counting them up just makes
+       them earn their place. Reduced-motion users get the final value at once. */
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var counters = Array.prototype.slice.call(root.querySelectorAll("[data-count]"));
+
+    function runCounter(el) {
+        var target = parseInt(el.getAttribute("data-count"), 10);
+        if (isNaN(target)) return;
+        var suffix = el.getAttribute("data-suffix") || "";
+
+        if (reduce || !window.requestAnimationFrame) {
+            el.textContent = target.toLocaleString("en-US") + suffix;
+            return;
+        }
+
+        var duration = 1400;
+        var start = null;
+
+        function step(now) {
+            if (start === null) start = now;
+            var p = Math.min(1, (now - start) / duration);
+            /* ease-out so the number settles instead of ticking mechanically */
+            var eased = 1 - Math.pow(1 - p, 3);
+            el.textContent = Math.round(target * eased).toLocaleString("en-US") + suffix;
+            if (p < 1) window.requestAnimationFrame(step);
+        }
+
+        window.requestAnimationFrame(step);
+    }
+
+    if (!counters.length) return;
+
+    if (!("IntersectionObserver" in window)) {
+        counters.forEach(runCounter);
+        return;
+    }
+
+    var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            runCounter(entry.target);
+            observer.unobserve(entry.target);
         });
-    }
+    }, { threshold: 0.4 });
 
-    /* --- blurred backdrop ------------------------------------------------ */
-    /* The area around the frame shows a blurred, low-opacity copy of the
-       current slide, crossfaded between two stacked layers. */
-    var bgLayers = root.querySelectorAll(".kp-hero-bg");
-    var front = 0;
-
-    function setBackdrop(src) {
-        if (!src || bgLayers.length < 2) return;
-        var incoming = bgLayers[1 - front];
-        var outgoing = bgLayers[front];
-        incoming.style.backgroundImage = 'url("' + src + '")';
-        incoming.classList.add("is-active");
-        outgoing.classList.remove("is-active");
-        front = 1 - front;
-    }
-
-    buildDots();
-    sync();
-
-    $slider.on("initialized.owl.carousel refreshed.owl.carousel changed.owl.carousel translated.owl.carousel", function () {
-        buildDots();
-        sync();
-        var active = slider.querySelector(".owl-item.active .item img");
-        if (active) setBackdrop(active.getAttribute("src"));
+    counters.forEach(function (el) {
+        observer.observe(el);
     });
 })();

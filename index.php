@@ -193,95 +193,91 @@
         <!-- BANNER
         ================================================== -->
         <section class="kp-hero" id="home">
-            <div class="kp-hero-glow" aria-hidden="true">
-                <span class="is-active"></span>
-                <span></span>
-                <span></span>
-            </div>
+            <!-- slide 1 -->
+            <figure class="kp-hero-slide is-active" id="kp-slide-0" aria-hidden="true">
+                <img src="img/hero/k-astrofy.jpg" alt="K-Astrofy astrology consulting portal"
+                    width="1376" height="768" fetchpriority="high">
+            </figure>
+            <!-- slide 2 -->
+            <figure class="kp-hero-slide" id="kp-slide-1" aria-hidden="true">
+                <img src="img/hero/k-smart.jpg" alt="K-SMART CRM software" width="1376" height="768"
+                    loading="lazy" decoding="async">
+            </figure>
+            <!-- slide 3 -->
+            <figure class="kp-hero-slide" id="kp-slide-2" aria-hidden="true">
+                <img src="img/hero/k-exam.jpg" alt="K-Exam online examination portal" width="1376" height="768"
+                    loading="lazy" decoding="async">
+            </figure>
 
-            <div class="kp-hero-wrap">
-                <div class="kp-hero-grid">
-                    <div class="kp-hero-copy">
-                        <p class="kp-hero-eyebrow">Software products &amp; IT services since 2014</p>
+            <div class="kp-hero-inner">
+                <div class="kp-hero-copy-wrap">
+                    <p class="kp-hero-kicker">Software products &amp; IT services since 2014</p>
 
-                        <p class="kp-hero-title">Software you can run <em>on day one</em>.</p>
-
-                        <p class="kp-hero-sub">CRM, ERP, exam and marketplace platforms, ready to use — no long
-                            development cycles, no hassle.</p>
-
+                    <div class="kp-hero-panel is-active" id="kp-panel-0" role="tabpanel" aria-labelledby="kp-rail-0"
+                        aria-hidden="false">
+                        <p class="kp-hero-name">K-Astrofy</p>
+                        <p class="kp-hero-title">Connect with expert astrologers, live</p>
+                        <p class="kp-hero-sub">Chat, call and go live with verified astrologers, shop curated
+                            remedies, and take consultations without leaving the portal.</p>
                         <div class="kp-hero-actions">
-                            <a href="https://kriscent.in/contact" target="_blank" class="kp-btn kp-btn--primary">
-                                <span>Get a free quote</span>
+                            <a href="https://kriscent.in/product/kastrofy/" target="_blank" class="kp-btn kp-btn--primary">
+                                <span>Explore K-Astrofy</span>
                                 <i class="fa fa-arrow-right" aria-hidden="true"></i>
                             </a>
-                            <a href="#product" class="kp-btn kp-btn--ghost">
-                                <span>Explore products</span>
+                            <a href="https://kriscent.in/contact" target="_blank" class="kp-btn kp-btn--ghost">
+                                <span>Get a free quote</span>
                             </a>
                         </div>
-
-                        <ul class="kp-hero-stats">
-                            <li>
-                                <strong data-count="1549" data-suffix="+">1,549+</strong>
-                                <span>Projects completed</span>
-                            </li>
-                            <li>
-                                <strong>12+</strong>
-                                <span>Years of experience</span>
-                            </li>
-                            <li>
-                                <strong data-count="1245" data-suffix="+">1,245+</strong>
-                                <span>Clients served</span>
-                            </li>
-                        </ul>
                     </div>
 
-                    <div class="kp-hero-stage">
-                        <div class="kp-hero-tabs" role="tablist" aria-label="Product preview">
-                            <button type="button" role="tab" id="kp-tab-0" aria-controls="kp-slide-0"
-                                aria-selected="true" data-href="https://kriscent.in/product/kastrofy/"
-                                data-name="K-Astrofy" data-kind="Astrology consulting portal">
-                                K-Astrofy
-                            </button>
-                            <button type="button" role="tab" id="kp-tab-1" aria-controls="kp-slide-1"
-                                aria-selected="false" tabindex="-1"
-                                data-href="https://www.kriscent.in/product/ksmart/" data-name="K-SMART"
-                                data-kind="CRM software">
-                                K-SMART
-                            </button>
-                            <button type="button" role="tab" id="kp-tab-2" aria-controls="kp-slide-2"
-                                aria-selected="false" tabindex="-1"
-                                data-href="https://www.kriscent.in/product/kexam/" data-name="K-Exam"
-                                data-kind="Exam &amp; learning management system">
-                                K-Exam
-                            </button>
-                        </div>
-
-                        <div class="kp-hero-view">
-                            <figure class="kp-hero-slide is-active" id="kp-slide-0" role="tabpanel"
-                                aria-labelledby="kp-tab-0" aria-hidden="false">
-                                <img src="img/banner/slider-4.webp" alt="banner slider" width="1920" height="907"
-                                    fetchpriority="high">
-                            </figure>
-                            <figure class="kp-hero-slide" id="kp-slide-1" role="tabpanel" aria-labelledby="kp-tab-1"
-                                aria-hidden="true">
-                                <img src="img/banner/slider-5.webp" alt="banner slider" width="1920" height="907"
-                                    fetchpriority="low" decoding="async">
-                            </figure>
-                            <figure class="kp-hero-slide" id="kp-slide-2" role="tabpanel" aria-labelledby="kp-tab-2"
-                                aria-hidden="true">
-                                <img src="img/banner/slider-6.webp" alt="banner slider" width="1920" height="907"
-                                    fetchpriority="low" decoding="async">
-                            </figure>
-
-                            <a href="https://kriscent.in/product/kastrofy/" target="_blank" class="kp-hero-product"
-                                aria-label="View K-Astrofy">
-                                <span class="kp-hero-product-text">
-                                    <span class="kp-hero-product-name">K-Astrofy</span>
-                                    <span class="kp-hero-product-kind">Astrology consulting portal</span>
-                                </span>
+                    <div class="kp-hero-panel" id="kp-panel-1" role="tabpanel" aria-labelledby="kp-rail-1"
+                        aria-hidden="true">
+                        <p class="kp-hero-name">K-SMART</p>
+                        <p class="kp-hero-title">Every lead in one workspace</p>
+                        <p class="kp-hero-sub">Lead management, campaigns, quotations and invoices, WhatsApp
+                            automation and team chat — one CRM instead of six tools.</p>
+                        <div class="kp-hero-actions">
+                            <a href="https://www.kriscent.in/product/ksmart/" target="_blank"
+                                class="kp-btn kp-btn--primary">
+                                <span>Explore K-SMART</span>
                                 <i class="fa fa-arrow-right" aria-hidden="true"></i>
                             </a>
+                            <a href="https://kriscent.in/contact" target="_blank" class="kp-btn kp-btn--ghost">
+                                <span>Get a free quote</span>
+                            </a>
                         </div>
+                    </div>
+
+                    <div class="kp-hero-panel" id="kp-panel-2" role="tabpanel" aria-labelledby="kp-rail-2"
+                        aria-hidden="true">
+                        <p class="kp-hero-name">K-Exam</p>
+                        <p class="kp-hero-title">Exams that stay secure online</p>
+                        <p class="kp-hero-sub">Build tests with any question type, run them with anti-cheating
+                            measures in place, and publish results without the paperwork.</p>
+                        <div class="kp-hero-actions">
+                            <a href="https://www.kriscent.in/product/kexam/" target="_blank"
+                                class="kp-btn kp-btn--primary">
+                                <span>Explore K-Exam</span>
+                                <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                            </a>
+                            <a href="https://kriscent.in/contact" target="_blank" class="kp-btn kp-btn--ghost">
+                                <span>Get a free quote</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <p class="kp-hero-trust">
+                        <i class="fa fa-check-circle" aria-hidden="true"></i>
+                        1,549+ projects delivered for 1,245+ clients over 12 years
+                    </p>
+
+                    <div class="kp-hero-rail" role="tablist" aria-label="Product showcase">
+                        <button type="button" role="tab" id="kp-rail-0" aria-controls="kp-panel-0"
+                            aria-selected="true">01</button>
+                        <button type="button" role="tab" id="kp-rail-1" aria-controls="kp-panel-1"
+                            aria-selected="false" tabindex="-1">02</button>
+                        <button type="button" role="tab" id="kp-rail-2" aria-controls="kp-panel-2"
+                            aria-selected="false" tabindex="-1">03</button>
                     </div>
                 </div>
             </div>

@@ -271,13 +271,28 @@
                         1,549+ projects delivered for 1,245+ clients over 12 years
                     </p>
 
-                    <div class="kp-hero-rail" role="tablist" aria-label="Product showcase">
-                        <button type="button" role="tab" id="kp-rail-0" aria-controls="kp-panel-0"
-                            aria-selected="true">01</button>
-                        <button type="button" role="tab" id="kp-rail-1" aria-controls="kp-panel-1"
-                            aria-selected="false" tabindex="-1">02</button>
-                        <button type="button" role="tab" id="kp-rail-2" aria-controls="kp-panel-2"
-                            aria-selected="false" tabindex="-1">03</button>
+                    <div class="kp-hero-controls">
+                        <div class="kp-hero-rail" role="tablist" aria-label="Product showcase">
+                            <button type="button" role="tab" id="kp-rail-0" aria-controls="kp-panel-0"
+                                aria-selected="true">
+                                <span class="kp-num">01</span>
+                                <span class="kp-track"><i></i></span>
+                            </button>
+                            <button type="button" role="tab" id="kp-rail-1" aria-controls="kp-panel-1"
+                                aria-selected="false" tabindex="-1">
+                                <span class="kp-num">02</span>
+                                <span class="kp-track"><i></i></span>
+                            </button>
+                            <button type="button" role="tab" id="kp-rail-2" aria-controls="kp-panel-2"
+                                aria-selected="false" tabindex="-1">
+                                <span class="kp-num">03</span>
+                                <span class="kp-track"><i></i></span>
+                            </button>
+                        </div>
+
+                        <button type="button" class="kp-hero-play" aria-pressed="false" aria-label="Pause slideshow">
+                            <i class="fa fa-pause" aria-hidden="true"></i>
+                        </button>
                     </div>
                 </div>
             </div>

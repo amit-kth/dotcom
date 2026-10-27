@@ -14,6 +14,19 @@
   --kp-hair: rgba(13, 39, 53, 0.085);
   --kp-accent: #dc2626;
   --kp-ease: cubic-bezier(0.16, 0.84, 0.44, 1);
+
+  /* Every element that changes size between the resting bar and the
+     condensed bar is driven from these two sets of values, so the two
+     states can never drift apart again. */
+  --kp-cta-py: 12px;
+  --kp-cta-px: 19px;
+  --kp-cta-fs: 13.5px;
+  --kp-cta-gap: 9px;
+  --kp-cta-icon: 12px;
+  --kp-nav-py: 9px;
+  --kp-nav-px: 16px;
+  --kp-nav-fs: 14px;
+
   position: relative;
   z-index: 1030; /* stays below Bootstrap modals (1055) */
   min-height: 86px;
@@ -83,11 +96,11 @@
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 9px;
-  padding: 12px 19px;
+  gap: var(--kp-cta-gap);
+  padding: var(--kp-cta-py) var(--kp-cta-px);
   border: 0;
   border-radius: 999px;
-  font-size: 13.5px;
+  font-size: var(--kp-cta-fs);
   font-weight: 600;
   line-height: 1;
   letter-spacing: 0.01em;
@@ -140,7 +153,7 @@
 .kp-header .kp-cta i {
   position: relative;
   z-index: 1;
-  font-size: 12px;
+  font-size: var(--kp-cta-icon);
   transition: transform 0.25s var(--kp-ease);
 }
 
@@ -217,9 +230,9 @@
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    padding: 9px 16px;
+    padding: var(--kp-nav-py) var(--kp-nav-px);
     border-radius: 999px;
-    font-size: 14px;
+    font-size: var(--kp-nav-fs);
     font-weight: 600;
     line-height: 1;
     letter-spacing: 0.005em;
@@ -295,11 +308,18 @@
   max-height: 38px;
 }
 
-@media (min-width: 992px) {
-  .kp-header.scrollHeader .navbar-nav > li > a {
-    padding-top: 8px;
-    padding-bottom: 8px;
-  }
+/* Condensed bar is 66px against 86px at rest, so its contents are scaled by
+   the same ~0.77 ratio. The CTA keeps its exact 37.5px -> 29px proportion to
+   the bar height, which is why it no longer reads as oversized when floating. */
+.kp-header.scrollHeader {
+  --kp-cta-py: 8px;
+  --kp-cta-px: 15px;
+  --kp-cta-fs: 13px;
+  --kp-cta-gap: 8px;
+  --kp-cta-icon: 11px;
+  --kp-nav-py: 8px;
+  --kp-nav-px: 15px;
+  --kp-nav-fs: 13.5px;
 }
 
 /* --- mobile -------------------------------------------------------------- */

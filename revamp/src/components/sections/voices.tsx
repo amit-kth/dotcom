@@ -5,81 +5,101 @@ import { testimonials } from "@/data/site-content";
 /* ============================================================================
    Voices
    ----------------------------------------------------------------------------
-   One quote at display size, two in support. Three equal columns of testimonials
-   is why people skip testimonials: nothing is emphasised, so nothing is read.
+   The quotes are reproduced in full. They used to be trimmed with an ellipsis,
+   and one of them was cut mid-sentence, so it opened with "…but in Prabal" — a
+   fragment that starts nowhere and names a product the reader has never met.
 
-   The words are the clients' own. They are excerpted, never rewritten, and every
-   cut is marked with an ellipsis. Full quotes stay on the old site.
+   Nothing is rewritten: these are the clients' own words, including the odd
+   grammar. Editing a testimonial is the same sin as inventing one.
+
+   Layout: one lead quote at readable size, two supporting, all three with the
+   same card furniture so the section reads as a set rather than as a hierarchy
+   nobody explained.
    ========================================================================== */
+
+function Quote({
+  quote,
+  name,
+  role,
+  logo,
+  lead = false,
+}: {
+  quote: string;
+  name: string;
+  role: string;
+  logo: string;
+  lead?: boolean;
+}) {
+  return (
+    <figure className="flex h-full flex-col rounded-2xl border border-border bg-card p-6 sm:p-8">
+      <blockquote className="flex-1">
+        <p
+          className={
+            lead
+              ? "text-[clamp(1.1875rem,1.7vw,1.4375rem)] font-medium leading-[1.45] tracking-[-0.015em]"
+              : "text-base leading-relaxed text-foreground/85"
+          }
+        >
+          {quote}
+        </p>
+      </blockquote>
+
+      <figcaption className="mt-6 flex items-center gap-3 border-t border-border pt-5">
+        <img
+          src={asset(logo)}
+          alt=""
+          width={96}
+          height={48}
+          loading="lazy"
+          decoding="async"
+          className="h-8 w-auto max-w-[5rem] object-contain opacity-80 grayscale"
+        />
+        <div className="border-l border-border pl-3">
+          <p className="text-[0.9375rem] font-semibold leading-tight">{name}</p>
+          <p className="mt-0.5 text-[0.8125rem] text-muted-foreground">{role}</p>
+        </div>
+      </figcaption>
+    </figure>
+  );
+}
 
 export function Voices() {
   const [lead, ...rest] = testimonials;
 
   return (
-    <section aria-labelledby="voices-title" className="bg-secondary/70">
+    <section aria-labelledby="voices-title" className="bg-background">
       <div className="shell band">
         <Reveal>
           <p className="eyebrow">In their words</p>
-          <h2 id="voices-title" className="sr-only">
-            What our clients say
+          <h2 id="voices-title" className="title-section mt-3 max-w-[18ch]">
+            Software is judged after it goes live.
           </h2>
+          <p className="body dim mt-4 max-w-[52ch]">
+            Three clients, in their own words, unedited.
+          </p>
         </Reveal>
 
-        <div className="mt-8 grid gap-10 lg:grid-cols-[1.3fr_1fr] lg:gap-16">
-          <Reveal>
-            <figure className="relative rounded-2xl bg-card p-7 shadow-[0_20px_50px_-40px_oklch(13.23%_0.0756_277.93/0.5)] ring-1 ring-border sm:p-10">
-              <span
-                aria-hidden="true"
-                className="absolute -top-3 left-7 font-serif text-[5rem] leading-none text-primary/30 sm:left-10"
-              >
-                &ldquo;
-              </span>
-              <blockquote className="relative">
-                <p className="text-[clamp(1.25rem,2vw,1.625rem)] font-medium leading-[1.45] tracking-[-0.02em]">
-                  {lead.excerpt}
-                </p>
-              </blockquote>
-
-              <figcaption className="mt-8 flex items-center gap-3 border-t border-border pt-6">
-                <img
-                  src={asset(lead.logo)}
-                  alt=""
-                  width={96}
-                  height={48}
-                  loading="lazy"
-                  className="h-9 w-auto max-w-[6rem] object-contain"
-                />
-                <div className="border-l border-border pl-3">
-                  <p className="text-sm font-semibold">{lead.name}</p>
-                  <p className="meta dim">{lead.role}</p>
-                </div>
-              </figcaption>
-            </figure>
+        <div className="mt-9 grid gap-4 lg:grid-cols-2">
+          <Reveal className="lg:row-span-2">
+            <Quote
+              quote={lead.quote}
+              name={lead.name}
+              role={lead.role}
+              logo={lead.logo}
+              lead
+            />
           </Reveal>
 
-          <Reveal delay={80}>
-            <div className="flex h-full flex-col justify-center gap-6">
-              {rest.map((item) => (
-                <figure
-                  key={item.id}
-                  className="border-l-2 border-primary/40 pl-5"
-                >
-                  <blockquote>
-                    <p className="text-[0.9375rem] leading-relaxed text-foreground/85">
-                      {item.excerpt}
-                    </p>
-                  </blockquote>
-                  <figcaption className="mt-3 flex flex-wrap items-center gap-2">
-                    <p className="text-[0.8125rem] font-semibold">{item.name}</p>
-                    <span aria-hidden="true" className="text-border">
-                      /
-                    </span>
-                    <p className="meta dim">{item.role}</p>
-                  </figcaption>
-                </figure>
-              ))}
-            </div>
-          </Reveal>
+          {rest.map((item, i) => (
+            <Reveal key={item.id} delay={60 + i * 50}>
+              <Quote
+                quote={item.quote}
+                name={item.name}
+                role={item.role}
+                logo={item.logo}
+              />
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>

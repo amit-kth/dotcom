@@ -85,7 +85,7 @@ export const testimonials: Testimonial[] = [
     excerpt:
       "…but in Prabal I got many features with a high user friendly environment. We are working faster now.",
     name: "Vikash Kunta",
-    role: "Aiims subsidiary",
+    role: "AIIMS subsidiary",
     logo: "clients/aiims.webp",
   },
   {

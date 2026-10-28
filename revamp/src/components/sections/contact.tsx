@@ -1,4 +1,4 @@
-import { Mail, Phone } from "lucide-react";
+import { Mail, MessageCircle, Phone } from "lucide-react";
 import { EnquiryForm } from "@/components/enquiry-form";
 import { Reveal } from "@/components/ui/reveal";
 import { contact, site } from "@/config/variables";
@@ -28,9 +28,8 @@ export function Contact() {
               Tell us what you run.
             </h2>
 
-            <p className="body dim mt-4 measure-tight">
-              One reply, from a person who knows these systems rather than a form
-              robot. If nothing fits, we will say so.
+            <p className="mt-4 max-w-[34ch] text-base leading-relaxed text-white/70">
+              Tell us what you run. We&apos;ll tell you what fits.
             </p>
 
             <div className="mt-9 space-y-3">
@@ -44,18 +43,47 @@ export function Contact() {
                 {contact.emails.sales}
               </a>
               <a
-                href={`tel:${contact.phones[0].replace(/[^\d+]/g, "")}`}
+                href={`mailto:${contact.emails.general}`}
                 className="group flex items-center gap-3 text-[0.9375rem] text-ink-foreground transition-colors hover:text-chart-5"
               >
                 <span className="flex size-9 items-center justify-center rounded-full border border-line-on-ink">
-                  <Phone className="size-4" aria-hidden="true" />
+                  <Mail className="size-4" aria-hidden="true" />
                 </span>
-                {contact.phones[0]}
+                {contact.emails.general}
+              </a>
+
+              {contact.phones.map((phone) => (
+                <a
+                  key={phone}
+                  href={`tel:${phone.replace(/[^\d+]/g, "")}`}
+                  className="group flex items-center gap-3 text-[0.9375rem] text-ink-foreground transition-colors hover:text-chart-5"
+                >
+                  <span className="flex size-9 items-center justify-center rounded-full border border-line-on-ink">
+                    <Phone className="size-4" aria-hidden="true" />
+                  </span>
+                  {phone}
+                </a>
+              ))}
+
+              <a
+                href={contact.whatsapp}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center gap-3 text-[0.9375rem] text-ink-foreground transition-colors hover:text-chart-5"
+              >
+                <span className="flex size-9 items-center justify-center rounded-full border border-line-on-ink">
+                  <MessageCircle className="size-4" aria-hidden="true" />
+                </span>
+                WhatsApp us
               </a>
             </div>
 
-            <p className="mt-8 border-t border-line-on-ink pt-6 text-[0.75rem] text-ink-muted">
+            <p className="mt-8 border-t border-line-on-ink pt-6 text-[0.8125rem] leading-relaxed text-ink-muted">
               {site.legalName}
+              <br />
+              {contact.locality}
+              <br />
+              Building software since {site.founded}
             </p>
           </Reveal>
 

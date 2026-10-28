@@ -107,7 +107,7 @@ export function EnquiryForm({ product, onSuccess, className }: EnquiryFormProps)
         <div>
           <p className="text-base font-semibold">Thank you, that is with us.</p>
           <p className="mt-1 text-sm text-muted-foreground">
-            We will reply within one working day to arrange the walkthrough
+            We will reply to arrange your demo
             {product ? ` for ${product}` : ""}.
           </p>
         </div>
@@ -240,7 +240,7 @@ export function EnquiryForm({ product, onSuccess, className }: EnquiryFormProps)
             </>
           )}
         </Button>
-        <p className="meta dim">Usually a reply within one working day.</p>
+        <p className="meta dim">One reply, from a person who works on these products.</p>
       </div>
     </form>
   );

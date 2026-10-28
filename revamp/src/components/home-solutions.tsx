@@ -15,11 +15,7 @@ import {
 } from "lucide-react";
 import { Reveal } from "@/components/ui/reveal";
 import { RequestDemoDialog } from "@/components/request-demo-dialog";
-import {
-  FeatureCard,
-  NoSolutions,
-  SolutionCard,
-} from "@/components/solution-card";
+import { NoSolutions, SolutionCard } from "@/components/solution-card";
 import { ProductVisual, VISUAL_BY_PRODUCT } from "@/components/product-visual";
 import { categories, categoryLabel, type CategoryId } from "@/data/categories";
 import { availableProducts, products, productsInCategory } from "@/data/products";
@@ -58,16 +54,6 @@ const ICONS: Record<CategoryId, LucideIcon> = {
   edtech: GraduationCap,
   "real-estate": Building2,
 };
-
-/** Separator for the hero's trust row: a middot reads as one sentence, where
- *  three pipes read as a table squeezed into a footer. */
-function Dot() {
-  return (
-    <span aria-hidden="true" className="text-white/25">
-      ·
-    </span>
-  );
-}
 
 export function HomeSolutions() {
   const [selected, setSelected] = useState<CategoryId | null>(null);
@@ -162,19 +148,6 @@ export function HomeSolutions() {
                 })}
               </div>
 
-              <p className="mt-6 flex flex-wrap items-center gap-x-2 gap-y-1 text-[0.6875rem] text-ink-foreground/45">
-                <span className="whitespace-nowrap font-medium">
-                  CMMI Level 3
-                </span>
-                <Dot />
-                <span className="whitespace-nowrap">
-                  {counters[0].value}+ projects
-                </span>
-                <Dot />
-                <span className="whitespace-nowrap">
-                  {counters[2].value}+ clients
-                </span>
-              </p>
             </div>
 
             {/* --------------------------------------- proof that it already exists
@@ -226,67 +199,66 @@ export function HomeSolutions() {
             <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-3">
               <div>
                 <h2 id="solutions-title" className="title-section">
-                  {activeLabel ? `${activeLabel} systems` : "What we can install now"}
+                  {activeLabel ? `${activeLabel} solutions` : "What we can install now"}
                 </h2>
                 <p className="body dim mt-2">
                   {activeLabel
                     ? `What we have already built for ${activeLabel.toLowerCase()}.`
-                    : `The ${availableProducts.length} we can install as they are. Pick an industry above to narrow it.`}
+                    : "Built, installed and running elsewhere. Pick an industry above to narrow it."}
                 </p>
               </div>
 
-              <div className="flex items-center gap-4">
-                <p className="text-[0.75rem] font-medium text-muted-foreground">
-                  {visible.length} shown
-                </p>
-                <Link
-                  href="/solutions"
-                  className="group inline-flex items-center gap-1.5 text-sm font-semibold text-primary"
-                >
-                  All {products.length}
-                  <ArrowRight
-                    className="size-4 transition-transform group-hover:translate-x-0.5"
-                    aria-hidden="true"
-                  />
-                </Link>
-              </div>
+              <Link
+                href="/solutions"
+                className="group inline-flex items-center gap-1.5 text-[0.9375rem] font-semibold text-primary"
+              >
+                View all solutions
+                <ArrowRight
+                  className="size-4 transition-transform group-hover:translate-x-0.5"
+                  aria-hidden="true"
+                />
+              </Link>
             </div>
           </Reveal>
 
           <p role="status" aria-live="polite" className="sr-only">
-            {visible.length} systems shown
+            {visible.length} solutions shown
             {activeLabel ? ` for ${activeLabel}` : ""}
           </p>
 
-          {visible.length > 0 ? (
-            <div className="mt-7 space-y-4">
-              {featured && (
-                <Reveal>
-                  <FeatureCard product={featured} />
-                </Reveal>
-              )}
+          {/* Every industry's builds are in the HTML, always. Only one group is
+              displayed at a time. Filtering by unmounting would have hidden six
+              of the seven groups from a crawler, on a page whose whole point is
+              those groups. */}
+          {categories.map((category) => {
+            const items = productsInCategory(category.id);
+            const open = selected === category.id;
 
-              {rest.length > 0 && (
-                <div className="grid gap-4 sm:grid-cols-2">
-                  {rest.map((product, i) => (
-                    <Reveal key={product.id} delay={i * 40}>
-                      <SolutionCard product={product} />
-                    </Reveal>
-                  ))}
-                </div>
-              )}
-            </div>
-          ) : (
-            <div className="mt-7">
-              <NoSolutions label={activeLabel ?? "that industry"} />
-            </div>
-          )}
+            return (
+              <div key={category.id} hidden={selected !== null && !open}>
+                <h3 className="sr-only">{category.label}</h3>
+                {items.length > 0 ? (
+                  <div className="mt-7 grid gap-4 sm:grid-cols-2">
+                    {items.map((product, i) => (
+                      <Reveal key={product.id} delay={i * 40}>
+                        <SolutionCard product={product} />
+                      </Reveal>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="mt-7">
+                    <NoSolutions label={category.label} />
+                  </div>
+                )}
+              </div>
+            );
+          })}
 
           <div className="mt-8 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-border bg-card px-5 py-4">
-            <p className="text-sm text-muted-foreground">
-              Not sure which fits? Twenty minutes on a call is usually enough.
+            <p className="text-[0.9375rem] text-muted-foreground">
+              Not sure which fits? Talk to us.
             </p>
-            <RequestDemoDialog label="Book a walkthrough" size="sm" />
+            <RequestDemoDialog label="Request a demo" size="sm" />
           </div>
         </div>
       </section>

@@ -13,12 +13,19 @@
      chat       an inbox and a thread            (WhatsApp CRM)
      scoreList  a list plus a result ring        (K-Exam)
      tileGrid   cards with progress or slots     (LMS, K-Parking, K-RealEstate)
+     voice      a live call, its waveform, a transcript, a queue (AI Calling Agents)
 
    No readable text is drawn on purpose: invented interface copy at this size is
    noise, and real screenshots go in their place once supplied.
    ========================================================================== */
 
-type Variant = "dashboard" | "calendar" | "chat" | "scoreList" | "tileGrid";
+type Variant =
+  | "dashboard"
+  | "calendar"
+  | "chat"
+  | "scoreList"
+  | "tileGrid"
+  | "voice";
 
 export type ProductVisualProps = {
   variant: Variant;
@@ -423,6 +430,76 @@ function TileGrid({ accent }: { accent: string }) {
   );
 }
 
+
+/* ------------------------------------------------------------------ voice */
+
+/* The AI calling agent is a telephone product, so its screen has to look like
+   one: a call in progress, a waveform that is actually moving, the words being
+   said, and the queue behind it. A generic dashboard said nothing about it. */
+function Voice({ accent }: { accent: string }) {
+  const bars = [
+    8, 18, 30, 14, 26, 38, 20, 10, 22, 34, 44, 28, 16, 36, 24, 12, 30, 40,
+    18, 26, 10, 34, 22, 42, 14, 28, 36, 20, 12, 32,
+  ];
+
+  return (
+    <>
+      {/* live call */}
+      <Card x={96} y={64} w={318} h={178} fill="#FFFFFF" />
+      <rect x={96.5} y={64.5} width="317" height="177" rx="9" fill="none" stroke={LINE} />
+      <circle cx={128} cy={100} r="16" fill={WASH} />
+      <circle cx={128} cy={96} r="5" fill={MUTED} />
+      <path d="M118 110c2-6 18-6 20 0" stroke={MUTED} strokeWidth="3" fill="none" strokeLinecap="round" />
+      <rect x={154} y={88} width="92" height="8" rx="4" fill={INK} opacity="0.8" />
+      <rect x={154} y={103} width="64" height="6" rx="3" fill={MUTED} />
+
+      <rect x={352} y={80} width="46" height="20" rx="10" fill={WASH} />
+      <circle cx={364} cy={90} r="3.5" fill={accent} />
+      <rect x={372} y={87} width="18" height="5" rx="2.5" fill={INK} opacity="0.55" />
+
+      {/* waveform */}
+      {bars.map((h, i) => (
+        <rect
+          key={i}
+          x={112 + i * 9.6}
+          y={134 - h / 2}
+          width="4.4"
+          height={h}
+          rx="2.2"
+          fill={i % 5 === 2 ? accent : MUTED}
+          opacity={i % 5 === 2 ? 1 : 0.65}
+        />
+      ))}
+
+      <rect x={112} y={182} width="120" height="7" rx="3.5" fill={MUTED} opacity="0.8" />
+      <rect x={112} y={198} width="286" height="28" rx="14" fill={WASH} />
+      <circle cx={330} cy={212} r="10" fill={accent} />
+
+      {/* transcript */}
+      <rect x={96} y={258} width={318} height={122} rx="9" fill={WASH} />
+      <rect x={114} y={276} width={132} height={7} rx="3.5" fill={MUTED} />
+      <rect x={114} y={292} width={196} height={7} rx="3.5" fill={MUTED} opacity="0.7" />
+      <rect x={252} y={310} width={142} height={22} rx="11" fill={accent} opacity="0.16" />
+      <rect x={264} y={318} width={110} height={6} rx="3" fill={accent} opacity="0.85" />
+      <rect x={114} y={344} width={170} height={7} rx="3.5" fill={MUTED} opacity="0.7" />
+
+      {/* queue */}
+      <Card x={430} y={64} w={186} h={316} fill="#FFFFFF" />
+      <rect x={430.5} y={64.5} width="185" height="315" rx="9" fill="none" stroke={LINE} />
+      <rect x={448} y={82} width="78" height="7" rx="3.5" fill={INK} opacity="0.7" />
+      {[0, 1, 2, 3, 4].map((i) => (
+        <g key={i}>
+          <rect x={444} y={104 + i * 54} width={158} height={44} rx="8" fill={i === 0 ? WASH : "#FFFFFF"} />
+          <circle cx={464} cy={126 + i * 54} r="10" fill={WASH} />
+          <rect x={482} y={118 + i * 54} width={62} height={6} rx="3" fill={MUTED} />
+          <rect x={482} y={130 + i * 54} width={40} height={5} rx="2.5" fill={MUTED} opacity="0.6" />
+          <rect x={556} y={119 + i * 54} width={34} height={14} rx="7" fill={i === 0 ? accent : WASH} opacity={i === 0 ? 0.9 : 1} />
+        </g>
+      ))}
+    </>
+  );
+}
+
 /* ------------------------------------------------------------------ main */
 
 export function ProductVisual({
@@ -449,6 +526,7 @@ export function ProductVisual({
         {variant === "chat" && <Chat accent={color} />}
         {variant === "scoreList" && <ScoreList accent={color} />}
         {variant === "tileGrid" && <TileGrid accent={color} />}
+        {variant === "voice" && <Voice accent={color} />}
       </Frame>
     </svg>
   );
@@ -459,7 +537,7 @@ export const VISUAL_BY_PRODUCT: Record<
   string,
   { variant: Variant; accent: "blue" | "coral" | "violet" }
 > = {
-  "ai-calling-agents": { variant: "dashboard", accent: "blue" },
+  "ai-calling-agents": { variant: "voice", accent: "blue" },
   kastrofy: { variant: "calendar", accent: "violet" },
   kexam: { variant: "scoreList", accent: "coral" },
   "whatsapp-crm": { variant: "chat", accent: "blue" },

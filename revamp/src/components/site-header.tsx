@@ -105,7 +105,7 @@ export function SiteHeader({ overHero = false }: SiteHeaderProps) {
             <div className="hidden sm:block">
               <RequestDemoDialog
                 size="sm"
-                label="Book a walkthrough"
+                label="Request a demo"
                 variant={inverted ? "onInk" : "default"}
               />
             </div>
@@ -153,7 +153,7 @@ export function SiteHeader({ overHero = false }: SiteHeaderProps) {
             ))}
           </ul>
           <div className="pt-3 sm:hidden">
-            <RequestDemoDialog label="Book a walkthrough" className="w-full" />
+            <RequestDemoDialog label="Request a demo" className="w-full" />
           </div>
         </nav>
       </div>

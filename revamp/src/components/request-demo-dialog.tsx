@@ -24,7 +24,7 @@ import { EnquiryForm } from "@/components/enquiry-form";
    ========================================================================== */
 
 type RequestDemoDialogProps = {
-  /** Omit for the site-wide "Book a walkthrough" button in the header and CTA bands. */
+  /** Omit for the site-wide "Request a demo" button in the header and CTA bands. */
   product?: string;
   /** label override; defaults to the product's own CTA label */
   label?: string;
@@ -42,8 +42,8 @@ export function RequestDemoDialog({
 }: RequestDemoDialogProps) {
   const [open, setOpen] = useState(false);
 
-  const triggerLabel = label ?? (product ? "Request a demo" : "Book a walkthrough");
-  const title = product ? `Request a demo of ${product}` : "Book a 20 minute walkthrough";
+  const triggerLabel = label ?? "Request a demo";
+  const title = product ? `Request a demo of ${product}` : "Request a demo";
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>

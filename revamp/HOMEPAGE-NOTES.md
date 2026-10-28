@@ -183,3 +183,46 @@ scrolling away from it at that moment would hide the whole point.
 
 Height: `min-h-[min(100svh,50rem)]`. On a tall monitor the hero caps at 800px so
 the next section shows under the fold instead of leaving a void.
+
+## Claims audit — 28 Oct
+
+Every sentence that makes a factual claim was checked against `index.php`.
+Three kinds of thing came out of it.
+
+**Removed: written by us, not by the client.**
+
+| Claim | Where it was | Verdict |
+|---|---|---|
+| "Most asked for" | product spotlight tag | invented, no data behind it |
+| "independently appraised" | under the CMMI badge | the badge says "CMMI LEVEL 3"; nothing about an appraisal |
+| "If a step slips, you hear it from us the same day" | process | a support promise nobody at Kriscent made |
+| "Usually a reply within one working day" | contact form | same |
+| "Twenty minutes on a call is usually enough" | strip under the list | same |
+| Day 1–2 / 3–7 / 8–12 / 13–15 | process steps | invented, and false for products that import no records |
+| "Already running at" | logo wall | these clients ran other projects, not the ready-made products |
+| "and 34 more" | logo wall | replaced by a link to the real client page |
+
+**Verified against `index.php`, safe to keep.**
+`1,549+` projects and `1,245+` clients (counters, approved). Both inboxes,
+both numbers, the WhatsApp number, CMMI Level 3 via the badge artwork, the three
+testimonials verbatim, the client logos, "since 2014", Kota, Rajasthan.
+
+**Needs a decision from Kriscent, not from us.**
+- `13` years of experience is on the old site as a hard-coded figure, but
+  founded-2014 makes it 12 in 2026. The counters were approved as they stand, so
+  the number was left alone. Someone should confirm it.
+- No street address exists anywhere in the old markup. The rebuild shows
+  "Kota, Rajasthan, India" rather than inventing one.
+- No Privacy or Terms page exists to link to, so no links were added.
+
+## Structure changes, same pass
+
+- The flagship product is its own band (`sections/ai-calling.tsx`), not a wider
+  card in the grid. It had been both, which is how a page ends up saying the
+  same thing twice.
+- Every industry's builds are in the static HTML. Filtering now hides groups
+  with the `hidden` attribute instead of unmounting them, so six of seven
+  groups are no longer invisible to a crawler.
+- One call to action, everywhere: "Request a demo". One noun: "solutions".
+- FAQ added, marked up as FAQPage.
+- Counters and the CMMI badge each appear once now, in the proof band.

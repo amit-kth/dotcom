@@ -1,31 +1,43 @@
 import Link from "next/link";
-import { site } from "@/config/variables";
+import { asset, contact, site } from "@/config/variables";
 import { categories } from "@/data/categories";
 
 /* ============================================================================
    SiteFooter
    ----------------------------------------------------------------------------
-   Continues the contact band rather than starting a new one, so the page ends
-   on one dark block instead of two. No contact details here: they live one
-   section above, and repeating them is how footers become noise.
+   Continues the contact band rather than starting a new one, but is separated
+   by a hairline and a darker wash, because two identical navy blocks in a row
+   read as one block.
 
-   The logo is a wordmark, not the image: the brand file is dark artwork, and on
-   this surface it would disappear.
+   The logo is the real logo, knocked out to white — the file is dark artwork,
+   so on this surface it needs inverting rather than replacing.
    ========================================================================== */
 
 export function SiteFooter() {
   return (
-    <footer className="surface-ink border-t border-line-on-ink">
+    <footer className="border-t border-line-on-ink bg-[oklch(10%_0.06_277.93)]">
       <div className="shell">
         <div className="grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr]">
           <div>
-            <p className="text-lg font-semibold tracking-[-0.02em]">
-              {site.name}
-            </p>
-            <p className="body dim measure-tight mt-3">
+            <img
+              src={asset("logo/logo.png")}
+              alt={site.name}
+              width={274}
+              height={72}
+              className="h-7 w-auto brightness-0 invert"
+            />
+            <p className="mt-4 max-w-[34ch] text-[0.9375rem] leading-relaxed text-white/60">
               Ready-made software, installed and supported by the team that
               built it.
             </p>
+            <a
+              href="https://kriscent.in"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-5 inline-flex text-[0.9375rem] font-medium text-white/80 underline-offset-4 transition-colors hover:text-white hover:underline"
+            >
+              Custom development at kriscent.in
+            </a>
           </div>
 
           <nav aria-label="Site">
@@ -54,7 +66,7 @@ export function SiteFooter() {
             <h2 className="meta font-semibold uppercase tracking-[0.14em] text-ink-muted">
               Industries
             </h2>
-            <ul className="mt-4 space-y-2.5">
+            <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-2.5">
               {categories.map((category) => (
                 <li key={category.id}>
                   {/* Phase 2 gives each industry its own route. Until then this
@@ -75,7 +87,9 @@ export function SiteFooter() {
           <p className="meta text-ink-muted">
             &copy; {site.founded} to {new Date().getFullYear()} {site.legalName}
           </p>
-          <p className="meta text-ink-muted">CMMI Level 3</p>
+          <p className="meta text-ink-muted">
+            Ready-made software · {contact.locality}
+          </p>
         </div>
       </div>
     </footer>

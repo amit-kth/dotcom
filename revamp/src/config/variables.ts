@@ -75,7 +75,11 @@ export const contact = {
     sales: "sales@kriscent.in",
   },
   phones: ["+91-7240560001", "+91-8947027625"],
-  addressLines: ["TODO(address): street", "TODO(address): city, state, PIN"],
+  /** wa.me link, carried over from the old site's floating button. */
+  whatsapp: "https://wa.me/918947027625",
+  /** The old site never publishes a street address, only the city the company
+      was founded in. A fabricated address is worse than none. */
+  locality: "Kota, Rajasthan, India",
 } as const;
 
 /* ---------------------------------------------------------------------------

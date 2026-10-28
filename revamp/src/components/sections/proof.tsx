@@ -13,6 +13,9 @@ import { clientLogos, cmmi, counters } from "@/data/site-content";
    ink they would disappear. The tiles also keep the wall readable as a grid.
 
    The CMMI artwork is 87% transparent, so it needs an opaque plate.
+
+   Wording note: the badge itself reads "CMMI LEVEL 3" and nothing more. The old
+   site never claimed an appraisal, so neither does this line.
    ========================================================================== */
 
 const SHOWN = 12;
@@ -31,8 +34,8 @@ export function Proof() {
           <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-5">
             <div>
               <p className="eyebrow">Behind the software</p>
-              <h2 id="proof-title" className="title-section mt-3 max-w-[20ch]">
-                The team that builds and supports it.
+              <h2 id="proof-title" className="title-section mt-3 max-w-[22ch]">
+                A track record, not a pitch.
               </h2>
             </div>
 
@@ -53,7 +56,7 @@ export function Proof() {
                   CMMI Level 3
                 </p>
                 <p className="text-[0.6875rem] text-muted-foreground">
-                  independently appraised
+                  since 2014
                 </p>
               </div>
             </div>
@@ -91,20 +94,26 @@ export function Proof() {
           <div className="mt-12 border-t border-border pt-8">
             <div className="flex flex-wrap items-baseline justify-between gap-3">
               <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-                Already running at
+                Trusted by
               </p>
-              {remaining > 0 && (
-                <p className="text-[0.75rem] text-muted-foreground">
-                  and {remaining} more
-                </p>
-              )}
+              <a
+                href="https://kriscent.in/clients"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[0.8125rem] font-medium text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline"
+              >
+                See all {clientLogos.length} clients
+              </a>
             </div>
 
+            {/* One row height, one box, one treatment. They used to be five
+                different sizes at five different weights, which read as
+                carelessness rather than as a client wall. */}
             <ul className="mt-6 grid grid-cols-3 gap-2 sm:grid-cols-4 lg:grid-cols-6">
               {shown.map((logo) => (
                 <li
                   key={logo.src}
-                  className="flex h-16 items-center justify-center rounded-lg border border-border bg-card p-3"
+                  className="group flex h-[4.5rem] items-center justify-center rounded-lg border border-border bg-card px-4"
                 >
                   <img
                     src={asset(logo.src)}
@@ -113,7 +122,7 @@ export function Proof() {
                     height={80}
                     loading="lazy"
                     decoding="async"
-                    className="max-h-8 w-auto max-w-full object-contain"
+                    className="h-7 w-full object-contain opacity-60 grayscale transition duration-300 group-hover:opacity-100 group-hover:grayscale-0"
                   />
                 </li>
               ))}

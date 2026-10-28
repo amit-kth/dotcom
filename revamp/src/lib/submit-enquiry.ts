@@ -20,8 +20,10 @@ export type EnquiryPayload = {
   /** country name, from the phone input */
   country: string;
   message: string;
-  /** product the visitor asked abpit, when the dialog opened from a product */
-  product?: string;
+  /** the business category they picked in the hero, if any */
+  category?: string;
+  /** the solution whose button opened the dialog, if any */
+  solution?: string;
 };
 
 export type EnquiryResult =

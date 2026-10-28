@@ -29,6 +29,42 @@ export const counters: Counter[] = [
 ];
 
 /* ---------------------------------------------------------------------------
+   COMPANY  —  the one sentence about the company, taken from the old site.
+   "founded" and the location are the old site's own facts.
+--------------------------------------------------------------------------- */
+export const company = {
+  headline: "Thirteen years of shipping software, from Kota.",
+  /* Taken from the old site's about copy, trimmed to one sentence. */
+  line: "Kriscent builds and supports its own software — the same team installs it, trains your team and answers afterwards.",
+  location: "Kota, Rajasthan, India",
+  founded: 2014,
+} as const;
+
+/* ---------------------------------------------------------------------------
+   CERTIFICATIONS
+   --------------------------------------------------------------------------
+   TODO(confirm): only CMMI Level 3 has artwork in the repo. ISO 9001:2015 and
+   ISO 27001 are listed on kriscent.in; their badge files are not here yet, so
+   they use the CMMI plate as a stand-in and the names are marked DRAFT until
+   the client confirms the exact wording and supplies the artwork.
+--------------------------------------------------------------------------- */
+export type Certification = {
+  name: string;
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  draft?: boolean;
+};
+
+export const certifications: Certification[] = [
+  { name: "CMMI Level 3", src: "icons/cmmi.webp", alt: "CMMI Level 3", width: 200, height: 200 },
+  /* TODO(badge): real ISO artwork + confirmed wording */
+  { name: "ISO 9001:2015", src: "icons/cmmi.webp", alt: "ISO 9001:2015", width: 200, height: 200, draft: true },
+  { name: "ISO 27001", src: "icons/cmmi.webp", alt: "ISO 27001", width: 200, height: 200, draft: true },
+];
+
+/* ---------------------------------------------------------------------------
    CMMI BADGE
    --------------------------------------------------------------------------
    The source file is 87% fully transparent, so it needs a solid plate behind

@@ -1,48 +1,56 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
 import { ArrowRight, Check, Loader2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { useCategory } from "@/components/category-context";
 import { submitEnquiry } from "@/lib/submit-enquiry";
+import { categories } from "@/data/categories";
+import { featuredProducts } from "@/data/products";
 import { cn } from "@/lib/utils";
 
 /* ============================================================================
-   EnquiryForm  —  one form, used by the contact section and the demo dialog
+   EnquiryForm  —  the only form on the site, used by the demo modal
    ----------------------------------------------------------------------------
-   Fields mirror the old site: name, email, phone (with country code), message.
-   Behaviour mirrors it too: everything required, validated before submit.
+   PURPOSE: capture a lead with minimum friction.
 
-   States implemented: idle, submitting, success, error. Each has its own UI:
-   - submitting: button shows a spinner and is disabled, inputs disabled
-   - success: the form is replaced by a confirmation panel
-   - error: an alert above the button, form keeps what the visitor typed
+   Everything is pre-filled that can be pre-filled: the industry comes from the
+   chip the visitor pressed, and the solution comes from the banner whose button
+   opened the dialog. Both stay editable, because a visitor may open the form
+   from the header and still want to say what they run.
 
-   Accessibility: every field has a <label>, errors are wired with
-   aria-invalid + aria-describedby, and the status message is a live region.
+   The dialog sits on a dark surface, so every field has a visible fill, a
+   visible border and a visible focus ring. A hairline is not a field here.
+
+   States: idle, submitting, success, error. All four are real; the submit
+   function reads API_ENDPOINT from config/variables.ts.
    ========================================================================== */
 
-type EnquiryFormProps = {
-  /** When the dialog is opened from a product row, that product is prefilled. */
-  product?: string;
-  /** Called after a successful submission, e.g. to close the dialog. */
-  onSuccess?: () => void;
-  className?: string;
-};
-
-type Errors = Partial<Record<"name" | "email" | "phone" | "message", string>>;
+type Errors = Partial<
+  Record<"name" | "email" | "phone" | "message" | "category", string>
+>;
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-export function EnquiryForm({ product, onSuccess, className }: EnquiryFormProps) {
+export function EnquiryForm({ product }: { product?: string }) {
   const uid = useId();
+  const { selected } = useCategory();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [country, setCountry] = useState("India");
+  const [category, setCategory] = useState<string>(selected ?? "");
+  const [solution, setSolution] = useState(product ?? "");
   const [message, setMessage] = useState("");
+
+  /* If the dialog is opened after a chip was pressed, the industry fills itself
+     in. Runs on open, not on mount, so it cannot fight what the visitor typed. */
+  useEffect(() => {
+    if (selected) setCategory((current) => current || selected);
+    if (product) setSolution(product);
+  }, [selected, product]);
 
   const [errors, setErrors] = useState<Errors>({});
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">(
@@ -51,14 +59,16 @@ export function EnquiryForm({ product, onSuccess, className }: EnquiryFormProps)
   const [serverError, setServerError] = useState("");
 
   const validate = (): Errors => {
-    const next: Errors = {};
-    if (name.trim().length < 2) next.name = "Please enter your name.";
-    if (!EMAIL_RE.test(email.trim())) next.email = "Please enter a valid email address.";
-    const digits = phone.replace(/\D/g, "");
-    if (digits.length < 6) next.phone = "Please enter a valid phone number.";
+    const found: Errors = {};
+    if (name.trim().length < 2) found.name = "Please enter your name.";
+    if (!EMAIL_RE.test(email.trim()))
+      found.email = "Please enter a valid email address.";
+    if (phone.replace(/\D/g, "").length < 6)
+      found.phone = "Please enter a valid phone number.";
+    if (!category) found.category = "Pick the closest fit.";
     if (message.trim().length < 10)
-      next.message = "Please tell us a little more, at least a line or two.";
-    return next;
+      found.message = "A line or two about what you run is enough.";
+    return found;
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -78,37 +88,30 @@ export function EnquiryForm({ product, onSuccess, className }: EnquiryFormProps)
       email: email.trim(),
       phone: phone.trim(),
       country,
+      category,
+      solution: solution || undefined,
       message: message.trim(),
-      product,
     });
 
     if (result.ok) {
       setStatus("success");
-      onSuccess?.();
     } else {
       setServerError(result.error);
       setStatus("error");
     }
   };
 
-  /* ---------------------------------------------------------------- success */
   if (status === "success") {
     return (
-      <div
-        className={cn(
-          "flex flex-col items-start gap-4 rounded-xl border border-border bg-secondary/60 p-6",
-          className,
-        )}
-        role="status"
-      >
-        <span className="flex size-10 items-center justify-center rounded-full bg-primary text-primary-foreground">
+      <div role="status" className="flex flex-col items-start gap-4 py-4">
+        <span className="flex size-11 items-center justify-center rounded-full bg-accent-bright text-band-base">
           <Check className="size-5" aria-hidden="true" />
         </span>
         <div>
-          <p className="text-base font-semibold">Thank you, that is with us.</p>
-          <p className="mt-1 text-sm text-muted-foreground">
-            We will reply to arrange your demo
-            {product ? ` for ${product}` : ""}.
+          <p className="text-lg font-semibold">That&apos;s with us.</p>
+          <p className="mt-1 text-on-dark-soft">
+            We&apos;ll reply to arrange the demo
+            {solution ? ` of ${solution}` : ""}.
           </p>
         </div>
       </div>
@@ -118,64 +121,54 @@ export function EnquiryForm({ product, onSuccess, className }: EnquiryFormProps)
   const busy = status === "submitting";
 
   return (
-    <form onSubmit={handleSubmit} noValidate className={cn("space-y-4", className)}>
-      {product && (
-        <p className="rounded-md border border-border bg-secondary/60 px-3 py-2 text-xs text-muted-foreground">
-          Enquiry about{" "}
-          <span className="font-semibold text-foreground">{product}</span>
-        </p>
-      )}
-
-      {/* name + email share a row from sm up */}
+    <form onSubmit={handleSubmit} noValidate className="space-y-4">
       <div className="grid gap-4 sm:grid-cols-2">
-        <Field
-          id={`${uid}-name`}
-          label="Your name"
-          error={errors.name}
-          input={
-            <input
-              id={`${uid}-name`}
-              name="name"
-              type="text"
-              autoComplete="name"
-              required
-              value={name}
-              disabled={busy}
-              onChange={(e) => setName(e.target.value)}
-              aria-invalid={Boolean(errors.name)}
-              aria-describedby={errors.name ? `${uid}-name-error` : undefined}
-              className={inputClass(Boolean(errors.name))}
-            />
-          }
-        />
-        <Field
-          id={`${uid}-email`}
-          label="Email address"
-          error={errors.email}
-          input={
-            <input
-              id={`${uid}-email`}
-              name="email"
-              type="email"
-              autoComplete="email"
-              required
-              value={email}
-              disabled={busy}
-              onChange={(e) => setEmail(e.target.value)}
-              aria-invalid={Boolean(errors.email)}
-              aria-describedby={errors.email ? `${uid}-email-error` : undefined}
-              className={inputClass(Boolean(errors.email))}
-            />
-          }
-        />
+        <Field id={`${uid}-name`} label="Name" error={errors.name}>
+          <input
+            id={`${uid}-name`}
+            name="name"
+            autoComplete="name"
+            required
+            value={name}
+            disabled={busy}
+            onChange={(event) => setName(event.target.value)}
+            aria-invalid={Boolean(errors.name)}
+            aria-describedby={errors.name ? `${uid}-name-error` : undefined}
+            className="field"
+          />
+        </Field>
+
+        <Field id={`${uid}-email`} label="Email" error={errors.email}>
+          <input
+            id={`${uid}-email`}
+            name="email"
+            type="email"
+            autoComplete="email"
+            required
+            value={email}
+            disabled={busy}
+            onChange={(event) => setEmail(event.target.value)}
+            aria-invalid={Boolean(errors.email)}
+            aria-describedby={errors.email ? `${uid}-email-error` : undefined}
+            className="field"
+          />
+        </Field>
       </div>
 
-      <Field
-        id={`${uid}-phone`}
-        label="Phone"
-        error={errors.phone}
-        hint="We only use this to arrange the call."
-        input={
+      <div className="grid gap-4 sm:grid-cols-2">
+        <Field id={`${uid}-country`} label="Country">
+          <input
+            id={`${uid}-country`}
+            name="country"
+            autoComplete="country-name"
+            value={country}
+            disabled={busy}
+            onChange={(event) => setCountry(event.target.value)}
+            className="field"
+          />
+        </Field>
+
+        <Field id={`${uid}-phone`} label="Phone" error={errors.phone}>
           <PhoneInput
             defaultCountry="in"
             value={phone}
@@ -184,9 +177,7 @@ export function EnquiryForm({ product, onSuccess, className }: EnquiryFormProps)
               setPhone(value);
               if (meta?.country?.name) setCountry(meta.country.name);
             }}
-            /* Theming lives in app/globals.css under `.phone-field`, driven by
-               the library's own CSS variables. Nothing to override here. */
-            className={cn("phone-field w-full", errors.phone && "phone-field--error")}
+            className={cn("phone-field w-full", errors.phone && "field--error")}
             inputProps={{
               id: `${uid}-phone`,
               name: "phone",
@@ -194,40 +185,76 @@ export function EnquiryForm({ product, onSuccess, className }: EnquiryFormProps)
               "aria-describedby": errors.phone ? `${uid}-phone-error` : undefined,
             }}
           />
-        }
-      />
+        </Field>
+      </div>
 
-      <Field
-        id={`${uid}-message`}
-        label="What are you trying to solve?"
-        error={errors.message}
-        input={
-          <textarea
-            id={`${uid}-message`}
-            name="message"
-            rows={4}
+      <div className="grid gap-4 sm:grid-cols-2">
+        <Field id={`${uid}-category`} label="Business category" error={errors.category}>
+          <select
+            id={`${uid}-category`}
+            name="category"
             required
-            value={message}
+            value={category}
             disabled={busy}
-            onChange={(e) => setMessage(e.target.value)}
-            aria-invalid={Boolean(errors.message)}
-            aria-describedby={errors.message ? `${uid}-message-error` : undefined}
-            className={cn(inputClass(Boolean(errors.message)), "h-auto resize-y py-3")}
-          />
-        }
-      />
+            onChange={(event) => setCategory(event.target.value)}
+            aria-invalid={Boolean(errors.category)}
+            aria-describedby={errors.category ? `${uid}-category-error` : undefined}
+            className={cn("field", !category && "text-on-dark-faint")}
+          >
+            <option value="">Choose one</option>
+            {categories.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.label}
+              </option>
+            ))}
+          </select>
+        </Field>
+
+        <Field id={`${uid}-solution`} label="Solution (optional)">
+          <select
+            id={`${uid}-solution`}
+            name="solution"
+            value={solution}
+            disabled={busy}
+            onChange={(event) => setSolution(event.target.value)}
+            className={cn("field", !solution && "text-on-dark-faint")}
+          >
+            <option value="">Not sure yet</option>
+            {featuredProducts.map((item) => (
+              <option key={item.id} value={item.name}>
+                {item.name}
+              </option>
+            ))}
+          </select>
+        </Field>
+      </div>
+
+      <Field id={`${uid}-message`} label="What are you trying to solve?" error={errors.message}>
+        <textarea
+          id={`${uid}-message`}
+          name="message"
+          rows={3}
+          required
+          value={message}
+          disabled={busy}
+          onChange={(event) => setMessage(event.target.value)}
+          aria-invalid={Boolean(errors.message)}
+          aria-describedby={errors.message ? `${uid}-message-error` : undefined}
+          className="field"
+        />
+      </Field>
 
       {status === "error" && serverError && (
         <p
           role="alert"
-          className="rounded-md border border-primary/40 bg-primary/5 px-3 py-2 text-xs text-foreground"
+          className="rounded-md border border-destructive-on-dark/50 bg-destructive/15 px-3 py-2.5 text-[0.9375rem] text-on-dark"
         >
           {serverError}
         </p>
       )}
 
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 pt-2">
-        <Button type="submit" size="lg" disabled={busy} className="min-w-[10rem]">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 pt-1">
+        <button type="submit" disabled={busy} className="btn-primary min-w-[11rem]">
           {busy ? (
             <>
               <Loader2 className="size-4 animate-spin" aria-hidden="true" />
@@ -235,54 +262,43 @@ export function EnquiryForm({ product, onSuccess, className }: EnquiryFormProps)
             </>
           ) : (
             <>
-              Send enquiry
+              Request a demo
               <ArrowRight className="size-4" aria-hidden="true" />
             </>
           )}
-        </Button>
-        <p className="meta dim">One reply, from a person who works on these products.</p>
+        </button>
+        <p className="text-[0.8125rem] text-on-dark-faint">
+          No signup. No demo credentials.
+        </p>
       </div>
     </form>
   );
 }
 
-/* ------------------------------------------------------------------ helpers */
-
-function inputClass(hasError: boolean) {
-  return cn(
-    /* white, not the paper background: the card is paper, so the field has to
-       sit a step above it or the inputs disappear into it */
-    "h-12 w-full rounded-lg border bg-white px-3.5 text-sm text-foreground",
-    "placeholder:text-muted-foreground/70",
-    "disabled:cursor-not-allowed disabled:opacity-60",
-    hasError ? "border-primary" : "border-border",
-  );
-}
+/* -------------------------------------------------------------------------- */
 
 function Field({
   id,
   label,
-  hint,
   error,
-  input,
+  children,
 }: {
   id: string;
   label: string;
-  hint?: string;
   error?: string;
-  input: React.ReactNode;
+  children: React.ReactNode;
 }) {
   return (
-    <div className="space-y-1.5">
-      <label htmlFor={id} className="block text-xs font-medium text-foreground">
+    <div className="space-y-2">
+      <label
+        htmlFor={id}
+        className="block text-[0.8125rem] font-semibold text-on-dark-soft"
+      >
         {label}
       </label>
-      {input}
-      {hint && !error && (
-        <p className="text-xs text-muted-foreground">{hint}</p>
-      )}
+      {children}
       {error && (
-        <p id={`${id}-error`} className="text-xs font-medium text-primary">
+        <p id={`${id}-error`} className="text-[0.8125rem] font-medium text-destructive-on-dark">
           {error}
         </p>
       )}

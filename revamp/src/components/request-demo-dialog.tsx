@@ -58,7 +58,7 @@ export function RequestDemoDialog({
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>
             Tell us what you run and we will show you the closest thing we have
-            already built. No signup, no software to install.
+            already built.
           </DialogDescription>
         </DialogHeader>
 

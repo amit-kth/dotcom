@@ -1,201 +1,197 @@
 import { type CategoryId } from "./categories";
 
 /* ============================================================================
-   products.ts  —  the catalogue
+   products.ts  —  the solutions
    ----------------------------------------------------------------------------
-   Copy rule for this file: nothing here is longer than one line on a card.
-   A card carries a name, one sentence and two outcomes. Detail belongs on the
-   product page, not on the homepage. If a description needs a comma to survive,
-   it is too long.
+   HOW TO ADD A SOLUTION
+   1. Add an entry to `products`.
+   2. Drop its banner into public/banners/ (or ImageKit at the same path) and
+      put that filename in `banner`.
 
-   STATUS: copy is placeholder where marked, real where the product page exists.
-   Add a product by adding an entry. `categories` takes ids from categories.ts.
-   `availableNow` decides which group a product sits in on /solutions; it is
-   never shown as a badge, because software is not stock in a shop.
-   `links[].url` may be empty: components then render no link at all rather than
-   pointing somewhere that does not exist.
+   BANNER SPEC
+   -----------
+   One aspect ratio for every banner: **16:7** (e.g. 1680 x 735 px, WebP).
+   The left ~55% must be visually calm — text sits there. The artwork belongs on
+   the right. A neutral dark left half is ideal; the component adds a token
+   gradient scrim on top anyway.
+
+   While real banners are missing, every product points at
+   `banners/placeholder.webp`. Replacing it is a file swap: no code change.
+   Search for TODO(banner) to find the ones still waiting.
+
+   LANGUAGE
+   --------
+   "solutions", never "systems" or "products" in visible copy. A solution has:
+   a name, one line of problem, three outcomes of five words or fewer.
+   Prices are never shown, and demo credentials never exist.
    ========================================================================== */
 
-/** Every product is delivered in this many days. A price is never shown. */
+/** Every solution is delivered in this many days. */
 export const DELIVERY_DAYS = 15;
 
-export type ProductLink = { title: string; url: string };
+/** The single banner ratio, so every export matches. */
+export const BANNER_RATIO = "16 / 7";
+
+export type AccentHue = "blue" | "violet" | "coral" | "teal";
 
 export type Product = {
   id: string;
   name: string;
-  /** one sentence, ideally under 60 characters */
-  description: string;
+  /** one line: the problem it removes, not a feature list */
+  problem: string;
   categories: CategoryId[];
-  /** true = in the "available to install" group on /solutions */
-  availableNow: boolean;
-  /** path relative to the assets base, or a full URL */
-  banner: string;
-  /** exactly three, each under 40 characters */
+  /** exactly three, each five words or fewer */
   outcomes: [string, string, string];
-  links: ProductLink[];
-  demoCtaLabel: string;
+  /** drives the hairline and hover spotlight on the banner */
+  accentHue: AccentHue;
+  /** path under ASSETS_BASE_URL */
+  banner: string;
+  /** shown in the default list; `featured` is neutral naming */
+  featured: boolean;
+  /** display order */
+  order: number;
 };
 
-const BANNER = "dummy/banner.webp";
+/* TODO(banner): one placeholder for all of them until the real files arrive.
+   The AI Calling Agents banner supplied by the client is used for that one. */
+const PLACEHOLDER_BANNER = "banners/placeholder.webp";
 
 export const products: Product[] = [
-  /* ---------------------------------------------------------------- fintech */
   {
     id: "ai-calling-agents",
     name: "AI Calling Agents",
-    description: "Voice agents that make the calls your team should not.",
+    problem: "Your team loses hours to calls that never needed a person.",
     categories: ["fintech"],
-    availableNow: true,
-    // Real banner, supplied by Kapil sir.
-    banner: "https://ik.imagekit.io/qk2ww553c/tempAssets/revamp/hero-poster.webp",
     outcomes: [
       "Routine calls handled end to end",
       "Warm leads passed to your team",
       "Every call recorded and searchable",
     ],
-    // TODO(link): this product site is not published yet.
-    links: [{ title: "Ask about this build", url: "" }],
-    demoCtaLabel: "Ask about this build",
+    accentHue: "blue",
+    // The one real banner we have. TODO(banner): confirm 16:7 export exists.
+    banner: "https://ik.imagekit.io/qk2ww553c/tempAssets/revamp/hero-poster.webp",
+    featured: true,
+    order: 1,
   },
-
-  /* -------------------------------------------------------------- astrology */
   {
     id: "kastrofy",
     name: "Kastrofy",
-    description: "Consultations, subscriptions and content in one platform.",
+    problem: "Consultations and content live in five different tools.",
     categories: ["astrology"],
-    availableNow: true,
-    banner: BANNER,
     outcomes: [
       "Bookings and payments in one place",
       "Repeat clients handled automatically",
       "Content published from one dashboard",
     ],
-    links: [{ title: "Product page", url: "https://kriscent.in/product/kastrofy/" }],
-    demoCtaLabel: "Request a demo",
+    accentHue: "violet",
+    banner: PLACEHOLDER_BANNER,
+    featured: true,
+    order: 2,
   },
-
-  /* ----------------------------------------------------------------- edtech */
   {
     id: "kexam",
     name: "K-Exam",
-    description: "Online exams, question banks and instant results.",
+    problem: "Exams take a week of marking after the paper ends.",
     categories: ["edtech"],
-    availableNow: true,
-    banner: BANNER,
     outcomes: [
       "Build tests from a question bank",
       "Results without manual marking",
       "Students see their own scorecard",
     ],
-    links: [
-      { title: "Product page", url: "https://www.kriscent.in/product/kexam/" },
-    ],
-    demoCtaLabel: "Request a demo",
+    accentHue: "coral",
+    banner: PLACEHOLDER_BANNER,
+    featured: true,
+    order: 3,
   },
-
-  /* -------------------------------------------------------------- whatsapp */
   {
     id: "whatsapp-crm",
     name: "WhatsApp CRM",
-    description: "Every enquiry, follow-up and broadcast inside WhatsApp.",
+    problem: "Enquiries scattered across personal phones get forgotten.",
     categories: ["manufacturing"],
-    availableNow: true,
-    banner: BANNER,
     outcomes: [
       "One shared inbox for enquiries",
       "Follow-ups assigned to a person",
       "Broadcasts sent from the CRM",
     ],
-    links: [{ title: "Ask about this build", url: "" }],
-    demoCtaLabel: "Request a demo",
+    accentHue: "teal",
+    banner: PLACEHOLDER_BANNER,
+    featured: true,
+    order: 4,
   },
-
-  /* ------------------------------------------------------------------- lms */
   {
     id: "lms",
     name: "LMS",
-    description: "Courses, batches and progress for training teams.",
+    problem: "Training progress lives in spreadsheets nobody updates.",
     categories: ["edtech"],
-    availableNow: true,
-    banner: BANNER,
     outcomes: [
       "Courses and batches in one place",
       "Trainers see learner progress",
       "Certificates issued on completion",
     ],
-    links: [{ title: "Ask about this build", url: "" }],
-    demoCtaLabel: "Request a demo",
+    accentHue: "violet",
+    banner: PLACEHOLDER_BANNER,
+    /* the homepage shows one solution per industry; the second EdTech
+       solution lives on /solutions so the stack does not repeat itself */
+    featured: false,
+    order: 5,
   },
-
-  /* ------------------------------------------------- built for a single client */
   {
     id: "doctorplus",
     name: "DoctorPlus",
-    description: "Clinic appointments, patient records and billing.",
+    problem: "Clinic appointments and records sit in separate registers.",
     categories: ["healthcare"],
-    availableNow: false,
-    banner: BANNER,
     outcomes: [
       "Appointments booked online",
       "Patient history in one record",
       "Billing at the front desk",
     ],
-    links: [
-      {
-        title: "Product page",
-        url: "https://www.kriscent.com/product/doctorplus/",
-      },
-    ],
-    demoCtaLabel: "Request a demo",
+    accentHue: "coral",
+    banner: PLACEHOLDER_BANNER,
+    featured: true,
+    order: 6,
   },
   {
     id: "kparking",
     name: "K-Parking",
-    description: "Slots, passes and collections for parking operators.",
+    problem: "Parking collections are counted by hand at the gate.",
     categories: ["logistics"],
-    availableNow: false,
-    banner: BANNER,
     outcomes: [
       "Slots and passes managed live",
       "Daily collection visible",
       "Monthly passes renewed online",
     ],
-    links: [
-      {
-        title: "Product page",
-        url: "https://www.kriscent.com/product/kparking/",
-      },
-    ],
-    demoCtaLabel: "Request a demo",
+    accentHue: "teal",
+    banner: PLACEHOLDER_BANNER,
+    featured: true,
+    order: 7,
   },
   {
     id: "krealestate",
-    name: "K-RealEstate",
-    description: "Listings, enquiries and site visits for property teams.",
+    name: "KRealEstate",
+    problem: "Listings, site visits and follow-ups all run on a phone.",
     categories: ["real-estate"],
-    availableNow: false,
-    banner: BANNER,
     outcomes: [
-      "Listings published from one place",
-      "Enquiries tracked to a visit",
-      "Follow-ups never left open",
+      "Listings published from one dashboard",
+      "Site visits scheduled by your team",
+      "Every enquiry assigned to an agent",
     ],
-    links: [
-      {
-        title: "Product page",
-        url: "https://kriscent.com/product/krealestate/",
-      },
-    ],
-    demoCtaLabel: "Request a demo",
+    accentHue: "violet",
+    banner: PLACEHOLDER_BANNER,
+    featured: true,
+    order: 8,
   },
 ];
 
 /* ---------------------------------------------------------------- helpers */
 
-/** The five we can install without a scoping call, in the order shown. */
-export const availableProducts = products.filter((p) => p.availableNow);
+export const featuredProducts = products
+  .filter((product) => product.featured)
+  .sort((a, b) => a.order - b.order);
 
 export const productsInCategory = (id: CategoryId) =>
-  products.filter((p) => p.categories.includes(id));
+  products
+    .filter((product) => product.categories.includes(id))
+    .sort((a, b) => a.order - b.order);
+
+/** Never null: falls back to the whole list, which is the default view. */
+export const productById = (id: string) => products.find((p) => p.id === id);

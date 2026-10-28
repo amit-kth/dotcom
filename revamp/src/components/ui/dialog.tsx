@@ -8,41 +8,21 @@ import { cn } from "@/lib/utils";
 /* ============================================================================
    Dialog  —  shadcn/ui pattern, hand-written on Radix
    ----------------------------------------------------------------------------
-   Used for "Request a demo": it opens with the chosen product pre-filled and
-   renders the same <EnquiryForm /> used on the contact section, so there is one
-   form component, not two.
+   Used by "Request a demo": it opens with the industry and solution already
+   filled in, and renders the one <EnquiryForm />.
 
-   Hand-written rather than pulled with `npx shadcn add` because the shadcn
-   registry host is not reachable from the build environment. The API is
-   identical to the official component, and components.json is present, so
-   `npx shadcn add ...` works on a normal machine.
+   Radix provides the parts that are easy to get wrong: focus trap, Escape,
+   aria-modal, labelled by the title, described by the description, focus
+   returned to the trigger on close, and scroll lock on the body.
 
-   Accessibility (Radix handles it): focus trap, Esc to close, aria-modal,
-   labelled by the title, described by the description, and focus returned to
-   the trigger on close.
-
-   The enter animation is six lines of CSS in app/globals.css keyed off
-   data-state. The usual `animate-in` / `fade-in-0` utility classes come from
-   the tailwindcss-animate plugin, which this project does not install, so they
-   would silently do nothing.
+   The enter animation is a few lines of CSS in globals.css keyed off
+   data-state, because the usual animate-in utilities come from a plugin this
+   project does not install.
    ========================================================================== */
 
 const Dialog = DialogPrimitive.Root;
 const DialogTrigger = DialogPrimitive.Trigger;
-const DialogPortal = DialogPrimitive.Portal;
 const DialogClose = DialogPrimitive.Close;
-
-function DialogOverlay({
-  className,
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Overlay>) {
-  return (
-    <DialogPrimitive.Overlay
-      className={cn("dialog-overlay fixed inset-0 z-50 bg-foreground/60 backdrop-blur-sm", className)}
-      {...props}
-    />
-  );
-}
 
 function DialogContent({
   className,
@@ -50,35 +30,30 @@ function DialogContent({
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Content>) {
   return (
-    <DialogPortal>
-      <DialogOverlay />
+    <DialogPrimitive.Portal>
+      <DialogPrimitive.Overlay className="dialog-overlay fixed inset-0 z-50 bg-material backdrop-blur-[3px]" />
       <DialogPrimitive.Content
         className={cn(
-          "dialog-content fixed left-1/2 top-1/2 z-50 w-[calc(100%-2rem)] max-w-lg -translate-x-1/2 -translate-y-1/2",
-          "max-h-[90vh] overflow-y-auto rounded-xl border border-border bg-background p-6 shadow-lg",
+          "dialog-content modal-surface fixed left-1/2 top-1/2 z-50 w-[calc(100%-1.5rem)] max-w-xl -translate-x-1/2 -translate-y-1/2",
+          "max-h-[92svh] overflow-y-auto rounded-lg p-6 sm:p-8",
           className,
         )}
         {...props}
       >
         {children}
         <DialogPrimitive.Close
-          className="absolute right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-          aria-label="Close dialog"
+          className="absolute right-4 top-4 flex size-11 items-center justify-center rounded-md text-on-dark-soft transition-colors hover:bg-glass hover:text-on-dark"
+          aria-label="Close"
         >
-          <X className="size-4" />
+          <X className="size-5" aria-hidden="true" />
         </DialogPrimitive.Close>
       </DialogPrimitive.Content>
-    </DialogPortal>
+    </DialogPrimitive.Portal>
   );
 }
 
-function DialogHeader({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      className={cn("mb-4 flex flex-col gap-1.5 pr-8 text-left", className)}
-      {...props}
-    />
-  );
+function DialogHeader({ children }: { children: React.ReactNode }) {
+  return <div className="mb-6 pr-12">{children}</div>;
 }
 
 function DialogTitle({
@@ -87,10 +62,7 @@ function DialogTitle({
 }: React.ComponentProps<typeof DialogPrimitive.Title>) {
   return (
     <DialogPrimitive.Title
-      className={cn(
-        "text-lg font-semibold leading-tight tracking-[-0.01em]",
-        className,
-      )}
+      className={cn("text-2xl font-bold tracking-[-0.03em] text-on-dark", className)}
       {...props}
     />
   );
@@ -102,7 +74,7 @@ function DialogDescription({
 }: React.ComponentProps<typeof DialogPrimitive.Description>) {
   return (
     <DialogPrimitive.Description
-      className={cn("text-sm text-muted-foreground", className)}
+      className={cn("mt-2 text-[1rem] leading-relaxed text-on-dark-soft", className)}
       {...props}
     />
   );

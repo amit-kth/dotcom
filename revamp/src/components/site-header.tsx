@@ -128,7 +128,7 @@ export function SiteHeader() {
 
         <div className="flex items-center gap-2">
           <div className="hidden sm:block">
-            <RequestDemoDialog label="Request a demo" size="sm" />
+            <RequestDemoDialog label="Request a demo" size="sm" variant="outline" />
           </div>
 
           <button

@@ -25,25 +25,23 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        /* the single primary action, light surfaces */
+        /* the one primary action on this site, on every dark band */
         default:
-          "bg-primary text-primary-foreground shadow-[0_1px_0_0_hsl(var(--primary)/0.9)] hover:bg-primary/92 active:translate-y-px",
-        /* same job, on a dark band */
+          "btn-primary",
+        /* same action, on a light surface: the inverse */
         onInk:
-          "bg-ink-foreground text-ink hover:bg-white active:translate-y-px",
+          "bg-on-dark text-band-base hover:bg-on-dark active:translate-y-px",
         /* quiet secondary */
         outline:
-          "border border-border bg-transparent text-foreground hover:border-foreground/35 hover:bg-secondary",
-        /* quiet secondary, on a dark band */
-        outlineOnInk:
-          "border border-line-on-ink bg-transparent text-ink-foreground hover:border-ink-foreground/45 hover:bg-white/5",
-        ghost: "text-foreground hover:bg-secondary",
-        link: "text-primary underline-offset-4 hover:underline",
+          "border border-glass-border bg-transparent text-on-dark hover:border-glass-border-hover hover:bg-glass",
+        /* a text link */
+        link: "text-accent-bright underline-offset-4 hover:underline",
       },
       size: {
-        sm: "h-9 px-4 text-[0.8125rem]",
-        default: "h-11 px-5 text-sm",
-        lg: "h-12 px-6 text-[0.9375rem]",
+        /* tap targets: never under 44px */
+        sm: "h-11 px-5 text-[0.9375rem]",
+        default: "h-12 px-6 text-[0.9375rem]",
+        lg: "h-14 px-8 text-base",
         icon: "size-11",
       },
     },

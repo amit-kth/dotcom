@@ -28,6 +28,20 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
+      <head>
+        {/* Framer Motion leaves its "before" state as an inline style
+            (opacity: 0). Without JavaScript that style never gets replaced and
+            the page would read as empty, so the no-JS case gets one rule that
+            removes every reveal state. */}
+        <noscript>
+          <style
+            dangerouslySetInnerHTML={{
+              __html:
+                '[style*="opacity:0"],[style*="opacity: 0"]{opacity:1!important;transform:none!important}',
+            }}
+          />
+        </noscript>
+      </head>
       <body
         className={`${display.variable} min-h-screen bg-band-base text-foreground antialiased`}
       >

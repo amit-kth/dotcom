@@ -21,7 +21,16 @@ Nothing else in the hero competes with it:
 
 The header is quiet for the same reason: on the homepage it is transparent over
 the hero photograph (white wordmark, white nav) and turns into a solid light bar
-once the page scrolls past the hero. A bar with a filled button across the top
+once the page scrolls past the hero. It is `position: fixed` on that page, not
+sticky — a sticky header keeps 64px of real estate that a hero section can only
+reach into by being clipped, which is exactly what happened. Fixed takes it out
+of flow, so the photograph starts at y=0 and genuinely sits underneath it.
+
+**The hero fits the first screen.** Every vertical measurement in `.hero-body`,
+`.hero-title`, `.hero-lead` and `.hero-panel` is tied to vh, so a 630px laptop
+window and a 1100px desktop both show the badge, headline, lead, the whole panel
+and space beneath it. Measured: 1350×629 leaves 61px below the panel, 1440×900
+leaves 169px, 390×844 leaves 94px. A bar with a filled button across the top
 of the image would pull the eye away from the panel.
 
 **The hero photograph** (`public/hero/hero-team.jpg`) is atmosphere, not

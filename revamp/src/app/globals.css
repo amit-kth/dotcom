@@ -298,8 +298,55 @@
    both well past AA. The earlier version was a flat 19:1 wash that crushed the
    image to black; that is why the photo "disappeared".
    -------------------------------------------------------------------------- */
+:root {
+  --header-h: 4rem;
+}
+
 .hero-photo {
   --scrim: oklch(13.23% 0.0756 277.93);
+}
+
+/* --- hero fit -------------------------------------------------------------
+   The hero is the first screen, so it has to fit the first screen. Every
+   vertical measurement here is tied to viewport height, which means a 630px
+   laptop window and a 1100px desktop both show the badge, the headline, the
+   lead, the whole panel, and air beneath it -- instead of the panel being
+   sliced off at the fold, which is the one thing that has broken this hero
+   twice now.
+   -------------------------------------------------------------------------- */
+.hero-body {
+  padding-top: calc(var(--header-h) + clamp(1.25rem, 4.5vh, 3rem));
+  padding-bottom: clamp(2.25rem, 6vh, 5rem);
+}
+
+.hero-title {
+  font-size: clamp(1.75rem, min(3.6vw, 6.1vh), 3.125rem);
+  margin-top: clamp(0.75rem, 2vh, 1.375rem);
+}
+
+.hero-lead {
+  margin-top: clamp(0.625rem, 1.7vh, 1rem);
+}
+
+.hero-panel {
+  margin-top: clamp(1.125rem, 3.2vh, 2.25rem);
+}
+
+/* Short windows: take the padding out of the tiles before taking the content
+   out of the hero. */
+@media (max-height: 780px) {
+  .hero-tile {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+}
+
+/* A phone held sideways has no room for a lead paragraph over a photograph.
+   The headline and the control still fit, which is the point. */
+@media (max-height: 560px) {
+  .hero-lead {
+    display: none;
+  }
 }
 
 .hero-photo::after {

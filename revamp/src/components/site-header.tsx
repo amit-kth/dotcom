@@ -55,7 +55,12 @@ export function SiteHeader({ overHero = false }: SiteHeaderProps) {
   return (
     <header
       className={cn(
-        "sticky top-0 z-40 transition-colors duration-300",
+        "z-40 transition-colors duration-300",
+        /* On a page that opens with a photograph the header is taken out of
+           flow entirely. That is the only way the image can sit behind it:
+           a sticky header keeps its 64px of real estate, and the hero below it
+           can never reach up into that space without being clipped. */
+        overHero ? "fixed inset-x-0 top-0" : "sticky top-0",
         inverted
           ? "border-b border-white/10 bg-transparent"
           : "border-b border-border bg-background/85 backdrop-blur-md",

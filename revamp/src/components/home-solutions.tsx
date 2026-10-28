@@ -86,16 +86,13 @@ export function HomeSolutions() {
     <>
       {/* ================================================== 1. the opening ==== */}
       <section
-        className="surface-ink hero-photo relative isolate overflow-hidden"
+        className="surface-ink hero-photo relative isolate flex min-h-[100svh] flex-col justify-center overflow-hidden"
         aria-labelledby="hero-title"
       >
         {/* The photo is atmosphere: it is desaturated and pushed behind the
             duotone in globals.css, so what the visitor sees first is the
             selector panel, not the people in the frame. It is also a
             placeholder: replace with a real photograph of this team. */}
-        {/* -top-16 / +4.5rem: the photo reaches up behind the transparent
-            sticky header. Without the negative offset the header sits on the
-            page background and the image visibly starts below it. */}
         <img
           src={asset("hero/hero-team.jpg")}
           alt=""
@@ -103,29 +100,31 @@ export function HomeSolutions() {
           width={1584}
           height={672}
           fetchPriority="high"
-          className="hero-photo-img absolute inset-x-0 -top-[4.5rem] -z-10 h-[calc(100%+4.5rem)] w-full object-cover object-center"
+          className="hero-photo-img absolute inset-0 -z-10 size-full object-cover object-center"
         />
 
-        <div className="shell relative z-10 pb-16 pt-[4.5rem] sm:pt-20 lg:pb-20 lg:pt-24">
+        <div className="shell hero-body relative z-10">
           <div className="mx-auto max-w-[46rem] text-center">
             <p className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-[0.6875rem] font-semibold uppercase tracking-[0.14em] text-ink-foreground/75 backdrop-blur-sm">
               <span className="size-1.5 rounded-full bg-peri" aria-hidden="true" />
               Ready-made software
             </p>
 
-            <h1 id="hero-title" className="display mt-5 text-white">
+            <h1 id="hero-title" className="display hero-title text-white">
               Software your business can run in{" "}
-              <span className="text-peri">15 days</span>.
+              {/* nowrap: the phrase is the promise, it must not break as
+                  "…in 15 / days." on a narrow window. */}
+              <span className="whitespace-nowrap text-peri">15 days</span>.
             </h1>
 
-            <p className="lead mx-auto mt-4 max-w-[32rem] text-ink-foreground/70">
+            <p className="lead hero-lead mx-auto max-w-[32rem] text-ink-foreground/70">
               Pick your industry and we will show you what we have already
               built, installed and running.
             </p>
           </div>
 
           {/* ============ the control. the most important object on the page. */}
-          <div className="mx-auto mt-9 max-w-[52rem]">
+          <div className="hero-panel mx-auto max-w-[52rem]">
             <div className="rounded-[1.25rem] border border-white/15 bg-card p-4 shadow-[0_2px_4px_oklch(13.23%_0.0756_277.93/0.2),0_40px_90px_-30px_oklch(0%_0_0/0.85)] sm:p-6">
               <div className="flex flex-wrap items-center justify-between gap-2 px-1">
                 <p className="text-[0.9375rem] font-semibold text-foreground">
@@ -153,7 +152,7 @@ export function HomeSolutions() {
                       aria-pressed={active}
                       onClick={() => choose(active ? null : category.id)}
                       className={cn(
-                        "group relative flex items-center gap-3 rounded-xl border px-3 py-3 text-left transition-all duration-200",
+                        "hero-tile group relative flex items-center gap-3 rounded-xl border px-3 py-3 text-left transition-all duration-200",
                         "focus-visible:outline-2 focus-visible:outline-offset-2",
                         active
                           ? "border-primary bg-primary text-primary-foreground shadow-[0_10px_24px_-12px_oklch(49.03%_0.2158_264.38/0.9)]"
@@ -207,7 +206,7 @@ export function HomeSolutions() {
                   aria-pressed={selected === null}
                   onClick={() => choose(null)}
                   className={cn(
-                    "group relative flex items-center gap-3 rounded-xl border px-3 py-3 text-left transition-all duration-200",
+                    "hero-tile group relative flex items-center gap-3 rounded-xl border px-3 py-3 text-left transition-all duration-200",
                     "focus-visible:outline-2 focus-visible:outline-offset-2",
                     selected === null
                       ? "border-primary bg-primary text-primary-foreground shadow-[0_10px_24px_-12px_oklch(49.03%_0.2158_264.38/0.9)]"

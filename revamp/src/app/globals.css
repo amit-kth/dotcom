@@ -286,122 +286,183 @@
 }
 
 /* --- ambient -------------------------------------------------------------- */
-/* --- hero backdrop --------------------------------------------------------
-   A photograph behind a dark scrim, not a dark page with a photo buried in it.
-   The stops are measured, not guessed:
-
-     top     darkest, because the transparent header sits over the photo here
-     ~50%    lightest, so the room and the team are actually visible
-     bottom  dark again, then fades into the page background at the last stop
-
-   White text on this measures 14:1 in the headline band and 10:1 over the lead,
-   both well past AA. The earlier version was a flat 19:1 wash that crushed the
-   image to black; that is why the photo "disappeared".
+/* --- hero field -----------------------------------------------------------
+   No photograph. A dark surface with two soft light pools for depth, a fine
+   grid that fades out before it reaches the edges, and the mockups placed in
+   that space. The photograph was the reason this read as a stock SaaS
+   template: it could belong to any company. Nothing here can.
    -------------------------------------------------------------------------- */
-:root {
-  --header-h: 4rem;
+.hero-field {
+  background:
+    radial-gradient(
+      115% 85% at 76% 12%,
+      oklch(32% 0.15 272 / 0.5) 0%,
+      transparent 58%
+    ),
+    radial-gradient(
+      85% 75% at 8% 92%,
+      oklch(27% 0.09 288 / 0.42) 0%,
+      transparent 62%
+    ),
+    oklch(13.23% 0.0756 277.93);
 }
 
-.hero-photo {
-  --scrim: oklch(13.23% 0.0756 277.93);
+.hero-field::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(to right, oklch(100% 0 0 / 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, oklch(100% 0 0 / 0.05) 1px, transparent 1px);
+  background-size: 68px 68px;
+  -webkit-mask-image: radial-gradient(78% 72% at 52% 42%, black, transparent 76%);
+  mask-image: radial-gradient(78% 72% at 52% 42%, black, transparent 76%);
 }
 
 /* --- hero fit -------------------------------------------------------------
    The hero is the first screen, so it has to fit the first screen. Every
-   vertical measurement here is tied to viewport height, which means a 630px
-   laptop window and a 1100px desktop both show the badge, the headline, the
-   lead, the whole panel, and air beneath it -- instead of the panel being
-   sliced off at the fold, which is the one thing that has broken this hero
-   twice now.
+   vertical measurement is tied to viewport height, so a 630px laptop window
+   and a 1100px desktop both show the whole thing rather than slicing the
+   bottom off at the fold.
    -------------------------------------------------------------------------- */
 .hero-body {
-  padding-top: calc(var(--header-h) + clamp(1.25rem, 4.5vh, 3rem));
-  padding-bottom: clamp(2.25rem, 6vh, 5rem);
+  padding-top: calc(var(--header-h) + clamp(2.5rem, 7vh, 5rem));
+  padding-bottom: clamp(2.5rem, 7vh, 5rem);
 }
 
-.hero-title {
-  font-size: clamp(1.75rem, min(3.6vw, 6.1vh), 3.125rem);
-  margin-top: clamp(0.75rem, 2vh, 1.375rem);
+/* Large on purpose: at this size the type is the design. */
+.hero-h1 {
+  font-size: clamp(2.5rem, min(4.9vw, 9.8vh), 4rem);
+  line-height: 0.98;
+  letter-spacing: -0.042em;
+  font-weight: 600;
+  text-wrap: balance;
 }
 
-.hero-lead {
-  margin-top: clamp(0.875rem, 2vh, 1.25rem);
+.hero-sub {
+  margin-top: clamp(0.875rem, 2vh, 1.375rem);
 }
 
-.hero-panel {
-  margin-top: clamp(1.5rem, 3.4vh, 2.5rem);
+.hero-chips {
+  margin-top: clamp(1.25rem, 3.4vh, 2rem);
 }
 
-/* Short windows: take the padding out of the tiles before taking the content
-   out of the hero. */
-@media (max-height: 780px) {
-  .hero-tile {
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+/* "15" as a hollow numeral. It is the one number worth remembering, so it is
+   drawn rather than printed. Falls back to a solid accent where text-stroke
+   is unsupported. */
+.hero-num {
+  color: var(--peri);
+  font-variant-numeric: tabular-nums;
+}
+
+@supports (-webkit-text-stroke: 1px currentColor) {
+  .hero-num {
+    color: transparent;
+    -webkit-text-stroke: 0.028em var(--peri);
+    text-shadow: 0 0 60px oklch(78% 0.1 264.38 / 0.45);
   }
 }
 
-/* A phone held sideways has no room for a lead paragraph over a photograph.
-   The headline and the control still fit, which is the point. */
-@media (max-height: 560px) {
-  .hero-lead {
+/* --- the stage: mockups in space ------------------------------------------
+   A product screen tilted back on the right, with a phone over its corner,
+   and a glow behind both that takes its colour from the picked industry.
+   -------------------------------------------------------------------------- */
+.hero-stage {
+  --glow: #2c53e0;
+  position: relative;
+  perspective: 1500px;
+}
+
+.hero-stage[data-accent="blue"] {
+  --glow: #2c53e0;
+}
+.hero-stage[data-accent="coral"] {
+  --glow: #ec554c;
+}
+.hero-stage[data-accent="violet"] {
+  --glow: #7a4dee;
+}
+
+.hero-glow {
+  position: absolute;
+  inset: -22% -16%;
+  z-index: 0;
+  background: radial-gradient(
+    50% 50% at 56% 42%,
+    var(--glow) 0%,
+    transparent 70%
+  );
+  filter: blur(60px);
+  opacity: 0.45;
+  transition: opacity 400ms ease;
+}
+
+.hero-browser {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  border-radius: 0.9rem;
+  border: 1px solid oklch(100% 0 0 / 0.16);
+  background: #fff;
+  box-shadow:
+    0 50px 110px -40px oklch(0% 0 0 / 0.95),
+    0 2px 0 oklch(100% 0 0 / 0.07);
+  transform: rotateY(-13deg) rotateX(5deg) rotateZ(-1.5deg);
+  transform-origin: 65% 50%;
+}
+
+.hero-browser-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.55rem 0.75rem;
+  background: oklch(96% 0.008 260);
+  border-bottom: 1px solid oklch(90% 0.015 260.03);
+}
+
+.hero-dot {
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 999px;
+  background: oklch(85% 0.012 260);
+}
+
+.hero-phone {
+  position: absolute;
+  z-index: 2;
+  left: -11%;
+  bottom: -7%;
+  width: 25%;
+  aspect-ratio: 9 / 17.5;
+  overflow: hidden;
+  border-radius: 1.25rem;
+  border: 5px solid #0c0c15;
+  background: #fff;
+  box-shadow: 0 34px 70px -24px oklch(0% 0 0 / 0.9);
+  transform: rotateY(-9deg) rotateZ(-4deg);
+}
+
+@media (max-width: 1023px) {
+  .hero-body {
+    padding-top: calc(var(--header-h) + 2rem);
+    padding-bottom: 3rem;
+  }
+
+  /* A phone inside a phone is noise, and there is no room for the perspective
+     to read. The screen alone carries it. */
+  .hero-phone {
     display: none;
   }
-}
 
-.hero-photo::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -5;
-  background: linear-gradient(
-    to bottom,
-    oklch(13.23% 0.0756 277.93 / 0.82) 0%,
-    oklch(13.23% 0.0756 277.93 / 0.66) 18%,
-    oklch(13.23% 0.0756 277.93 / 0.5) 36%,
-    oklch(13.23% 0.0756 277.93 / 0.3) 54%,
-    oklch(13.23% 0.0756 277.93 / 0.24) 70%,
-    oklch(13.23% 0.0756 277.93 / 0.42) 80%,
-    oklch(13.23% 0.0756 277.93 / 0.62) 88%,
-    oklch(13.23% 0.0756 277.93 / 0.1) 100%
-  );
-}
-
-/* A cool cast so the photo belongs to this palette instead of sitting on it. */
-.hero-photo::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -4;
-  background: linear-gradient(
-    118deg,
-    oklch(30% 0.17 271 / 0.55) 0%,
-    oklch(26% 0.13 280 / 0.28) 42%,
-    oklch(18% 0.09 288 / 0.5) 100%
-  );
-  mix-blend-mode: multiply;
-}
-
-/* The photo itself is lifted: the source is a dark evening scene, and at its
-   native exposure nothing survives the scrim. */
-.hero-photo-img {
-  filter: brightness(1.5) contrast(1.12) saturate(0.62);
-}
-
-/* Mobile never has room for a background this busy behind four lines of type,
-   so the photo is turned down rather than removed. */
-@media (max-width: 640px) {
-  .hero-photo-img {
-    filter: brightness(1.2) contrast(1.12) saturate(0.5);
+  .hero-browser {
+    transform: rotateY(-7deg) rotateX(3deg) rotateZ(-1deg);
+    transform-origin: 50% 50%;
   }
-  .hero-photo::after {
-    background: linear-gradient(
-      to bottom,
-      oklch(13.23% 0.0756 277.93 / 0.9) 0%,
-      oklch(13.23% 0.0756 277.93 / 0.82) 45%,
-      oklch(13.23% 0.0756 277.93 / 0.9) 82%,
-      var(--background) 100%
-    );
+
+  .hero-glow {
+    inset: -12% -10%;
+    opacity: 0.38;
   }
 }
 
@@ -422,4 +483,31 @@
 }
 .dialog-content[data-state="open"] {
   animation: content-in 200ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* --- a little motion, and only a little ------------------------------------
+   The words arrive first, the control follows, the mockup last. It gives the
+   first screen a sense of being composed rather than loaded, and it is four
+   lines of CSS, so it costs nothing. Anyone who has asked their system not to
+   animate gets a still page.
+   -------------------------------------------------------------------------- */
+@keyframes hero-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.hero-in {
+  animation: hero-in 700ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-in {
+    animation: none;
+  }
 }

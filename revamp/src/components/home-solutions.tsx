@@ -5,17 +5,14 @@ import Link from "next/link";
 import {
   ArrowRight,
   Building2,
-  ChevronRight,
   Factory,
   GraduationCap,
   HeartPulse,
   Landmark,
-  LayoutGrid,
   type LucideIcon,
   Sparkles,
   Truck,
 } from "lucide-react";
-import { asset } from "@/config/variables";
 import { Reveal } from "@/components/ui/reveal";
 import { RequestDemoDialog } from "@/components/request-demo-dialog";
 import {
@@ -23,6 +20,7 @@ import {
   NoSolutions,
   SolutionCard,
 } from "@/components/solution-card";
+import { ProductVisual, VISUAL_BY_PRODUCT } from "@/components/product-visual";
 import { categories, categoryLabel, type CategoryId } from "@/data/categories";
 import { availableProducts, products, productsInCategory } from "@/data/products";
 import { counters } from "@/data/site-content";
@@ -65,7 +63,7 @@ const ICONS: Record<CategoryId, LucideIcon> = {
  *  three pipes read as a table squeezed into a footer. */
 function Dot() {
   return (
-    <span aria-hidden="true" className="text-border">
+    <span aria-hidden="true" className="text-white/25">
       ·
     </span>
   );
@@ -74,6 +72,16 @@ function Dot() {
 export function HomeSolutions() {
   const [selected, setSelected] = useState<CategoryId | null>(null);
   const listRef = useRef<HTMLDivElement | null>(null);
+
+  /* Which screen stands in the hero. No choice yet: the first thing we can
+     install today. After a choice: that industry's own build, so the hero
+     answers in the visitor's context instead of a generic one. */
+  const stage = useMemo(() => {
+    const product = selected ? productsInCategory(selected)[0] : availableProducts[0];
+    return product
+      ? VISUAL_BY_PRODUCT[product.id]
+      : { variant: "dashboard" as const, accent: "blue" as const };
+  }, [selected]);
 
   const visible = useMemo(
     () => (selected ? productsInCategory(selected) : availableProducts),
@@ -85,154 +93,76 @@ export function HomeSolutions() {
   const activeLabel = selected ? categoryLabel(selected) : null;
 
   const choose = (id: CategoryId | null) => {
+    /* No scrolling on purpose. The pick changes the hero — the mockup, its
+       accent and the glow behind it — and scrolling away from that would hide
+       the answer at the exact moment it arrives. The list below updates in
+       place, and the announcement below covers it for screen readers. */
     setSelected(id);
-    /* The pick has to do something visible, or the tiles are just decoration. */
-    window.requestAnimationFrame(() => {
-      listRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
   };
 
   return (
     <>
       {/* ================================================== 1. the opening ==== */}
       <section
-        className="surface-ink hero-photo relative isolate flex min-h-[100svh] flex-col justify-center overflow-hidden"
+        className="hero-field relative isolate flex min-h-[min(100svh,50rem)] flex-col justify-center overflow-hidden"
         aria-labelledby="hero-title"
       >
-        {/* The photo is atmosphere: it is desaturated and pushed behind the
-            duotone in globals.css, so what the visitor sees first is the
-            selector panel, not the people in the frame. It is also a
-            placeholder: replace with a real photograph of this team. */}
-        <img
-          src={asset("hero/hero-team.jpg")}
-          alt=""
-          aria-hidden="true"
-          width={1584}
-          height={672}
-          fetchPriority="high"
-          className="hero-photo-img absolute inset-0 -z-10 size-full object-cover object-center"
-        />
-
         <div className="shell hero-body relative z-10">
-          <div className="mx-auto max-w-[46rem] text-center">
-            {/* No eyebrow above this. The headline now says "ready-made", so a
-                badge saying it again was pure repetition. */}
-            <h1 id="hero-title" className="display hero-title text-white">
-              Ready-made software for your business.
-              {/* The promise, on its own line, so it lands as one statement
-                  instead of being balanced into an awkward break. */}
-              <span className="mt-1 block whitespace-nowrap text-peri">
-                Live in 15 days.
-              </span>
-            </h1>
+          <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.72fr)] lg:gap-14">
+            {/* ------------------------------------------- the words, and the control */}
+            <div>
+              <h1 id="hero-title" className="hero-h1 hero-in text-white">
+                Ready-made software.
+                {/* The promise, on its own line, with the number drawn hollow:
+                    it is the one figure a buyer should leave with. */}
+                <span className="mt-1 block">
+                  Live in <span className="hero-num">15</span> days.
+                </span>
+              </h1>
 
-            {/* One line, and legible on a photograph: /85 instead of /70. */}
-            <p className="lead hero-lead mx-auto max-w-[36rem] text-ink-foreground/85">
-              Pick your industry to see what is already built and running.
-            </p>
-          </div>
-
-          {/* ============ the control. the most important object on the page. */}
-          <div className="hero-panel mx-auto max-w-[52rem]">
-            <div className="rounded-[1.25rem] border border-white/15 bg-card p-4 shadow-[0_2px_4px_oklch(13.23%_0.0756_277.93/0.2),0_40px_90px_-30px_oklch(0%_0_0/0.85)] sm:p-6">
-              <p className="px-1 text-[0.9375rem] font-semibold text-foreground">
-                What does your business do?
+              <p
+                className="hero-sub hero-in max-w-[34rem] text-[0.9375rem] leading-relaxed text-ink-foreground/75 sm:text-base"
+                style={{ animationDelay: "70ms" }}
+              >
+                Pick your industry to see what is already built and running.
               </p>
 
+              {/* The control. Chips, not a white panel: the choice is part of
+                  the sentence the visitor is reading, not a form they fill in. */}
               <div
                 role="group"
                 aria-label="Industry"
-                className="mt-4 grid grid-cols-2 gap-2.5 md:grid-cols-4"
+                className="hero-chips flex flex-wrap gap-2"
               >
-                {categories.map((category) => {
+                {categories.map((category, index) => {
                   const Icon = ICONS[category.id];
-                  const count = productsInCategory(category.id).length;
                   const active = selected === category.id;
 
                   return (
                     <button
                       key={category.id}
                       type="button"
+                      style={{
+                        animationDelay: `${140 + index * 45}ms`,
+                      }}
                       aria-pressed={active}
                       onClick={() => choose(active ? null : category.id)}
                       className={cn(
-                        "hero-tile group relative flex items-center gap-3 rounded-xl border px-3 py-3 text-left transition-all duration-200",
-                        "focus-visible:outline-2 focus-visible:outline-offset-2",
+                        "hero-in inline-flex items-center gap-2 rounded-full border px-3.5 py-2 text-[0.8125rem] font-medium transition-all duration-200",
+                        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-peri",
                         active
-                          ? "border-primary bg-primary text-primary-foreground shadow-[0_10px_24px_-12px_oklch(49.03%_0.2158_264.38/0.9)]"
-                          : "border-border bg-background text-foreground hover:-translate-y-0.5 hover:border-primary/40 hover:bg-accent/40 hover:shadow-[0_8px_20px_-14px_oklch(13.23%_0.0756_277.93/0.35)]",
+                          ? "border-peri bg-peri text-[oklch(21%_0.06_277.93)] shadow-[0_12px_34px_-12px_oklch(78%_0.1_264.38/0.7)]"
+                          : "border-white/15 bg-white/[0.06] text-ink-foreground/80 hover:-translate-y-0.5 hover:border-white/30 hover:bg-white/[0.11] hover:text-white",
                       )}
                     >
-                      <span
-                        className={cn(
-                          "flex size-8 shrink-0 items-center justify-center rounded-lg transition-colors md:size-9",
-                          active
-                            ? "bg-primary-foreground/15 text-primary-foreground"
-                            : "bg-accent text-primary group-hover:bg-primary group-hover:text-primary-foreground",
-                        )}
-                      >
-                        <Icon className="size-[1.05rem]" aria-hidden="true" />
-                      </span>
-
-                      <span className="min-w-0 flex-1">
-                        <span className="block text-[0.75rem] font-semibold leading-tight md:text-[0.8125rem]">
-                          {category.label}
-                        </span>
-                        {/* A count of one is the default, so printing "1 system"
-                            seven times is noise. Only a surplus is worth a line. */}
-                        {count > 1 && (
-                          <span
-                            className={cn(
-                              "mt-0.5 block text-[0.6875rem] leading-tight",
-                              active
-                                ? "text-primary-foreground/70"
-                                : "text-muted-foreground",
-                            )}
-                          >
-                            {count} systems
-                          </span>
-                        )}
-                      </span>
-
-                      <ChevronRight
-                        className={cn(
-                          "size-4 shrink-0 transition-opacity",
-                          active
-                            ? "opacity-60"
-                            : "opacity-0 group-hover:opacity-50",
-                        )}
-                        aria-hidden="true"
-                      />
+                      <Icon className="size-4" aria-hidden="true" />
+                      {category.label}
                     </button>
                   );
                 })}
-
-                {/* The eighth tile clears the choice and shows everything.
-                    It is quiet on purpose: filled with the primary colour it
-                    became a second call to action sitting inside the control,
-                    pulling attention before anyone had picked anything. */}
-                <button
-                  type="button"
-                  onClick={() => choose(null)}
-                  className="hero-tile group relative flex items-center gap-3 rounded-xl border border-border bg-background px-3 py-3 text-left text-foreground transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:bg-accent/40 focus-visible:outline-2 focus-visible:outline-offset-2"
-                >
-                  <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-secondary text-secondary-foreground transition-colors group-hover:bg-primary group-hover:text-primary-foreground md:size-9">
-                    <LayoutGrid className="size-[1.05rem]" aria-hidden="true" />
-                  </span>
-                  <span className="min-w-0 flex-1 text-[0.75rem] font-semibold leading-tight md:text-[0.8125rem]">
-                    View all solutions
-                  </span>
-                  <ChevronRight
-                    className="size-4 shrink-0 opacity-40 transition-all group-hover:translate-x-0.5 group-hover:opacity-70"
-                    aria-hidden="true"
-                  />
-                </button>
               </div>
 
-              {/* Trust, inside the panel and at the bottom of it: still the
-                  quietest thing here, but on a surface where 12px grey text is
-                  actually readable instead of lost in a photograph. */}
-              <div className="mt-4 flex flex-wrap items-center justify-center gap-x-2 border-t border-border pt-3.5 text-[0.6875rem] text-muted-foreground sm:text-[0.75rem]">
+              <p className="mt-6 flex flex-wrap items-center gap-x-2 gap-y-1 text-[0.6875rem] text-ink-foreground/45">
                 <span className="whitespace-nowrap font-medium">
                   CMMI Level 3
                 </span>
@@ -244,6 +174,41 @@ export function HomeSolutions() {
                 <span className="whitespace-nowrap">
                   {counters[2].value}+ clients
                 </span>
+              </p>
+            </div>
+
+            {/* --------------------------------------- proof that it already exists
+                A product screen, tilted back, with a phone over its corner and
+                a glow behind. Picking an industry swaps all of it, so the page
+                answers the visitor in their own context. */}
+            <div
+              className="hero-stage hero-in"
+              style={{ animationDelay: "260ms" }}
+              data-accent={stage.accent}
+              aria-hidden="true"
+            >
+              <div className="hero-glow" />
+
+              <div className="hero-browser">
+                <div className="hero-browser-bar">
+                  <span className="hero-dot" />
+                  <span className="hero-dot" />
+                  <span className="hero-dot" />
+                  <span className="ml-2 h-3 w-24 rounded-full bg-[oklch(92%_0.01_260)]" />
+                </div>
+                <ProductVisual
+                  variant={stage.variant}
+                  accent={stage.accent}
+                  className="aspect-[640/400] w-full"
+                />
+              </div>
+
+              <div className="hero-phone">
+                <ProductVisual
+                  variant={stage.variant}
+                  accent={stage.accent}
+                  className="size-full"
+                />
               </div>
             </div>
           </div>

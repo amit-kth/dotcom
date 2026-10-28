@@ -33,13 +33,6 @@ and space beneath it. Measured: 1350×629 leaves 61px below the panel, 1440×900
 leaves 169px, 390×844 leaves 94px. A bar with a filled button across the top
 of the image would pull the eye away from the panel.
 
-**The hero photograph** (`public/hero/hero-team.jpg`) is atmosphere, not
-decoration: it is desaturated to 65%, pushed behind a duotone and darkened
-hardest exactly where the panel sits, so the panel reads as lit from within. The
-bottom of the section fades into the page background, so the image never ends on
-a hard line. It is a placeholder: replace it with a real photograph of this team,
-same 21:9 framing, subject off-centre, darker in the middle.
-
 ## What changed in this pass
 
 The first version failed on hierarchy: too much copy, two surfaces (white and
@@ -156,3 +149,37 @@ The old `index.php` never writes "Level 3" as text — it only embeds
 **CMMI LEVEL 3**, so the claim comes from the client's own badge and is safe to
 state. The alt text was adjusted from "CMMI Level 3 appraised" to "CMMI Level 3":
 "appraised" was an inference the old site never made.
+
+
+## The hero, third pass: no photograph
+
+The photograph was the tell. A stock studio can sit behind any company's
+headline, which is why the page read as a good SaaS template rather than as
+this company. It is gone, and the file with it.
+
+What replaced it:
+
+- **A field, not a photo.** Two soft light pools over ink, plus a 68px grid
+  masked to fade before the edges. Nothing in it could belong to another brand.
+- **Mockups, tilted.** A browser card with real product UI from
+  `product-visual.tsx`, rotated back on the Y axis, with a phone over its lower
+  corner. It shows that the software exists instead of saying it.
+- **The hero answers the choice.** Picking an industry swaps the mockup, its
+  accent colour and the glow behind it. The page then looks like it was made for
+  that visitor. This is the idea the whole hero is built around.
+- **Chips, not a panel.** The white card was a form. Chips belong to the
+  sentence the visitor is reading, and they are one line of controls.
+- **Type carries it.** Headline at 40-64px (`clamp(2.5rem, min(4.9vw, 9.8vh),
+  4rem)`), line-height 0.98, letter-spacing -0.042em. The cap is set by the
+  column, not by taste: "Ready-made software." measures 655px at 64px and the
+  column is ~690px.
+- **"15" is drawn, not printed.** A hollow numeral via `-webkit-text-stroke`,
+  with a solid `--peri` fallback where the stroke is unsupported.
+- **Motion, four lines of it.** Headline, subtext, then chips staggered 45ms
+  apart, then the stage. `prefers-reduced-motion` turns all of it off.
+
+Choosing no longer scrolls the page. The answer arrives in the hero itself;
+scrolling away from it at that moment would hide the whole point.
+
+Height: `min-h-[min(100svh,50rem)]`. On a tall monitor the hero caps at 800px so
+the next section shows under the fold instead of leaving a void.

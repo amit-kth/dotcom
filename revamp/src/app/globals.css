@@ -91,6 +91,7 @@
   --hue-teal: oklch(74% 0.12 190);
 
   /* --- glass ------------------------------------------------------------- */
+  --shade: oklch(7% 0.022 276);
   --glass-fill: oklch(100% 0 0 / 0.06);
   --glass-fill-hover: oklch(100% 0 0 / 0.11);
   --glass-border: oklch(100% 0 0 / 0.14);
@@ -697,6 +698,16 @@
   .stack-item {
     margin-bottom: clamp(10rem, 30svh, 18rem);
   }
+}
+
+/* The shade over a banner that is being covered. It is paint, not opacity: the
+   banner underneath stays fully opaque, so no text can bleed through it. */
+.stack-shade {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: var(--shade);
 }
 
 /* Per-product accents: one hairline and one spotlight, set by the data file. */

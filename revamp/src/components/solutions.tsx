@@ -191,8 +191,14 @@ function StackItem({
   const end = (index + 1) / total;
 
   const scale = useTransform(progress, [start, end], [1, 0.94]);
-  const opacity = useTransform(progress, [start, end], [1, 0.62]);
   const y = useTransform(progress, [start, end], [0, -12]);
+
+  /* The dim is a layer of paint on top of the card, not `opacity` on the card.
+     Animating opacity here would make a covered banner see-through, and the
+     three banners stacked behind it would bleed their text through the one on
+     top. A card in this stack is always fully opaque; only the shade over it
+     fades in. */
+  const shade = useTransform(progress, [start, end], [0, 0.55]);
 
   return (
     <div
@@ -202,8 +208,15 @@ function StackItem({
         zIndex: index + 1,
       }}
     >
-      <motion.div style={{ scale, opacity, y }} className="origin-top">
-        {children}
+      <motion.div style={{ scale, y }} className="origin-top">
+        <div className="relative">
+          {children}
+          <motion.div
+            aria-hidden="true"
+            className="stack-shade"
+            style={{ opacity: shade }}
+          />
+        </div>
       </motion.div>
     </div>
   );

@@ -53,6 +53,9 @@
   --viz-blue: oklch(49.03% 0.2158 264.38);
   --viz-coral: oklch(63.68% 0.2078 25.33);
   --viz-violet: oklch(56% 0.19 292);
+
+  /* the highlighted phrase on a dark surface: primary is too dark against ink */
+  --peri: oklch(78% 0.1 264.38);
 }
 
 @theme inline {
@@ -84,6 +87,7 @@
   --color-ink: var(--ink);
   --color-ink-foreground: var(--ink-foreground);
   --color-ink-muted: var(--ink-muted);
+  --color-peri: var(--peri);
   --color-line-on-ink: var(--line-on-ink);
 
   --radius-sm: calc(var(--radius) - 4px);
@@ -282,16 +286,50 @@
 }
 
 /* --- ambient -------------------------------------------------------------- */
-/* A soft primary wash behind the hero selector. It is the only gradient on the
-   page, and it exists to lift the control off the background. */
-.hero-wash {
+/* --- hero backdrop --------------------------------------------------------
+   A photograph behind a dark duotone, not a photograph as decoration. The
+   overlay is not one flat wash: it is darkest where the selector panel sits
+   (centre), lighter at the edges, so the panel reads as lit from within and the
+   image stays legible as place rather than as a picture of people.
+
+   The last stop fades into the page background, so the section has no hard
+   bottom edge.
+   -------------------------------------------------------------------------- */
+.hero-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
   background:
     radial-gradient(
-      70% 55% at 50% 0%,
-      oklch(94% 0.035 264.38) 0%,
-      transparent 70%
+      62% 55% at 50% 42%,
+      oklch(13.23% 0.0756 277.93 / 0.92) 0%,
+      oklch(13.23% 0.0756 277.93 / 0.74) 62%,
+      oklch(13.23% 0.0756 277.93 / 0.86) 100%
     ),
-    var(--background);
+    linear-gradient(
+      to bottom,
+      oklch(13.23% 0.0756 277.93 / 0.74) 0%,
+      oklch(13.23% 0.0756 277.93 / 0.58) 34%,
+      oklch(13.23% 0.0756 277.93 / 0.78) 62%,
+      oklch(13.23% 0.0756 277.93 / 0.97) 90%,
+      var(--background) 100%
+    );
+}
+
+/* A cool cast over the photo so it belongs to this palette instead of sitting
+   on it. mix-blend-mode keeps the highlights from turning grey. */
+.hero-photo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    120deg,
+    oklch(30% 0.16 270 / 0.55) 0%,
+    transparent 46%,
+    oklch(20% 0.10 285 / 0.5) 100%
+  );
+  mix-blend-mode: multiply;
 }
 
 /* --- dialog --------------------------------------------------------------- */

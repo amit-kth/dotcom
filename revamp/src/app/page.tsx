@@ -31,7 +31,7 @@ export default function HomePage() {
   return (
     <>
       <Seo page="home" />
-      <SiteHeader />
+      <SiteHeader overHero />
 
       <main>
         <HomeSolutions />

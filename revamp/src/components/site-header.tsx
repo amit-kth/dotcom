@@ -10,11 +10,21 @@ import { cn } from "@/lib/utils";
 /* ============================================================================
    SiteHeader
    ----------------------------------------------------------------------------
-   Light, translucent, and deliberately quiet. On the homepage the hero below it
-   carries the one control that matters, so the header must not compete: no dark
-   bar, no accent colour, no underline animation. It gains a hairline and a
-   slight blur once the page moves.
+   Two states, because the homepage opens on a photograph:
+
+   overHero  transparent, white wordmark, white nav. It sits on the hero image
+             without putting a bar across the top of it.
+   solid     once scrolled past the hero (or on pages without one): the normal
+             light bar with the real logo.
+
+   Both states keep the same quiet weight: no accent colour, no underline
+   animation, nothing that competes with the selector panel below.
    ========================================================================== */
+
+type SiteHeaderProps = {
+  /** true on pages that open with a dark hero image */
+  overHero?: boolean;
+};
 
 const NAV = [
   { label: "Systems", href: "/solutions" },
@@ -22,12 +32,12 @@ const NAV = [
   { label: "Contact", href: "/#contact" },
 ] as const;
 
-export function SiteHeader() {
+export function SiteHeader({ overHero = false }: SiteHeaderProps) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 6);
+    const onScroll = () => setScrolled(window.scrollY > 64);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -40,13 +50,15 @@ export function SiteHeader() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
+  const inverted = overHero && !scrolled && !open;
+
   return (
     <header
       className={cn(
-        "sticky top-0 z-40 transition-colors duration-200",
-        scrolled || open
-          ? "border-b border-border bg-background/85 backdrop-blur-md"
-          : "border-b border-transparent bg-transparent",
+        "sticky top-0 z-40 transition-colors duration-300",
+        inverted
+          ? "border-b border-white/10 bg-transparent"
+          : "border-b border-border bg-background/85 backdrop-blur-md",
       )}
     >
       <div className="shell">
@@ -57,7 +69,10 @@ export function SiteHeader() {
               alt={site.name}
               width={274}
               height={72}
-              className="h-6 w-auto"
+              className={cn(
+                "h-6 w-auto transition-[filter] duration-300",
+                inverted && "brightness-0 invert",
+              )}
             />
           </Link>
 
@@ -67,7 +82,12 @@ export function SiteHeader() {
                 <li key={item.label}>
                   <Link
                     href={item.href}
-                    className="text-[0.8125rem] font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground"
+                    className={cn(
+                      "text-[0.8125rem] font-medium transition-colors duration-200",
+                      inverted
+                        ? "text-white/70 hover:text-white"
+                        : "text-muted-foreground hover:text-foreground",
+                    )}
                   >
                     {item.label}
                   </Link>
@@ -78,7 +98,11 @@ export function SiteHeader() {
 
           <div className="flex items-center gap-2">
             <div className="hidden sm:block">
-              <RequestDemoDialog size="sm" label="Book a walkthrough" />
+              <RequestDemoDialog
+                size="sm"
+                label="Book a walkthrough"
+                variant={inverted ? "onInk" : "default"}
+              />
             </div>
 
             <button
@@ -87,7 +111,12 @@ export function SiteHeader() {
               aria-expanded={open}
               aria-controls="mobile-nav"
               aria-label={open ? "Close menu" : "Open menu"}
-              className="flex size-10 items-center justify-center rounded-lg border border-border text-foreground md:hidden"
+              className={cn(
+                "flex size-10 items-center justify-center rounded-lg border md:hidden",
+                inverted
+                  ? "border-white/25 text-white"
+                  : "border-border text-foreground",
+              )}
             >
               {open ? (
                 <X className="size-5" aria-hidden="true" />

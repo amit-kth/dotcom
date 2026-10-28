@@ -19,8 +19,17 @@ Nothing else in the hero competes with it:
 - picking a tile scrolls to the list it just filtered, so the click visibly
   does something
 
-The header is translucent and light for the same reason: a dark bar with a
-filled button would pull the eye to the top of the screen, away from the panel.
+The header is quiet for the same reason: on the homepage it is transparent over
+the hero photograph (white wordmark, white nav) and turns into a solid light bar
+once the page scrolls past the hero. A bar with a filled button across the top
+of the image would pull the eye away from the panel.
+
+**The hero photograph** (`public/hero/hero-team.jpg`) is atmosphere, not
+decoration: it is desaturated to 65%, pushed behind a duotone and darkened
+hardest exactly where the panel sits, so the panel reads as lit from within. The
+bottom of the section fades into the page background, so the image never ends on
+a hard line. It is a placeholder: replace it with a real photograph of this team,
+same 21:9 framing, subject off-centre, darker in the middle.
 
 ## What changed in this pass
 

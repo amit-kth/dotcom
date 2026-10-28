@@ -15,6 +15,7 @@ import {
   Sparkles,
   Truck,
 } from "lucide-react";
+import { asset } from "@/config/variables";
 import { Reveal } from "@/components/ui/reveal";
 import { RequestDemoDialog } from "@/components/request-demo-dialog";
 import {
@@ -84,25 +85,45 @@ export function HomeSolutions() {
   return (
     <>
       {/* ================================================== 1. the opening ==== */}
-      <section className="hero-wash relative overflow-hidden" aria-labelledby="hero-title">
-        <div className="shell pb-14 pt-12 sm:pt-16 lg:pb-20 lg:pt-20">
-          <div className="mx-auto max-w-[46rem] text-center">
-            <p className="eyebrow">Ready-made software</p>
+      <section
+        className="surface-ink hero-photo relative isolate overflow-hidden"
+        aria-labelledby="hero-title"
+      >
+        {/* The photo is atmosphere: it is desaturated and pushed behind the
+            duotone in globals.css, so what the visitor sees first is the
+            selector panel, not the people in the frame. It is also a
+            placeholder: replace with a real photograph of this team. */}
+        <img
+          src={asset("hero/hero-team.jpg")}
+          alt=""
+          aria-hidden="true"
+          width={1584}
+          height={672}
+          fetchPriority="high"
+          className="absolute inset-0 -z-10 size-full object-cover object-center opacity-90 saturate-[0.65]"
+        />
 
-            <h1 id="hero-title" className="display mt-4 text-foreground">
+        <div className="shell relative z-10 pb-16 pt-14 sm:pt-16 lg:pb-20 lg:pt-20">
+          <div className="mx-auto max-w-[46rem] text-center">
+            <p className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-[0.6875rem] font-semibold uppercase tracking-[0.14em] text-ink-foreground/75 backdrop-blur-sm">
+              <span className="size-1.5 rounded-full bg-peri" aria-hidden="true" />
+              Ready-made software
+            </p>
+
+            <h1 id="hero-title" className="display mt-5 text-white">
               Software your business can run in{" "}
-              <span className="text-primary">15 days</span>.
+              <span className="text-peri">15 days</span>.
             </h1>
 
-            <p className="lead dim mx-auto mt-4 max-w-[34rem]">
+            <p className="lead mx-auto mt-4 max-w-[32rem] text-ink-foreground/70">
               Pick your industry and we will show you what we have already
               built, installed and running.
             </p>
           </div>
 
-          {/* =================== the control. the most important object here. */}
+          {/* ============ the control. the most important object on the page. */}
           <div className="mx-auto mt-9 max-w-[52rem]">
-            <div className="rounded-[1.25rem] border border-border bg-card p-4 shadow-[0_2px_4px_oklch(13.23%_0.0756_277.93/0.04),0_24px_60px_-24px_oklch(13.23%_0.0756_277.93/0.18)] sm:p-6">
+            <div className="rounded-[1.25rem] border border-white/15 bg-card p-4 shadow-[0_2px_4px_oklch(13.23%_0.0756_277.93/0.2),0_40px_90px_-30px_oklch(0%_0_0/0.85)] sm:p-6">
               <div className="flex flex-wrap items-center justify-between gap-2 px-1">
                 <p className="text-[0.9375rem] font-semibold text-foreground">
                   What does your business do?
@@ -228,14 +249,14 @@ export function HomeSolutions() {
               </div>
             </div>
 
-            {/* Trust, deliberately the quietest thing on the screen. */}
-            <p className="mt-6 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[0.75rem] text-muted-foreground">
+            {/* Trust, deliberately the quietest thing in the section. */}
+            <p className="mt-6 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[0.75rem] text-ink-foreground/55">
               <span>CMMI Level 3</span>
-              <span aria-hidden="true" className="text-border">
+              <span aria-hidden="true" className="text-white/20">
                 |
               </span>
               <span>{counters[0].value}+ projects delivered</span>
-              <span aria-hidden="true" className="text-border">
+              <span aria-hidden="true" className="text-white/20">
                 |
               </span>
               <span>{counters[2].value}+ clients</span>

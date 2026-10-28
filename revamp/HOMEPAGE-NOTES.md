@@ -32,17 +32,17 @@ what is finished and what needs a decision from you.
 ## Placeholder, to be replaced before launch
 
 1. **Product copy** — descriptions, problems and outcomes in
-   `data/products.ts`. Written to read naturally, none of it approved.
+   `src/data/products.ts`. Written to read naturally, none of it approved.
 2. **Product banners** — every product uses `public/dummy/banner.webp` except
    AI Calling Agents, which uses the real ImageKit poster.
 3. **Timeline day split** — Day 1-2 / 3-7 / 8-12 / 13-15 is a plan, not a
    commitment. Total of 15 days is approved.
 4. **Links not yet published** — AI Calling Agents, WhatsApp CRM and LMS have
    `url: ""`, which the components read as "no link". Nothing dead is rendered.
-5. **Enquiry endpoint** — `API_ENDPOINT` in `config/variables.ts` is still a
-   TODO, so `lib/submit-enquiry.ts` simulates a successful send. Set the real URL
+5. **Enquiry endpoint** — `API_ENDPOINT` in `src/config/variables.ts` is still a
+   TODO, so `src/lib/submit-enquiry.ts` simulates a successful send. Set the real URL
    and the simulation can never run again.
-6. **Company address** — `contact.addressLines` in `config/variables.ts`.
+6. **Company address** — `contact.addressLines` in `src/config/variables.ts`.
 7. **Category landing pages** — footer links point at the homepage chip panel
    until `/fintech`, `/logistics` … exist.
 8. **Case study for the flagship band** — no client, sector or result is named
@@ -54,7 +54,24 @@ what is finished and what needs a decision from you.
 - No demo credentials, demo IDs or demo passwords. "Request a demo" opens a form.
 - No invented client names, awards, percentages or response-time guarantees.
 - No external trackers beyond the GTM and Tawk.to tags inherited from the old
-  site (in `components/seo.tsx` and `app/layout.tsx`).
+  site (in `src/components/seo.tsx` and `src/app/layout.tsx`).
+
+## Layout
+
+```
+revamp/
+├── public/           static images, served at the site root
+├── src/
+│   ├── app/          routes; layout.tsx, page.tsx, solutions/page.tsx
+│   ├── components/   sections/ (one file per page section), ui/ (primitives)
+│   ├── config/       variables.ts - the one file for global values
+│   ├── data/         products, categories, site content
+│   └── lib/          utils, enquiry submission
+└── next.config.ts
+```
+
+Everything imports through the `@/` alias, which points at `src/`, so no file
+needs a long `../../` path.
 
 ## How to run
 

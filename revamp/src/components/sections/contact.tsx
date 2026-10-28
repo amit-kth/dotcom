@@ -19,8 +19,6 @@ export function Contact() {
       aria-labelledby="contact-title"
       className="surface-ink relative overflow-hidden scroll-mt-[4.5rem]"
     >
-      <div aria-hidden="true" className="grid-veil absolute inset-0 opacity-60" />
-
       <div className="shell relative band">
         <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
           <Reveal>
@@ -38,7 +36,7 @@ export function Contact() {
             <div className="mt-9 space-y-3">
               <a
                 href={`mailto:${contact.emails.sales}`}
-                className="group flex items-center gap-3 text-[0.9375rem] text-ink-foreground transition-colors hover:text-amber"
+                className="group flex items-center gap-3 text-[0.9375rem] text-ink-foreground transition-colors hover:text-chart-5"
               >
                 <span className="flex size-9 items-center justify-center rounded-full border border-line-on-ink">
                   <Mail className="size-4" aria-hidden="true" />
@@ -47,7 +45,7 @@ export function Contact() {
               </a>
               <a
                 href={`tel:${contact.phones[0].replace(/[^\d+]/g, "")}`}
-                className="group flex items-center gap-3 text-[0.9375rem] text-ink-foreground transition-colors hover:text-amber"
+                className="group flex items-center gap-3 text-[0.9375rem] text-ink-foreground transition-colors hover:text-chart-5"
               >
                 <span className="flex size-9 items-center justify-center rounded-full border border-line-on-ink">
                   <Phone className="size-4" aria-hidden="true" />
@@ -62,7 +60,7 @@ export function Contact() {
           </Reveal>
 
           <Reveal delay={80}>
-            <div className="rounded-2xl bg-white p-6 text-foreground sm:p-8">
+            <div className="rounded-2xl bg-card p-6 text-foreground shadow-[0_30px_70px_-45px_rgba(0,0,0,0.8)] sm:p-8">
               <EnquiryForm />
             </div>
           </Reveal>

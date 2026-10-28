@@ -24,10 +24,8 @@ export function Proof() {
   return (
     <section
       aria-labelledby="proof-title"
-      className="surface-ink relative overflow-hidden"
+      className="relative overflow-hidden bg-background"
     >
-      <div aria-hidden="true" className="grid-veil absolute inset-0 opacity-60" />
-
       <div className="shell relative band">
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-5">
@@ -38,8 +36,8 @@ export function Proof() {
               </h2>
             </div>
 
-            <div className="flex items-center gap-3 rounded-full border border-line-on-ink bg-white/5 py-2 pl-2 pr-5">
-              <span className="rounded-full bg-white p-1">
+            <div className="flex items-center gap-3 rounded-full border border-border bg-card py-2 pl-2 pr-5 shadow-sm">
+              <span className="rounded-full bg-white p-1 ring-1 ring-border">
                 <img
                   src={asset(cmmi.src)}
                   alt={cmmi.alt}
@@ -54,7 +52,7 @@ export function Proof() {
                 <p className="text-[0.8125rem] font-semibold leading-tight">
                   CMMI Level 3
                 </p>
-                <p className="text-[0.6875rem] text-ink-muted">
+                <p className="text-[0.6875rem] text-muted-foreground">
                   independently appraised
                 </p>
               </div>
@@ -63,25 +61,25 @@ export function Proof() {
         </Reveal>
 
         <Reveal delay={60}>
-          <dl className="mt-14 grid gap-10 sm:grid-cols-3 sm:gap-0">
+          <dl className="mt-12 grid gap-10 sm:grid-cols-3 sm:gap-0">
             {counters.map((counter, i) => (
               <div
                 key={counter.label}
                 className={
                   i === 0
                     ? "sm:pr-8"
-                    : "sm:border-l sm:border-line-on-ink sm:pl-8 sm:pr-8"
+                    : "sm:border-l sm:border-border sm:pl-8 sm:pr-8"
                 }
               >
-                <dd className="flex items-baseline text-[clamp(3rem,5.4vw,4.5rem)] font-semibold leading-none tracking-[-0.045em] tabular-nums text-ink-foreground">
+                <dd className="flex items-baseline text-[clamp(2.75rem,5vw,4rem)] font-semibold leading-none tracking-[-0.045em] tabular-nums text-primary">
                   {counter.value}
                   {counter.suffix && (
-                    <span className="text-[0.42em] leading-none text-amber">
+                    <span className="text-[0.42em] leading-none text-foreground/40">
                       {counter.suffix}
                     </span>
                   )}
                 </dd>
-                <dt className="mt-4 text-[0.6875rem] font-semibold uppercase tracking-[0.16em] text-ink-muted">
+                <dt className="mt-3 text-[0.6875rem] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
                   {counter.label}
                 </dt>
               </div>
@@ -90,13 +88,13 @@ export function Proof() {
         </Reveal>
 
         <Reveal delay={100}>
-          <div className="mt-14">
+          <div className="mt-12 border-t border-border pt-8">
             <div className="flex flex-wrap items-baseline justify-between gap-3">
-              <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.16em] text-ink-muted">
+              <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
                 Already running at
               </p>
               {remaining > 0 && (
-                <p className="text-[0.75rem] text-ink-muted">
+                <p className="text-[0.75rem] text-muted-foreground">
                   and {remaining} more
                 </p>
               )}
@@ -106,7 +104,7 @@ export function Proof() {
               {shown.map((logo) => (
                 <li
                   key={logo.src}
-                  className="flex h-16 items-center justify-center rounded-lg bg-white/95 p-3"
+                  className="flex h-16 items-center justify-center rounded-lg border border-border bg-card p-3"
                 >
                   <img
                     src={asset(logo.src)}

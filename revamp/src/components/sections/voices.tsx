@@ -16,7 +16,7 @@ export function Voices() {
   const [lead, ...rest] = testimonials;
 
   return (
-    <section aria-labelledby="voices-title" className="surface-cream">
+    <section aria-labelledby="voices-title" className="bg-secondary/70">
       <div className="shell band">
         <Reveal>
           <p className="eyebrow">In their words</p>
@@ -27,10 +27,10 @@ export function Voices() {
 
         <div className="mt-8 grid gap-10 lg:grid-cols-[1.3fr_1fr] lg:gap-16">
           <Reveal>
-            <figure className="relative rounded-2xl bg-white p-7 ring-1 ring-border sm:p-10">
+            <figure className="relative rounded-2xl bg-card p-7 shadow-[0_20px_50px_-40px_oklch(13.23%_0.0756_277.93/0.5)] ring-1 ring-border sm:p-10">
               <span
                 aria-hidden="true"
-                className="absolute -top-3 left-7 font-serif text-[5rem] leading-none text-amber/50 sm:left-10"
+                className="absolute -top-3 left-7 font-serif text-[5rem] leading-none text-primary/30 sm:left-10"
               >
                 &ldquo;
               </span>
@@ -62,7 +62,7 @@ export function Voices() {
               {rest.map((item) => (
                 <figure
                   key={item.id}
-                  className="border-l-2 border-amber/60 pl-5"
+                  className="border-l-2 border-primary/40 pl-5"
                 >
                   <blockquote>
                     <p className="text-[0.9375rem] leading-relaxed text-foreground/85">

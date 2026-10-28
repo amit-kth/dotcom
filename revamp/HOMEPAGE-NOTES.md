@@ -3,6 +3,25 @@
 Review notes for the current build. Nothing here is a spec; it is a list of what
 is finished and what needs a decision.
 
+## The rule this page is built on
+
+**Every block has one job, and the block's visual weight goes to that job.**
+
+The hero's job is: make the visitor pick their industry. So the industry
+selector is the largest, brightest, most contrasted object on the first screen.
+Nothing else in the hero competes with it:
+
+- no badge, no secondary button, no product mockup, no statistic row
+- the headline is one line at 50px, sized to introduce the page and not to
+  out-shout the control
+- the trust line under the panel is 12px muted text, the quietest thing there
+- 8 interactive elements on the whole first screen, and all 8 are tiles
+- picking a tile scrolls to the list it just filtered, so the click visibly
+  does something
+
+The header is translucent and light for the same reason: a dark bar with a
+filled button would pull the eye to the top of the screen, away from the panel.
+
 ## What changed in this pass
 
 The first version failed on hierarchy: too much copy, two surfaces (white and
@@ -26,7 +45,7 @@ white), product rows that read like a catalogue, and an orphan badge that said
 
 | # | Section | Surface | Job |
 |---|---------|---------|-----|
-| 1 | Hero + industry chips | paper | what this is; the one question |
+| 1 | Hero: the industry selector | background + primary wash | the one job: get a pick |
 | 2 | Product list | paper | what you can have, one card each |
 | 3 | How it works | **ink** | the 15 days, as four dated steps |
 | 4 | Proof | paper | the numbers, CMMI, client names |

@@ -23,22 +23,25 @@ type Variant = "dashboard" | "calendar" | "chat" | "scoreList" | "tileGrid";
 export type ProductVisualProps = {
   variant: Variant;
   /** accent for the one thing the eye should land on */
-  accent?: "red" | "amber" | "teal";
+  accent?: "blue" | "coral" | "violet";
   className?: string;
   /** used as the accessible name; "" renders it decorative */
   label?: string;
 };
 
+/* Values trace the palette in globals.css: primary, chart-3, and a violet from
+   the foreground hue family. Kept as literals because SVG attributes cannot read
+   the OKLCH custom properties reliably inside every renderer. */
 const ACCENT = {
-  red: "#D62B36",
-  amber: "#E39B2D",
-  teal: "#1F9A8C",
+  blue: "#2C53E0",
+  coral: "#EC554C",
+  violet: "#7A4DEE",
 } as const;
 
-const INK = "#16202E";
-const LINE = "#E8E3DA";
-const MUTED = "#B9B3A8";
-const WASH = "#F6F2EA";
+const INK = "#14142B";
+const LINE = "#E3E5EE";
+const MUTED = "#B9BDCC";
+const WASH = "#F1F3F8";
 
 /* ---------------------------------------------------------------- chrome */
 
@@ -424,7 +427,7 @@ function TileGrid({ accent }: { accent: string }) {
 
 export function ProductVisual({
   variant,
-  accent = "red",
+  accent = "blue",
   className,
   label,
 }: ProductVisualProps) {
@@ -454,14 +457,14 @@ export function ProductVisual({
 /** Which mockup each product gets, so data files do not carry design detail. */
 export const VISUAL_BY_PRODUCT: Record<
   string,
-  { variant: Variant; accent: "red" | "amber" | "teal" }
+  { variant: Variant; accent: "blue" | "coral" | "violet" }
 > = {
-  "ai-calling-agents": { variant: "dashboard", accent: "red" },
-  kastrofy: { variant: "calendar", accent: "amber" },
-  kexam: { variant: "scoreList", accent: "red" },
-  "whatsapp-crm": { variant: "chat", accent: "teal" },
-  lms: { variant: "tileGrid", accent: "teal" },
-  doctorplus: { variant: "calendar", accent: "teal" },
-  kparking: { variant: "tileGrid", accent: "amber" },
-  krealestate: { variant: "tileGrid", accent: "red" },
+  "ai-calling-agents": { variant: "dashboard", accent: "blue" },
+  kastrofy: { variant: "calendar", accent: "violet" },
+  kexam: { variant: "scoreList", accent: "coral" },
+  "whatsapp-crm": { variant: "chat", accent: "blue" },
+  lms: { variant: "tileGrid", accent: "violet" },
+  doctorplus: { variant: "calendar", accent: "coral" },
+  kparking: { variant: "tileGrid", accent: "blue" },
+  krealestate: { variant: "tileGrid", accent: "violet" },
 };

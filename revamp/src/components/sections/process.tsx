@@ -24,7 +24,7 @@ export function Process() {
     <section
       id="process"
       aria-labelledby="process-title"
-      className="surface-cream scroll-mt-[4.5rem]"
+      className="surface-ink scroll-mt-[4.5rem]"
     >
       <div className="shell band">
         <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
@@ -38,7 +38,7 @@ export function Process() {
               from us the same day, not at the end.
             </p>
 
-            <div className="mt-8 inline-flex items-baseline gap-2 rounded-2xl bg-white px-5 py-4 ring-1 ring-border">
+            <div className="mt-8 inline-flex items-baseline gap-2 rounded-2xl bg-white/[0.06] px-5 py-4 ring-1 ring-line-on-ink">
               <span className="text-[2.75rem] font-semibold leading-none tracking-[-0.04em]">
                 {DELIVERY_DAYS}
               </span>
@@ -54,15 +54,15 @@ export function Process() {
             <ol className="relative">
               <span
                 aria-hidden="true"
-                className="absolute left-[1.4375rem] top-2 bottom-2 w-px bg-border"
+                className="absolute left-[1.4375rem] top-2 bottom-2 w-px bg-line-on-ink"
               />
               {STEPS.map((step, i) => (
                 <li key={step.title} className="relative flex gap-5 pb-8 last:pb-0">
-                  <span className="relative z-10 flex size-12 shrink-0 items-center justify-center rounded-full bg-white text-[0.8125rem] font-semibold tabular-nums ring-1 ring-border">
+                  <span className="relative z-10 flex size-12 shrink-0 items-center justify-center rounded-full bg-ink-foreground text-[0.8125rem] font-semibold tabular-nums text-ink">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <div className="pt-1">
-                    <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.16em] text-primary">
+                    <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.16em] text-chart-5">
                       {step.days}
                     </p>
                     <p className="mt-1 text-lg font-semibold tracking-[-0.02em]">

@@ -1,8 +1,20 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, ShieldCheck } from "lucide-react";
+import {
+  ArrowRight,
+  Building2,
+  ChevronRight,
+  Factory,
+  GraduationCap,
+  HeartPulse,
+  Landmark,
+  LayoutGrid,
+  type LucideIcon,
+  Sparkles,
+  Truck,
+} from "lucide-react";
 import { Reveal } from "@/components/ui/reveal";
 import { RequestDemoDialog } from "@/components/request-demo-dialog";
 import {
@@ -10,182 +22,224 @@ import {
   NoSolutions,
   SolutionCard,
 } from "@/components/solution-card";
-import { ProductVisual } from "@/components/product-visual";
 import { categories, categoryLabel, type CategoryId } from "@/data/categories";
-import {
-  availableProducts,
-  products,
-  productsInCategory,
-} from "@/data/products";
+import { availableProducts, products, productsInCategory } from "@/data/products";
 import { counters } from "@/data/site-content";
 import { cn } from "@/lib/utils";
 
 /* ============================================================================
-   HomeSolutions  —  the dark hero and the product list, as one island
+   THE HERO HAS ONE JOB: GET THE VISITOR TO PICK THEIR INDUSTRY.
    ----------------------------------------------------------------------------
-   The chips live in the hero (they must be visible without scrolling) and they
-   also drive the list below, so the state has exactly one owner. Everything
-   outside this file is a server component.
+   Everything in this file is arranged around that sentence.
 
-   The hero is the page's only full-bleed dark block at the top, which is what
-   gives the site a first impression instead of a white sheet.
+   What that means concretely, and why the previous version failed:
+   - The selector is the largest, brightest, highest-contrast object on the
+     first screen. Before, it was a row of 32px pills under a badge, a headline,
+     two buttons, three statistics and a dashboard mockup, so the eye had
+     already left before reaching it.
+   - Everything that competed has been removed from the hero. No badge, no
+     secondary button, no mockup, no stat row. The trust line below the selector
+     is 12px muted text on purpose.
+   - The headline is one line at 50px, not a 56px block: it has to introduce the
+     page without out-shouting the thing we want clicked.
+   - The tiles are 88px tall cards with an icon, a label and a live count, so
+     they read as a control rather than as filter tags. Eight tiles fill two
+     rows of four exactly, which is why "All systems" is the eighth.
+
+   After a choice the page scrolls to the list it just filtered. That is the
+   whole interaction: pick, see, talk to us.
    ========================================================================== */
 
-const FLAGSHIP_ID = "ai-calling-agents";
-const VISUAL = { variant: "dashboard" as const, accent: "red" as const };
+const ICONS: Record<CategoryId, LucideIcon> = {
+  fintech: Landmark,
+  logistics: Truck,
+  manufacturing: Factory,
+  healthcare: HeartPulse,
+  astrology: Sparkles,
+  edtech: GraduationCap,
+  "real-estate": Building2,
+};
 
 export function HomeSolutions() {
   const [selected, setSelected] = useState<CategoryId | null>(null);
+  const listRef = useRef<HTMLDivElement | null>(null);
 
   const visible = useMemo(
     () => (selected ? productsInCategory(selected) : availableProducts),
     [selected],
   );
 
-  const featured = visible.find((p) => p.id === FLAGSHIP_ID);
-  const rest = visible.filter((p) => p.id !== FLAGSHIP_ID);
+  const featured = visible.find((p) => p.id === "ai-calling-agents");
+  const rest = visible.filter((p) => p.id !== "ai-calling-agents");
   const activeLabel = selected ? categoryLabel(selected) : null;
+
+  const choose = (id: CategoryId | null) => {
+    setSelected(id);
+    /* The pick has to do something visible, or the tiles are just decoration. */
+    window.requestAnimationFrame(() => {
+      listRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  };
 
   return (
     <>
       {/* ================================================== 1. the opening ==== */}
-      <section className="surface-ink relative overflow-hidden" aria-labelledby="hero-title">
-        <div aria-hidden="true" className="grid-veil absolute inset-0" />
+      <section className="hero-wash relative overflow-hidden" aria-labelledby="hero-title">
+        <div className="shell pb-14 pt-12 sm:pt-16 lg:pb-20 lg:pt-20">
+          <div className="mx-auto max-w-[46rem] text-center">
+            <p className="eyebrow">Ready-made software</p>
 
-        <div className="shell relative">
-          <div className="pt-10 pb-5 lg:pt-12">
-            <p className="inline-flex items-center gap-2 rounded-full border border-line-on-ink bg-white/5 px-3 py-1.5 text-[0.6875rem] font-medium text-ink-foreground/80">
-              <span className="size-1.5 rounded-full bg-amber" aria-hidden="true" />
-              Software we have already built
-            </p>
-
-            {/* Full width, one column. In a half-width column this headline
-                needed 700px at 64px and ran into the mockup beside it. Full
-                width it wraps on its own, at every desktop size, and the
-                mockup sits below the fold of this block instead of colliding
-                with the type. */}
-            <h1
-              id="hero-title"
-              className="display mt-6 text-ink-foreground"
-            >
+            <h1 id="hero-title" className="display mt-4 text-foreground">
               Software your business can run in{" "}
-              <span className="text-amber">15 days</span>.
+              <span className="text-primary">15 days</span>.
             </h1>
+
+            <p className="lead dim mx-auto mt-4 max-w-[34rem]">
+              Pick your industry and we will show you what we have already
+              built, installed and running.
+            </p>
           </div>
 
-          <div className="grid gap-10 pb-10 lg:grid-cols-[1fr_1.02fr] lg:items-center lg:gap-14">
-            <div>
-              <p className="lead text-ink-muted">
-                Pick a system, and we move your data across, put your branding on
-                it and train your team. No rebuild, no six month project.
-              </p>
+          {/* =================== the control. the most important object here. */}
+          <div className="mx-auto mt-9 max-w-[52rem]">
+            <div className="rounded-[1.25rem] border border-border bg-card p-4 shadow-[0_2px_4px_oklch(13.23%_0.0756_277.93/0.04),0_24px_60px_-24px_oklch(13.23%_0.0756_277.93/0.18)] sm:p-6">
+              <div className="flex flex-wrap items-center justify-between gap-2 px-1">
+                <p className="text-[0.9375rem] font-semibold text-foreground">
+                  What does your business do?
+                </p>
+                <p className="text-[0.75rem] font-medium text-muted-foreground">
+                  Choose one
+                </p>
+              </div>
 
-              <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-6">
-                <RequestDemoDialog
-                  label="Book a 20-minute walkthrough"
-                  size="lg"
-                />
-                <a
-                  href="#solutions"
-                  className="group inline-flex items-center gap-1.5 text-sm font-semibold text-ink-foreground transition-colors hover:text-amber"
+              <div
+                role="group"
+                aria-label="Industry"
+                className="mt-4 grid grid-cols-2 gap-2.5 md:grid-cols-4"
+              >
+                {categories.map((category) => {
+                  const Icon = ICONS[category.id];
+                  const count = productsInCategory(category.id).length;
+                  const active = selected === category.id;
+
+                  return (
+                    <button
+                      key={category.id}
+                      type="button"
+                      aria-pressed={active}
+                      onClick={() => choose(active ? null : category.id)}
+                      className={cn(
+                        "group relative flex items-center gap-3 rounded-xl border px-3 py-3 text-left transition-all duration-200",
+                        "focus-visible:outline-2 focus-visible:outline-offset-2",
+                        active
+                          ? "border-primary bg-primary text-primary-foreground shadow-[0_10px_24px_-12px_oklch(49.03%_0.2158_264.38/0.9)]"
+                          : "border-border bg-background text-foreground hover:-translate-y-0.5 hover:border-primary/40 hover:bg-accent/40 hover:shadow-[0_8px_20px_-14px_oklch(13.23%_0.0756_277.93/0.35)]",
+                      )}
+                    >
+                      <span
+                        className={cn(
+                          "flex size-8 shrink-0 items-center justify-center rounded-lg transition-colors md:size-9",
+                          active
+                            ? "bg-primary-foreground/15 text-primary-foreground"
+                            : "bg-accent text-primary group-hover:bg-primary group-hover:text-primary-foreground",
+                        )}
+                      >
+                        <Icon className="size-[1.05rem]" aria-hidden="true" />
+                      </span>
+
+                      <span className="min-w-0 flex-1">
+                        <span className="block text-[0.75rem] font-semibold leading-tight md:text-[0.8125rem]">
+                          {category.label}
+                        </span>
+                        <span
+                          className={cn(
+                            "mt-0.5 block text-[0.6875rem] leading-tight",
+                            active
+                              ? "text-primary-foreground/70"
+                              : "text-muted-foreground",
+                          )}
+                        >
+                          {count} {count === 1 ? "system" : "systems"}
+                        </span>
+                      </span>
+
+                      <ChevronRight
+                        className={cn(
+                          "size-4 shrink-0 transition-opacity",
+                          active
+                            ? "opacity-60"
+                            : "opacity-0 group-hover:opacity-50",
+                        )}
+                        aria-hidden="true"
+                      />
+                    </button>
+                  );
+                })}
+
+                {/* The eighth tile is the reset. Four per row, two rows, no
+                    orphan and no separate "clear" control to hunt for. */}
+                <button
+                  type="button"
+                  aria-pressed={selected === null}
+                  onClick={() => choose(null)}
+                  className={cn(
+                    "group relative flex items-center gap-3 rounded-xl border px-3 py-3 text-left transition-all duration-200",
+                    "focus-visible:outline-2 focus-visible:outline-offset-2",
+                    selected === null
+                      ? "border-primary bg-primary text-primary-foreground shadow-[0_10px_24px_-12px_oklch(49.03%_0.2158_264.38/0.9)]"
+                      : "border-dashed border-border bg-background text-foreground hover:-translate-y-0.5 hover:border-primary/40 hover:bg-accent/40",
+                  )}
                 >
-                  See the systems
-                  <ArrowRight
-                    className="size-4 transition-transform duration-200 group-hover:translate-x-0.5"
-                    aria-hidden="true"
-                  />
-                </a>
-              </div>
-
-              <dl className="mt-9 flex flex-wrap items-center gap-x-7 gap-y-3 border-t border-line-on-ink pt-6">
-                <div className="flex items-center gap-2">
-                  <ShieldCheck className="size-4 text-amber" aria-hidden="true" />
-                  <dt className="sr-only">Appraisal</dt>
-                  <dd className="text-[0.8125rem] font-medium text-ink-foreground/80">
-                    CMMI Level 3
-                  </dd>
-                </div>
-                <div className="text-[0.8125rem] text-ink-muted">
-                  <dt className="sr-only">Projects delivered</dt>
-                  <dd>
-                    <span className="font-semibold text-ink-foreground">
-                      {counters[0].value}+
-                    </span>{" "}
-                    projects
-                  </dd>
-                </div>
-                <div className="text-[0.8125rem] text-ink-muted">
-                  <dt className="sr-only">Clients</dt>
-                  <dd>
-                    <span className="font-semibold text-ink-foreground">
-                      {counters[2].value}+
-                    </span>{" "}
-                    clients
-                  </dd>
-                </div>
-              </dl>
-            </div>
-
-            {/* On phones this is the space that keeps the chips in the first
-                screen, which is why it is not rendered there. */}
-            <div className="relative hidden lg:block lg:max-w-[30rem] lg:justify-self-end">
-              <div className="hero-glow relative">
-                <div className="overflow-hidden rounded-xl border border-white/12 bg-ink-raised shadow-[0_50px_100px_-40px_rgba(0,0,0,0.9)]">
-                  <div className="flex items-center gap-1.5 border-b border-white/10 px-4 py-2.5">
-                    <span className="size-2 rounded-full bg-white/20" />
-                    <span className="size-2 rounded-full bg-white/20" />
-                    <span className="size-2 rounded-full bg-white/20" />
-                    <span className="ml-3 text-[0.625rem] text-ink-muted">
-                      AI calling agents
-                    </span>
-                  </div>
-                  <ProductVisual
-                    variant={VISUAL.variant}
-                    accent={VISUAL.accent}
-                    className="block w-full"
-                    label="AI calling agents dashboard"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* --------------------------------------------- the one question */}
-          <div className="border-t border-line-on-ink py-7">
-            <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
-              <p className="text-sm font-semibold text-ink-foreground">
-                What does your business do?
-              </p>
-              <p className="text-[0.75rem] text-ink-muted">
-                Pick one to narrow the list
-              </p>
-            </div>
-
-            <div
-              role="group"
-              aria-label="Industry"
-              className="mt-4 flex flex-wrap gap-2"
-            >
-              {categories.map((category) => {
-                const active = selected === category.id;
-                return (
-                  <button
-                    key={category.id}
-                    type="button"
-                    aria-pressed={active}
-                    onClick={() => setSelected(active ? null : category.id)}
+                  <span
                     className={cn(
-                      "inline-flex h-10 items-center rounded-full border px-4 text-[0.8125rem] font-medium transition-all duration-200",
-                      active
-                        ? "border-amber bg-amber text-ink"
-                        : "border-white/15 text-ink-foreground/80 hover:border-white/35 hover:bg-white/5",
+                      "flex size-8 shrink-0 items-center justify-center rounded-lg transition-colors md:size-9",
+                      selected === null
+                        ? "bg-primary-foreground/15 text-primary-foreground"
+                        : "bg-secondary text-secondary-foreground group-hover:bg-primary group-hover:text-primary-foreground",
                     )}
                   >
-                    {category.label}
-                  </button>
-                );
-              })}
+                    <LayoutGrid className="size-[1.05rem]" aria-hidden="true" />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-[0.75rem] font-semibold leading-tight md:text-[0.8125rem]">
+                      All systems
+                    </span>
+                    <span
+                      className={cn(
+                        "mt-0.5 block text-[0.6875rem] leading-tight",
+                        selected === null
+                          ? "text-primary-foreground/70"
+                          : "text-muted-foreground",
+                      )}
+                    >
+                      {availableProducts.length} to install
+                    </span>
+                  </span>
+                  <ChevronRight
+                    className={cn(
+                      "size-4 shrink-0 transition-opacity",
+                      selected === null
+                        ? "opacity-60"
+                        : "opacity-0 group-hover:opacity-50",
+                    )}
+                    aria-hidden="true"
+                  />
+                </button>
+              </div>
             </div>
+
+            {/* Trust, deliberately the quietest thing on the screen. */}
+            <p className="mt-6 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[0.75rem] text-muted-foreground">
+              <span>CMMI Level 3</span>
+              <span aria-hidden="true" className="text-border">
+                |
+              </span>
+              <span>{counters[0].value}+ projects delivered</span>
+              <span aria-hidden="true" className="text-border">
+                |
+              </span>
+              <span>{counters[2].value}+ clients</span>
+            </p>
           </div>
         </div>
       </section>
@@ -194,45 +248,37 @@ export function HomeSolutions() {
       <section
         id="solutions"
         aria-labelledby="solutions-title"
-        className="surface-cream scroll-mt-[4.5rem]"
+        className="scroll-mt-[4.5rem] bg-background"
       >
-        <div className="shell band-sm">
+        <div ref={listRef} className="shell band-sm scroll-mt-[4.5rem]">
           <Reveal>
-            <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-4">
+            <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-3">
               <div>
-                <p className="eyebrow">The systems</p>
-                <h2 id="solutions-title" className="title-section mt-3">
-                  {activeLabel
-                    ? `What we have for ${activeLabel.toLowerCase()}`
-                    : "Already built, already running"}
+                <h2 id="solutions-title" className="title-section">
+                  {activeLabel ? `${activeLabel} systems` : "What we can install now"}
                 </h2>
-                <p className="body dim mt-3 measure">
+                <p className="body dim mt-2">
                   {activeLabel
-                    ? `Every system below is configured for you and live in 15 days.`
-                    : "Each one is installed with your data and your branding. Nothing is built from scratch."}
+                    ? `What we have already built for ${activeLabel.toLowerCase()}.`
+                    : `The ${availableProducts.length} we can install as they are. Pick an industry above to narrow it.`}
                 </p>
               </div>
 
-              {selected ? (
-                <button
-                  type="button"
-                  onClick={() => setSelected(null)}
-                  className="inline-flex h-9 items-center rounded-full border border-foreground/20 px-3.5 text-[0.8125rem] font-medium transition-colors hover:bg-foreground hover:text-cream"
-                >
-                  Show all
-                </button>
-              ) : (
+              <div className="flex items-center gap-4">
+                <p className="text-[0.75rem] font-medium text-muted-foreground">
+                  {visible.length} shown
+                </p>
                 <Link
                   href="/solutions"
-                  className="group inline-flex items-center gap-1.5 text-sm font-semibold text-foreground transition-colors hover:text-primary"
+                  className="group inline-flex items-center gap-1.5 text-sm font-semibold text-primary"
                 >
-                  All {products.length} systems
+                  All {products.length}
                   <ArrowRight
                     className="size-4 transition-transform group-hover:translate-x-0.5"
                     aria-hidden="true"
                   />
                 </Link>
-              )}
+              </div>
             </div>
           </Reveal>
 
@@ -242,7 +288,7 @@ export function HomeSolutions() {
           </p>
 
           {visible.length > 0 ? (
-            <div className="mt-9 space-y-5">
+            <div className="mt-7 space-y-4">
               {featured && (
                 <Reveal>
                   <FeatureCard product={featured} />
@@ -250,7 +296,7 @@ export function HomeSolutions() {
               )}
 
               {rest.length > 0 && (
-                <div className="grid gap-5 sm:grid-cols-2">
+                <div className="grid gap-4 sm:grid-cols-2">
                   {rest.map((product, i) => (
                     <Reveal key={product.id} delay={i * 40}>
                       <SolutionCard product={product} />
@@ -260,10 +306,17 @@ export function HomeSolutions() {
               )}
             </div>
           ) : (
-            <div className="mt-8">
+            <div className="mt-7">
               <NoSolutions label={activeLabel ?? "that industry"} />
             </div>
           )}
+
+          <div className="mt-8 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-border bg-card px-5 py-4">
+            <p className="text-sm text-muted-foreground">
+              Not sure which fits? Twenty minutes on a call is usually enough.
+            </p>
+            <RequestDemoDialog label="Book a walkthrough" size="sm" />
+          </div>
         </div>
       </section>
     </>

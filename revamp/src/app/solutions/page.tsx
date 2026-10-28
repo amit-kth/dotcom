@@ -29,7 +29,7 @@ export default function SolutionsPage() {
       <SiteHeader />
 
       <main>
-        <header className="surface-cream">
+        <header className="bg-background">
           <div className="shell pt-10 pb-10 sm:pt-14">
             <Link
               href="/"
@@ -51,7 +51,7 @@ export default function SolutionsPage() {
 
         <section
           aria-labelledby="available-title"
-          className="surface-cream"
+          className="bg-background"
         >
           <div className="shell pb-14 pt-10 sm:pt-12">
             <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-2">
@@ -71,7 +71,7 @@ export default function SolutionsPage() {
 
         <section
           aria-labelledby="bespoke-title"
-          className="surface-cream border-t border-border"
+          className="bg-background border-t border-border"
         >
           <div className="shell band-sm">
             <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-2">

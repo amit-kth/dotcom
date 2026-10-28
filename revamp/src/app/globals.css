@@ -3,70 +3,91 @@
 /* ============================================================================
    KRISCENT · globals.css
    ----------------------------------------------------------------------------
-   The site has one visual language and it is defined here:
+   The palette below is the one supplied for this build, declared once and used
+   everywhere. Nothing in the app hard-codes a colour; components use the mapped
+   utilities (bg-card, text-primary, border-border ...) and the OKLCH values live
+   only here.
 
-   SURFACES  ink (near-black navy), cream (warm paper), white (cards)
-   ACCENTS   red (the brand), amber, teal. Three, no more: they mark categories
-             and the one thing the eye should land on in a mockup.
-   TYPE      Inter. 500/600 for headings with tight tracking, 400 for body.
-             Poppins was dropped because a soft geometric face is what makes a
-             page read as generic.
-   RHYTHM    sections alternate surfaces, so the page has a beat: dark, light,
-             warm, dark, light, dark.
+   Three additions, all derived from the supplied set, because a page needs them
+   and the base tokens do not cover them:
+     --ink / --ink-foreground   the dark surface for the two dark bands
+     --viz-blue / -coral / -violet   the three accents used inside the product
+                                     mockups, taken from primary, destructive
+                                     and the foreground hue family
    ========================================================================== */
 
-/* --- 1. tokens ------------------------------------------------------------ */
 :root {
-  /* surfaces */
-  --ink: 220 48% 7%; /* #0A111C */
-  --ink-raised: 220 38% 11%; /* panels on ink */
-  --ink-foreground: 40 30% 96%;
-  --ink-muted: 220 14% 64%;
-  --line-on-ink: 220 22% 18%;
+  --background: oklch(98.42% 0.0034 247.86);
+  --foreground: oklch(13.23% 0.0756 277.93);
+  --card: oklch(100% 0 0);
+  --card-foreground: oklch(13.23% 0.0756 277.93);
+  --popover: oklch(100% 0 0);
+  --popover-foreground: oklch(13.23% 0.0756 277.93);
+  --primary: oklch(49.03% 0.2158 264.38);
+  --primary-foreground: oklch(98.42% 0.0034 247.86);
+  --secondary: oklch(94% 0.015 260.03);
+  --secondary-foreground: oklch(27.95% 0.0368 260.03);
+  --muted: oklch(95.5% 0.01 260.03);
+  --muted-foreground: oklch(45% 0.03 264.38);
+  --accent: oklch(90% 0.05 264.38);
+  --accent-foreground: oklch(27.95% 0.0368 260.03);
+  --destructive: oklch(63.68% 0.2078 25.33);
+  --destructive-foreground: oklch(98.42% 0.0034 247.86);
+  --border: oklch(90% 0.015 260.03);
+  --input: oklch(100% 0 0);
+  --ring: oklch(49.03% 0.2158 264.38);
+  --chart-1: oklch(49.03% 0.2158 264.38);
+  --chart-2: oklch(27.95% 0.0368 260.03);
+  --chart-3: oklch(63.68% 0.2078 25.33);
+  --chart-4: oklch(13.23% 0.0756 277.93);
+  --chart-5: oklch(70% 0.03 264.38);
+  --radius: 0.75rem;
 
-  --cream: 40 44% 96%; /* #FAF7F1 */
-  --background: 40 44% 96%;
-  --foreground: 220 40% 9%;
+  /* dark surface */
+  --ink: oklch(13.23% 0.0756 277.93);
+  --ink-foreground: oklch(98.42% 0.0034 247.86);
+  --ink-muted: oklch(72% 0.025 264);
+  --line-on-ink: oklch(28% 0.045 270);
 
-  --white: 0 0% 100%;
-
-  /* accents */
-  --primary: 356 66% 50%; /* #D62B36 */
-  --primary-foreground: 0 0% 100%;
-  --amber: 34 76% 53%; /* #E39B2D */
-  --teal: 175 66% 36%; /* #1F9A8C */
-
-  /* neutrals */
-  --secondary: 38 30% 92%;
-  --muted-foreground: 220 9% 42%;
-  --border: 36 20% 87%;
-  --ring: 356 66% 50%;
-
-  --radius: 1rem;
+  /* mockup accents */
+  --viz-blue: oklch(49.03% 0.2158 264.38);
+  --viz-coral: oklch(63.68% 0.2078 25.33);
+  --viz-violet: oklch(56% 0.19 292);
 }
 
-/* --- 2. utilities --------------------------------------------------------- */
 @theme inline {
-  --color-background: hsl(var(--background));
-  --color-foreground: hsl(var(--foreground));
-  --color-ink: hsl(var(--ink));
-  --color-ink-raised: hsl(var(--ink-raised));
-  --color-ink-foreground: hsl(var(--ink-foreground));
-  --color-ink-muted: hsl(var(--ink-muted));
-  --color-line-on-ink: hsl(var(--line-on-ink));
-  --color-cream: hsl(var(--cream));
-  --color-white: hsl(var(--white));
-  --color-primary: hsl(var(--primary));
-  --color-primary-foreground: hsl(var(--primary-foreground));
-  --color-amber: hsl(var(--amber));
-  --color-teal: hsl(var(--teal));
-  --color-secondary: hsl(var(--secondary));
-  --color-muted-foreground: hsl(var(--muted-foreground));
-  --color-border: hsl(var(--border));
-  --color-ring: hsl(var(--ring));
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
 
-  --radius-sm: calc(var(--radius) - 6px);
-  --radius-md: calc(var(--radius) - 4px);
+  --color-ink: var(--ink);
+  --color-ink-foreground: var(--ink-foreground);
+  --color-ink-muted: var(--ink-muted);
+  --color-line-on-ink: var(--line-on-ink);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 6px);
 
@@ -74,10 +95,9 @@
     Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
-/* --- 3. base -------------------------------------------------------------- */
 @layer base {
   * {
-    border-color: hsl(var(--border));
+    border-color: var(--border);
   }
 
   html {
@@ -86,8 +106,8 @@
   }
 
   body {
-    background-color: hsl(var(--background));
-    color: hsl(var(--foreground));
+    background-color: var(--background);
+    color: var(--foreground);
     font-family: var(--font-sans);
     font-feature-settings: "cv11", "ss01";
     -webkit-font-smoothing: antialiased;
@@ -95,13 +115,13 @@
   }
 
   :focus-visible {
-    outline: 2px solid hsl(var(--focus, 356 66% 50%));
+    outline: 2px solid var(--focus, var(--ring));
     outline-offset: 3px;
   }
 
   ::selection {
-    background-color: hsl(var(--primary));
-    color: #fff;
+    background-color: var(--primary);
+    color: var(--primary-foreground);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -118,101 +138,73 @@
   }
 }
 
-/* --- 4. layout + surfaces ------------------------------------------------- */
 @layer components {
   .shell {
     width: 100%;
-    max-width: 80rem;
+    max-width: 78rem;
     margin-inline: auto;
-    padding-inline: clamp(1.25rem, 4vw, 3rem);
+    padding-inline: clamp(1.25rem, 4vw, 2.75rem);
   }
 
   .band {
-    padding-block: clamp(4rem, 7.5vw, 7rem);
+    padding-block: clamp(4rem, 7vw, 6.5rem);
   }
 
   .band-sm {
-    padding-block: clamp(3rem, 5vw, 4.5rem);
-  }
-
-  .surface-cream {
-    background-color: hsl(var(--cream));
-    color: hsl(var(--foreground));
-    --focus: 356 66% 50%;
-  }
-
-  .surface-white {
-    background-color: hsl(var(--white));
-    color: hsl(var(--foreground));
-    --focus: 356 66% 50%;
+    padding-block: clamp(2.75rem, 5vw, 4.5rem);
   }
 
   .surface-ink {
-    background-color: hsl(var(--ink));
-    color: hsl(var(--ink-foreground));
-    --focus: 40 30% 96%;
-    border-color: hsl(var(--line-on-ink));
+    background-color: var(--ink);
+    color: var(--ink-foreground);
+    --focus: var(--ink-foreground);
+    border-color: var(--line-on-ink);
   }
 
   .dim {
-    color: hsl(var(--muted-foreground));
+    color: var(--muted-foreground);
   }
 
   .surface-ink .dim {
-    color: hsl(var(--ink-muted));
+    color: var(--ink-muted);
   }
 
-  .hairline {
-    border-color: hsl(var(--border));
-  }
-
-  .surface-ink .hairline {
-    border-color: hsl(var(--line-on-ink));
-  }
-
-  /* --- type --- */
+  /* --- type ------------------------------------------------------------- */
   .eyebrow {
     font-size: 0.6875rem;
     font-weight: 600;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: hsl(var(--primary));
+    color: var(--primary);
   }
 
   .surface-ink .eyebrow {
-    color: hsl(var(--amber));
+    color: var(--chart-5);
   }
 
   .display {
-    /* 36px phone, 56px desktop. Measured: the hero headline is 1216px wide at
-       64px and 1064px at 56px, so 56 is the largest size that stays on one line
-       inside the 1184px shell and keeps the industry chips above the fold. */
-    font-size: clamp(2.25rem, 4.4vw, 3.5rem);
-    line-height: 1.02;
-    letter-spacing: -0.04em;
-    font-weight: 600;
-    text-wrap: balance;
-  }
-
-  .title-section {
-    font-size: clamp(1.75rem, 3vw, 2.625rem);
+    /* 34px phone, 50px desktop. The hero headline is one line at 50px inside
+       the 1248px shell; anything larger wraps under the selector and starts to
+       compete with it, which is the one thing the hero must not do. */
+    font-size: clamp(2.125rem, 3.6vw, 3.125rem);
     line-height: 1.06;
     letter-spacing: -0.035em;
     font-weight: 600;
     text-wrap: balance;
   }
 
-  .title-card {
-    font-size: 1.1875rem;
-    line-height: 1.25;
-    letter-spacing: -0.02em;
+  .title-section {
+    font-size: clamp(1.75rem, 2.8vw, 2.375rem);
+    line-height: 1.08;
+    letter-spacing: -0.03em;
     font-weight: 600;
+    text-wrap: balance;
   }
 
   .lead {
-    font-size: clamp(1.0625rem, 1.2vw, 1.1875rem);
+    font-size: clamp(1rem, 1.15vw, 1.125rem);
     line-height: 1.6;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.008em;
   }
 
   .body {
@@ -226,43 +218,43 @@
   }
 
   .measure {
-    max-width: 33rem;
+    max-width: 34rem;
   }
   .measure-tight {
-    max-width: 24rem;
+    max-width: 25rem;
   }
 }
 
-/* --- 5. phone field ------------------------------------------------------- */
+/* --- phone field ---------------------------------------------------------- */
 .phone-field {
   --react-international-phone-height: 3rem;
   --react-international-phone-border-radius: 0.625rem;
-  --react-international-phone-border-color: hsl(var(--border));
+  --react-international-phone-border-color: var(--border);
   --react-international-phone-background-color: #fff;
-  --react-international-phone-text-color: hsl(var(--foreground));
+  --react-international-phone-text-color: var(--foreground);
   --react-international-phone-font-size: 0.875rem;
   --react-international-phone-country-selector-background-color: #fff;
-  --react-international-phone-country-selector-background-color-hover: hsl(
-    var(--secondary)
+  --react-international-phone-country-selector-background-color-hover: var(
+    --secondary
   );
-  --react-international-phone-country-selector-arrow-color: hsl(
-    var(--muted-foreground)
+  --react-international-phone-country-selector-arrow-color: var(
+    --muted-foreground
   );
-  --react-international-phone-disabled-background-color: hsl(var(--secondary));
-  --react-international-phone-disabled-text-color: hsl(var(--muted-foreground));
+  --react-international-phone-disabled-background-color: var(--muted);
+  --react-international-phone-disabled-text-color: var(--muted-foreground);
   --react-international-phone-dropdown-top: calc(3rem + 6px);
   --react-international-phone-dropdown-item-height: 2.25rem;
   --react-international-phone-dropdown-item-font-size: 0.8125rem;
-  --react-international-phone-dropdown-item-background-color: #fff;
-  --react-international-phone-dropdown-item-text-color: hsl(var(--foreground));
-  --react-international-phone-selected-dropdown-item-background-color: hsl(
-    var(--secondary)
+  --react-international-phone-dropdown-item-background-color: var(--popover);
+  --react-international-phone-dropdown-item-text-color: var(--foreground);
+  --react-international-phone-selected-dropdown-item-background-color: var(
+    --secondary
   );
-  --react-international-phone-selected-dropdown-item-text-color: hsl(
-    var(--foreground)
+  --react-international-phone-selected-dropdown-item-text-color: var(
+    --foreground
   );
   --react-international-phone-dropdown-shadow: 0 18px 40px -16px
-    hsl(220 48% 7% / 0.35);
+    oklch(13.23% 0.0756 277.93 / 0.28);
 }
 
 .phone-field .react-international-phone-input-container {
@@ -276,7 +268,7 @@
   padding-inline: 0.875rem;
 }
 .phone-field .react-international-phone-input:focus-visible {
-  outline: 2px solid hsl(var(--primary));
+  outline: 2px solid var(--ring);
   outline-offset: 1px;
 }
 .phone-field .react-international-phone-country-selector-dropdown {
@@ -286,40 +278,23 @@
 }
 .phone-field--error .react-international-phone-country-selector-button,
 .phone-field--error .react-international-phone-input {
-  border-color: hsl(var(--primary));
+  border-color: var(--destructive);
 }
 
-/* --- 6. ambient ----------------------------------------------------------- */
-/* A faint grid behind the dark hero. Without it the ink surface is a flat
-   rectangle; with it the section reads as a designed backdrop. */
-.grid-veil {
-  background-image: linear-gradient(
-      to right,
-      hsl(0 0% 100% / 0.045) 1px,
-      transparent 1px
+/* --- ambient -------------------------------------------------------------- */
+/* A soft primary wash behind the hero selector. It is the only gradient on the
+   page, and it exists to lift the control off the background. */
+.hero-wash {
+  background:
+    radial-gradient(
+      70% 55% at 50% 0%,
+      oklch(94% 0.035 264.38) 0%,
+      transparent 70%
     ),
-    linear-gradient(to bottom, hsl(0 0% 100% / 0.045) 1px, transparent 1px);
-  background-size: 56px 56px;
-  mask-image: radial-gradient(120% 90% at 50% 0%, #000 30%, transparent 78%);
+    var(--background);
 }
 
-.hero-glow::before {
-  content: "";
-  position: absolute;
-  inset: -30% -10% auto auto;
-  width: 46rem;
-  height: 46rem;
-  border-radius: 9999px;
-  background: radial-gradient(
-    closest-side,
-    hsl(var(--primary) / 0.28),
-    transparent
-  );
-  filter: blur(10px);
-  pointer-events: none;
-}
-
-/* --- 7. dialog ------------------------------------------------------------ */
+/* --- dialog --------------------------------------------------------------- */
 @keyframes overlay-in {
   from {
     opacity: 0;

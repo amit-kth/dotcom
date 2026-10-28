@@ -132,3 +132,27 @@ npm run build   # writes the static site to out/
 
 `out/` is what gets zipped for cPanel. The site is a static export, so there is
 no Node process on the server.
+
+
+## Copy decisions, second pass
+
+- **No eyebrow.** The headline says "ready-made", so a badge repeating it was noise.
+- **One-line headline promise.** "Live in 15 days." sits on its own line in `--peri`,
+  so it lands as a statement instead of being balanced into an awkward break.
+- **Counts only when they are news.** Every category has one system except EdTech
+  (two), so "1 system" was printed seven times to say nothing. Only `count > 1`
+  renders a sub-label now.
+- **Eighth tile is an action, not a count.** "All systems / 5 to install" mixed a
+  per-category count with a catalogue total and explained neither. It reads
+  "View all solutions", is styled quietly (never primary-filled) so it cannot
+  compete with the seven real choices, and clears the filter.
+- **No "Choose one".** The panel's question already asks.
+- **Trust row** is one line at every width: `CMMI Level 3 · 1,549+ projects ·
+  1,245+ clients`, separated by middots rather than pipes.
+
+### On the CMMI claim
+The old `index.php` never writes "Level 3" as text — it only embeds
+`img/icons/cmmi.webp` with `alt="logo"`. That artwork itself reads
+**CMMI LEVEL 3**, so the claim comes from the client's own badge and is safe to
+state. The alt text was adjusted from "CMMI Level 3 appraised" to "CMMI Level 3":
+"appraised" was an inference the old site never made.

@@ -37,7 +37,7 @@ export const counters: Counter[] = [
 --------------------------------------------------------------------------- */
 export const cmmi = {
   src: "icons/cmmi.webp",
-  alt: "CMMI Level 3 appraised",
+  alt: "CMMI Level 3",
   label: "CMMI Level 3",
   width: 200,
   height: 200,

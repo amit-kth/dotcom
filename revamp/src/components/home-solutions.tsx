@@ -61,6 +61,16 @@ const ICONS: Record<CategoryId, LucideIcon> = {
   "real-estate": Building2,
 };
 
+/** Separator for the hero's trust row: a middot reads as one sentence, where
+ *  three pipes read as a table squeezed into a footer. */
+function Dot() {
+  return (
+    <span aria-hidden="true" className="text-border">
+      ·
+    </span>
+  );
+}
+
 export function HomeSolutions() {
   const [selected, setSelected] = useState<CategoryId | null>(null);
   const listRef = useRef<HTMLDivElement | null>(null);
@@ -105,35 +115,29 @@ export function HomeSolutions() {
 
         <div className="shell hero-body relative z-10">
           <div className="mx-auto max-w-[46rem] text-center">
-            <p className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-[0.6875rem] font-semibold uppercase tracking-[0.14em] text-ink-foreground/75 backdrop-blur-sm">
-              <span className="size-1.5 rounded-full bg-peri" aria-hidden="true" />
-              Ready-made software
-            </p>
-
+            {/* No eyebrow above this. The headline now says "ready-made", so a
+                badge saying it again was pure repetition. */}
             <h1 id="hero-title" className="display hero-title text-white">
-              Software your business can run in{" "}
-              {/* nowrap: the phrase is the promise, it must not break as
-                  "…in 15 / days." on a narrow window. */}
-              <span className="whitespace-nowrap text-peri">15 days</span>.
+              Ready-made software for your business.
+              {/* The promise, on its own line, so it lands as one statement
+                  instead of being balanced into an awkward break. */}
+              <span className="mt-1 block whitespace-nowrap text-peri">
+                Live in 15 days.
+              </span>
             </h1>
 
-            <p className="lead hero-lead mx-auto max-w-[32rem] text-ink-foreground/70">
-              Pick your industry and we will show you what we have already
-              built, installed and running.
+            {/* One line, and legible on a photograph: /85 instead of /70. */}
+            <p className="lead hero-lead mx-auto max-w-[36rem] text-ink-foreground/85">
+              Pick your industry to see what is already built and running.
             </p>
           </div>
 
           {/* ============ the control. the most important object on the page. */}
           <div className="hero-panel mx-auto max-w-[52rem]">
             <div className="rounded-[1.25rem] border border-white/15 bg-card p-4 shadow-[0_2px_4px_oklch(13.23%_0.0756_277.93/0.2),0_40px_90px_-30px_oklch(0%_0_0/0.85)] sm:p-6">
-              <div className="flex flex-wrap items-center justify-between gap-2 px-1">
-                <p className="text-[0.9375rem] font-semibold text-foreground">
-                  What does your business do?
-                </p>
-                <p className="text-[0.75rem] font-medium text-muted-foreground">
-                  Choose one
-                </p>
-              </div>
+              <p className="px-1 text-[0.9375rem] font-semibold text-foreground">
+                What does your business do?
+              </p>
 
               <div
                 role="group"
@@ -174,16 +178,20 @@ export function HomeSolutions() {
                         <span className="block text-[0.75rem] font-semibold leading-tight md:text-[0.8125rem]">
                           {category.label}
                         </span>
-                        <span
-                          className={cn(
-                            "mt-0.5 block text-[0.6875rem] leading-tight",
-                            active
-                              ? "text-primary-foreground/70"
-                              : "text-muted-foreground",
-                          )}
-                        >
-                          {count} {count === 1 ? "system" : "systems"}
-                        </span>
+                        {/* A count of one is the default, so printing "1 system"
+                            seven times is noise. Only a surplus is worth a line. */}
+                        {count > 1 && (
+                          <span
+                            className={cn(
+                              "mt-0.5 block text-[0.6875rem] leading-tight",
+                              active
+                                ? "text-primary-foreground/70"
+                                : "text-muted-foreground",
+                            )}
+                          >
+                            {count} systems
+                          </span>
+                        )}
                       </span>
 
                       <ChevronRight
@@ -199,52 +207,23 @@ export function HomeSolutions() {
                   );
                 })}
 
-                {/* The eighth tile is the reset. Four per row, two rows, no
-                    orphan and no separate "clear" control to hunt for. */}
+                {/* The eighth tile clears the choice and shows everything.
+                    It is quiet on purpose: filled with the primary colour it
+                    became a second call to action sitting inside the control,
+                    pulling attention before anyone had picked anything. */}
                 <button
                   type="button"
-                  aria-pressed={selected === null}
                   onClick={() => choose(null)}
-                  className={cn(
-                    "hero-tile group relative flex items-center gap-3 rounded-xl border px-3 py-3 text-left transition-all duration-200",
-                    "focus-visible:outline-2 focus-visible:outline-offset-2",
-                    selected === null
-                      ? "border-primary bg-primary text-primary-foreground shadow-[0_10px_24px_-12px_oklch(49.03%_0.2158_264.38/0.9)]"
-                      : "border-dashed border-border bg-background text-foreground hover:-translate-y-0.5 hover:border-primary/40 hover:bg-accent/40",
-                  )}
+                  className="hero-tile group relative flex items-center gap-3 rounded-xl border border-border bg-background px-3 py-3 text-left text-foreground transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:bg-accent/40 focus-visible:outline-2 focus-visible:outline-offset-2"
                 >
-                  <span
-                    className={cn(
-                      "flex size-8 shrink-0 items-center justify-center rounded-lg transition-colors md:size-9",
-                      selected === null
-                        ? "bg-primary-foreground/15 text-primary-foreground"
-                        : "bg-secondary text-secondary-foreground group-hover:bg-primary group-hover:text-primary-foreground",
-                    )}
-                  >
+                  <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-secondary text-secondary-foreground transition-colors group-hover:bg-primary group-hover:text-primary-foreground md:size-9">
                     <LayoutGrid className="size-[1.05rem]" aria-hidden="true" />
                   </span>
-                  <span className="min-w-0 flex-1">
-                    <span className="block text-[0.75rem] font-semibold leading-tight md:text-[0.8125rem]">
-                      All systems
-                    </span>
-                    <span
-                      className={cn(
-                        "mt-0.5 block text-[0.6875rem] leading-tight",
-                        selected === null
-                          ? "text-primary-foreground/70"
-                          : "text-muted-foreground",
-                      )}
-                    >
-                      {availableProducts.length} to install
-                    </span>
+                  <span className="min-w-0 flex-1 text-[0.75rem] font-semibold leading-tight md:text-[0.8125rem]">
+                    View all solutions
                   </span>
                   <ChevronRight
-                    className={cn(
-                      "size-4 shrink-0 transition-opacity",
-                      selected === null
-                        ? "opacity-60"
-                        : "opacity-0 group-hover:opacity-50",
-                    )}
+                    className="size-4 shrink-0 opacity-40 transition-all group-hover:translate-x-0.5 group-hover:opacity-70"
                     aria-hidden="true"
                   />
                 </button>
@@ -253,16 +232,18 @@ export function HomeSolutions() {
               {/* Trust, inside the panel and at the bottom of it: still the
                   quietest thing here, but on a surface where 12px grey text is
                   actually readable instead of lost in a photograph. */}
-              <div className="mt-4 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 border-t border-border pt-3.5 text-[0.75rem] text-muted-foreground">
-                <span className="font-medium">CMMI Level 3</span>
-                <span aria-hidden="true" className="text-border">
-                  |
+              <div className="mt-4 flex flex-wrap items-center justify-center gap-x-2 border-t border-border pt-3.5 text-[0.6875rem] text-muted-foreground sm:text-[0.75rem]">
+                <span className="whitespace-nowrap font-medium">
+                  CMMI Level 3
                 </span>
-                <span>{counters[0].value}+ projects delivered</span>
-                <span aria-hidden="true" className="text-border">
-                  |
+                <Dot />
+                <span className="whitespace-nowrap">
+                  {counters[0].value}+ projects
                 </span>
-                <span>{counters[2].value}+ clients</span>
+                <Dot />
+                <span className="whitespace-nowrap">
+                  {counters[2].value}+ clients
+                </span>
               </div>
             </div>
           </div>

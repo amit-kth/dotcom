@@ -82,10 +82,10 @@ export function Solutions() {
         <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-4">
           <div>
             <p className="t-label">Solutions</p>
-            <h2 id="solutions-title" className="t-heading mt-4 max-w-[18ch]">
+            <h2 id="solutions-title" className="t-heading mt-4 max-w-[24ch]">
               {selected
                 ? `${categoryLabel(selected)} solutions.`
-                : "What we can install now."}
+                : "Customised solutions for all of your needs."}
             </h2>
           </div>
 

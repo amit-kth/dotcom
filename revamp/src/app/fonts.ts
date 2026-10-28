@@ -3,22 +3,29 @@ import localFont from "next/font/local";
 /* ============================================================================
    fonts.ts  —  the one place the typeface is declared
    ----------------------------------------------------------------------------
-   Bricolage Grotesque, committed as a single variable .woff2 (wght 200-800,
-   opsz axis included) so the static export makes no external font request and
-   the build cannot fail because Google Fonts is unreachable.
+   Poppins, self-hosted. Four static weights (400 / 500 / 600 / 700) are
+   committed in src/fonts, so the static export makes no external font request
+   and the build cannot fail because a font CDN is unreachable.
 
-   Swapping the typeface is a one-line change: drop a new .woff2 into src/fonts,
-   change `src` here, and nothing else in the project refers to a font file.
+   Why four files and not one variable font: Poppins ships as static weights.
+   Declaring them as one family with explicit `weight` values means the browser
+   downloads only the weights the page actually uses (400 for body, 500/600 for
+   labels and buttons, 700 for headings), and `next/font` generates the
+   preloads and the metric-matched fallback automatically.
 
-   Why this face: Inter is what every generated site reaches for. Bricolage has
-   a display weight with actual character — narrower bowls, a squarer shoulder —
-   which is what carries a 96px headline, and it still reads cleanly at 17px.
+   Swapping the typeface is still a one-line change: drop new .woff2 files into
+   src/fonts and edit `src` here. Nothing else in the project names a font file.
    ========================================================================== */
 
 export const display = localFont({
-  src: "../fonts/bricolage-grotesque.woff2",
+  src: [
+    { path: "../fonts/poppins-400.woff2", weight: "400", style: "normal" },
+    { path: "../fonts/poppins-500.woff2", weight: "500", style: "normal" },
+    { path: "../fonts/poppins-600.woff2", weight: "600", style: "normal" },
+    { path: "../fonts/poppins-700.woff2", weight: "700", style: "normal" },
+  ],
   variable: "--font-display",
   display: "swap",
-  weight: "200 800",
   fallback: ["ui-sans-serif", "system-ui", "sans-serif"],
+  adjustFontFallback: "Arial",
 });

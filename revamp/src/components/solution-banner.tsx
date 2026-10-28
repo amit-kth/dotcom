@@ -58,7 +58,8 @@ export function SolutionBanner({
       <div aria-hidden="true" className="banner-scrim" />
 
       <div className="banner-copy">
-        <p className="t-label">{product.categories.map(categoryLabel).join(" · ")}</p>
+        {/* only the primary industry is shown; the rest are filter tags */}
+        <p className="t-label">{categoryLabel(product.categories[0])}</p>
 
         <h3 className="mt-3 text-[clamp(1.75rem,4.2vw,3.25rem)] font-bold leading-[1.02] tracking-[-0.035em] text-on-dark">
           {product.name}

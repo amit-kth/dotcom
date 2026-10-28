@@ -134,6 +134,18 @@ export const testimonials: Testimonial[] = [
     role: "Sudha Hospital",
     logo: "clients/sudha-hospital.webp",
   },
+  {
+    /* The fourth quote the old site's carousel shows. It was missing from this
+       rebuild, not from the source. */
+    id: "kratant-sharma",
+    quote:
+      "Managing trips & perks for the tourists has never been so exhilarating as we have touched the highest ebbs in our endeavors. Kriscent Techno Hub has built the most effective web solution that helped us in serving more clients",
+    excerpt:
+      "Kriscent Techno Hub has built the most effective web solution that helped us in serving more clients.",
+    name: "Kratant Sharma",
+    role: "Shrinath Travels",
+    logo: "clients/shrinath-travels.webp",
+  },
 ];
 
 /* ---------------------------------------------------------------------------

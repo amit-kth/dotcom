@@ -77,6 +77,15 @@ export const contact = {
   phones: ["+91-7240560001", "+91-8947027625"],
   /** wa.me link, carried over from the old site's floating button. */
   whatsapp: "https://wa.me/918947027625",
+  /* The profiles the old site links to in its own footer. Nothing invented:
+     these five are the ones that appear in index.php. */
+  socials: [
+    { label: "LinkedIn", href: "https://www.linkedin.com/company/kriscenttechnohub/" },
+    { label: "Instagram", href: "https://www.instagram.com/kriscenttechnohub/" },
+    { label: "Facebook", href: "https://www.facebook.com/KriscentServices" },
+    { label: "X", href: "https://twitter.com/Kriscent_KTH" },
+    { label: "YouTube", href: "https://www.youtube.com/@kriscenttech" },
+  ],
   /** The old site never publishes a street address, only the city the company
       was founded in. A fabricated address is worse than none. */
   locality: "Kota, Rajasthan, India",
@@ -110,13 +119,13 @@ export const pages: Record<PageKey, PageMeta> = {
       "Ready-Made Software Solutions, Live in 15 Days | Kriscent",
     description:
       "Ready-made solutions for schools, clinics, finance, logistics and more. Pick your industry, see what is already built, and go live in 15 days instead of six months.",
-    ogImage: "dummy/og.webp",
+    ogImage: "logo/og.png",
   },
   solutions: {
     path: "/solutions",
     title: "All Ready-Made Solutions | Kriscent",
     description:
       "The full catalogue of Kriscent ready-made solutions, themes and additional products. Every system can be live in 15 days.",
-    ogImage: "dummy/og.webp",
+    ogImage: "logo/og.png",
   },
 };

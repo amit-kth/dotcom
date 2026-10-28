@@ -58,7 +58,7 @@ export function Seo({ page, titleOverride, descriptionOverride }: SeoProps) {
   const canonical = `${site.url}${meta.path === "/" ? "/" : meta.path + "/"}`;
   const ogImage = meta.ogImage
     ? `${site.url}/${meta.ogImage}`
-    : `${site.url}/logo/logo.png`;
+    : `${site.url}/logo/og.png`;
 
   /* Organization schema: same facts as the footer, nothing invented. */
   const organizationSchema = {
@@ -71,7 +71,7 @@ export function Seo({ page, titleOverride, descriptionOverride }: SeoProps) {
     foundingDate: String(site.founded),
     email: contact.emails.general,
     telephone: contact.phones[0],
-    sameAs: [site.url],
+    sameAs: contact.socials.map((item) => item.href),
   };
 
   /* WebSite schema: helps search engines attach the brand to the domain. */

@@ -1,7 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useInView, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import {
+  motion,
+  useInView,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+} from "framer-motion";
 import { Reveal } from "@/components/reveal";
 import { deliverySteps } from "@/data/steps";
 import { DELIVERY_DAYS } from "@/data/products";
@@ -11,17 +17,15 @@ import { DELIVERY_DAYS } from "@/data/products";
    ----------------------------------------------------------------------------
    PURPOSE: make the 15-day promise believable.
 
-   Show, don't tell. Three things happen as this section scrolls into view:
+   This is the first light band on the page. It sits between Solutions and
+   About, so it works as a divider: dark banners above, dark bento below, and a
+   sheet of paper in the middle holding one number and four stages.
 
-   1. the 15 counts up from 0 to 15 (once),
-   2. a line draws itself left to right across the four stages,
-   3. each node lights as the line reaches it.
+   Three things happen once as it scrolls in, all driven off one scroll value:
+   the 15 counts up, each stage's segment of the rail draws, and its node fills
+   in. `prefers-reduced-motion` renders the finished state immediately.
 
-   All three are driven by one scroll progress value, so they cannot drift out
-   of sync. `prefers-reduced-motion` renders the finished state immediately:
-   counter at 15, line drawn, nodes lit, no animation.
-
-   The day ranges are DRAFT (see data/steps.ts).
+   The day ranges are DRAFT — see data/steps.ts.
    ========================================================================== */
 
 export function Delivery() {
@@ -31,15 +35,12 @@ export function Delivery() {
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
-    offset: ["start 0.85", "end 0.45"],
+    offset: ["start 0.85", "end 0.5"],
   });
 
-  /* Same rule as the About counters: the number is in the HTML from the first
-     byte, and counts from zero only when the section is on screen. */
+  /* Server prints 15, so a crawler or a no-JS visit never sees a zero. */
   const [count, setCount] = useState(DELIVERY_DAYS);
 
-  /* The counter runs off the same idea as the line: when the section is in
-     view, count to 15 over 1.1s. It never loops and never re-runs. */
   useEffect(() => {
     if (!inView || reduceMotion) return;
     setCount(0);
@@ -55,18 +56,22 @@ export function Delivery() {
   }, [inView, reduceMotion]);
 
   return (
-    <section id="delivery" className="band bg-band-delivery" aria-labelledby="delivery-title">
-      <div ref={sectionRef} className="shell">
-        <div className="grid gap-x-16 gap-y-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1fr)] lg:items-end">
+    <section
+      id="delivery"
+      className="light-band relative overflow-hidden bg-band-delivery"
+      aria-labelledby="delivery-title"
+    >
+      <div ref={sectionRef} className="shell band">
+        <div className="grid gap-x-16 gap-y-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] lg:items-end">
           <Reveal>
             <p className="t-label">How it works</p>
-            <h2 id="delivery-title" className="t-heading mt-4 max-w-[16ch]">
+            <h2 id="delivery-title" className="t-heading mt-4 max-w-[18ch]">
               From enquiry to live in {DELIVERY_DAYS} days.
             </h2>
           </Reveal>
 
           <Reveal delay={0.1}>
-            <p className="t-body lg:pb-2">
+            <p className="t-body max-w-[46ch] lg:pb-2">
               One track, four stages. You work with the people doing the work,
               and we quote the date before we start.
             </p>
@@ -74,14 +79,14 @@ export function Delivery() {
         </div>
 
         {/* ---- the number ---- */}
-        <div className="mt-16 flex items-end gap-5 sm:mt-20">
+        <div className="mt-14 flex flex-wrap items-end gap-x-6 gap-y-3 sm:mt-20">
           <p
-            className="t-display tabular-nums leading-[0.8] text-accent-bright"
+            className="figure-number tabular-nums"
             aria-hidden="true"
           >
             {String(count).padStart(2, "0")}
           </p>
-          <p className="pb-2 text-[1.0625rem] font-semibold leading-tight text-on-dark-soft">
+          <p className="pb-3 text-[1.0625rem] font-semibold leading-snug text-on-light-soft">
             days
             <br />
             to go live
@@ -91,12 +96,8 @@ export function Delivery() {
           </span>
         </div>
 
-        {/* ---- the timeline ----
-            Each stage owns a segment of the line above it, and the four
-            segments join at lg so the row reads as one drawn line. On a phone
-            the same segments sit at the top of each stacked stage, which is
-            the only arrangement that still makes sense in one column. */}
-        <ol className="mt-14 grid gap-y-12 sm:grid-cols-2 sm:gap-x-8 lg:mt-20 lg:grid-cols-4">
+        {/* ---- the rail ---- */}
+        <ol className="mt-10 grid gap-y-10 sm:grid-cols-2 sm:gap-x-8 lg:mt-12 lg:grid-cols-4">
           {deliverySteps.map((step, index) => (
             <Stage
               key={step.id}
@@ -105,10 +106,10 @@ export function Delivery() {
               reduceMotion={Boolean(reduceMotion)}
             >
               <p className="t-label">{step.days}</p>
-              <h3 className="mt-2 text-xl font-semibold tracking-[-0.02em] text-on-dark">
+              <h3 className="mt-2 text-xl font-semibold tracking-[-0.02em] text-on-light">
                 {step.title}
               </h3>
-              <p className="mt-2 max-w-[26ch] text-[1rem] leading-relaxed text-on-dark-soft">
+              <p className="mt-2 max-w-[28ch] text-[1rem] leading-relaxed text-on-light-soft">
                 {step.line}
               </p>
             </Stage>
@@ -118,6 +119,8 @@ export function Delivery() {
     </section>
   );
 }
+
+/* -------------------------------------------------------------------------- */
 
 function Stage({
   children,
@@ -130,33 +133,33 @@ function Stage({
   progress: ReturnType<typeof useScroll>["scrollYProgress"];
   reduceMotion: boolean;
 }) {
-  /* This stage's segment draws during its own slice of the section's scroll,
-     then its node lights. Same value for both, so they cannot drift. */
   const from = index / deliverySteps.length;
   const to = (index + 1) / deliverySteps.length;
 
   const draw = useTransform(progress, [from, to], [0, 1]);
-  const lit = useTransform(progress, [to - 0.04, to], [0.3, 1]);
+  const lit = useTransform(progress, [to - 0.05, to], [0, 1]);
 
   return (
-    <li className="relative pt-8">
+    <li className="relative pt-7">
+      {/* the unfilled rail */}
       <span
         aria-hidden="true"
-        className="absolute inset-x-0 top-0 h-px bg-glass-border lg:-right-8"
+        className="absolute inset-x-0 top-0 h-[2px] rounded-full bg-line lg:-right-8"
       />
+      {/* the brand part, drawn as the section scrolls */}
       <motion.span
         aria-hidden="true"
-        className="absolute inset-x-0 top-0 h-px origin-left bg-accent-bright lg:-right-8"
+        className="absolute inset-x-0 top-0 h-[2px] origin-left rounded-full bg-brand lg:-right-8"
         style={reduceMotion ? { scaleX: 1 } : { scaleX: draw }}
       />
+      <span
+        aria-hidden="true"
+        className="absolute -top-[5px] left-0 size-3 rounded-full border-2 border-line bg-white"
+      />
       <motion.span
         aria-hidden="true"
-        className="absolute -top-[5px] left-0 size-2.5 rounded-full bg-accent-bright"
-        style={
-          reduceMotion
-            ? { opacity: 1 }
-            : { opacity: lit, boxShadow: "0 0 18px var(--accent-glow)" }
-        }
+        className="absolute -top-[5px] left-0 size-3 rounded-full bg-brand"
+        style={reduceMotion ? { opacity: 1 } : { opacity: lit, scale: lit }}
       />
       {children}
     </li>

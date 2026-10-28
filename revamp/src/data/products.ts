@@ -1,29 +1,29 @@
 import { type CategoryId } from "./categories";
 
 /* ============================================================================
-   products.ts  —  the solutions
+   products.ts  —  the six solutions we show
    ----------------------------------------------------------------------------
-   HOW TO ADD A SOLUTION
-   1. Add an entry to `products`.
-   2. Drop its banner into public/banners/ (or ImageKit at the same path) and
-      put that filename in `banner`.
+   This list is the client's: AI Calling Agents, WhatsApp CRM, K-Exam, K-LMS,
+   K-Edusity, Kastrofy. Nothing else is added here.
 
    BANNER SPEC
    -----------
-   One aspect ratio for every banner: **16:7** (e.g. 1680 x 735 px, WebP).
-   The left ~55% must be visually calm — text sits there. The artwork belongs on
-   the right. A neutral dark left half is ideal; the component adds a token
-   gradient scrim on top anyway.
+   One aspect ratio for every banner: **16:7** (1680 x 735, WebP).
+   Artwork on the right two thirds; the left third is kept calm because the
+   copy sits there. Files live in public/banners/.
 
-   While real banners are missing, every product points at
-   `banners/placeholder.webp`. Replacing it is a file swap: no code change.
-   Search for TODO(banner) to find the ones still waiting.
+   IMAGES
+   ------
+   The six banners in public/banners are generated artwork in the same visual
+   language as the AI Calling Agents reference: dark navy, electric-blue line
+   art on the right, empty left. They are placeholders for art direction, not
+   final brand assets — swap the file, keep the name, no code change.
 
    LANGUAGE
    --------
-   "solutions", never "systems" or "products" in visible copy. A solution has:
-   a name, one line of problem, three outcomes of five words or fewer.
-   Prices are never shown, and demo credentials never exist.
+   "Solutions", never "products" or "systems" in visible copy. A solution has a
+   name, one line of problem, and three outcomes of five words or fewer.
+   Prices are never shown and demo credentials never exist.
    ========================================================================== */
 
 /** Every solution is delivered in this many days. */
@@ -39,146 +39,118 @@ export type Product = {
   name: string;
   /** one line: the problem it removes, not a feature list */
   problem: string;
+  /** the first entry is the label shown on the banner; all of them filter */
   categories: CategoryId[];
   /** exactly three, each five words or fewer */
   outcomes: [string, string, string];
-  /** drives the hairline and hover spotlight on the banner */
   accentHue: AccentHue;
   /** path under ASSETS_BASE_URL */
   banner: string;
-  /** shown in the default list; `featured` is neutral naming */
+  /** shown in the homepage list; false = only on /solutions */
   featured: boolean;
-  /** display order */
   order: number;
 };
-
-/* TODO(banner): one placeholder for all of them until the real files arrive.
-   The AI Calling Agents banner supplied by the client is used for that one. */
-const PLACEHOLDER_BANNER = "banners/placeholder.webp";
 
 export const products: Product[] = [
   {
     id: "ai-calling-agents",
     name: "AI Calling Agents",
+    // The phrasing is the client's own reference banner: calls that did not
+    // need a person.
     problem: "Your team loses hours to calls that never needed a person.",
-    categories: ["fintech"],
+    // TODO(confirm): the industry tags below decide which chip finds this
+    // solution. The software itself is not industry-specific.
+    categories: ["fintech", "healthcare", "real-estate", "logistics"],
     outcomes: [
       "Routine calls handled end to end",
       "Warm leads passed to your team",
       "Every call recorded and searchable",
     ],
     accentHue: "blue",
-    // The one real banner we have. TODO(banner): confirm 16:7 export exists.
-    banner: "https://ik.imagekit.io/qk2ww553c/tempAssets/revamp/hero-poster.webp",
+    banner: "banners/ai-calling-agents.webp",
     featured: true,
     order: 1,
   },
   {
-    id: "kastrofy",
-    name: "Kastrofy",
-    problem: "Consultations and content live in five different tools.",
-    categories: ["astrology"],
+    id: "whatsapp-crm",
+    // K-SMART on the old site; "one CRM instead of six tools" is its own line.
+    name: "WhatsApp CRM",
+    problem: "Leads live across six tools and three phones.",
+    categories: ["manufacturing", "logistics", "real-estate"],
     outcomes: [
-      "Bookings and payments in one place",
-      "Repeat clients handled automatically",
-      "Content published from one dashboard",
+      "One workspace for every lead",
+      "Quotations and invoices together",
+      "WhatsApp automation built in",
     ],
-    accentHue: "violet",
-    banner: PLACEHOLDER_BANNER,
+    accentHue: "teal",
+    banner: "banners/k-smart.webp",
     featured: true,
     order: 2,
   },
   {
-    id: "kexam",
+    id: "k-exam",
     name: "K-Exam",
-    problem: "Exams take a week of marking after the paper ends.",
+    // Old site: "Exams that stay secure online".
+    problem: "Exams take a week of marking and a folder of paperwork.",
     categories: ["edtech"],
     outcomes: [
       "Build tests from a question bank",
-      "Results without manual marking",
-      "Students see their own scorecard",
+      "Anti-cheating checks in the test",
+      "Results published without marking",
     ],
     accentHue: "coral",
-    banner: PLACEHOLDER_BANNER,
+    banner: "banners/k-exam.webp",
     featured: true,
     order: 3,
   },
   {
-    id: "whatsapp-crm",
-    name: "WhatsApp CRM",
-    problem: "Enquiries scattered across personal phones get forgotten.",
-    categories: ["manufacturing"],
-    outcomes: [
-      "One shared inbox for enquiries",
-      "Follow-ups assigned to a person",
-      "Broadcasts sent from the CRM",
-    ],
-    accentHue: "teal",
-    banner: PLACEHOLDER_BANNER,
-    featured: true,
-    order: 4,
-  },
-  {
-    id: "lms",
-    name: "LMS",
+    id: "k-lms",
+    name: "K-LMS",
     problem: "Training progress lives in spreadsheets nobody updates.",
-    categories: ["edtech"],
+    // TODO(confirm): K-LMS lines are DRAFT.
+    categories: ["edtech", "manufacturing"],
     outcomes: [
       "Courses and batches in one place",
       "Trainers see learner progress",
       "Certificates issued on completion",
     ],
     accentHue: "violet",
-    banner: PLACEHOLDER_BANNER,
-    /* the homepage shows one solution per industry; the second EdTech
-       solution lives on /solutions so the stack does not repeat itself */
-    featured: false,
+    banner: "banners/k-lms.webp",
+    featured: true,
+    order: 4,
+  },
+  {
+    id: "k-edusity",
+    name: "K-Edusity",
+    problem: "A school runs on registers, WhatsApp groups and memory.",
+    // TODO(confirm): K-Edusity (school ERP) lines are DRAFT.
+    categories: ["edtech"],
+    outcomes: [
+      "Admissions to attendance in one place",
+      "Fees, exams and transport together",
+      "Parents see what the school sees",
+    ],
+    accentHue: "blue",
+    banner: "banners/k-edusity.webp",
+    featured: true,
     order: 5,
   },
   {
-    id: "doctorplus",
-    name: "DoctorPlus",
-    problem: "Clinic appointments and records sit in separate registers.",
-    categories: ["healthcare"],
+    id: "kastrofy",
+    name: "Kastrofy",
+    // Old site: "Connect with expert astrologers, live … shop curated
+    // remedies, and take consultations without leaving the portal."
+    problem: "Consultations, chats and store orders run in separate tools.",
+    categories: ["astrology"],
     outcomes: [
-      "Appointments booked online",
-      "Patient history in one record",
-      "Billing at the front desk",
-    ],
-    accentHue: "coral",
-    banner: PLACEHOLDER_BANNER,
-    featured: true,
-    order: 6,
-  },
-  {
-    id: "kparking",
-    name: "K-Parking",
-    problem: "Parking collections are counted by hand at the gate.",
-    categories: ["logistics"],
-    outcomes: [
-      "Slots and passes managed live",
-      "Daily collection visible",
-      "Monthly passes renewed online",
-    ],
-    accentHue: "teal",
-    banner: PLACEHOLDER_BANNER,
-    featured: true,
-    order: 7,
-  },
-  {
-    id: "krealestate",
-    name: "KRealEstate",
-    problem: "Listings, site visits and follow-ups all run on a phone.",
-    categories: ["real-estate"],
-    outcomes: [
-      "Listings published from one dashboard",
-      "Site visits scheduled by your team",
-      "Every enquiry assigned to an agent",
+      "Chat, call and live consultations",
+      "Curated remedies in one store",
+      "Repeat clients handled automatically",
     ],
     accentHue: "violet",
-    banner: PLACEHOLDER_BANNER,
+    banner: "banners/kastrofy.webp",
     featured: true,
-    order: 8,
+    order: 6,
   },
 ];
 

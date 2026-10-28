@@ -185,20 +185,27 @@ function StackItem({
   progress: ReturnType<typeof useScroll>["scrollYProgress"];
 }) {
   /* Each banner owns a slice of the section's scroll and shrinks as the next
-     one comes over the top of it. The last one does not shrink: there is
-     nothing left to cover it. */
+     one comes over the top of it. The last one does nothing at all: there is
+     nothing left to cover it, so it stays full size and full brightness. */
+  const isLast = index === total - 1;
   const start = index / total;
   const end = (index + 1) / total;
 
-  const scale = useTransform(progress, [start, end], [1, 0.94]);
-  const y = useTransform(progress, [start, end], [0, -12]);
+  const scale = useTransform(progress, [start, end], [1, isLast ? 1 : 0.94]);
+  const y = useTransform(progress, [start, end], [0, isLast ? 0 : -12]);
 
   /* The dim is a layer of paint on top of the card, not `opacity` on the card.
      Animating opacity here would make a covered banner see-through, and the
-     three banners stacked behind it would bleed their text through the one on
-     top. A card in this stack is always fully opaque; only the shade over it
-     fades in. */
-  const shade = useTransform(progress, [start, end], [0, 0.55]);
+     banners stacked behind it would bleed their text through the one on top.
+
+     It also holds back for the first half of the window, so a banner is only
+     dimmed once the next one is actually over it — not while it is still the
+     banner you are reading. */
+  const shade = useTransform(
+    progress,
+    [start + (end - start) * 0.5, end],
+    [0, isLast ? 0 : 0.42],
+  );
 
   return (
     <div

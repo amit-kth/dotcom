@@ -15,8 +15,8 @@ import { categories } from "@/data/categories";
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-line-on-ink bg-[oklch(10%_0.06_277.93)]">
-      <div className="shell">
+    <footer className="scene scene--footer">
+      <div className="shell scene-inner">
         <div className="grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr]">
           <div>
             <img

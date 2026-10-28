@@ -27,9 +27,9 @@ export function Proof() {
   return (
     <section
       aria-labelledby="proof-title"
-      className="relative overflow-hidden bg-background"
+      className="scene scene--trust"
     >
-      <div className="shell relative band">
+      <div className="shell scene-inner">
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-5">
             <div>

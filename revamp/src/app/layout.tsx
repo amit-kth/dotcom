@@ -33,7 +33,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className="min-h-screen bg-background text-foreground antialiased">
+      <body className="min-h-screen bg-scene-page text-foreground antialiased">
         {/* Google Tag Manager (noscript) — pairs with the script in seo.tsx */}
         <noscript>
           <iframe

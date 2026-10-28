@@ -35,19 +35,25 @@ export default function HomePage() {
   return (
     <>
       <Seo page="home" />
-      <SiteHeader overHero />
+      <SiteHeader />
 
-      <main>
-        <HomeSolutions />
-        <AiCalling />
-        <Process />
-        <Proof />
-        <Voices />
-        <Faq />
-        <Contact />
-      </main>
+      {/* The page itself is the neutral surface; every block below is a
+          rounded scene sitting on it. main is display:contents so the scenes
+          and the footer are siblings in one flow and the gap between them is
+          the same everywhere. */}
+      <div className="page">
+        <main className="contents">
+          <HomeSolutions />
+          <AiCalling />
+          <Process />
+          <Proof />
+          <Voices />
+          <Faq />
+          <Contact />
+        </main>
 
-      <SiteFooter />
+        <SiteFooter />
+      </div>
     </>
   );
 }

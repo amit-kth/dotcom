@@ -44,9 +44,9 @@ export function Process() {
     <section
       id="process"
       aria-labelledby="process-title"
-      className="surface-ink scroll-mt-[4.5rem]"
+      className="scene scene--process scroll-mt-[4.5rem]"
     >
-      <div className="shell band">
+      <div className="shell scene-inner">
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-x-12 gap-y-8">
             <div className="max-w-[26ch]">

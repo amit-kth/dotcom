@@ -17,9 +17,9 @@ export function Contact() {
     <section
       id="contact"
       aria-labelledby="contact-title"
-      className="surface-ink relative overflow-hidden scroll-mt-[4.5rem]"
+      className="scene scene--contact scroll-mt-[4.5rem]"
     >
-      <div className="shell relative band">
+      <div className="shell scene-inner">
         <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
           <Reveal>
             <p className="eyebrow">Talk to us</p>

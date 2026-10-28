@@ -67,8 +67,8 @@ export function Voices() {
   const [lead, ...rest] = testimonials;
 
   return (
-    <section aria-labelledby="voices-title" className="bg-background">
-      <div className="shell band">
+    <section aria-labelledby="voices-title" className="scene scene--voices">
+      <div className="shell scene-inner">
         <Reveal>
           <p className="eyebrow">In their words</p>
           <h2 id="voices-title" className="title-section mt-3 max-w-[18ch]">

@@ -56,8 +56,8 @@ export function Faq() {
   };
 
   return (
-    <section aria-labelledby="faq-title" className="bg-background">
-      <div className="shell band">
+    <section aria-labelledby="faq-title" className="scene scene--faq">
+      <div className="shell scene-inner">
         <div className="grid gap-10 lg:grid-cols-[0.62fr_1fr] lg:gap-16">
           <Reveal>
             <p className="eyebrow">Before you ask</p>

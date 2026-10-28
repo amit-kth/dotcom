@@ -10,34 +10,24 @@ import { cn } from "@/lib/utils";
 /* ============================================================================
    SiteHeader
    ----------------------------------------------------------------------------
-   Two states, because the homepage opens on a photograph:
-
-   overHero  transparent, white wordmark, white nav. It sits on the hero image
-             without putting a bar across the top of it.
-   solid     once scrolled past the hero (or on pages without one): the normal
-             light bar with the real logo.
-
-   Both states keep the same quiet weight: no accent colour, no underline
-   animation, nothing that competes with the selector panel below.
+   The page is a column of rounded scenes on a light neutral surface, and the
+   header sits on that surface rather than on a scene. So it is simply a light
+   sticky bar: the real logo, quiet nav, one button. No transparent state, no
+   inverted wordmark, nothing to compete with the hero below it.
    ========================================================================== */
 
-type SiteHeaderProps = {
-  /** true on pages that open with a dark hero image */
-  overHero?: boolean;
-};
-
 const NAV = [
-  { label: "Systems", href: "/solutions" },
+  { label: "Solutions", href: "/solutions" },
   { label: "How it works", href: "/#process" },
   { label: "Contact", href: "/#contact" },
 ] as const;
 
-export function SiteHeader({ overHero = false }: SiteHeaderProps) {
+export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 64);
+    const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -50,20 +40,13 @@ export function SiteHeader({ overHero = false }: SiteHeaderProps) {
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
-  const inverted = overHero && !scrolled && !open;
-
   return (
     <header
       className={cn(
-        "z-40 transition-colors duration-300",
-        /* On a page that opens with a photograph the header is taken out of
-           flow entirely. That is the only way the image can sit behind it:
-           a sticky header keeps its 64px of real estate, and the hero below it
-           can never reach up into that space without being clipped. */
-        overHero ? "fixed inset-x-0 top-0" : "sticky top-0",
-        inverted
-          ? "border-b border-white/10 bg-transparent"
-          : "border-b border-border bg-background/85 backdrop-blur-md",
+        "sticky top-0 z-40 transition-colors duration-300",
+        scrolled || open
+          ? "border-b border-border bg-background/85 backdrop-blur-md"
+          : "border-b border-transparent bg-transparent",
       )}
     >
       <div className="shell">
@@ -74,10 +57,7 @@ export function SiteHeader({ overHero = false }: SiteHeaderProps) {
               alt={site.name}
               width={274}
               height={72}
-              className={cn(
-                "h-6 w-auto transition-[filter] duration-300",
-                inverted && "brightness-0 invert",
-              )}
+              className="h-6 w-auto"
             />
           </Link>
 
@@ -87,12 +67,7 @@ export function SiteHeader({ overHero = false }: SiteHeaderProps) {
                 <li key={item.label}>
                   <Link
                     href={item.href}
-                    className={cn(
-                      "text-[0.8125rem] font-medium transition-colors duration-200",
-                      inverted
-                        ? "text-white/70 hover:text-white"
-                        : "text-muted-foreground hover:text-foreground",
-                    )}
+                    className="text-[0.9375rem] font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground"
                   >
                     {item.label}
                   </Link>
@@ -103,11 +78,7 @@ export function SiteHeader({ overHero = false }: SiteHeaderProps) {
 
           <div className="flex items-center gap-2">
             <div className="hidden sm:block">
-              <RequestDemoDialog
-                size="sm"
-                label="Request a demo"
-                variant={inverted ? "onInk" : "default"}
-              />
+              <RequestDemoDialog size="sm" label="Request a demo" />
             </div>
 
             <button
@@ -116,12 +87,7 @@ export function SiteHeader({ overHero = false }: SiteHeaderProps) {
               aria-expanded={open}
               aria-controls="mobile-nav"
               aria-label={open ? "Close menu" : "Open menu"}
-              className={cn(
-                "flex size-10 items-center justify-center rounded-lg border md:hidden",
-                inverted
-                  ? "border-white/25 text-white"
-                  : "border-border text-foreground",
-              )}
+              className="flex size-11 items-center justify-center rounded-lg border border-border text-foreground md:hidden"
             >
               {open ? (
                 <X className="size-5" aria-hidden="true" />

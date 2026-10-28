@@ -9,7 +9,6 @@ import {
   GraduationCap,
   HeartPulse,
   Landmark,
-  LayoutGrid,
   type LucideIcon,
   Sparkles,
   Truck,
@@ -95,46 +94,38 @@ export function HomeSolutions() {
       {/* ==================================================== 1. the hero ====
           PURPOSE: get the visitor to name the business they run.
 
-          Everything here serves that and nothing else. There is deliberately no
-          mockup on first load: a product screen beside the headline competes
-          with the chips, and the chips are the only thing we need clicked. The
-          preview appears after a choice, as a receipt for the decision that was
-          just made.
+          Nothing else is allowed on this surface. No mockup, no badge, no trust
+          strip, no outlined numeral: each of them was a second thing to look at,
+          and the chips are the only thing that has to be clicked.
           ==================================================================== */}
       <section
-        className="hero-field relative isolate flex min-h-[min(100svh,52rem)] flex-col justify-center overflow-hidden"
+        className="scene scene--hero"
+        data-accent={stage?.accent ?? "blue"}
         aria-labelledby="hero-title"
       >
-        {/* Light, not decoration: it marks the zone the visitor should act in. */}
-        <div aria-hidden="true" className="hero-halo" />
+        <div aria-hidden="true" className="hero-glow" />
 
-        <div className="shell hero-body relative z-10">
-          <h1 id="hero-title" className="hero-h1 hero-in text-white">
+        <div className="shell hero-scene-inner">
+          <h1 id="hero-title" className="hero-h1 hero-in">
             Ready-made software.
             <span className="mt-1 block">
               Live in <span className="hero-num">15 days</span>.
             </span>
           </h1>
 
-          <p className="hero-sub hero-in max-w-[44ch] text-[1.0625rem] leading-relaxed text-white/80">
+          <p className="hero-sub hero-in max-w-[46ch]">
             Pick your industry and we will show you what is already built for it.
           </p>
 
           <div className="hero-chips hero-in">
-            <p
-              id="industry-label"
-              className="text-[0.8125rem] font-semibold uppercase tracking-[0.14em] text-white/60"
-            >
+            <p id="industry-label" className="hero-chip-label">
               What does your business do?
             </p>
 
-            {/* The control. 56px tall, high contrast, and the widest thing in
-                the section after the headline — because it is the only thing
-                that has to be used. */}
             <div
               role="group"
               aria-labelledby="industry-label"
-              className="mt-4 grid max-w-[54rem] grid-cols-2 gap-2.5 sm:grid-cols-4"
+              className="mt-4 flex flex-wrap gap-2.5"
             >
               {categories.map((category, index) => {
                 const Icon = ICONS[category.id];
@@ -146,12 +137,13 @@ export function HomeSolutions() {
                     type="button"
                     aria-pressed={active}
                     onClick={() => choose(active ? null : category.id)}
-                    style={{ animationDelay: `${120 + index * 40}ms` }}
+                    style={{ animationDelay: `${120 + index * 45}ms` }}
                     className={cn(
-                      "hero-in flex min-h-[3.75rem] items-center gap-2 rounded-2xl border-[1.5px] px-3.5 text-sm font-semibold transition-all duration-200 sm:gap-2.5 sm:px-5 sm:text-base",
+                      "hero-in inline-flex min-h-[3.5rem] items-center gap-2 rounded-full border-[1.5px] px-4 text-[0.9375rem] font-semibold transition-all duration-200",
+                      "sm:min-h-[3.75rem] sm:gap-2.5 sm:px-6 sm:text-base",
                       "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white",
                       active
-                        ? "border-white bg-white text-ink shadow-[0_20px_50px_-20px_oklch(0%_0_0/0.9)]"
+                        ? "border-white bg-white text-ink shadow-[0_20px_50px_-20px_oklch(0%_0_0/0.85)]"
                         : "border-white/25 bg-white/[0.08] text-white hover:-translate-y-0.5 hover:border-white/50 hover:bg-white/[0.14]",
                     )}
                   >
@@ -166,52 +158,28 @@ export function HomeSolutions() {
                   </button>
                 );
               })}
-
-              {/* The eighth cell. Seven loud options leave a hole in a 4-column
-                  pad, and the hole is worse than the tile: it reads as something
-                  missing. This one is deliberately quiet — dashed, muted — because
-                  it is the option for visitors whose industry is not listed. */}
-              <button
-                type="button"
-                onClick={() => choose(null)}
-                className="hero-in flex min-h-[3.75rem] items-center gap-2 rounded-2xl border-[1.5px] border-dashed border-white/20 px-3.5 text-sm font-medium text-white/60 transition-all duration-200 hover:-translate-y-0.5 hover:border-white/40 hover:bg-white/[0.06] hover:text-white sm:gap-2.5 sm:px-5 sm:text-base"
-              >
-                <LayoutGrid
-                  className="size-4 shrink-0 opacity-70 sm:size-[1.125rem]"
-                  aria-hidden="true"
-                />
-                All industries
-              </button>
             </div>
           </div>
 
-          {/* The receipt. Small on purpose: it confirms the choice without
-              becoming a second thing to look at. */}
-          {stage && (
-            <div className="hero-preview mt-7 flex w-full max-w-[34rem] items-center gap-4 rounded-2xl border border-white/15 bg-white/[0.05] p-3 backdrop-blur-sm">
-              <div className="w-[9.5rem] shrink-0 overflow-hidden rounded-lg ring-1 ring-white/15">
-                <ProductVisual
-                  variant={stage.variant}
-                  accent={stage.accent}
-                  className="aspect-[640/400] w-full"
-                />
-              </div>
-              <div className="min-w-0">
-                <p className="text-[0.75rem] font-semibold uppercase tracking-[0.14em] text-white/50">
+          {/* The receipt for a choice: what exists for that industry, and the
+              one action. It confirms the decision instead of asking again. */}
+          {stage && stageProduct && (
+            <div className="hero-preview">
+              <div className="min-w-0 pl-2">
+                <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.14em] text-on-dark-soft">
                   {activeLabel}
                 </p>
-                <p className="mt-1 truncate text-[1.0625rem] font-semibold text-white">
-                  {stageProduct?.name}
+                <p className="truncate text-[1.0625rem] font-semibold text-white">
+                  {stageProduct.name}
                 </p>
               </div>
-              <div className="ml-auto shrink-0 pr-1">
-                <RequestDemoDialog
-                  product={stageProduct?.name}
-                  label="Request a demo"
-                  variant="onInk"
-                  size="sm"
-                />
-              </div>
+              <RequestDemoDialog
+                product={stageProduct.name}
+                label="Request a demo"
+                variant="onInk"
+                size="sm"
+                className="ml-auto shrink-0"
+              />
             </div>
           )}
         </div>
@@ -221,7 +189,7 @@ export function HomeSolutions() {
       <section
         id="solutions"
         aria-labelledby="solutions-title"
-        className="scroll-mt-[4.5rem] bg-background"
+        className="scene scene--solutions scroll-mt-[4.5rem]"
       >
         <div ref={listRef} className="shell band-sm scroll-mt-[4.5rem]">
           <Reveal>

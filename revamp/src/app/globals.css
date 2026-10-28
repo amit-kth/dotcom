@@ -56,6 +56,28 @@
 
   /* the highlighted phrase on a dark surface: primary is too dark against ink */
   --peri: oklch(78% 0.1 264.38);
+
+  /* --- scenes -------------------------------------------------------------
+     The page is a sequence of rounded containers, each with its own surface.
+     Nine scenes, nine values, so no two neighbours can accidentally match.
+     Every one of them is a token; no component may invent a colour.
+     ---------------------------------------------------------------------- */
+  --scene-page: oklch(96.5% 0.006 260);        /* the paper the scenes sit on */
+  --scene-hero: oklch(17% 0.075 275);          /* deep navy */
+  --scene-hero-glow: oklch(49.03% 0.2158 264.38);
+  --scene-solutions: oklch(94.5% 0.035 285);   /* soft lavender */
+  --scene-ai: oklch(16% 0.055 278);            /* dark navy, second dark scene */
+  --scene-process: oklch(96.5% 0.026 85);      /* warm cream */
+  --scene-trust: oklch(100% 0 0);              /* white */
+  --scene-voices: oklch(94% 0.032 220);        /* soft sky */
+  --scene-faq: oklch(98.5% 0.004 260);         /* near-white neutral */
+  --scene-contact: oklch(26% 0.12 268);        /* strong brand blue */
+  --scene-footer: oklch(11% 0.045 278);        /* darkest navy */
+
+  /* the light-on-dark helper, reused by the dark scenes */
+  --on-dark: oklch(95% 0.012 264);
+  --on-dark-soft: oklch(82% 0.022 264);
+  --line-on-dark: oklch(100% 0 0 / 0.14);
 }
 
 @theme inline {
@@ -89,6 +111,19 @@
   --color-ink-muted: var(--ink-muted);
   --color-peri: var(--peri);
   --color-line-on-ink: var(--line-on-ink);
+  --color-scene-page: var(--scene-page);
+  --color-scene-hero: var(--scene-hero);
+  --color-scene-solutions: var(--scene-solutions);
+  --color-scene-ai: var(--scene-ai);
+  --color-scene-process: var(--scene-process);
+  --color-scene-trust: var(--scene-trust);
+  --color-scene-voices: var(--scene-voices);
+  --color-scene-faq: var(--scene-faq);
+  --color-scene-contact: var(--scene-contact);
+  --color-scene-footer: var(--scene-footer);
+  --color-on-dark: var(--on-dark);
+  --color-on-dark-soft: var(--on-dark-soft);
+  --color-line-on-dark: var(--line-on-dark);
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -145,7 +180,7 @@
 @layer components {
   .shell {
     width: 100%;
-    max-width: 78rem;
+    max-width: 75rem;
     margin-inline: auto;
     padding-inline: clamp(1.25rem, 4vw, 2.75rem);
   }
@@ -293,54 +328,145 @@
 }
 
 /* --- ambient -------------------------------------------------------------- */
-/* --- hero field -----------------------------------------------------------
-   No photograph. A dark surface with two soft light pools for depth, a fine
-   grid that fades out before it reaches the edges, and the mockups placed in
-   that space. The photograph was the reason this read as a stock SaaS
-   template: it could belong to any company. Nothing here can.
+/* --- the page shell --------------------------------------------------------
+   The page itself is a light neutral. Sections are rounded containers sitting
+   on it, not full-bleed bands: the gap between two scenes is what tells the
+   reader a new idea has started, and a hard colour change is not needed.
    -------------------------------------------------------------------------- */
-.hero-field {
+.page {
+  padding: clamp(0.5rem, 1.5vw, 1.5rem);
+  background-color: var(--scene-page);
+}
+
+/* The gap between two scenes is what says "new idea". margin rather than a
+   flex gap, so it still works when <main> is display:contents. */
+.scene + .scene {
+  margin-top: clamp(4rem, 8vw, 8rem);
+}
+
+.scene {
+  position: relative;
+  border-radius: clamp(1.5rem, 3vw, 3rem);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.scene-inner {
+  max-width: 75rem;
+  margin-inline: auto;
+  padding: clamp(2.5rem, 5vw, 4rem) clamp(1.25rem, 4vw, 3.5rem);
+}
+
+/* --- scene surfaces --------------------------------------------------------
+   One value each. Two neighbours never share one: hero(navy) → solutions
+   (lavender) → ai (navy) → process (cream) → trust (white) → voices (sky) →
+   faq (near-white) → contact (blue) → footer (darkest navy).
+   -------------------------------------------------------------------------- */
+.scene--hero {
   background:
     radial-gradient(
-      115% 85% at 76% 12%,
-      oklch(32% 0.15 272 / 0.5) 0%,
+      120% 120% at 78% 6%,
+      oklch(38% 0.17 268 / 0.85) 0%,
       transparent 58%
     ),
+    linear-gradient(158deg, oklch(23% 0.1 274) 0%, oklch(14% 0.07 278) 72%);
+  color: var(--on-dark);
+}
+
+.scene--solutions {
+  background-color: var(--scene-solutions);
+}
+.scene--ai {
+  background:
     radial-gradient(
-      85% 75% at 8% 92%,
-      oklch(27% 0.09 288 / 0.42) 0%,
+      90% 90% at 82% 18%,
+      oklch(38% 0.16 268 / 0.7) 0%,
+      transparent 60%
+    ),
+    var(--scene-ai);
+  color: var(--on-dark);
+}
+.scene--process {
+  background-color: var(--scene-process);
+}
+.scene--trust {
+  background-color: var(--scene-trust);
+}
+.scene--voices {
+  background-color: var(--scene-voices);
+}
+.scene--faq {
+  background-color: var(--scene-faq);
+}
+.scene--contact {
+  background:
+    radial-gradient(
+      80% 100% at 12% 0%,
+      oklch(38% 0.16 268 / 0.9) 0%,
       transparent 62%
     ),
-    oklch(13.23% 0.0756 277.93);
+    var(--scene-contact);
+  color: var(--on-dark);
+}
+.scene--footer {
+  background-color: var(--scene-footer);
+  color: var(--on-dark);
 }
 
-.hero-field::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background-image:
-    linear-gradient(to right, oklch(100% 0 0 / 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, oklch(100% 0 0 / 0.05) 1px, transparent 1px);
-  background-size: 68px 68px;
-  -webkit-mask-image: radial-gradient(78% 72% at 52% 42%, black, transparent 76%);
-  mask-image: radial-gradient(78% 72% at 52% 42%, black, transparent 76%);
-}
-
-/* --- hero fit -------------------------------------------------------------
-   The hero is the first screen, so it has to fit the first screen. Every
-   vertical measurement is tied to viewport height, so a 630px laptop window
-   and a 1100px desktop both show the whole thing rather than slicing the
-   bottom off at the fold.
+/* --- hero ------------------------------------------------------------------
+   PURPOSE: get the visitor to name the business they run.
+   The glow behind the chips takes its colour from the chosen industry, so the
+   scene changes when the visitor does something.
    -------------------------------------------------------------------------- */
-.hero-body {
-  padding-top: calc(var(--header-h) + clamp(2.5rem, 7vh, 5rem));
-  padding-bottom: clamp(2.5rem, 7vh, 5rem);
+/* The scene fills the first screen but caps on tall monitors, and the content
+   is centred inside it rather than pinned to the top: a hero with a third of
+   its height empty under the chips looks unfinished, not generous. */
+.scene--hero {
+  display: flex;
+  align-items: center;
+  min-height: min(calc(100svh - var(--header-h) - 3rem), 48rem);
 }
 
-/* Large on purpose: at this size the type is the design. */
+.hero-scene-inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding-block: clamp(3rem, 7vh, 5rem);
+}
+
+.hero-glow {
+  position: absolute;
+  z-index: 0;
+  left: 18%;
+  top: 62%;
+  width: min(90%, 54rem);
+  aspect-ratio: 1.7 / 1;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    closest-side,
+    var(--hero-glow, oklch(49.03% 0.2158 264.38 / 0.5)),
+    transparent 78%
+  );
+  filter: blur(40px);
+  opacity: 0.9;
+  transition: background 600ms ease;
+  pointer-events: none;
+}
+
+/* The glow takes the chosen industry's accent, so the scene reacts to the
+   visitor instead of sitting still. */
+.scene--hero[data-accent="blue"] {
+  --hero-glow: oklch(49.03% 0.2158 264.38 / 0.55);
+}
+.scene--hero[data-accent="coral"] {
+  --hero-glow: oklch(63.68% 0.2078 25.33 / 0.45);
+}
+.scene--hero[data-accent="violet"] {
+  --hero-glow: oklch(56% 0.19 292 / 0.5);
+}
+
 .hero-h1 {
-  font-size: clamp(2.125rem, min(5.6vw, 9.4vh), 4.5rem);
+  font-size: clamp(2.125rem, min(5.4vw, 9.2vh), 4.5rem);
   line-height: 0.96;
   letter-spacing: -0.042em;
   font-weight: 600;
@@ -348,144 +474,50 @@
 }
 
 .hero-sub {
-  margin-top: clamp(0.875rem, 2vh, 1.375rem);
+  margin-top: clamp(0.875rem, 2vh, 1.25rem);
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: var(--on-dark-soft);
 }
 
 .hero-chips {
-  margin-top: clamp(1.5rem, 4vh, 2.5rem);
+  margin-top: clamp(1.75rem, 4.5vh, 2.75rem);
 }
 
-/* A light behind the control, so the eye lands there before it lands on the
-   empty right-hand side of the screen. */
-.hero-halo {
-  position: absolute;
-  z-index: -1;
-  left: 40%;
-  top: 56%;
-  width: min(110%, 62rem);
-  aspect-ratio: 1.9 / 1;
-  transform: translate(-50%, -50%);
-  background: radial-gradient(
-    closest-side,
-    oklch(49.03% 0.2158 264.38 / 0.3),
-    oklch(49.03% 0.2158 264.38 / 0.08) 58%,
-    transparent 80%
-  );
-  filter: blur(36px);
-  pointer-events: none;
+.hero-chip-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--on-dark-soft);
 }
 
-.hero-preview {
-  animation: hero-in 420ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
-}
-
-/* The promise, at numeral scale. Solid accent: it is the one figure a buyer
-   should leave with, so it is drawn plainly rather than decorated. */
 .hero-num {
   color: var(--peri);
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.05em;
 }
 
-/* --- the stage: mockups in space ------------------------------------------
-   A product screen tilted back on the right, with a phone over its corner,
-   and a glow behind both that takes its colour from the picked industry.
-   -------------------------------------------------------------------------- */
-.hero-stage {
-  --glow: #2c53e0;
-  position: relative;
-  perspective: 1500px;
-}
-
-.hero-stage[data-accent="blue"] {
-  --glow: #2c53e0;
-}
-.hero-stage[data-accent="coral"] {
-  --glow: #ec554c;
-}
-.hero-stage[data-accent="violet"] {
-  --glow: #7a4dee;
-}
-
-.hero-glow {
-  position: absolute;
-  inset: -22% -16%;
-  z-index: 0;
-  background: radial-gradient(
-    50% 50% at 56% 42%,
-    var(--glow) 0%,
-    transparent 70%
-  );
-  filter: blur(60px);
-  opacity: 0.45;
-  transition: opacity 400ms ease;
-}
-
-.hero-browser {
-  position: relative;
-  z-index: 1;
-  overflow: hidden;
-  border-radius: 0.9rem;
-  border: 1px solid oklch(100% 0 0 / 0.16);
-  background: #fff;
-  box-shadow:
-    0 50px 110px -40px oklch(0% 0 0 / 0.95),
-    0 2px 0 oklch(100% 0 0 / 0.07);
-  transform: rotateY(-13deg) rotateX(5deg) rotateZ(-1.5deg);
-  transform-origin: 65% 50%;
-}
-
-.hero-browser-bar {
+/* The receipt for a choice. A pill, not a panel: it confirms, it does not ask. */
+.hero-preview {
   display: flex;
   align-items: center;
-  gap: 0.375rem;
-  padding: 0.55rem 0.75rem;
-  background: oklch(96% 0.008 260);
-  border-bottom: 1px solid oklch(90% 0.015 260.03);
-}
-
-.hero-dot {
-  width: 0.4rem;
-  height: 0.4rem;
+  gap: 0.875rem;
+  width: fit-content;
+  max-width: 100%;
+  margin-top: clamp(1.25rem, 3vh, 1.75rem);
+  padding: 0.5rem 0.5rem 0.5rem 0.75rem;
   border-radius: 999px;
-  background: oklch(85% 0.012 260);
+  border: 1px solid var(--line-on-dark);
+  background: oklch(100% 0 0 / 0.07);
+  backdrop-filter: blur(6px);
+  animation: hero-in 380ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
 }
 
-.hero-phone {
-  position: absolute;
-  z-index: 2;
-  left: -11%;
-  bottom: -7%;
-  width: 25%;
-  aspect-ratio: 9 / 17.5;
-  overflow: hidden;
-  border-radius: 1.25rem;
-  border: 5px solid #0c0c15;
-  background: #fff;
-  box-shadow: 0 34px 70px -24px oklch(0% 0 0 / 0.9);
-  transform: rotateY(-9deg) rotateZ(-4deg);
-}
-
-@media (max-width: 1023px) {
-  .hero-body {
-    padding-top: calc(var(--header-h) + 2rem);
-    padding-bottom: 3rem;
-  }
-
-  /* A phone inside a phone is noise, and there is no room for the perspective
-     to read. The screen alone carries it. */
-  .hero-phone {
-    display: none;
-  }
-
-  .hero-browser {
-    transform: rotateY(-7deg) rotateX(3deg) rotateZ(-1deg);
-    transform-origin: 50% 50%;
-  }
-
-  .hero-glow {
-    inset: -12% -10%;
-    opacity: 0.38;
+@media (max-width: 639px) {
+  .hero-preview {
+    width: 100%;
+    border-radius: 1.25rem;
   }
 }
 

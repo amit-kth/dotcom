@@ -25,9 +25,9 @@ export function AiCalling() {
     <section
       id="ai-calling"
       aria-labelledby="ai-title"
-      className="relative overflow-hidden bg-ink scroll-mt-[4.5rem]"
+      className="scene scene--ai scroll-mt-[4.5rem]"
     >
-      <div className="shell relative band">
+      <div className="shell scene-inner">
         <div className="grid items-center gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-16">
           <Reveal>
             <p className="eyebrow text-peri">Built and running</p>

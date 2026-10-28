@@ -26,18 +26,18 @@ export type CategoryId = (typeof CATEGORY_IDS)[number];
 export type Category = {
   id: CategoryId;
   label: string;
-  /** DRAFT: one line, approved before launch. */
+  /** PLACEHOLDER: one line, to be approved before launch. */
   blurb: string;
 };
 
 export const categories: Category[] = [
-  { id: "fintech", label: "Fintech", blurb: "DRAFT — lending, payments and collections." },
-  { id: "logistics", label: "Logistics", blurb: "DRAFT — fleets, parking and field service." },
-  { id: "manufacturing", label: "Manufacturing", blurb: "DRAFT — production, stock and billing." },
-  { id: "healthcare", label: "Healthcare", blurb: "DRAFT — clinics, appointments and records." },
-  { id: "astrology", label: "Astrology", blurb: "DRAFT — consultation and content platforms." },
-  { id: "edtech", label: "EdTech", blurb: "DRAFT — schools, colleges and online exams." },
-  { id: "real-estate", label: "Real Estate", blurb: "DRAFT — listings, leads and site visits." },
+  { id: "fintech", label: "Fintech", blurb: "Lending, payments and collections." },
+  { id: "logistics", label: "Logistics", blurb: "Fleets, parking and field service." },
+  { id: "manufacturing", label: "Manufacturing", blurb: "Production, stock and billing." },
+  { id: "healthcare", label: "Healthcare", blurb: "Clinics, appointments and records." },
+  { id: "astrology", label: "Astrology", blurb: "Consultation and content platforms." },
+  { id: "edtech", label: "EdTech", blurb: "Schools, colleges and online exams." },
+  { id: "real-estate", label: "Real Estate", blurb: "Listings, leads and site visits." },
 ];
 
 /** Lookup helper so components never loop to find a label. */

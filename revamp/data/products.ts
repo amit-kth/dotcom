@@ -5,7 +5,9 @@ import { CATEGORY_IDS, type CategoryId } from "./categories";
    ----------------------------------------------------------------------------
    STATUS: STRUCTURE ONLY.
    Every image is a dummy from /public/dummy. Every link is a placeholder.
-   Descriptions, problems and outcomes are DUMMY copy — replace before launch.
+   Descriptions, problems and outcomes are PLACEHOLDER copy. They read as real
+   copy on purpose (no "DUMMY" prefix in the UI) but none of them is approved
+   text: replace before launch.
    Nothing here should be treated as a factual claim yet.
 
    HOW TO EDIT
@@ -34,7 +36,10 @@ const DUMMY_BANNER = "dummy/banner.webp";
 export type ProductLink = {
   /** Label shown on the link, e.g. "Visit product site". */
   title: string;
-  /** Absolute URL. */
+  /**
+   * Absolute URL. Empty string means the site is not live yet: components skip
+   * the link entirely rather than rendering a dead one. Never invent a URL.
+   */
   url: string;
 };
 
@@ -71,7 +76,7 @@ export const products: Product[] = [
     id: "ai-calling-agents",
     name: "AI Calling Agents",
     description:
-      "DUMMY — Voice agents that place and handle outbound calls for banking and collections teams.",
+      "Voice agents that place and handle outbound calls for banking and collections teams.",
     categories: ["fintech"],
     readyToSell: true,
     // Real banner supplied by Kapil sir. Full URL, used as-is by asset().
@@ -79,15 +84,15 @@ export const products: Product[] = [
       "https://ik.imagekit.io/qk2ww553c/tempAssets/revamp/hero-poster.webp",
     logo: "dummy/logo.webp",
     problem:
-      "DUMMY — Collections and sales teams spend the day on repeat outbound calls instead of the conversations that need a human.",
+      "Collections and sales teams spend the day on repeat outbound calls instead of the conversations that need a human.",
     outcomes: [
-      "DUMMY — Routine calls run on their own",
-      "DUMMY — Qualified conversations reach the team",
-      "DUMMY — Every call logged and reviewable",
+      "Routine calls run on their own",
+      "Qualified conversations reach the team",
+      "Every call logged and reviewable",
     ],
     links: [
-      // TODO(link): replace with the AI calling agents project site.
-      { title: "Visit project site", url: "https://example.com/ai-calling-agents" },
+      // TODO(link): the AI calling agent project site is not published yet.
+      { title: "Visit project site", url: "" },
     ],
     demoCtaLabel: "Request a demo",
   },
@@ -99,21 +104,22 @@ export const products: Product[] = [
     id: "kastrofy",
     name: "Kastrofy",
     description:
-      "DUMMY — Astrology platform for consultations, content and subscriptions.",
+      "Astrology platform for consultations, content and subscriptions.",
     categories: ["astrology"],
     readyToSell: true,
     banner: DUMMY_BANNER,
     logo: "dummy/logo.webp",
     problem:
-      "DUMMY — Consultations, payments and follow-ups are spread across chats and spreadsheets.",
+      "Consultations, payments and follow-ups are spread across chats and spreadsheets.",
     outcomes: [
-      "DUMMY — Consultations booked and paid in one place",
-      "DUMMY — Repeat clients handled without manual follow-up",
-      "DUMMY — Content published from the same dashboard",
+      "Consultations booked and paid in one place",
+      "Repeat clients handled without manual follow-up",
+      "Content published from the same dashboard",
     ],
     links: [
       // TODO(link): confirm real product URL.
-      { title: "Visit product site", url: "https://example.com/kastrofy" },
+      // Real page on the existing site (index.php -> product/kastrofy).
+      { title: "Product page", url: "https://kriscent.in/product/kastrofy/" },
     ],
     demoCtaLabel: "Request a demo",
   },
@@ -125,21 +131,21 @@ export const products: Product[] = [
     id: "kexam",
     name: "K-Exam",
     description:
-      "DUMMY — Online examination, question bank and result publishing.",
+      "Online examination, question bank and result publishing.",
     categories: ["edtech"],
     readyToSell: true,
     banner: DUMMY_BANNER,
     logo: "dummy/logo.webp",
     problem:
-      "DUMMY — Conducting tests and publishing results takes days of manual work per batch.",
+      "Conducting tests and publishing results takes days of manual work per batch.",
     outcomes: [
-      "DUMMY — Tests created from a shared question bank",
-      "DUMMY — Results generated without manual marking",
-      "DUMMY — Students see their own scorecard",
+      "Tests created from a shared question bank",
+      "Results generated without manual marking",
+      "Students see their own scorecard",
     ],
     links: [
       // TODO(link): confirm real product URL.
-      { title: "Visit product site", url: "https://example.com/kexam" },
+      { title: "Product page", url: "https://www.kriscent.in/product/kexam/" },
     ],
     demoCtaLabel: "Request a demo",
   },
@@ -151,21 +157,21 @@ export const products: Product[] = [
     id: "whatsapp-crm",
     name: "WhatsApp CRM",
     description:
-      "DUMMY — Enquiries, follow-ups and broadcasts handled inside WhatsApp.",
+      "Enquiries, follow-ups and broadcasts handled inside WhatsApp.",
     categories: ["manufacturing"],
     readyToSell: true,
     banner: DUMMY_BANNER,
     logo: "dummy/logo.webp",
     problem:
-      "DUMMY — Sales conversations live on individual phones, so nothing is tracked and leads go cold.",
+      "Sales conversations live on individual phones, so nothing is tracked and leads go cold.",
     outcomes: [
-      "DUMMY — Every enquiry lands in one shared inbox",
-      "DUMMY — Follow-ups assigned to a named person",
-      "DUMMY — Broadcasts sent without leaving the CRM",
+      "Every enquiry lands in one shared inbox",
+      "Follow-ups assigned to a named person",
+      "Broadcasts sent without leaving the CRM",
     ],
     links: [
       // TODO(link): confirm real product URL.
-      { title: "Visit product site", url: "https://example.com/whatsapp-crm" },
+      { title: "Visit product site", url: "" },
     ],
     demoCtaLabel: "Request a demo",
   },
@@ -177,21 +183,21 @@ export const products: Product[] = [
     id: "lms",
     name: "LMS",
     description:
-      "DUMMY — Learning management for courses, batches and progress tracking.",
+      "Learning management for courses, batches and progress tracking.",
     categories: ["edtech"],
     readyToSell: true,
     banner: DUMMY_BANNER,
     logo: "dummy/logo.webp",
     problem:
-      "DUMMY — Course material, attendance and progress sit in files that nobody can report on.",
+      "Course material, attendance and progress sit in files that nobody can report on.",
     outcomes: [
-      "DUMMY — Courses and batches organised in one place",
-      "DUMMY — Learner progress visible to the trainer",
-      "DUMMY — Certificates issued on completion",
+      "Courses and batches organised in one place",
+      "Learner progress visible to the trainer",
+      "Certificates issued on completion",
     ],
     links: [
       // TODO(link): confirm real product URL.
-      { title: "Visit product site", url: "https://example.com/lms" },
+      { title: "Visit product site", url: "" },
     ],
     demoCtaLabel: "Request a demo",
   },
@@ -206,14 +212,14 @@ export const products: Product[] = [
   {
     id: "doctorplus",
     name: "Doctorplus",
-    description: "TODO(confirm) — clinic and appointment management.",
+    description: "clinic and appointment management.",
     categories: ["healthcare"],
     readyToSell: false,
     banner: DUMMY_BANNER,
     problem: "TODO",
     outcomes: ["TODO", "TODO", "TODO"],
     links: [
-      { title: "Visit product site", url: "https://www.kriscent.com/product/doctorplus/" },
+      { title: "Product page", url: "https://www.kriscent.com/product/doctorplus/" },
     ],
     demoCtaLabel: "Request a demo",
   },
@@ -222,14 +228,14 @@ export const products: Product[] = [
   {
     id: "kparking",
     name: "Kparking",
-    description: "TODO(confirm) — parking management.",
+    description: "parking management.",
     categories: ["logistics"],
     readyToSell: false,
     banner: DUMMY_BANNER,
     problem: "TODO",
     outcomes: ["TODO", "TODO", "TODO"],
     links: [
-      { title: "Visit product site", url: "https://www.kriscent.com/product/kparking/" },
+      { title: "Product page", url: "https://www.kriscent.com/product/kparking/" },
     ],
     demoCtaLabel: "Request a demo",
   },
@@ -238,14 +244,14 @@ export const products: Product[] = [
   {
     id: "krealestate",
     name: "Krealestate",
-    description: "TODO(confirm) — property listings and enquiry management.",
+    description: "property listings and enquiry management.",
     categories: ["real-estate"],
     readyToSell: false,
     banner: DUMMY_BANNER,
     problem: "TODO",
     outcomes: ["TODO", "TODO", "TODO"],
     links: [
-      { title: "Visit product site", url: "https://kriscent.com/product/krealestate/" },
+      { title: "Product page", url: "https://kriscent.com/product/krealestate/" },
     ],
     demoCtaLabel: "Request a demo",
   },

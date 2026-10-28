@@ -1,22 +1,23 @@
-/* ============================================================================
-   site-content.ts  —  the facts carried over from the old site, unchanged
-   ----------------------------------------------------------------------------
-   Everything in this file is taken from the existing kriscent.com. It is NOT
-   dummy data. Approved by Kapil sir: counters, testimonials, client logos and
-   company details stay exactly as they are in the old site — this rebuild only
-   restructures the presentation.
+import { asset } from "@/config/variables";
 
-   If a value here ever disagrees with the old site, the old site is right.
+/* ============================================================================
+   site-content.ts  —  real facts carried over from the old kriscent.com
+   ----------------------------------------------------------------------------
+   Nothing in this file is dummy. Every value is taken from the existing site.
+   Approved: counters, testimonials, client logos and company details stay as
+   they are. This rebuild only changes how they are presented.
+
+   If a value here ever disagrees with the live old site, the old site wins.
    ========================================================================== */
 
 /* ---------------------------------------------------------------------------
-   COUNTERS  —  approved, do not change the numbers.
-   Labels were the only thing awkward on the old site ("Trusted By 1,245+
-   Clients" repeated the figure); the wording below was approved.
+   COUNTERS  —  approved. Do not change the figures.
+   Only the label wording changed: the old site read "Trusted By 1,245+ Clients",
+   which repeated the number next to the number.
 --------------------------------------------------------------------------- */
 export type Counter = {
   value: string;
-  /** shown after the number, e.g. "+" */
+  /** shown after the figure, e.g. "+" */
   suffix?: string;
   label: string;
 };
@@ -28,17 +29,28 @@ export const counters: Counter[] = [
 ];
 
 /* ---------------------------------------------------------------------------
-   CMMI BADGE  —  carried over from the old site's counter section.
+   CMMI BADGE
+   --------------------------------------------------------------------------
+   The source file is 87% fully transparent, so it needs a solid plate behind
+   it or the section background shows through the artwork. The plate is applied
+   in the component, not here.
 --------------------------------------------------------------------------- */
 export const cmmi = {
-  image: "dummy/logo.webp",
-  alt: "CMMI Level 3",
+  src: "icons/cmmi.webp",
+  alt: "CMMI Level 3 appraised",
   label: "CMMI Level 3",
+  width: 200,
+  height: 200,
 } as const;
 
 /* ---------------------------------------------------------------------------
-   TESTIMONIALS  —  the three real ones from the old site, verbatim.
-   Images are dummy placeholders until logos are copied over.
+   TESTIMONIALS  —  the three from the old site, verbatim.
+
+   Two notes for review, deliberately left as the client wrote them:
+   - Sudha Agarwal: "sleeked" appears to be the original word. A testimonial is
+     quoted, not edited, so it is reproduced exactly.
+   - Vikash Kunta: "analyzed" and the grammar are as published.
+   If marketing wants light copy-editing, that is their call, not ours.
 --------------------------------------------------------------------------- */
 export type Testimonial = {
   id: string;
@@ -55,39 +67,88 @@ export const testimonials: Testimonial[] = [
       "Kriscent Techno Hub Pvt. Ltd. has completed the project goals, leaving the client pleased with the collaboration. The team manifests their professionalism through timely deliverables and excellent problem-solving. They're also proactive in coming up with unique ideas to improve the client's vision.",
     name: "Radhika Aggarwal",
     role: "Founder, Ishvaa Life Spirituality",
-    logo: "dummy/client-logo.webp",
+    logo: "clients/ishvaa.webp",
   },
   {
     id: "vikash-kunta",
     quote:
-      "TODO(quote): the old site's markup for this testimonial needs to be copied verbatim before launch.",
+      "Before choosing Kriscent's software, I analyzed other software of different companies were readymade and less user friendly. But in Prabal I got many features with high user friendly environment. We are working faster now.",
     name: "Vikash Kunta",
     role: "Aiims subsidiary",
-    logo: "dummy/client-logo.webp",
+    logo: "clients/aiims.webp",
   },
   {
     id: "sudha-agarwal",
     quote:
-      "TODO(quote): the old site's markup for this testimonial needs to be copied verbatim before launch.",
+      "We sleeked web services for our hospital and they delivered way better than we ever imagined. I am very much glad to met Mr. Kapil Gautam and his team",
     name: "Sudha Agarwal",
     role: "Sudha Hospital",
-    logo: "dummy/client-logo.webp",
+    logo: "clients/sudha-hospital.webp",
   },
 ];
 
 /* ---------------------------------------------------------------------------
-   CLIENT LOGOS  —  the old site ships 40+. Listed here so the section can be
-   built; all point at one dummy image until the real files are copied across.
-   TODO(logos): replace `src` with real paths, then delete the dummy entries.
+   CLIENT LOGOS
+   --------------------------------------------------------------------------
+   Copied from the old site's img/clients/client-logo/, one file per company,
+   already WebP. Filenames are the old ones; `name` is the display name used in
+   alt text.
 --------------------------------------------------------------------------- */
 export type ClientLogo = { name: string; src: string };
 
-export const clientLogos: ClientLogo[] = [
-  "Aiims", "Amicis", "Apth", "AQ", "Astronri", "Avit", "Bang", "Bhartiya",
-  "Black Buddha", "Bottega Mqueen", "Cad Cam Expert", "Chabi", "Dealmart",
-  "Elkithron", "Ferranza", "Flixmates", "GMV", "Gudz", "Gurukul Eng", "HR",
-  "IIS", "Inbrix", "Ishvaa", "Kamal", "Kashyap Export", "Kobai", "Kota Fresh",
-  "Luriox", "Mapl", "MSF", "Mudra", "Mudra Care", "Orafresh", "Paras", "PMFME",
-  "RGCSM", "Shivshakti", "Shree Falodi", "Shreeshreemsf", "Shrinath Travels",
-  "Sqube", "SSI", "Sudha Hospital", "The Fitness Mart", "Vjoy",
-].map((name) => ({ name, src: "dummy/client-logo.webp" }));
+const logoFiles: [string, string][] = [
+  ["Aiims", "aiims"],
+  ["Amicis", "amicis"],
+  ["APTH", "apth"],
+  ["AQ", "aq"],
+  ["Astronri", "astronri"],
+  ["Avit", "avit"],
+  ["Bang", "bang"],
+  ["Bhartiya", "bhartiya"],
+  ["Black Buddha", "black-buddha"],
+  ["Bottega Mqueen", "bottega-mqueen"],
+  ["CadCam", "cadcam"],
+  ["Chabi", "chabi"],
+  ["Dealmart", "dealmart"],
+  ["Elkithron", "elkithron"],
+  ["Ferranza", "ferranza"],
+  ["Flixmates", "flixmates"],
+  ["GMV", "gmv"],
+  ["Gudz", "gudz"],
+  ["Gurukul Engineering", "gurukul-eng"],
+  ["HR Wala", "hr"],
+  ["iis", "iis"],
+  ["Inbrix", "inbrix"],
+  ["Ishvaa", "ishvaa"],
+  ["Kamal", "kamal"],
+  ["Kashyap Export", "kashyap-export"],
+  ["Kobai", "kobai"],
+  ["Kota Fresh", "kota-fresh"],
+  ["Luriox", "luriox"],
+  ["Mapl", "mapl"],
+  ["Mnandi", "mnandilogo"],
+  ["MSF", "msf"],
+  ["Mudra", "mudra"],
+  ["Mudracare", "mudracare"],
+  ["Orafresh", "orafresh"],
+  ["Paras", "paras"],
+  ["PMFME", "pmfme"],
+  ["RGCSM", "rgcsm"],
+  ["Shivshakti", "shivshakti"],
+  ["Shree Falodi", "shree-falodi"],
+  ["Shreeshreemsf", "shreeshreemsf"],
+  ["Shrinath Travels", "shrinath-travels"],
+  ["Sqube", "sqube"],
+  ["SSI", "ssi"],
+  ["Sudha Hospital", "sudha-hospital"],
+  ["The Fitness Mart", "thefitnessmart"],
+  ["Vjoy", "vjoy"],
+];
+
+export const clientLogos: ClientLogo[] = logoFiles.map(([name, file]) => ({
+  name,
+  src: `clients/${file}.webp`,
+}));
+
+/** Resolved URL helper so components never concatenate paths by hand. */
+export const logoSrc = (src: string) => asset(src);

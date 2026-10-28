@@ -17,6 +17,11 @@ const nextConfig: NextConfig = {
   output: "export",
   trailingSlash: true,
   reactStrictMode: true,
+  /* The app is previewed through a proxied host during development, so the dev
+     server has to accept that origin. Production is a static export and never
+     uses the dev server, so this has no effect on the deployed site. */
+  allowedDevOrigins: ["*.e2b.app", "*.arena.ai"],
+
   images: {
     // Belt and braces: nothing should reach the image optimiser.
     unoptimized: true,

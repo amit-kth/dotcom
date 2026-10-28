@@ -18,7 +18,13 @@ import { cn } from "@/lib/utils";
    `npx shadcn add ...` works on a normal machine.
 
    Accessibility (Radix handles it): focus trap, Esc to close, aria-modal,
-   labelled by the title, and focus returned to the trigger on close.
+   labelled by the title, described by the description, and focus returned to
+   the trigger on close.
+
+   The enter animation is six lines of CSS in app/globals.css keyed off
+   data-state. The usual `animate-in` / `fade-in-0` utility classes come from
+   the tailwindcss-animate plugin, which this project does not install, so they
+   would silently do nothing.
    ========================================================================== */
 
 const Dialog = DialogPrimitive.Root;
@@ -32,12 +38,7 @@ function DialogOverlay({
 }: React.ComponentProps<typeof DialogPrimitive.Overlay>) {
   return (
     <DialogPrimitive.Overlay
-      className={cn(
-        "fixed inset-0 z-50 bg-foreground/60 backdrop-blur-sm",
-        "data-[state=open]:animate-in data-[state=closed]:animate-out",
-        "data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0",
-        className,
-      )}
+      className={cn("dialog-overlay fixed inset-0 z-50 bg-foreground/60 backdrop-blur-sm", className)}
       {...props}
     />
   );
@@ -53,9 +54,8 @@ function DialogContent({
       <DialogOverlay />
       <DialogPrimitive.Content
         className={cn(
-          "fixed left-1/2 top-1/2 z-50 w-[calc(100%-2rem)] max-w-lg -translate-x-1/2 -translate-y-1/2",
-          "rounded-xl border border-border bg-background p-6 shadow-lg",
-          "max-h-[90vh] overflow-y-auto",
+          "dialog-content fixed left-1/2 top-1/2 z-50 w-[calc(100%-2rem)] max-w-lg -translate-x-1/2 -translate-y-1/2",
+          "max-h-[90vh] overflow-y-auto rounded-xl border border-border bg-background p-6 shadow-lg",
           className,
         )}
         {...props}
@@ -87,7 +87,10 @@ function DialogTitle({
 }: React.ComponentProps<typeof DialogPrimitive.Title>) {
   return (
     <DialogPrimitive.Title
-      className={cn("text-lg font-semibold leading-none", className)}
+      className={cn(
+        "text-lg font-semibold leading-tight tracking-[-0.01em]",
+        className,
+      )}
       {...props}
     />
   );

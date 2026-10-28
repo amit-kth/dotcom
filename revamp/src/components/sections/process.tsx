@@ -16,7 +16,7 @@ const STEPS = [
   { days: "Day 1–2", title: "Map your data", body: "What you run today, written down." },
   { days: "Day 3–7", title: "Configure", body: "Roles, categories and your branding." },
   { days: "Day 8–12", title: "Import and train", body: "Your records in, your team trained." },
-  { days: "Day 13–15", title: "Go live", body: "We switch over with you, then stay on call." },
+  { days: "Day 13–15", title: "Go live", body: "We switch over, then stay on call." },
 ] as const;
 
 export function Process() {

@@ -1,124 +1,96 @@
 import Link from "next/link";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { Seo } from "@/components/seo";
 import { SiteHeader } from "@/components/site-header";
-import { SiteFooter } from "@/components/site-footer";
-import { SolutionCard } from "@/components/solution-card";
 import { RequestDemoDialog } from "@/components/request-demo-dialog";
-import { products } from "@/data/products";
+import { categories, categoryLabel } from "@/data/categories";
+import { products, DELIVERY_DAYS } from "@/data/products";
 
 /* ============================================================================
    /solutions  —  the full list
    ----------------------------------------------------------------------------
-   The homepage shows the five we install without a scoping call. This page is
-   where the rest lives, split by why it exists rather than by a sales status:
+   PURPOSE: let someone who wants the whole picture see it, without turning
+   into a catalogue page.
 
-     "Available to install"  — built, configured, in production
-     "Built for one client"  — shipped for a specific customer, adaptable
+   Grouped by the industry a visitor already recognises, not by a sales status.
+   Two columns, flat rows on the band, no cards inside cards. This page keeps
+   the homepage's language: solutions, one CTA, no prices.
 
-   Both groups use the same card, so nothing here looks like a special offer.
+   Step 4 of the rebuild refines this page (grouping, per-item CTA placement);
+   it exists now so the "View all solutions" link has somewhere real to go.
    ========================================================================== */
 
 export default function SolutionsPage() {
-  const available = products.filter((p) => p.availableNow);
-  const bespoke = products.filter((p) => !p.availableNow);
-
   return (
     <>
       <Seo page="solutions" />
       <SiteHeader />
 
-      <main>
-        <header className="bg-background">
-          <div className="shell pt-10 pb-10 sm:pt-14">
-            <Link
-              href="/"
-              className="inline-flex items-center gap-1.5 text-[0.8125rem] font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground"
-            >
-              <ArrowLeft className="size-3.5" aria-hidden="true" />
-              Back
-            </Link>
+      <main className="bg-band-solutions">
+        <div className="shell band">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-[0.9375rem] font-medium text-on-dark-soft transition-colors hover:text-on-dark"
+          >
+            <ArrowLeft className="size-4" aria-hidden="true" />
+            Back
+          </Link>
 
-            <h1 className="display mt-6 max-w-[20ch] text-[clamp(2.25rem,4.4vw,3.5rem)]">
-              Everything we have already built.
-            </h1>
-            <p className="lead dim measure mt-4">
-              {products.length} systems. Five install straight away; the rest
-              were built for one client and can be adapted for you.
-            </p>
+          <h1 className="t-display mt-8 max-w-[18ch]">
+            Everything we have already built.
+          </h1>
+          <p className="t-body mt-6">
+            Each of these can be live in {DELIVERY_DAYS} days. Pick your industry
+            and ask for a demo of the one that fits.
+          </p>
+
+          <div className="mt-16 space-y-20">
+            {categories.map((category) => {
+              const matches = products.filter((product) =>
+                product.categories.includes(category.id),
+              );
+              if (!matches.length) return null;
+
+              return (
+                <section key={category.id} aria-labelledby={category.id}>
+                  <h2
+                    id={category.id}
+                    className="t-heading text-[clamp(1.75rem,3vw,2.5rem)]"
+                  >
+                    {categoryLabel(category.id)}
+                  </h2>
+
+                  <ul className="mt-8 divide-y divide-border border-y border-border">
+                    {matches.map((product) => (
+                      <li
+                        key={product.id}
+                        className="flex flex-col gap-6 py-8 sm:flex-row sm:items-center sm:justify-between"
+                      >
+                        <div className="max-w-[52ch]">
+                          <h3 className="text-2xl font-semibold tracking-[-0.02em] text-on-dark">
+                            {product.name}
+                          </h3>
+                          <p className="mt-2 text-on-dark-soft">
+                            {product.description}
+                          </p>
+                        </div>
+                        <div className="shrink-0">
+                          <RequestDemoDialog
+                            product={product.name}
+                            label="Request a demo"
+                            variant="onInk"
+                            size="sm"
+                          />
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              );
+            })}
           </div>
-        </header>
-
-        <section
-          aria-labelledby="available-title"
-          className="bg-background"
-        >
-          <div className="shell pb-14 pt-10 sm:pt-12">
-            <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-2">
-              <h2 id="available-title" className="title-section">
-                Available to install
-              </h2>
-              <p className="meta dim">Live in 15 days, with your data</p>
-            </div>
-
-            <div className="mt-8 grid gap-4 sm:grid-cols-2">
-              {available.map((product) => (
-                <SolutionCard key={product.id} product={product} />
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section
-          aria-labelledby="bespoke-title"
-          className="bg-background border-t border-border"
-        >
-          <div className="shell band-sm">
-            <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-2">
-              <h2 id="bespoke-title" className="title-section">
-                Built for one client
-              </h2>
-              <p className="meta dim">
-                In production elsewhere; adaptable for you
-              </p>
-            </div>
-
-            <div className="mt-8 grid gap-4 sm:grid-cols-2">
-              {bespoke.map((product) => (
-                <SolutionCard key={product.id} product={product} />
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="surface-ink">
-          <div className="shell band-sm">
-            <div className="flex flex-wrap items-center justify-between gap-6">
-              <div>
-                <h2 className="title-section max-w-[24ch]">
-                  Nothing here quite fits?
-                </h2>
-                <p className="body dim measure-tight mt-3">
-                  We have shipped 1,549 projects. Tell us the problem and we will
-                  say whether we have solved it before.
-                </p>
-              </div>
-              <div className="flex flex-wrap items-center gap-3">
-                <RequestDemoDialog label="Talk to us" variant="onInk" />
-                <Link
-                  href="/#contact"
-                  className="inline-flex items-center gap-1.5 text-sm font-semibold text-ink-foreground hover:text-white"
-                >
-                  Send an enquiry
-                  <ArrowRight className="size-4" aria-hidden="true" />
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
+        </div>
       </main>
-
-      <SiteFooter />
     </>
   );
 }

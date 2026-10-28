@@ -10,115 +10,163 @@ import { cn } from "@/lib/utils";
 /* ============================================================================
    SiteHeader
    ----------------------------------------------------------------------------
-   The page is a column of rounded scenes on a light neutral surface, and the
-   header sits on that surface rather than on a scene. So it is simply a light
-   sticky bar: the real logo, quiet nav, one button. No transparent state, no
-   inverted wordmark, nothing to compete with the hero below it.
+   PURPOSE: hold the logo, the section links and one button, and get out of the
+   way of the hero.
+
+   Height is fixed at 72px in every state — only the background fades in after
+   the first scroll, and it fades with opacity rather than swapping a class, so
+   nothing about the layout moves. A header that changes height on scroll is the
+   most common cause of layout shift on a landing page.
+
+   The active link follows the section you are looking at, using an
+   IntersectionObserver rather than scroll maths, so it stays honest when
+   sections change height.
    ========================================================================== */
 
 const NAV = [
-  { label: "Solutions", href: "/solutions" },
-  { label: "How it works", href: "/#process" },
-  { label: "Contact", href: "/#contact" },
+  { label: "Solutions", href: "/#solutions", id: "solutions" },
+  { label: "How it works", href: "/#delivery", id: "delivery" },
+  { label: "About", href: "/#about", id: "about" },
+  { label: "Clients", href: "/#clients", id: "clients" },
+  { label: "Contact", href: "/#contact", id: "contact" },
 ] as const;
 
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [active, setActive] = useState<string | null>(null);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    const onScroll = () => setScrolled(window.scrollY > 12);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  /* Scroll spy. Sections are observed, not calculated, so a section that
+     changes height cannot desynchronise the highlight. */
+  useEffect(() => {
+    const sections = NAV.map((item) => document.getElementById(item.id)).filter(
+      (el): el is HTMLElement => Boolean(el),
+    );
+    if (!sections.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible) setActive(visible.target.id);
+      },
+      { rootMargin: "-45% 0px -45% 0px", threshold: [0, 0.25, 0.5] },
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
   }, [open]);
 
   return (
-    <header
-      className={cn(
-        "sticky top-0 z-40 transition-colors duration-300",
-        scrolled || open
-          ? "border-b border-border bg-background/85 backdrop-blur-md"
-          : "border-b border-transparent bg-transparent",
-      )}
-    >
-      <div className="shell">
-        <div className="flex h-16 items-center justify-between gap-6">
-          <Link href="/" aria-label={`${site.name} home`} className="shrink-0">
-            <img
-              src={asset("logo/logo.png")}
-              alt={site.name}
-              width={274}
-              height={72}
-              className="h-6 w-auto"
-            />
-          </Link>
+    <header className="sticky top-0 z-50 h-[var(--header-h)]">
+      {/* The glass layer is its own element so its opacity can fade without the
+          header's own background changing height or paint order. */}
+      <div
+        aria-hidden="true"
+        className={cn(
+          "glass absolute inset-0 border-x-0 border-t-0 transition-opacity duration-300",
+          scrolled || open ? "opacity-100" : "opacity-0",
+        )}
+      />
 
-          <nav aria-label="Main" className="hidden md:block">
-            <ul className="flex items-center gap-8">
-              {NAV.map((item) => (
-                <li key={item.label}>
-                  <Link
-                    href={item.href}
-                    className="text-[0.9375rem] font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
+      <div className="shell relative flex h-full items-center justify-between gap-8">
+        <Link href="/" aria-label={`${site.name} home`} className="shrink-0">
+          <img
+            src={asset("logo/logo.png")}
+            alt={site.name}
+            width={274}
+            height={72}
+            className="h-6 w-auto brightness-0 invert"
+          />
+        </Link>
 
-          <div className="flex items-center gap-2">
-            <div className="hidden sm:block">
-              <RequestDemoDialog size="sm" label="Request a demo" />
-            </div>
-
-            <button
-              type="button"
-              onClick={() => setOpen((v) => !v)}
-              aria-expanded={open}
-              aria-controls="mobile-nav"
-              aria-label={open ? "Close menu" : "Open menu"}
-              className="flex size-11 items-center justify-center rounded-lg border border-border text-foreground md:hidden"
-            >
-              {open ? (
-                <X className="size-5" aria-hidden="true" />
-              ) : (
-                <Menu className="size-5" aria-hidden="true" />
+        <nav aria-label="Sections" className="hidden items-center gap-8 lg:flex">
+          {NAV.map((item) => (
+            <Link
+              key={item.id}
+              href={item.href}
+              aria-current={active === item.id ? "true" : undefined}
+              className={cn(
+                "relative text-[0.9375rem] font-medium transition-colors duration-200",
+                active === item.id
+                  ? "text-on-dark"
+                  : "text-on-dark-soft hover:text-on-dark",
               )}
-            </button>
+            >
+              {item.label}
+              <span
+                aria-hidden="true"
+                className={cn(
+                  "absolute -bottom-1.5 left-0 h-px w-full origin-left bg-accent-bright transition-transform duration-300",
+                  active === item.id ? "scale-x-100" : "scale-x-0",
+                )}
+              />
+            </Link>
+          ))}
+        </nav>
+
+        <div className="flex items-center gap-2">
+          <div className="hidden sm:block">
+            <RequestDemoDialog label="Request a demo" size="sm" />
           </div>
+
+          <button
+            type="button"
+            onClick={() => setOpen((value) => !value)}
+            aria-expanded={open}
+            aria-controls="mobile-nav"
+            aria-label={open ? "Close menu" : "Open menu"}
+            className="flex size-11 items-center justify-center rounded-xl border border-border text-on-dark transition-colors hover:bg-glass lg:hidden"
+          >
+            {open ? (
+              <X className="size-5" aria-hidden="true" />
+            ) : (
+              <Menu className="size-5" aria-hidden="true" />
+            )}
+          </button>
         </div>
       </div>
 
+      {/* Mobile menu: a sheet under the bar, not a full-screen takeover, so the
+          page stays visible behind it. */}
       <div
         id="mobile-nav"
         hidden={!open}
-        className="border-t border-border bg-background md:hidden"
+        className="glass absolute inset-x-0 top-full border-x-0 lg:hidden"
       >
-        <nav aria-label="Mobile" className="shell py-3">
-          <ul>
-            {NAV.map((item) => (
-              <li key={item.label} className="border-b border-border last:border-0">
-                <Link
-                  href={item.href}
-                  onClick={() => setOpen(false)}
-                  className="block py-3.5 text-sm font-medium text-foreground"
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <div className="pt-3 sm:hidden">
+        <nav aria-label="Sections" className="shell flex flex-col py-3">
+          {NAV.map((item) => (
+            <Link
+              key={item.id}
+              href={item.href}
+              onClick={() => setOpen(false)}
+              className="py-3.5 text-base font-medium text-on-dark-soft transition-colors hover:text-on-dark"
+            >
+              {item.label}
+            </Link>
+          ))}
+          <div className="py-3 sm:hidden">
             <RequestDemoDialog label="Request a demo" className="w-full" />
           </div>
         </nav>

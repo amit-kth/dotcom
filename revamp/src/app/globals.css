@@ -1,83 +1,120 @@
 @import "tailwindcss";
 
 /* ============================================================================
-   KRISCENT · globals.css
+   globals.css  —  the whole design system
    ----------------------------------------------------------------------------
-   The palette below is the one supplied for this build, declared once and used
-   everywhere. Nothing in the app hard-codes a colour; components use the mapped
-   utilities (bg-card, text-primary, border-border ...) and the OKLCH values live
-   only here.
+   Two rules hold this file together:
 
-   Three additions, all derived from the supplied set, because a page needs them
-   and the base tokens do not cover them:
-     --ink / --ink-foreground   the dark surface for the two dark bands
-     --viz-blue / -coral / -violet   the three accents used inside the product
-                                     mockups, taken from primary, destructive
-                                     and the foreground hue family
+   1. Every colour is a token here. No component anywhere may write a hex, an
+      rgb() or an oklch() of its own. If a component needs a new colour, it
+      needs a new token here first.
+   2. Sections are flat, full-width bands. Nothing is wrapped in a rounded box
+      unless the box is doing a job (a banner, the form, a glass chip).
+
+   The palette is Kriscent's: deep navy, brand blue, white. Everything else in
+   this file is a shade of those three.
    ========================================================================== */
 
+@custom-variant dark (&:is(.dark *));
+
 :root {
+  /* --- brand -------------------------------------------------------------
+     Supplied by the client. These are the source of truth for the brand.
+     --------------------------------------------------------------------- */
   --background: oklch(98.42% 0.0034 247.86);
-  --foreground: oklch(13.23% 0.0756 277.93);
-  --card: oklch(100% 0 0);
-  --card-foreground: oklch(13.23% 0.0756 277.93);
-  --popover: oklch(100% 0 0);
-  --popover-foreground: oklch(13.23% 0.0756 277.93);
+  --foreground: oklch(96.5% 0.006 260);
+  --card: oklch(14% 0.04 279);
+  --card-foreground: oklch(96.5% 0.006 260);
+  --popover: oklch(14% 0.04 279);
+  --popover-foreground: oklch(96.5% 0.006 260);
+
   --primary: oklch(49.03% 0.2158 264.38);
   --primary-foreground: oklch(98.42% 0.0034 247.86);
-  --secondary: oklch(94% 0.015 260.03);
-  --secondary-foreground: oklch(27.95% 0.0368 260.03);
-  --muted: oklch(95.5% 0.01 260.03);
-  --muted-foreground: oklch(45% 0.03 264.38);
+
+  --secondary: oklch(20% 0.05 280);
+  --secondary-foreground: oklch(92% 0.012 264);
+
+  --muted: oklch(22% 0.045 280);
+  --muted-foreground: oklch(78% 0.018 264);
+
   --accent: oklch(90% 0.05 264.38);
-  --accent-foreground: oklch(27.95% 0.0368 260.03);
+  --accent-foreground: oklch(20% 0.06 277.93);
+
   --destructive: oklch(63.68% 0.2078 25.33);
   --destructive-foreground: oklch(98.42% 0.0034 247.86);
-  --border: oklch(90% 0.015 260.03);
-  --input: oklch(100% 0 0);
-  --ring: oklch(49.03% 0.2158 264.38);
+
+  --border: oklch(100% 0 0 / 0.12);
+  --input: oklch(100% 0 0 / 0.06);
+  --ring: oklch(72% 0.16 264.38);
+
   --chart-1: oklch(49.03% 0.2158 264.38);
   --chart-2: oklch(27.95% 0.0368 260.03);
   --chart-3: oklch(63.68% 0.2078 25.33);
   --chart-4: oklch(13.23% 0.0756 277.93);
   --chart-5: oklch(70% 0.03 264.38);
-  --radius: 0.75rem;
 
-  /* dark surface */
-  --ink: oklch(13.23% 0.0756 277.93);
-  --ink-foreground: oklch(98.42% 0.0034 247.86);
-  --ink-muted: oklch(72% 0.025 264);
-  --line-on-ink: oklch(28% 0.045 270);
+  /* --- bands -------------------------------------------------------------
+     One value per band, and no two neighbours share one. The page is dark
+     throughout; the variation between bands is what separates them, so it has
+     to be visible but never stripey.
+     --------------------------------------------------------------------- */
+  --band-base: oklch(11.5% 0.035 278); /* the page itself */
+  --band-solutions: oklch(12.8% 0.042 279);
+  --band-delivery: oklch(15.5% 0.05 281);
+  --band-about: oklch(10% 0.03 277);
+  --band-clients: oklch(14% 0.045 280);
+  --band-footer: oklch(8% 0.026 276);
 
-  /* mockup accents */
-  --viz-blue: oklch(49.03% 0.2158 264.38);
-  --viz-coral: oklch(63.68% 0.2078 25.33);
-  --viz-violet: oklch(56% 0.19 292);
+  /* Fixed at every scroll position, so nothing under it can shift. */
+  --header-h: 4.5rem;
 
-  /* the highlighted phrase on a dark surface: primary is too dark against ink */
-  --peri: oklch(78% 0.1 264.38);
+  /* --- light on dark ----------------------------------------------------- */
+  --on-dark: oklch(96.5% 0.006 260);
+  --on-dark-soft: oklch(78% 0.018 264);
+  --on-dark-faint: oklch(62% 0.02 264);
 
-  /* --- scenes -------------------------------------------------------------
-     The page is a sequence of rounded containers, each with its own surface.
-     Nine scenes, nine values, so no two neighbours can accidentally match.
-     Every one of them is a token; no component may invent a colour.
-     ---------------------------------------------------------------------- */
-  --scene-page: oklch(96.5% 0.006 260);        /* the paper the scenes sit on */
-  --scene-hero: oklch(17% 0.075 275);          /* deep navy */
-  --scene-hero-glow: oklch(49.03% 0.2158 264.38);
-  --scene-solutions: oklch(94.5% 0.035 285);   /* soft lavender */
-  --scene-ai: oklch(16% 0.055 278);            /* dark navy, second dark scene */
-  --scene-process: oklch(96.5% 0.026 85);      /* warm cream */
-  --scene-trust: oklch(100% 0 0);              /* white */
-  --scene-voices: oklch(94% 0.032 220);        /* soft sky */
-  --scene-faq: oklch(98.5% 0.004 260);         /* near-white neutral */
-  --scene-contact: oklch(26% 0.12 268);        /* strong brand blue */
-  --scene-footer: oklch(11% 0.045 278);        /* darkest navy */
+  /* --- accent, raised for dark surfaces ----------------------------------
+     Brand blue at 49% lightness is right for a filled button; on a navy band
+     it is not bright enough to read as text. This is the same hue, lifted.
+     --------------------------------------------------------------------- */
+  --accent-bright: oklch(74% 0.16 264.38);
+  --accent-glow: oklch(49.03% 0.2158 264.38 / 0.55);
 
-  /* the light-on-dark helper, reused by the dark scenes */
-  --on-dark: oklch(95% 0.012 264);
-  --on-dark-soft: oklch(82% 0.022 264);
-  --line-on-dark: oklch(100% 0 0 / 0.14);
+  /* --- per-product accent hues -------------------------------------------
+     Used for the hairline and spotlight on each banner. Set by the data file.
+     --------------------------------------------------------------------- */
+  --hue-blue: oklch(72% 0.15 264.38);
+  --hue-violet: oklch(72% 0.16 292);
+  --hue-coral: oklch(74% 0.15 25.33);
+  --hue-teal: oklch(74% 0.12 190);
+
+  /* --- glass ------------------------------------------------------------- */
+  --glass-fill: oklch(100% 0 0 / 0.06);
+  --glass-fill-hover: oklch(100% 0 0 / 0.11);
+  --glass-border: oklch(100% 0 0 / 0.14);
+  --glass-border-hover: oklch(100% 0 0 / 0.34);
+
+  /* --- shape -------------------------------------------------------------
+     One scale, used identically everywhere. 12 / 20 / 32.
+     --------------------------------------------------------------------- */
+  --radius: 0.75rem; /* 12 */
+  --radius-md: 1.25rem; /* 20 */
+  --radius-lg: 2rem; /* 32 */
+
+  /* --- elevation --------------------------------------------------------- */
+  --shadow-lift: 0 24px 60px -32px oklch(0% 0 0 / 0.85);
+  --shadow-card: 0 40px 120px -60px oklch(0% 0 0 / 0.95);
+
+  /* --- spacing scale: 8px only ------------------------------------------- */
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2rem;
+  --space-5: 3rem;
+  --space-6: 4rem;
+  --space-7: 6rem;
+  --space-8: 8rem;
+  --space-9: 10rem;
 }
 
 @theme inline {
@@ -106,32 +143,27 @@
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
 
-  --color-ink: var(--ink);
-  --color-ink-foreground: var(--ink-foreground);
-  --color-ink-muted: var(--ink-muted);
-  --color-peri: var(--peri);
-  --color-line-on-ink: var(--line-on-ink);
-  --color-scene-page: var(--scene-page);
-  --color-scene-hero: var(--scene-hero);
-  --color-scene-solutions: var(--scene-solutions);
-  --color-scene-ai: var(--scene-ai);
-  --color-scene-process: var(--scene-process);
-  --color-scene-trust: var(--scene-trust);
-  --color-scene-voices: var(--scene-voices);
-  --color-scene-faq: var(--scene-faq);
-  --color-scene-contact: var(--scene-contact);
-  --color-scene-footer: var(--scene-footer);
+  --color-band-base: var(--band-base);
+  --color-band-solutions: var(--band-solutions);
+  --color-band-delivery: var(--band-delivery);
+  --color-band-about: var(--band-about);
+  --color-band-clients: var(--band-clients);
+  --color-band-footer: var(--band-footer);
+
   --color-on-dark: var(--on-dark);
   --color-on-dark-soft: var(--on-dark-soft);
-  --color-line-on-dark: var(--line-on-dark);
+  --color-on-dark-faint: var(--on-dark-faint);
+  --color-accent-bright: var(--accent-bright);
+  --color-accent-glow: var(--accent-glow);
 
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 6px);
+  --color-glass: var(--glass-fill);
+  --color-glass-border: var(--glass-border);
 
-  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
-    Roboto, "Helvetica Neue", Arial, sans-serif;
+  --radius-sm: var(--radius);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+
+  --font-sans: var(--font-display), ui-sans-serif, system-ui, sans-serif;
 }
 
 @layer base {
@@ -141,32 +173,49 @@
 
   html {
     scroll-behavior: smooth;
-    -webkit-text-size-adjust: 100%;
   }
 
   body {
-    background-color: var(--background);
+    background-color: var(--band-base);
     color: var(--foreground);
-    font-family: var(--font-sans);
-    font-feature-settings: "cv11", "ss01";
+    font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+    font-size: 1.0625rem;
+    line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
 
-  :focus-visible {
-    outline: 2px solid var(--focus, var(--ring));
-    outline-offset: 3px;
-  }
-
   ::selection {
-    background-color: var(--primary);
-    color: var(--primary-foreground);
+    background: var(--accent-bright);
+    color: oklch(16% 0.05 277.93);
   }
 
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
+    border-radius: var(--radius);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Anyone who has asked their system not to animate gets a still page. */
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-behavior: auto;
     }
+
     *,
     *::before,
     *::after {
@@ -178,347 +227,213 @@
 }
 
 @layer components {
+  /* --- layout ------------------------------------------------------------ */
   .shell {
     width: 100%;
-    max-width: 75rem;
+    max-width: 80rem; /* 1280 */
     margin-inline: auto;
-    padding-inline: clamp(1.25rem, 4vw, 2.75rem);
+    padding-inline: clamp(1.5rem, 4vw, 3rem);
   }
 
-  /* Sections breathe at py-16 on a phone and py-24 on a desktop, never less. */
+  .container-narrow {
+    max-width: 75rem; /* 1200 of content */
+  }
+
+  /* 120-160px desktop, 72-96px mobile: the vertical rhythm of the whole page. */
   .band {
-    padding-block: clamp(4rem, 7vw, 7rem);
+    padding-block: clamp(4.5rem, 9vw, 10rem);
   }
 
-  .band-sm {
-    padding-block: clamp(2.75rem, 5vw, 4.5rem);
+  /* --- type: exactly four levels ----------------------------------------- */
+  .t-display {
+    font-size: clamp(2.375rem, 6.2vw, 6rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    font-weight: 700;
   }
 
-  .surface-ink {
-    background-color: var(--ink);
-    color: var(--ink-foreground);
-    --focus: var(--ink-foreground);
-    border-color: var(--line-on-ink);
+  .t-heading {
+    font-size: clamp(1.875rem, 4vw, 4rem);
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+    font-weight: 700;
   }
 
-  .dim {
-    color: var(--muted-foreground);
+  .t-body {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: var(--on-dark-soft);
+    max-width: 65ch;
   }
 
-  .surface-ink .dim {
-    color: var(--ink-muted);
-  }
-
-  /* --- type ------------------------------------------------------------- */
-  .eyebrow {
-    font-size: 0.6875rem;
+  .t-label {
+    font-size: 0.8125rem;
+    line-height: 1.4;
     font-weight: 600;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--primary);
+    color: var(--on-dark-soft);
   }
 
-  .surface-ink .eyebrow {
-    color: var(--chart-5);
+  .t-accent {
+    color: var(--accent-bright);
   }
 
-  .display {
-    /* 34px phone, 50px desktop. The hero headline is one line at 50px inside
-       the 1248px shell; anything larger wraps under the selector and starts to
-       compete with it, which is the one thing the hero must not do. */
-    font-size: clamp(2.125rem, 3.6vw, 3.125rem);
-    line-height: 1.06;
-    letter-spacing: -0.035em;
-    font-weight: 600;
-    text-wrap: balance;
+  /* --- glass: nav, chips, floating things only --------------------------- */
+  .glass {
+    background: var(--glass-fill);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
   }
 
-  .title-section {
-    font-size: clamp(1.75rem, 2.8vw, 2.375rem);
-    line-height: 1.08;
-    letter-spacing: -0.03em;
-    font-weight: 600;
-    text-wrap: balance;
+  /* --- hero ---------------------------------------------------------------
+     PURPOSE: the visitor picks their business category.
+
+     The aurora is ambient and slow; it must never pull the eye off the chips.
+     It is two large radial gradients drifting by a few percent over 24s.
+     ---------------------------------------------------------------------- */
+  .hero {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: calc(100svh - var(--header-h, 4.5rem));
+    overflow: hidden;
   }
 
-  .lead {
-    font-size: clamp(1rem, 1.15vw, 1.125rem);
-    line-height: 1.6;
-    letter-spacing: -0.008em;
+  .hero-aurora {
+    position: absolute;
+    inset: -20%;
+    z-index: 0;
+    background:
+      radial-gradient(
+        42% 48% at 22% 26%,
+        oklch(46% 0.19 268 / 0.5) 0%,
+        transparent 68%
+      ),
+      radial-gradient(
+        38% 44% at 78% 12%,
+        oklch(40% 0.16 292 / 0.42) 0%,
+        transparent 66%
+      ),
+      radial-gradient(
+        46% 40% at 62% 92%,
+        oklch(34% 0.12 240 / 0.4) 0%,
+        transparent 70%
+      );
+    filter: blur(18px);
+    animation: aurora-drift 26s ease-in-out infinite alternate;
+    pointer-events: none;
   }
 
-  /* Body never goes below 16px, and on a dark surface it never goes grey. */
-  .body {
+  /* A faint grid keeps the empty right side from looking unfinished, without
+     becoming a second thing to look at. */
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-image:
+      linear-gradient(to right, oklch(100% 0 0 / 0.045) 1px, transparent 1px),
+      linear-gradient(to bottom, oklch(100% 0 0 / 0.045) 1px, transparent 1px);
+    background-size: 96px 96px;
+    -webkit-mask-image: radial-gradient(
+      70% 60% at 50% 45%,
+      black,
+      transparent 78%
+    );
+    mask-image: radial-gradient(70% 60% at 50% 45%, black, transparent 78%);
+    pointer-events: none;
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    padding-block: clamp(3.5rem, 7vh, 6rem);
+  }
+
+  /* --- chips --------------------------------------------------------------
+     56-64px tall, glass, and the only interactive thing on the first screen.
+     ---------------------------------------------------------------------- */
+  .chip {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    min-height: 3.75rem;
+    padding-inline: 1.5rem;
+    border-radius: 999px;
     font-size: 1.0625rem;
-    line-height: 1.65;
-    color: var(--secondary-foreground);
+    font-weight: 600;
+    color: var(--on-dark);
+    background: var(--glass-fill);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    transition:
+      transform 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      background-color 220ms ease,
+      border-color 220ms ease,
+      color 220ms ease,
+      box-shadow 220ms ease;
   }
 
-  .surface-ink .body {
-    color: oklch(92% 0.02 264);
+  .chip:hover {
+    transform: translateY(-2px);
+    background: var(--glass-fill-hover);
+    border-color: var(--glass-border-hover);
+    box-shadow: 0 18px 40px -22px oklch(0% 0 0 / 0.9);
   }
 
-  .meta {
-    font-size: 0.75rem;
-    line-height: 1.5;
+  .chip:active {
+    transform: translateY(0) scale(0.985);
   }
 
-  .measure {
-    max-width: 34rem;
+  .chip[aria-pressed="true"] {
+    background: var(--on-dark);
+    border-color: var(--on-dark);
+    color: oklch(16% 0.05 277.93);
+    box-shadow:
+      0 0 0 1px oklch(100% 0 0 / 0.5),
+      0 22px 60px -18px var(--accent-glow);
   }
-  .measure-tight {
-    max-width: 25rem;
+
+  /* A phone gets the same chips at a size that still reads as the focal
+     point: 17px type, 16px of padding, and two per row wherever they fit. */
+  @media (max-width: 639px) {
+    .chip {
+      min-height: 3.5rem;
+      padding-inline: 1rem;
+      font-size: 1.0625rem;
+    }
+  }
+}
+
+@keyframes aurora-drift {
+  from {
+    transform: translate3d(-1.5%, -1%, 0) scale(1);
+  }
+  to {
+    transform: translate3d(2%, 1.5%, 0) scale(1.05);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-aurora {
+    animation: none;
   }
 }
 
 /* --- phone field ---------------------------------------------------------- */
-.phone-field {
-  --react-international-phone-height: 3rem;
-  --react-international-phone-border-radius: 0.625rem;
-  --react-international-phone-border-color: var(--border);
-  --react-international-phone-background-color: #fff;
-  --react-international-phone-text-color: var(--foreground);
-  --react-international-phone-font-size: 0.875rem;
-  --react-international-phone-country-selector-background-color: #fff;
-  --react-international-phone-country-selector-background-color-hover: var(
-    --secondary
-  );
-  --react-international-phone-country-selector-arrow-color: var(
-    --muted-foreground
-  );
-  --react-international-phone-disabled-background-color: var(--muted);
-  --react-international-phone-disabled-text-color: var(--muted-foreground);
-  --react-international-phone-dropdown-top: calc(3rem + 6px);
-  --react-international-phone-dropdown-item-height: 2.25rem;
-  --react-international-phone-dropdown-item-font-size: 0.8125rem;
-  --react-international-phone-dropdown-item-background-color: var(--popover);
-  --react-international-phone-dropdown-item-text-color: var(--foreground);
-  --react-international-phone-selected-dropdown-item-background-color: var(
-    --secondary
-  );
-  --react-international-phone-selected-dropdown-item-text-color: var(
-    --foreground
-  );
-  --react-international-phone-dropdown-shadow: 0 18px 40px -16px
-    oklch(13.23% 0.0756 277.93 / 0.28);
-}
-
-.phone-field .react-international-phone-input-container {
-  width: 100%;
-}
 .phone-field .react-international-phone-country-selector-button {
-  padding-inline: 0.625rem;
-}
-.phone-field .react-international-phone-input {
-  width: 100%;
-  padding-inline: 0.875rem;
-}
-.phone-field .react-international-phone-input:focus-visible {
-  outline: 2px solid var(--ring);
-  outline-offset: 1px;
-}
-.phone-field .react-international-phone-country-selector-dropdown {
-  width: 300px;
-  max-width: calc(100vw - 3rem);
-  z-index: 60;
-}
-.phone-field--error .react-international-phone-country-selector-button,
-.phone-field--error .react-international-phone-input {
-  border-color: var(--destructive);
+  border: none;
+  background: transparent;
+  padding-inline: 0.75rem 0.5rem;
 }
 
-/* --- ambient -------------------------------------------------------------- */
-/* --- the page shell --------------------------------------------------------
-   The page itself is a light neutral. Sections are rounded containers sitting
-   on it, not full-bleed bands: the gap between two scenes is what tells the
-   reader a new idea has started, and a hard colour change is not needed.
-   -------------------------------------------------------------------------- */
-.page {
-  padding: clamp(0.5rem, 1.5vw, 1.5rem);
-  background-color: var(--scene-page);
-}
-
-/* The gap between two scenes is what says "new idea". margin rather than a
-   flex gap, so it still works when <main> is display:contents. */
-.scene + .scene {
-  margin-top: clamp(4rem, 8vw, 8rem);
-}
-
-.scene {
-  position: relative;
-  border-radius: clamp(1.5rem, 3vw, 3rem);
-  overflow: hidden;
-  isolation: isolate;
-}
-
-.scene-inner {
-  max-width: 75rem;
-  margin-inline: auto;
-  padding: clamp(2.5rem, 5vw, 4rem) clamp(1.25rem, 4vw, 3.5rem);
-}
-
-/* --- scene surfaces --------------------------------------------------------
-   One value each. Two neighbours never share one: hero(navy) → solutions
-   (lavender) → ai (navy) → process (cream) → trust (white) → voices (sky) →
-   faq (near-white) → contact (blue) → footer (darkest navy).
-   -------------------------------------------------------------------------- */
-.scene--hero {
-  background:
-    radial-gradient(
-      120% 120% at 78% 6%,
-      oklch(38% 0.17 268 / 0.85) 0%,
-      transparent 58%
-    ),
-    linear-gradient(158deg, oklch(23% 0.1 274) 0%, oklch(14% 0.07 278) 72%);
-  color: var(--on-dark);
-}
-
-.scene--solutions {
-  background-color: var(--scene-solutions);
-}
-.scene--ai {
-  background:
-    radial-gradient(
-      90% 90% at 82% 18%,
-      oklch(38% 0.16 268 / 0.7) 0%,
-      transparent 60%
-    ),
-    var(--scene-ai);
-  color: var(--on-dark);
-}
-.scene--process {
-  background-color: var(--scene-process);
-}
-.scene--trust {
-  background-color: var(--scene-trust);
-}
-.scene--voices {
-  background-color: var(--scene-voices);
-}
-.scene--faq {
-  background-color: var(--scene-faq);
-}
-.scene--contact {
-  background:
-    radial-gradient(
-      80% 100% at 12% 0%,
-      oklch(38% 0.16 268 / 0.9) 0%,
-      transparent 62%
-    ),
-    var(--scene-contact);
-  color: var(--on-dark);
-}
-.scene--footer {
-  background-color: var(--scene-footer);
-  color: var(--on-dark);
-}
-
-/* --- hero ------------------------------------------------------------------
-   PURPOSE: get the visitor to name the business they run.
-   The glow behind the chips takes its colour from the chosen industry, so the
-   scene changes when the visitor does something.
-   -------------------------------------------------------------------------- */
-/* The scene fills the first screen but caps on tall monitors, and the content
-   is centred inside it rather than pinned to the top: a hero with a third of
-   its height empty under the chips looks unfinished, not generous. */
-.scene--hero {
-  display: flex;
-  align-items: center;
-  min-height: min(calc(100svh - var(--header-h) - 3rem), 48rem);
-}
-
-.hero-scene-inner {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  padding-block: clamp(3rem, 7vh, 5rem);
-}
-
-.hero-glow {
-  position: absolute;
-  z-index: 0;
-  left: 18%;
-  top: 62%;
-  width: min(90%, 54rem);
-  aspect-ratio: 1.7 / 1;
-  transform: translate(-50%, -50%);
-  background: radial-gradient(
-    closest-side,
-    var(--hero-glow, oklch(49.03% 0.2158 264.38 / 0.5)),
-    transparent 78%
-  );
-  filter: blur(40px);
-  opacity: 0.9;
-  transition: background 600ms ease;
-  pointer-events: none;
-}
-
-/* The glow takes the chosen industry's accent, so the scene reacts to the
-   visitor instead of sitting still. */
-.scene--hero[data-accent="blue"] {
-  --hero-glow: oklch(49.03% 0.2158 264.38 / 0.55);
-}
-.scene--hero[data-accent="coral"] {
-  --hero-glow: oklch(63.68% 0.2078 25.33 / 0.45);
-}
-.scene--hero[data-accent="violet"] {
-  --hero-glow: oklch(56% 0.19 292 / 0.5);
-}
-
-.hero-h1 {
-  font-size: clamp(2.125rem, min(5.4vw, 9.2vh), 4.5rem);
-  line-height: 0.96;
-  letter-spacing: -0.042em;
-  font-weight: 600;
-  text-wrap: balance;
-}
-
-.hero-sub {
-  margin-top: clamp(0.875rem, 2vh, 1.25rem);
-  font-size: 1.125rem;
-  line-height: 1.6;
-  color: var(--on-dark-soft);
-}
-
-.hero-chips {
-  margin-top: clamp(1.75rem, 4.5vh, 2.75rem);
-}
-
-.hero-chip-label {
-  font-size: 0.8125rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--on-dark-soft);
-}
-
-.hero-num {
-  color: var(--peri);
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -0.05em;
-}
-
-/* The receipt for a choice. A pill, not a panel: it confirms, it does not ask. */
-.hero-preview {
-  display: flex;
-  align-items: center;
-  gap: 0.875rem;
-  width: fit-content;
-  max-width: 100%;
-  margin-top: clamp(1.25rem, 3vh, 1.75rem);
-  padding: 0.5rem 0.5rem 0.5rem 0.75rem;
-  border-radius: 999px;
-  border: 1px solid var(--line-on-dark);
-  background: oklch(100% 0 0 / 0.07);
-  backdrop-filter: blur(6px);
-  animation: hero-in 380ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
-}
-
-@media (max-width: 639px) {
-  .hero-preview {
-    width: 100%;
-    border-radius: 1.25rem;
-  }
+.phone-field input {
+  background: transparent;
+  color: inherit;
 }
 
 /* --- dialog --------------------------------------------------------------- */
@@ -526,30 +441,15 @@
   from {
     opacity: 0;
   }
+  to {
+    opacity: 1;
+  }
 }
+
 @keyframes content-in {
   from {
     opacity: 0;
-    scale: 0.985;
-  }
-}
-.dialog-overlay[data-state="open"] {
-  animation: overlay-in 180ms ease-out;
-}
-.dialog-content[data-state="open"] {
-  animation: content-in 200ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-/* --- a little motion, and only a little ------------------------------------
-   The words arrive first, the control follows, the mockup last. It gives the
-   first screen a sense of being composed rather than loaded, and it is four
-   lines of CSS, so it costs nothing. Anyone who has asked their system not to
-   animate gets a still page.
-   -------------------------------------------------------------------------- */
-@keyframes hero-in {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
+    transform: translateY(12px) scale(0.98);
   }
   to {
     opacity: 1;
@@ -557,34 +457,26 @@
   }
 }
 
-.hero-in {
-  animation: hero-in 700ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+.dialog-overlay[data-state="open"] {
+  animation: overlay-in 200ms ease-out;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .hero-in {
-    animation: none;
-  }
+.dialog-content[data-state="open"] {
+  animation: content-in 260ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
-/* --- faq ------------------------------------------------------------------
-   <details> gives the open/close for free, with no JavaScript and no ARIA to
-   get wrong. The marker is rotated rather than swapped, so the control does not
-   jump when it is used.
+/* --- reveal ---------------------------------------------------------------
+   The one entrance used everywhere: 16px up and a fade, played once. Motion is
+   handled by Framer Motion in components; this is the no-JS fallback so that a
+   crawler or a blocked script still sees the content.
    -------------------------------------------------------------------------- */
-.faq-item summary::-webkit-details-marker {
-  display: none;
-}
-
-.faq-mark {
-  transition:
-    transform 200ms ease,
-    border-color 200ms ease,
-    color 200ms ease;
-}
-
-.faq-item[open] .faq-mark {
-  transform: rotate(45deg);
-  border-color: var(--primary);
-  color: var(--primary);
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }

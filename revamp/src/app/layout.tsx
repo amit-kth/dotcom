@@ -1,8 +1,5 @@
-import "@fontsource/inter/latin-400.css";
-import "@fontsource/inter/latin-500.css";
-import "@fontsource/inter/latin-600.css";
-import "@fontsource/inter/latin-700.css";
 import "./globals.css";
+import { display } from "./fonts";
 import { site } from "@/config/variables";
 
 /* ============================================================================
@@ -14,11 +11,9 @@ import { site } from "@/config/variables";
 
    FONTS
    -----
-   Inter, self-hosted through @fontsource: the same files Google serves, bundled
-   at build time so the static export makes no external font request. Only the
-   four weights in use, and only the `latin` subset. Poppins was replaced here
-   because a soft geometric face is what made the page read as generic; Inter's
-   tighter forms hold up at headline size.
+   One typeface, self-hosted: Bricolage Grotesque, committed as a .woff2 and
+   loaded through next/font/local. It is declared in ./fonts.ts so swapping it
+   is a one-line change, and so the build never depends on a font CDN.
 
    Deliberately NO `export const metadata` here. Next would then emit its own
    <title> and <meta name="description"> in addition to the ones seo.tsx renders,
@@ -33,7 +28,9 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className="min-h-screen bg-scene-page text-foreground antialiased">
+      <body
+        className={`${display.variable} min-h-screen bg-band-base text-foreground antialiased`}
+      >
         {/* Google Tag Manager (noscript) — pairs with the script in seo.tsx */}
         <noscript>
           <iframe

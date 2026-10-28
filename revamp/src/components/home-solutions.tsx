@@ -93,6 +93,9 @@ export function HomeSolutions() {
             duotone in globals.css, so what the visitor sees first is the
             selector panel, not the people in the frame. It is also a
             placeholder: replace with a real photograph of this team. */}
+        {/* -top-16 / +4.5rem: the photo reaches up behind the transparent
+            sticky header. Without the negative offset the header sits on the
+            page background and the image visibly starts below it. */}
         <img
           src={asset("hero/hero-team.jpg")}
           alt=""
@@ -100,10 +103,10 @@ export function HomeSolutions() {
           width={1584}
           height={672}
           fetchPriority="high"
-          className="absolute inset-0 -z-10 size-full object-cover object-center opacity-90 saturate-[0.65]"
+          className="hero-photo-img absolute inset-x-0 -top-[4.5rem] -z-10 h-[calc(100%+4.5rem)] w-full object-cover object-center"
         />
 
-        <div className="shell relative z-10 pb-16 pt-14 sm:pt-16 lg:pb-20 lg:pt-20">
+        <div className="shell relative z-10 pb-16 pt-[4.5rem] sm:pt-20 lg:pb-20 lg:pt-24">
           <div className="mx-auto max-w-[46rem] text-center">
             <p className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-[0.6875rem] font-semibold uppercase tracking-[0.14em] text-ink-foreground/75 backdrop-blur-sm">
               <span className="size-1.5 rounded-full bg-peri" aria-hidden="true" />
@@ -247,20 +250,22 @@ export function HomeSolutions() {
                   />
                 </button>
               </div>
-            </div>
 
-            {/* Trust, deliberately the quietest thing in the section. */}
-            <p className="mt-6 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[0.75rem] text-ink-foreground/55">
-              <span>CMMI Level 3</span>
-              <span aria-hidden="true" className="text-white/20">
-                |
-              </span>
-              <span>{counters[0].value}+ projects delivered</span>
-              <span aria-hidden="true" className="text-white/20">
-                |
-              </span>
-              <span>{counters[2].value}+ clients</span>
-            </p>
+              {/* Trust, inside the panel and at the bottom of it: still the
+                  quietest thing here, but on a surface where 12px grey text is
+                  actually readable instead of lost in a photograph. */}
+              <div className="mt-4 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 border-t border-border pt-3.5 text-[0.75rem] text-muted-foreground">
+                <span className="font-medium">CMMI Level 3</span>
+                <span aria-hidden="true" className="text-border">
+                  |
+                </span>
+                <span>{counters[0].value}+ projects delivered</span>
+                <span aria-hidden="true" className="text-border">
+                  |
+                </span>
+                <span>{counters[2].value}+ clients</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>

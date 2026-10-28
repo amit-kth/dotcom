@@ -1,37 +1,30 @@
 import { Seo } from "@/components/seo";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { Hero } from "@/components/sections/hero";
-import { SolutionsExplorer } from "@/components/solutions-explorer";
-import { FeaturedProject } from "@/components/sections/featured-project";
-import { Delivery } from "@/components/sections/delivery";
-import { Comparison } from "@/components/sections/comparison";
-import { Counters } from "@/components/sections/counters";
-import { ClientLogos } from "@/components/sections/client-logos";
-import { Testimonials } from "@/components/sections/testimonials";
+import { HomeSolutions } from "@/components/home-solutions";
+import { Process } from "@/components/sections/process";
+import { Proof } from "@/components/sections/proof";
+import { Voices } from "@/components/sections/voices";
 import { Contact } from "@/components/sections/contact";
-import { FinalCta } from "@/components/sections/final-cta";
 
 /* ============================================================================
    HOMEPAGE
    ----------------------------------------------------------------------------
-   Section order is the argument the page makes:
+   Six blocks, five sections. The page makes one argument in this order:
 
-     1 hero          what this is, and why it is fast
-     2 explorer      the question, and the products that answer it
-     3 featured      proof we can build, not just resell
-     4 delivery      the 15 days, as four dated steps
-     5 comparison    why this beats a custom quote
-     6 counters      the size of the company behind it
-     7 clients       names the visitor might recognise
-     8 testimonials  someone like them already did this
-     9 contact       the form, no dialog, for people who scrolled this far
-    10 final cta     two exits
+     1  hero + chips     what this is, and the one question that narrows it
+     2  solutions        what you can have, one card each, no catalogue
+     3  process          the 15 days, as four dated steps       (ink)
+     4  proof            numbers, CMMI, client names            (paper)
+     5  voices           one client in full, two in support     (sand)
+     6  contact          the form, on a paper card in the dark  (ink)
 
-   All of it is server rendered into the static HTML, so the products, the
-   counters and the testimonials are readable by search engines without running
-   any JavaScript. Only the category filter and the enquiry form are client
-   components.
+   Surfaces alternate paper → ink → paper → sand → ink. That rhythm is the main
+   reason the page no longer reads as one long white sheet, and it is the only
+   structural rule the sections share.
+
+   Everything except the hero/product island is a server component, so the
+   numbers, quotes and product names are in the static HTML.
    ========================================================================== */
 
 export default function HomePage() {
@@ -41,16 +34,11 @@ export default function HomePage() {
       <SiteHeader />
 
       <main>
-        <Hero />
-        <SolutionsExplorer />
-        <FeaturedProject />
-        <Delivery />
-        <Comparison />
-        <Counters />
-        <ClientLogos />
-        <Testimonials />
+        <HomeSolutions />
+        <Process />
+        <Proof />
+        <Voices />
         <Contact />
-        <FinalCta />
       </main>
 
       <SiteFooter />

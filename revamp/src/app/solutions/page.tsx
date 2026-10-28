@@ -1,27 +1,27 @@
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Seo } from "@/components/seo";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { ProductRow } from "@/components/product-row";
+import { SolutionCard } from "@/components/solution-card";
 import { RequestDemoDialog } from "@/components/request-demo-dialog";
 import { products } from "@/data/products";
 
 /* ============================================================================
-   /solutions  —  the full catalogue
+   /solutions  —  the full list
    ----------------------------------------------------------------------------
-   Same row component as the homepage, so a product looks identical wherever it
-   appears. Two groups only: the ready-to-sell set, and everything else we have
-   built for specific clients.
+   The homepage shows the five we install without a scoping call. This page is
+   where the rest lives, split by why it exists rather than by a sales status:
 
-   This page exists so the three "view all solutions" links on the homepage go
-   somewhere real. Phase 2 gives each category its own route; this page is the
-   honest interim, listing what we actually have.
+     "Available to install"  — built, configured, in production
+     "Built for one client"  — shipped for a specific customer, adaptable
+
+   Both groups use the same card, so nothing here looks like a special offer.
    ========================================================================== */
 
 export default function SolutionsPage() {
-  const ready = products.filter((p) => p.readyToSell);
-  const rest = products.filter((p) => !p.readyToSell);
+  const available = products.filter((p) => p.availableNow);
+  const bespoke = products.filter((p) => !p.availableNow);
 
   return (
     <>
@@ -29,112 +29,88 @@ export default function SolutionsPage() {
       <SiteHeader />
 
       <main>
-        {/* ------------------------------------------------------- page head */}
-        <header className="border-b border-border">
-          <div className="mx-auto w-full max-w-[1200px] px-5 py-12 sm:px-8 sm:py-16">
+        <header className="surface-paper">
+          <div className="shell pt-10 pb-10 sm:pt-14">
             <Link
               href="/"
-              className="inline-flex items-center gap-2 rounded-sm text-xs font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+              className="inline-flex items-center gap-1.5 text-[0.8125rem] font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground"
             >
               <ArrowLeft className="size-3.5" aria-hidden="true" />
-              Back to home
+              Back
             </Link>
 
-            <h1 className="mt-6 max-w-3xl text-[clamp(1.9rem,3.6vw,3rem)] font-semibold leading-[1.06] tracking-[-0.035em] text-foreground">
-              Every solution we have already built
+            <h1 className="display mt-6 max-w-[20ch] text-[clamp(2.25rem,4.4vw,3.5rem)]">
+              Everything we have already built.
             </h1>
-            <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-              The ready-to-sell set goes live in 15 days. The rest are systems we
-              built for specific clients and can adapt for you.
+            <p className="lead dim measure mt-4">
+              {products.length} systems. Five install straight away; the rest
+              were built for one client and can be adapted for you.
             </p>
           </div>
         </header>
 
-        {/* ------------------------------------------------------ ready set */}
         <section
-          aria-labelledby="ready-title"
-          className="mx-auto w-full max-w-[1200px] px-5 sm:px-8"
+          aria-labelledby="available-title"
+          className="surface-paper border-t border-border"
         >
-          <div className="pt-12 sm:pt-16">
-            <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
-              <div>
-                <h2
-                  id="ready-title"
-                  className="text-[clamp(1.35rem,2.2vw,1.9rem)] font-semibold tracking-[-0.025em] text-foreground"
-                >
-                  Ready to sell now
-                </h2>
-                <p className="mt-1.5 text-sm text-muted-foreground">
-                  Configured for you, live in 15 days.
-                </p>
-              </div>
-              <p className="text-xs font-medium uppercase tracking-[0.12em] text-muted-foreground">
-                {ready.length} products
-              </p>
+          <div className="shell pb-14 pt-10 sm:pt-12">
+            <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-2">
+              <h2 id="available-title" className="title-section">
+                Available to install
+              </h2>
+              <p className="meta dim">Live in 15 days, with your data</p>
             </div>
-          </div>
 
-          <div className="mt-8">
-            {ready.map((product, i) => (
-              <ProductRow key={product.id} product={product} index={i + 1} />
-            ))}
+            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+              {available.map((product) => (
+                <SolutionCard key={product.id} product={product} />
+              ))}
+            </div>
           </div>
         </section>
 
-        {/* ---------------------------------------------------- the rest */}
-        {rest.length > 0 && (
-          <section
-            aria-labelledby="rest-title"
-            className="mx-auto w-full max-w-[1200px] px-5 sm:px-8"
-          >
-            <div className="pt-14 sm:pt-20">
-              <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
-                <div>
-                  <h2
-                    id="rest-title"
-                    className="text-[clamp(1.35rem,2.2vw,1.9rem)] font-semibold tracking-[-0.025em] text-foreground"
-                  >
-                    Built for a client, adaptable for you
-                  </h2>
-                  <p className="mt-1.5 text-sm text-muted-foreground">
-                    Already in production somewhere. We rebrand and reconfigure
-                    these rather than start again.
-                  </p>
-                </div>
-                <p className="text-xs font-medium uppercase tracking-[0.12em] text-muted-foreground">
-                  {rest.length} products
-                </p>
-              </div>
+        <section
+          aria-labelledby="bespoke-title"
+          className="surface-sand"
+        >
+          <div className="shell band-sm">
+            <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-2">
+              <h2 id="bespoke-title" className="title-section">
+                Built for one client
+              </h2>
+              <p className="meta dim">
+                In production elsewhere; adaptable for you
+              </p>
             </div>
 
-            <div className="mt-8">
-              {rest.map((product, i) => (
-                <ProductRow key={product.id} product={product} index={i + 1} />
+            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+              {bespoke.map((product) => (
+                <SolutionCard key={product.id} product={product} />
               ))}
             </div>
-          </section>
-        )}
+          </div>
+        </section>
 
-        {/* --------------------------------------------------------- outro */}
-        <section className="border-t border-border">
-          <div className="mx-auto w-full max-w-[1200px] px-5 py-14 sm:px-8 sm:py-16">
+        <section className="surface-ink">
+          <div className="shell band-sm">
             <div className="flex flex-wrap items-center justify-between gap-6">
               <div>
-                <h2 className="text-lg font-semibold tracking-[-0.01em] text-foreground">
-                  Nothing here fits?
+                <h2 className="title-section max-w-[24ch]">
+                  Nothing here quite fits?
                 </h2>
-                <p className="mt-1.5 max-w-lg text-sm text-muted-foreground">
-                  We have shipped 1,549 custom builds. Tell us the problem and we
-                  will tell you whether we have already solved it.
+                <p className="body dim measure-tight mt-3">
+                  We have shipped 1,549 projects. Tell us the problem and we will
+                  say whether we have solved it before.
                 </p>
               </div>
               <div className="flex flex-wrap items-center gap-3">
-                <RequestDemoDialog label="Talk to us" />
+                <RequestDemoDialog label="Talk to us" variant="onInk" />
                 <Link
                   href="/#contact"
-                  className="text-sm font-medium text-muted-foreground underline-offset-4 transition-colors duration-200 hover:text-foreground hover:underline"
+                  className="inline-flex items-center gap-1.5 text-sm font-semibold text-ink-foreground hover:text-white"
                 >
                   Send an enquiry
+                  <ArrowRight className="size-4" aria-hidden="true" />
                 </Link>
               </div>
             </div>

@@ -1,60 +1,72 @@
 # Homepage — what exists, what is still placeholder
 
-Review notes for the homepage build. Nothing here is a spec; it is a list of
-what is finished and what needs a decision from you.
+Review notes for the current build. Nothing here is a spec; it is a list of what
+is finished and what needs a decision.
 
-## Section order
+## What changed in this pass
 
-| # | Section | Purpose | Real or placeholder |
-|---|---------|---------|---------------------|
-| 1 | Hero | what this is, why it is fast | copy drafted, needs sign-off |
-| 2 | Industry chips + product rows | the question the page exists to answer | 5 products, placeholder copy |
-| 3 | Flagship band (dark) | capability proof | copy placeholder, no client named |
-| 4 | 15-day timeline | turns the promise into a plan | day split needs confirming |
-| 5 | Comparison | ready-made vs custom build | copy drafted |
-| 6 | Counters + CMMI | company scale | **real, from the old site** |
-| 7 | Client wall | recognition | **real, all 46 logos** |
-| 8 | Testimonials | someone like them | **real, verbatim from index.php** |
-| 9 | Enquiry form | the conversion | real fields, endpoint not wired |
-| 10 | Closing CTA | two exits | copy drafted |
+The first version failed on hierarchy: too much copy, two surfaces (white and
+white), product rows that read like a catalogue, and an orphan badge that said
+"ready now". It was rebuilt around five rules:
 
-## Real data carried over (do not change without checking the old site)
+1. **One idea per section.** A section that needs a second idea gets a second
+   section, not a second paragraph.
+2. **Copy budgets.** Headline 9 words. Lead 24. Card description 8. Card
+   outcomes 2, under 40 characters each. Step body under 7 words.
+3. **Three surfaces only.** Paper, sand, ink. Sections alternate, so the page
+   has rhythm; an all-white page reads as unfinished.
+4. **One dominant action.** One filled button per screen. Everything else is a
+   text link, so nothing competes with the action that matters.
+5. **Measured type.** The headline is 60px on desktop because 68px overflowed
+   its column; 36px on a phone because 40px pushed the industry chips below the
+   fold. Both numbers were measured against the real Poppins metrics, not
+   guessed.
 
-- Counters: 1,549+ projects, 13 years, 1,245+ clients.
-- CMMI Level 3 badge (`public/icons/cmmi.webp`).
-- All 46 client logos (`public/clients/`).
-- Three testimonials, word for word, including the client's own phrasing.
-- Contact: `sales@kriscent.in`, `info@kriscent.in`, `+91-7240560001`,
-  `+91-8947027625`.
-- Product page links for Kastrofy, K-Exam, DoctorPlus, K-Parking, K-RealEstate
-  are the real URLs taken from `index.php`.
+## Section order and surface
 
-## Placeholder, to be replaced before launch
+| # | Section | Surface | Job |
+|---|---------|---------|-----|
+| 1 | Hero + industry chips | paper | what this is; the one question |
+| 2 | Product list | paper | what you can have, one card each |
+| 3 | How it works | **ink** | the 15 days, as four dated steps |
+| 4 | Proof | paper | the numbers, CMMI, client names |
+| 5 | Voices | **sand** | one client in full, two in support |
+| 6 | Contact | **ink** | the form, and the only contact details |
 
-1. **Product copy** — descriptions, problems and outcomes in
-   `src/data/products.ts`. Written to read naturally, none of it approved.
-2. **Product banners** — every product uses `public/dummy/banner.webp` except
-   AI Calling Agents, which uses the real ImageKit poster.
-3. **Timeline day split** — Day 1-2 / 3-7 / 8-12 / 13-15 is a plan, not a
-   commitment. Total of 15 days is approved.
-4. **Links not yet published** — AI Calling Agents, WhatsApp CRM and LMS have
-   `url: ""`, which the components read as "no link". Nothing dead is rendered.
-5. **Enquiry endpoint** — `API_ENDPOINT` in `src/config/variables.ts` is still a
-   TODO, so `src/lib/submit-enquiry.ts` simulates a successful send. Set the real URL
-   and the simulation can never run again.
+The header and footer sit on the same surfaces as the sections they touch, so
+the page has two dark blocks, not four.
+
+## Language rules applied
+
+- No "ready to sell", "ready now", "in stock", "offer". A product is either
+  something we can install as it is, or something we built for one client.
+- No prices, no demo credentials, no invented client names or percentages.
+- No "in writing", "audited independently", "updates included" — claims run past
+  legal, not design.
+- Counters, CMMI, client logos and testimonials are the old site's real values,
+  unchanged. Testimonials are excerpted, never rewritten, and each cut is marked
+  with an ellipsis.
+
+## Real data (do not change without checking the old site)
+
+Counters: 1,549+ projects, 13 years, 1,245+ clients. CMMI Level 3 artwork.
+46 client logos in `public/clients/`. Three testimonials, verbatim.
+`sales@kriscent.in`, `info@kriscent.in`, `+91-7240560001`, `+91-8947027625`.
+Real product pages for Kastrofy, K-Exam, DoctorPlus, K-Parking, K-RealEstate.
+
+## Placeholder, before launch
+
+1. **Product copy** — `src/data/products.ts`. Reads naturally, none approved.
+2. **Product banners** — all but AI Calling Agents use `public/dummy/banner.webp`.
+3. **Process day split** — Day 1–2 / 3–7 / 8–12 / 13–15 is a plan. 15 days total
+   is approved.
+4. **Unpublished product links** — AI Calling Agents, WhatsApp CRM and LMS have
+   `url: ""`, and components then render no link at all.
+5. **Enquiry endpoint** — `API_ENDPOINT` is still a TODO, so
+   `src/lib/submit-enquiry.ts` simulates a successful send.
 6. **Company address** — `contact.addressLines` in `src/config/variables.ts`.
-7. **Category landing pages** — footer links point at the homepage chip panel
-   until `/fintech`, `/logistics` … exist.
-8. **Case study for the flagship band** — no client, sector or result is named
-   yet, deliberately. Add the real one; do not invent numbers.
-
-## Deliberate omissions
-
-- No prices anywhere.
-- No demo credentials, demo IDs or demo passwords. "Request a demo" opens a form.
-- No invented client names, awards, percentages or response-time guarantees.
-- No external trackers beyond the GTM and Tawk.to tags inherited from the old
-  site (in `src/components/seo.tsx` and `src/app/layout.tsx`).
+7. **Industry routes** — footer industry links land on the hero chips until
+   `/fintech`, `/logistics` … exist.
 
 ## Layout
 
@@ -70,8 +82,7 @@ revamp/
 └── next.config.ts
 ```
 
-Everything imports through the `@/` alias, which points at `src/`, so no file
-needs a long `../../` path.
+Everything imports through the `@/` alias, which points at `src/`.
 
 ## How to run
 

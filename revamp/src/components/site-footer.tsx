@@ -1,48 +1,67 @@
 import Link from "next/link";
-import { asset, contact, site } from "@/config/variables";
+import { site } from "@/config/variables";
 import { categories } from "@/data/categories";
 
 /* ============================================================================
    SiteFooter
    ----------------------------------------------------------------------------
-   Company facts only: the legal name, the three contact channels and the
-   category links that will become real routes in phase 2. No newsletter box, no
-   social row full of icons that go nowhere.
+   Continues the contact band rather than starting a new one, so the page ends
+   on one dark block instead of two. No contact details here: they live one
+   section above, and repeating them is how footers become noise.
+
+   The logo is a wordmark, not the image: the brand file is dark artwork, and on
+   this surface it would disappear.
    ========================================================================== */
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-border bg-secondary/40">
-      <div className="mx-auto w-full max-w-[1200px] px-5 py-14 sm:px-8">
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr]">
-          {/* ---------------------------------------------------------- brand */}
+    <footer className="surface-ink border-t border-line-on-ink">
+      <div className="shell">
+        <div className="grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr]">
           <div>
-            <img
-              src={asset("logo/logo.png")}
-              alt={site.name}
-              width={274}
-              height={72}
-              className="h-7 w-auto"
-            />
-            <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
-              Ready-made software from a team that has shipped 1,549 projects.
-              Part of {site.legalName}.
+            <p className="text-base font-semibold tracking-[-0.02em]">
+              {site.name}
+            </p>
+            <p className="body dim measure-tight mt-3">
+              Ready-made software, installed and supported by the team that
+              built it.
             </p>
           </div>
 
-          {/* ----------------------------------------------------- categories */}
+          <nav aria-label="Site">
+            <h2 className="meta font-semibold uppercase tracking-[0.14em] text-ink-muted">
+              Site
+            </h2>
+            <ul className="mt-4 space-y-2.5">
+              {[
+                { label: "All solutions", href: "/solutions" },
+                { label: "How it works", href: "/#process" },
+                { label: "Contact", href: "/#contact" },
+              ].map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className="text-sm text-ink-foreground/80 transition-colors duration-200 hover:text-ink-foreground"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
           <nav aria-label="Industries">
-            <h2 className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+            <h2 className="meta font-semibold uppercase tracking-[0.14em] text-ink-muted">
               Industries
             </h2>
-            <ul className="mt-4 space-y-2">
+            <ul className="mt-4 space-y-2.5">
               {categories.map((category) => (
                 <li key={category.id}>
-                  {/* Phase 2 turns these into /fintech, /logistics and so on.
-                      Until those routes exist they point at the homepage filter. */}
+                  {/* Phase 2 gives each industry its own route. Until then this
+                      lands on the hero chips, which is the real filter. */}
                   <Link
-                    href="/#industry-question"
-                    className="text-sm text-muted-foreground transition-colors duration-200 hover:text-foreground"
+                    href="/#solutions"
+                    className="text-sm text-ink-foreground/80 transition-colors duration-200 hover:text-ink-foreground"
                   >
                     {category.label}
                   </Link>
@@ -50,54 +69,13 @@ export function SiteFooter() {
               ))}
             </ul>
           </nav>
-
-          {/* -------------------------------------------------------- contact */}
-          <div>
-            <h2 className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-              Contact
-            </h2>
-            <ul className="mt-4 space-y-3 text-sm">
-              <li>
-                <a
-                  href={`mailto:${contact.emails.sales}`}
-                  className="text-muted-foreground transition-colors duration-200 hover:text-foreground"
-                >
-                  {contact.emails.sales}
-                </a>
-              </li>
-              <li>
-                <a
-                  href={`mailto:${contact.emails.general}`}
-                  className="text-muted-foreground transition-colors duration-200 hover:text-foreground"
-                >
-                  {contact.emails.general}
-                </a>
-              </li>
-              {contact.phones.map((phone) => (
-                <li key={phone}>
-                  <a
-                    href={`tel:${phone.replace(/[^\d+]/g, "")}`}
-                    className="text-muted-foreground transition-colors duration-200 hover:text-foreground"
-                  >
-                    {phone}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
         </div>
 
-        <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-6">
-          <p className="text-xs text-muted-foreground">
-            &copy; {site.founded} to {new Date().getFullYear()} {site.legalName}.
-            All rights reserved.
+        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-line-on-ink py-6">
+          <p className="meta text-ink-muted">
+            &copy; {site.founded} to {new Date().getFullYear()} {site.legalName}
           </p>
-          <Link
-            href="/solutions"
-            className="text-xs font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground"
-          >
-            All solutions
-          </Link>
+          <p className="meta text-ink-muted">CMMI Level 3</p>
         </div>
       </div>
     </footer>

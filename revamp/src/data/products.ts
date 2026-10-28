@@ -1,280 +1,201 @@
-import { CATEGORY_IDS, type CategoryId } from "./categories";
+import { type CategoryId } from "./categories";
 
 /* ============================================================================
-   products.ts  —  the product catalogue
+   products.ts  —  the catalogue
    ----------------------------------------------------------------------------
-   STATUS: STRUCTURE ONLY.
-   Every image is a dummy from /public/dummy. Every link is a placeholder.
-   Descriptions, problems and outcomes are PLACEHOLDER copy. They read as real
-   copy on purpose (no "DUMMY" prefix in the UI) but none of them is approved
-   text: replace before launch.
-   Nothing here should be treated as a factual claim yet.
+   Copy rule for this file: nothing here is longer than one line on a card.
+   A card carries a name, one sentence and two outcomes. Detail belongs on the
+   product page, not on the homepage. If a description needs a comma to survive,
+   it is too long.
 
-   HOW TO EDIT
-   -----------
-   - Add an entry to `products`. `id` must be unique and URL-safe.
-   - `categories` takes one or more ids from data/categories.ts. A product can
-     sit in several categories and then appears under each of them.
-   - `readyToSell: true` marks the small set shown by default on the homepage.
-     The programme's ready-now set is: AI Calling Agents, Kastrofy (astrology),
-     K-Exam (exam software), WhatsApp CRM, LMS.
-   - `banner` / `logo` are either
-       (a) a path relative to ASSETS_BASE_URL with no leading slash, or
-       (b) a full https:// URL, used as-is.
-     `asset()` in config/variables.ts handles both.
-   - `links` is where the product actually lives. Each project has its own
-     website, so the primary link sends the visitor there.
-   - No prices, ever. Delivery is one constant, below.
+   STATUS: copy is placeholder where marked, real where the product page exists.
+   Add a product by adding an entry. `categories` takes ids from categories.ts.
+   `availableNow` decides which group a product sits in on /solutions; it is
+   never shown as a badge, because software is not stock in a shop.
+   `links[].url` may be empty: components then render no link at all rather than
+   pointing somewhere that does not exist.
    ========================================================================== */
 
-/** Every product is delivered in this many days. Never show a price. */
+/** Every product is delivered in this many days. A price is never shown. */
 export const DELIVERY_DAYS = 15;
 
-/** Shared dummy image used by every product until real banners arrive. */
-const DUMMY_BANNER = "dummy/banner.webp";
-
-export type ProductLink = {
-  /** Label shown on the link, e.g. "Visit product site". */
-  title: string;
-  /**
-   * Absolute URL. Empty string means the site is not live yet: components skip
-   * the link entirely rather than rendering a dead one. Never invent a URL.
-   */
-  url: string;
-};
+export type ProductLink = { title: string; url: string };
 
 export type Product = {
-  /** unique, url-safe */
   id: string;
-  /** display name */
   name: string;
-  /** one line under the name */
+  /** one sentence, ideally under 60 characters */
   description: string;
-  /** at least one, from data/categories.ts */
   categories: CategoryId[];
-  /** true = part of the "ready now" set shown by default */
-  readyToSell: boolean;
-  /** path relative to ASSETS_BASE_URL, or a full URL */
+  /** true = in the "available to install" group on /solutions */
+  availableNow: boolean;
+  /** path relative to the assets base, or a full URL */
   banner: string;
-  /** optional product logo, same rules */
-  logo?: string;
-  /** the problem this solves, one line */
-  problem: string;
-  /** exactly three */
+  /** exactly three, each under 40 characters */
   outcomes: [string, string, string];
-  /** where the product lives. First entry is the primary destination. */
   links: ProductLink[];
-  /** modal trigger label. Demos are not public: never show IDs or passwords. */
   demoCtaLabel: string;
 };
 
+const BANNER = "dummy/banner.webp";
+
 export const products: Product[] = [
-  /* ==========================================================================
-     1. AI CALLING AGENTS  —  flagship, shown as proof of capability
-     ======================================================================== */
+  /* ---------------------------------------------------------------- fintech */
   {
     id: "ai-calling-agents",
     name: "AI Calling Agents",
-    description:
-      "Voice agents that place and handle outbound calls for banking and collections teams.",
+    description: "Voice agents that make the calls your team should not.",
     categories: ["fintech"],
-    readyToSell: true,
-    // Real banner supplied by Kapil sir. Full URL, used as-is by asset().
-    banner:
-      "https://ik.imagekit.io/qk2ww553c/tempAssets/revamp/hero-poster.webp",
-    logo: "dummy/logo.webp",
-    problem:
-      "Collections and sales teams spend the day on repeat outbound calls instead of the conversations that need a human.",
+    availableNow: true,
+    // Real banner, supplied by Kapil sir.
+    banner: "https://ik.imagekit.io/qk2ww553c/tempAssets/revamp/hero-poster.webp",
     outcomes: [
-      "Routine calls run on their own",
-      "Qualified conversations reach the team",
-      "Every call logged and reviewable",
+      "Routine calls handled end to end",
+      "Warm leads passed to your team",
+      "Every call recorded and searchable",
     ],
-    links: [
-      // TODO(link): the AI calling agent project site is not published yet.
-      { title: "Visit project site", url: "" },
-    ],
-    demoCtaLabel: "Request a demo",
+    // TODO(link): this product site is not published yet.
+    links: [{ title: "Ask about this build", url: "" }],
+    demoCtaLabel: "Ask about this build",
   },
 
-  /* ==========================================================================
-     2. ASTROLOGY
-     ======================================================================== */
+  /* -------------------------------------------------------------- astrology */
   {
     id: "kastrofy",
     name: "Kastrofy",
-    description:
-      "Astrology platform for consultations, content and subscriptions.",
+    description: "Consultations, subscriptions and content in one platform.",
     categories: ["astrology"],
-    readyToSell: true,
-    banner: DUMMY_BANNER,
-    logo: "dummy/logo.webp",
-    problem:
-      "Consultations, payments and follow-ups are spread across chats and spreadsheets.",
+    availableNow: true,
+    banner: BANNER,
     outcomes: [
-      "Consultations booked and paid in one place",
-      "Repeat clients handled without manual follow-up",
-      "Content published from the same dashboard",
+      "Bookings and payments in one place",
+      "Repeat clients handled automatically",
+      "Content published from one dashboard",
     ],
-    links: [
-      // TODO(link): confirm real product URL.
-      // Real page on the existing site (index.php -> product/kastrofy).
-      { title: "Product page", url: "https://kriscent.in/product/kastrofy/" },
-    ],
+    links: [{ title: "Product page", url: "https://kriscent.in/product/kastrofy/" }],
     demoCtaLabel: "Request a demo",
   },
 
-  /* ==========================================================================
-     3. EXAM SOFTWARE
-     ======================================================================== */
+  /* ----------------------------------------------------------------- edtech */
   {
     id: "kexam",
     name: "K-Exam",
-    description:
-      "Online examination, question bank and result publishing.",
+    description: "Online exams, question banks and instant results.",
     categories: ["edtech"],
-    readyToSell: true,
-    banner: DUMMY_BANNER,
-    logo: "dummy/logo.webp",
-    problem:
-      "Conducting tests and publishing results takes days of manual work per batch.",
+    availableNow: true,
+    banner: BANNER,
     outcomes: [
-      "Tests created from a shared question bank",
-      "Results generated without manual marking",
+      "Build tests from a question bank",
+      "Results without manual marking",
       "Students see their own scorecard",
     ],
     links: [
-      // TODO(link): confirm real product URL.
       { title: "Product page", url: "https://www.kriscent.in/product/kexam/" },
     ],
     demoCtaLabel: "Request a demo",
   },
 
-  /* ==========================================================================
-     4. WHATSAPP CRM
-     ======================================================================== */
+  /* -------------------------------------------------------------- whatsapp */
   {
     id: "whatsapp-crm",
     name: "WhatsApp CRM",
-    description:
-      "Enquiries, follow-ups and broadcasts handled inside WhatsApp.",
+    description: "Every enquiry, follow-up and broadcast inside WhatsApp.",
     categories: ["manufacturing"],
-    readyToSell: true,
-    banner: DUMMY_BANNER,
-    logo: "dummy/logo.webp",
-    problem:
-      "Sales conversations live on individual phones, so nothing is tracked and leads go cold.",
+    availableNow: true,
+    banner: BANNER,
     outcomes: [
-      "Every enquiry lands in one shared inbox",
-      "Follow-ups assigned to a named person",
-      "Broadcasts sent without leaving the CRM",
+      "One shared inbox for enquiries",
+      "Follow-ups assigned to a person",
+      "Broadcasts sent from the CRM",
     ],
-    links: [
-      // TODO(link): confirm real product URL.
-      { title: "Visit product site", url: "" },
-    ],
+    links: [{ title: "Ask about this build", url: "" }],
     demoCtaLabel: "Request a demo",
   },
 
-  /* ==========================================================================
-     5. LMS
-     ======================================================================== */
+  /* ------------------------------------------------------------------- lms */
   {
     id: "lms",
     name: "LMS",
-    description:
-      "Learning management for courses, batches and progress tracking.",
+    description: "Courses, batches and progress for training teams.",
     categories: ["edtech"],
-    readyToSell: true,
-    banner: DUMMY_BANNER,
-    logo: "dummy/logo.webp",
-    problem:
-      "Course material, attendance and progress sit in files that nobody can report on.",
+    availableNow: true,
+    banner: BANNER,
     outcomes: [
-      "Courses and batches organised in one place",
-      "Learner progress visible to the trainer",
+      "Courses and batches in one place",
+      "Trainers see learner progress",
       "Certificates issued on completion",
     ],
-    links: [
-      // TODO(link): confirm real product URL.
-      { title: "Visit product site", url: "" },
-    ],
+    links: [{ title: "Ask about this build", url: "" }],
     demoCtaLabel: "Request a demo",
   },
 
-  /* ==========================================================================
-     NOT READY YET  —  kept so no category chip is empty.
-     These come from the old site's product links. Category is a guess and the
-     copy is a placeholder; both need confirming before launch.
-     ======================================================================== */
-
-  /* Healthcare */
+  /* ------------------------------------------------- built for a single client */
   {
     id: "doctorplus",
-    name: "Doctorplus",
-    description: "clinic and appointment management.",
+    name: "DoctorPlus",
+    description: "Clinic appointments, patient records and billing.",
     categories: ["healthcare"],
-    readyToSell: false,
-    banner: DUMMY_BANNER,
-    problem: "TODO",
-    outcomes: ["TODO", "TODO", "TODO"],
+    availableNow: false,
+    banner: BANNER,
+    outcomes: [
+      "Appointments booked online",
+      "Patient history in one record",
+      "Billing at the front desk",
+    ],
     links: [
-      { title: "Product page", url: "https://www.kriscent.com/product/doctorplus/" },
+      {
+        title: "Product page",
+        url: "https://www.kriscent.com/product/doctorplus/",
+      },
     ],
     demoCtaLabel: "Request a demo",
   },
-
-  /* Logistics */
   {
     id: "kparking",
-    name: "Kparking",
-    description: "parking management.",
+    name: "K-Parking",
+    description: "Slots, passes and collections for parking operators.",
     categories: ["logistics"],
-    readyToSell: false,
-    banner: DUMMY_BANNER,
-    problem: "TODO",
-    outcomes: ["TODO", "TODO", "TODO"],
+    availableNow: false,
+    banner: BANNER,
+    outcomes: [
+      "Slots and passes managed live",
+      "Daily collection visible",
+      "Monthly passes renewed online",
+    ],
     links: [
-      { title: "Product page", url: "https://www.kriscent.com/product/kparking/" },
+      {
+        title: "Product page",
+        url: "https://www.kriscent.com/product/kparking/",
+      },
     ],
     demoCtaLabel: "Request a demo",
   },
-
-  /* Real Estate */
   {
     id: "krealestate",
-    name: "Krealestate",
-    description: "property listings and enquiry management.",
+    name: "K-RealEstate",
+    description: "Listings, enquiries and site visits for property teams.",
     categories: ["real-estate"],
-    readyToSell: false,
-    banner: DUMMY_BANNER,
-    problem: "TODO",
-    outcomes: ["TODO", "TODO", "TODO"],
+    availableNow: false,
+    banner: BANNER,
+    outcomes: [
+      "Listings published from one place",
+      "Enquiries tracked to a visit",
+      "Follow-ups never left open",
+    ],
     links: [
-      { title: "Product page", url: "https://kriscent.com/product/krealestate/" },
+      {
+        title: "Product page",
+        url: "https://kriscent.com/product/krealestate/",
+      },
     ],
     demoCtaLabel: "Request a demo",
   },
 ];
 
-/* ---------------------------------------------------------------------------
-   DERIVED HELPERS  —  components import these, never re-filter by hand
---------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------- helpers */
 
-/** The default homepage set: everything sellable today. */
-export const readyToSellProducts = products.filter((p) => p.readyToSell);
+/** The five we can install without a scoping call, in the order shown. */
+export const availableProducts = products.filter((p) => p.availableNow);
 
-/** Products for one category, ready-now first. */
-export const productsByCategory = (category: CategoryId): Product[] =>
-  products
-    .filter((p) => p.categories.includes(category))
-    .sort((a, b) => Number(b.readyToSell) - Number(a.readyToSell));
-
-/** How many products each category has. Drives the chip counts. */
-export const categoryCounts = (): Record<CategoryId, number> => {
-  const out = {} as Record<CategoryId, number>;
-  for (const id of CATEGORY_IDS) {
-    out[id] = products.filter((p) => p.categories.includes(id)).length;
-  }
-  return out;
-};
+export const productsInCategory = (id: CategoryId) =>
+  products.filter((p) => p.categories.includes(id));

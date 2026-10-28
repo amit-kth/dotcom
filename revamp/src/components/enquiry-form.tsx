@@ -96,7 +96,7 @@ export function EnquiryForm({ product, onSuccess, className }: EnquiryFormProps)
     return (
       <div
         className={cn(
-          "flex flex-col items-start gap-4 rounded-lg border border-border bg-secondary/50 p-6",
+          "flex flex-col items-start gap-4 rounded-xl border border-border bg-secondary/60 p-6",
           className,
         )}
         role="status"
@@ -226,7 +226,7 @@ export function EnquiryForm({ product, onSuccess, className }: EnquiryFormProps)
         </p>
       )}
 
-      <div className="flex flex-wrap items-center gap-3 pt-1">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 pt-2">
         <Button type="submit" size="lg" disabled={busy} className="min-w-[10rem]">
           {busy ? (
             <>
@@ -240,9 +240,7 @@ export function EnquiryForm({ product, onSuccess, className }: EnquiryFormProps)
             </>
           )}
         </Button>
-        <p className="text-xs text-muted-foreground">
-          Usually a reply within one working day.
-        </p>
+        <p className="meta dim">Usually a reply within one working day.</p>
       </div>
     </form>
   );
@@ -252,7 +250,9 @@ export function EnquiryForm({ product, onSuccess, className }: EnquiryFormProps)
 
 function inputClass(hasError: boolean) {
   return cn(
-    "h-11 w-full rounded-md border bg-background px-3 text-sm text-foreground",
+    /* white, not the paper background: the card is paper, so the field has to
+       sit a step above it or the inputs disappear into it */
+    "h-12 w-full rounded-lg border bg-white px-3.5 text-sm text-foreground",
     "placeholder:text-muted-foreground/70",
     "disabled:cursor-not-allowed disabled:opacity-60",
     hasError ? "border-primary" : "border-border",

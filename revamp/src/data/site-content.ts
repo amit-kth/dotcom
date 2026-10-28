@@ -54,7 +54,14 @@ export const cmmi = {
 --------------------------------------------------------------------------- */
 export type Testimonial = {
   id: string;
+  /** the full quote, as published */
   quote: string;
+  /**
+   * A shortened version for the homepage, where a three column wall of full
+   * quotes turns into a wall of text. Truncation is always marked with an
+   * ellipsis, so an excerpt never reads as the complete sentence.
+   */
+  excerpt: string;
   name: string;
   role: string;
   logo: string;
@@ -65,6 +72,8 @@ export const testimonials: Testimonial[] = [
     id: "radhika-aggarwal",
     quote:
       "Kriscent Techno Hub Pvt. Ltd. has completed the project goals, leaving the client pleased with the collaboration. The team manifests their professionalism through timely deliverables and excellent problem-solving. They're also proactive in coming up with unique ideas to improve the client's vision.",
+    excerpt:
+      "The team manifests their professionalism through timely deliverables and excellent problem-solving.",
     name: "Radhika Aggarwal",
     role: "Founder, Ishvaa Life Spirituality",
     logo: "clients/ishvaa.webp",
@@ -73,6 +82,8 @@ export const testimonials: Testimonial[] = [
     id: "vikash-kunta",
     quote:
       "Before choosing Kriscent's software, I analyzed other software of different companies were readymade and less user friendly. But in Prabal I got many features with high user friendly environment. We are working faster now.",
+    excerpt:
+      "…but in Prabal I got many features with a high user friendly environment. We are working faster now.",
     name: "Vikash Kunta",
     role: "Aiims subsidiary",
     logo: "clients/aiims.webp",
@@ -81,6 +92,8 @@ export const testimonials: Testimonial[] = [
     id: "sudha-agarwal",
     quote:
       "We sleeked web services for our hospital and they delivered way better than we ever imagined. I am very much glad to met Mr. Kapil Gautam and his team",
+    excerpt:
+      "They delivered way better than we ever imagined… and I am glad to have met Mr. Kapil Gautam and his team.",
     name: "Sudha Agarwal",
     role: "Sudha Hospital",
     logo: "clients/sudha-hospital.webp",

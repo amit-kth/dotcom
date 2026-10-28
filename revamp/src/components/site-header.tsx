@@ -10,18 +10,17 @@ import { cn } from "@/lib/utils";
 /* ============================================================================
    SiteHeader
    ----------------------------------------------------------------------------
-   Sticky, translucent, and quiet. Two states: resting (taller, no shadow) and
-   scrolled (slightly tighter, hairline underneath). The change is 18px of
-   height and one border, not a redesign on scroll.
+   Three links and one action. A header with seven links is a header nobody
+   reads; these three are the only destinations that exist.
 
-   Mobile: a disclosure panel under the bar. Not a full-screen takeover, because
-   there is nothing in it worth a whole screen.
+   It sits on the paper surface and only changes twice: a hairline appears once
+   the page has scrolled, and the row gets slightly shorter. No colour inversion,
+   no logo swap, no animation.
    ========================================================================== */
 
 const NAV = [
   { label: "Solutions", href: "/solutions" },
-  { label: "How it works", href: "/#how-it-works" },
-  { label: "Clients", href: "/#clients" },
+  { label: "How it works", href: "/#process" },
   { label: "Contact", href: "/#contact" },
 ] as const;
 
@@ -30,18 +29,15 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    const onScroll = () => setScrolled(window.scrollY > 4);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  /* Escape closes the mobile panel, matching the dialog behaviour. */
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
-    };
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
@@ -49,43 +45,33 @@ export function SiteHeader() {
   return (
     <header
       className={cn(
-        "sticky top-0 z-40 w-full border-b transition-colors duration-200",
-        scrolled || open
-          ? "border-border bg-background/90 backdrop-blur-md"
-          : "border-transparent bg-background",
+        "sticky top-0 z-40 bg-background/95 backdrop-blur-sm transition-colors duration-200",
+        scrolled || open ? "border-b border-border" : "border-b border-transparent",
       )}
     >
-      <div className="mx-auto flex w-full max-w-[1200px] items-center justify-between gap-6 px-5 sm:px-8">
-        <div
-          className={cn(
-            "flex w-full items-center justify-between gap-6 transition-[height] duration-200",
-            scrolled ? "h-14" : "h-16 sm:h-[4.5rem]",
-          )}
-        >
-          {/* ---------------------------------------------------------- brand */}
+      <div className="shell">
+        <div className="flex h-16 items-center justify-between gap-6">
           <Link
             href="/"
-            className="shrink-0 rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
             aria-label={`${site.name} home`}
+            className="shrink-0 rounded-sm"
           >
-            {/* Real brand asset carried over from the old site. */}
             <img
               src={asset("logo/logo.png")}
               alt={site.name}
               width={274}
               height={72}
-              className="h-7 w-auto sm:h-8"
+              className="h-7 w-auto"
             />
           </Link>
 
-          {/* ------------------------------------------------------ desktop nav */}
           <nav aria-label="Main" className="hidden md:block">
-            <ul className="flex items-center gap-7">
+            <ul className="flex items-center gap-8">
               {NAV.map((item) => (
                 <li key={item.label}>
                   <Link
                     href={item.href}
-                    className="rounded-sm text-[13px] font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+                    className="rounded-sm text-[0.8125rem] font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground"
                   >
                     {item.label}
                   </Link>
@@ -94,10 +80,9 @@ export function SiteHeader() {
             </ul>
           </nav>
 
-          {/* --------------------------------------------------------- actions */}
           <div className="flex items-center gap-2">
             <div className="hidden sm:block">
-              <RequestDemoDialog size="sm" />
+              <RequestDemoDialog size="sm" label="Book a walkthrough" />
             </div>
 
             <button
@@ -118,28 +103,23 @@ export function SiteHeader() {
         </div>
       </div>
 
-      {/* ------------------------------------------------------- mobile panel */}
-      <div
-        id="mobile-nav"
-        hidden={!open}
-        className="border-t border-border bg-background md:hidden"
-      >
-        <nav aria-label="Mobile" className="mx-auto w-full max-w-[1200px] px-5 py-4">
-          <ul className="divide-y divide-border">
+      <div id="mobile-nav" hidden={!open} className="border-t border-border md:hidden">
+        <nav aria-label="Mobile" className="shell py-3">
+          <ul>
             {NAV.map((item) => (
-              <li key={item.label}>
+              <li key={item.label} className="border-b border-border last:border-0">
                 <Link
                   href={item.href}
                   onClick={() => setOpen(false)}
-                  className="flex items-center justify-between py-3 text-sm font-medium text-foreground"
+                  className="block py-3.5 text-sm font-medium text-foreground"
                 >
                   {item.label}
                 </Link>
               </li>
             ))}
           </ul>
-          <div className="pt-4 sm:hidden">
-            <RequestDemoDialog size="default" className="w-full" />
+          <div className="pt-3 sm:hidden">
+            <RequestDemoDialog label="Book a walkthrough" className="w-full" />
           </div>
         </nav>
       </div>

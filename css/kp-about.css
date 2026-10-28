@@ -1,0 +1,334 @@
+/* =========================================================================
+   ABOUT  ·  kp-about.css   —   dark band, one row
+   -------------------------------------------------------------------------
+   Sits between the light proof band above and the light product section
+   below, so the section itself is the divider.
+
+   Height is driven by a single row: the photographs and the copy sit side by
+   side and the section is only as tall as the taller of the two. An earlier
+   version put the headline in its own full-width band above the columns, which
+   stacked two blocks of height and made the section roughly 1170px tall,
+   against about 780px before it. This is shorter than that original.
+
+   Copy is unchanged, including the comma rewrite of the two em dashes.
+
+   Colours and easing come from css/global.css. Only .kp-* classes are used.
+   ========================================================================= */
+
+.kp-about {
+  position: relative;
+  padding: 84px 0 88px;
+  background: var(--kp-deep);
+  color: #fff;
+  overflow: hidden;
+}
+
+/* two faint washes so the plate has depth instead of reading as flat black */
+.kp-about::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 50% 44% at 84% -8%, rgba(var(--kp-accent-rgb), 0.16), rgba(var(--kp-accent-rgb), 0) 62%),
+    radial-gradient(ellipse 46% 42% at 0% 108%, rgba(var(--kp-navy-rgb), 0.55), rgba(var(--kp-navy-rgb), 0) 66%);
+  pointer-events: none;
+}
+
+.kp-about .container {
+  position: relative;
+  z-index: 1;
+}
+
+.kp-about .kp-about-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 64px;
+}
+
+/* --- copy ---------------------------------------------------------------- */
+.kp-about .kp-about-copy {
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  padding-left: 56px;
+}
+
+.kp-about .kp-about-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 14px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--kp-accent-light); /* 5.5:1 on --kp-deep */
+}
+
+.kp-about .kp-about-eyebrow::before {
+  content: "";
+  width: 28px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.7;
+}
+
+.kp-about .kp-about-title {
+  margin: 0 0 16px;
+  font-family: "Poppins", sans-serif;
+  font-size: clamp(1.9rem, 1.5vw + 1.1rem, 2.75rem);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: #fff;
+}
+
+.kp-about .kp-about-lead {
+  margin: 0 0 14px;
+  max-width: 46ch;
+  font-size: 16px;
+  line-height: 1.68;
+  color: rgba(255, 255, 255, 0.74); /* 10.6:1 */
+}
+
+.kp-about .kp-about-link {
+  color: rgba(255, 255, 255, 0.95);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(var(--kp-accent-rgb), 0.75);
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.kp-about .kp-about-link:hover {
+  color: var(--kp-accent-light);
+  border-bottom-color: var(--kp-accent-light);
+}
+
+.kp-about .kp-about-text {
+  margin: 0 0 24px;
+  max-width: 44ch;
+  font-size: 14.5px;
+  line-height: 1.68;
+  color: rgba(255, 255, 255, 0.66); /* 8.6:1 */
+}
+
+/* --- facts --------------------------------------------------------------- */
+.kp-about .kp-about-facts {
+  margin: 0 0 28px;
+  padding: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.kp-about .kp-about-fact {
+  display: grid;
+  grid-template-columns: 84px minmax(0, 1fr);
+  gap: 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.kp-about .kp-about-fact dt {
+  padding-top: 2px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6); /* 7.2:1 */
+}
+
+.kp-about .kp-about-fact dd {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+/* --- call to action ------------------------------------------------------ */
+.kp-about .kp-about-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 22px;
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1;
+  color: #fff;
+  background: var(--kp-accent);
+  border-radius: 999px;
+  text-decoration: none;
+  box-shadow: 0 16px 34px -18px rgba(var(--kp-accent-shadow-rgb), 0.95);
+  transition: background-color 0.22s ease, transform 0.22s var(--kp-ease),
+    box-shadow 0.22s ease;
+}
+
+.kp-about .kp-about-cta i {
+  font-size: 11px;
+  transition: transform 0.25s var(--kp-ease);
+}
+
+.kp-about .kp-about-cta:hover,
+.kp-about .kp-about-cta:focus-visible {
+  color: #fff;
+  background: var(--kp-accent-deep);
+  transform: translateY(-1px);
+  box-shadow: 0 20px 38px -18px rgba(var(--kp-accent-shadow-rgb), 1);
+}
+
+.kp-about .kp-about-cta:hover i,
+.kp-about .kp-about-cta:focus-visible i {
+  transform: translateX(3px);
+}
+
+/* --- media --------------------------------------------------------------- */
+.kp-about .kp-about-media {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  padding: 0 0 44px 56px;
+}
+
+.kp-about .kp-about-shot {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 50px 80px -60px #000;
+}
+
+.kp-about .kp-about-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.kp-about .kp-about-shot--inset {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 2;
+  width: 190px;
+  margin: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 30px 50px -34px #000;
+}
+
+.kp-about .kp-about-shot--inset img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* --- reveal -------------------------------------------------------------- */
+.kp-about.kp-js .kp-about-media,
+.kp-about.kp-js .kp-about-copy {
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+.kp-about.is-in .kp-about-media,
+.kp-about.is-in .kp-about-copy {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.6s ease, transform 0.6s var(--kp-ease);
+}
+
+.kp-about.is-in .kp-about-copy {
+  transition-delay: 0.1s;
+}
+
+/* --- focus --------------------------------------------------------------- */
+.kp-about .kp-about-cta:focus-visible,
+.kp-about .kp-about-link:focus-visible {
+  outline: 2px solid var(--kp-accent-light);
+  outline-offset: 3px;
+}
+
+/* --- breakpoints --------------------------------------------------------- */
+@media (max-width: 991.98px) {
+  .kp-about {
+    padding: 68px 0 72px;
+  }
+
+  .kp-about .kp-about-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 44px;
+  }
+
+  .kp-about .kp-about-media {
+    margin: 0 auto;
+    max-width: 480px;
+  }
+
+  .kp-about .kp-about-copy {
+    border-left: 0;
+    padding-left: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 36px;
+  }
+
+  .kp-about .kp-about-lead,
+  .kp-about .kp-about-text {
+    max-width: 62ch;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .kp-about {
+    padding: 56px 0 60px;
+  }
+
+  .kp-about .kp-about-grid {
+    gap: 36px;
+  }
+
+  .kp-about .kp-about-title {
+    font-size: 1.7rem;
+  }
+
+  .kp-about .kp-about-lead {
+    font-size: 15px;
+  }
+
+  .kp-about .kp-about-media {
+    padding: 0 0 36px 36px;
+  }
+
+  .kp-about .kp-about-shot {
+    border-radius: 14px;
+  }
+
+  .kp-about .kp-about-shot--inset {
+    width: 124px;
+    border-radius: 12px;
+  }
+
+  .kp-about .kp-about-fact {
+    grid-template-columns: 74px minmax(0, 1fr);
+    gap: 12px;
+    padding: 9px 0;
+  }
+}
+
+/* --- motion -------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .kp-about.kp-js .kp-about-media,
+  .kp-about.kp-js .kp-about-copy,
+  .kp-about.is-in .kp-about-media,
+  .kp-about.is-in .kp-about-copy {
+    opacity: 1;
+    transform: none;
+    transition: none !important;
+  }
+
+  .kp-about .kp-about-cta,
+  .kp-about .kp-about-cta i,
+  .kp-about .kp-about-link {
+    transition: none !important;
+  }
+
+  .kp-about .kp-about-cta:hover {
+    transform: none;
+  }
+}

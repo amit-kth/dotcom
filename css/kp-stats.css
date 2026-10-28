@@ -1,0 +1,374 @@
+/* =========================================================================
+   COUNTER  ·  kp-stats.css
+   -------------------------------------------------------------------------
+   Refinement layer for the original .counter-style-01 block.
+
+   The layout is the one that was here before: three columns, the giant
+   image-filled numeral in the middle, the CMMI badge straddling the bottom
+   edge. Nothing about that structure is changed — this file only repairs what
+   was broken and tightens what was loose:
+
+   - .count-no used the .cover-background utility, which sets a hard
+     `background-size: 100% 709px`; a 709px-tall strip was being squashed into
+     a ~250px box. It also depended on js/main.js copying data-background into
+     an inline style after load. Both are replaced with a real background rule.
+   - .pb-16 and .mt-1-9 are not defined in this theme, so the section had no
+     bottom padding at all and the badge's top half sat over the columns.
+   - .opacity3 is also undefined, so the bg-06 hexagon texture rendered at
+     full opacity — a black block in the bottom-left corner.
+   - the badge is a 200x200 file rendered at 140x160, i.e. already stretched,
+     under an endless zoom-in-zoom-out.
+   - display-3 numerals at weight 800 with a full-size "+" read as shouting.
+
+   Colours and easing come from css/global.css; no literals here.
+   ========================================================================= */
+
+.counter-style-01 {
+  position: relative;
+  /* 104px bottom clearance holds the badge's top half (76px) clear of the
+     columns. The badge's lower half lands in the 70px top padding that
+     `section` already gives #about, and protrudes 64px of it, so nothing
+     collides — see .kp-badge for the arithmetic */
+  padding: 72px 0 104px;
+  border-top: 1px solid rgba(var(--kp-ink-rgb), 0.07);
+  overflow: visible;
+}
+
+/* soft wash behind the middle column so the band is not flat */
+.counter-style-01::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 46% 62% at 50% 42%,
+    rgba(var(--kp-accent-rgb), 0.05),
+    rgba(var(--kp-accent-rgb), 0) 70%
+  );
+  pointer-events: none;
+}
+
+.counter-style-01 .container {
+  position: relative;
+  z-index: 3;
+}
+
+/* the texture the markup always intended at 30% — .opacity3 does not exist */
+.counter-style-01 .kp-texture {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 0;
+  opacity: 0.3;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to top right, #000, transparent 72%);
+  mask-image: linear-gradient(to top right, #000, transparent 72%);
+}
+
+.counter-style-01 .kp-texture img {
+  display: block;
+  width: 150px;
+  height: auto;
+}
+
+/* --- figures ------------------------------------------------------------- */
+.counter-style-01 .kp-figure {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  margin: 0 0 14px;
+  font-size: clamp(2.75rem, 3.4vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  font-variant-numeric: tabular-nums;
+  color: var(--kp-accent);
+}
+
+.counter-style-01 .kp-plus {
+  margin-left: 0.04em;
+  font-size: 0.46em;
+  font-weight: 600;
+  line-height: 1;
+  color: rgba(var(--kp-accent-rgb), 0.6);
+}
+
+/* --- labels and copy ----------------------------------------------------- */
+.counter-style-01 .kp-label {
+  margin: 0;
+  font-size: 11.5px;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(var(--kp-ink-rgb), 0.7); /* 5.6:1 on the band */
+}
+
+.counter-style-01 .kp-label--accent {
+  color: var(--kp-accent-deep); /* 6.9:1 — accent itself is only 4.5:1 at this size */
+}
+
+.counter-style-01 .kp-copy {
+  margin: 14px auto 0;
+  max-width: 34ch;
+  font-size: 14.5px;
+  line-height: 1.68;
+  color: rgba(var(--kp-ink-rgb), 0.7);
+}
+
+/* --- links --------------------------------------------------------------- */
+@media (min-width: 768px) {
+  .counter-style-01 .text-md-start .kp-figure {
+    justify-content: flex-start;
+  }
+
+  .counter-style-01 .text-md-end .kp-figure {
+    justify-content: flex-end;
+  }
+
+  .counter-style-01 .text-md-start .kp-copy {
+    margin-left: 0;
+  }
+
+  .counter-style-01 .text-md-end .kp-copy {
+    margin-left: auto;
+    margin-right: 0;
+  }
+}
+
+.counter-style-01 .kp-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+  padding: 9px 15px;
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--kp-ink);
+  border: 1px solid rgba(var(--kp-accent-rgb), 0.28);
+  border-radius: 999px;
+  text-decoration: none;
+  transition: color 0.22s ease, background-color 0.22s ease,
+    border-color 0.22s ease, transform 0.22s var(--kp-ease);
+}
+
+.counter-style-01 .kp-link i {
+  font-size: 12px;
+  color: var(--kp-accent);
+  transition: transform 0.25s var(--kp-ease), color 0.22s ease;
+}
+
+.counter-style-01 .kp-link:hover,
+.counter-style-01 .kp-link:focus-visible {
+  color: #fff;
+  background: var(--kp-accent-deep);
+  border-color: var(--kp-accent-deep);
+  transform: translateY(-1px);
+}
+
+.counter-style-01 .kp-link:hover i,
+.counter-style-01 .kp-link:focus-visible i {
+  color: #fff;
+  transform: translateX(3px);
+}
+
+/* --- the image-filled numeral -------------------------------------------- */
+.counter-style-01 .count-no {
+  display: inline-block;
+  margin: 0;
+  font-size: clamp(9rem, 19vw, 19rem);
+  font-weight: 800;
+  line-height: 0.84;
+  letter-spacing: -0.05em;
+
+  /* the image itself */
+  background-image: url("../img/bg/count-13.webp");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: var(--kp-ink); /* keeps the numeral solid if the file fails */
+
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* if background-clip:text is unsupported the transparent fill would leave an
+   invisible numeral floating over a dark rectangle, so fall back to solid */
+@supports not (background-clip: text) and not (-webkit-background-clip: text) {
+  .counter-style-01 .count-no {
+    background-image: none;
+    -webkit-text-fill-color: var(--kp-ink);
+    color: var(--kp-ink);
+  }
+}
+
+.counter-style-01 .kp-years .kp-label {
+  display: block;
+  margin-top: 10px;
+}
+
+/* --- badge --------------------------------------------------------------- */
+/* square: the file is 200x200, so 132x132 cannot stretch it.
+
+   Geometry, which is why `top` is not a round 100%: #about beneath starts its
+   content after section{padding:70px 0 0}. Centred exactly on the edge, a
+   132px badge with an 8px ring protruded 74px and clipped that 70px band.
+   Lifting the anchor 10px leaves a 76px top half (inside this section's 104px
+   bottom padding) and a 64px protrusion (inside #about's 70px), 6px of slack
+   on the tight side. */
+.counter-style-01 .kp-badge {
+  position: absolute;
+  top: calc(100% - 10px);
+  left: 50%;
+  z-index: 9;
+  transform: translate(-50%, -50%);
+}
+
+.counter-style-01 .kp-badge a {
+  display: block;
+  /* the icon is a transparent PNG — 87% of it is empty, so the page behind it
+     (including the seam between this band and #about) showed straight through
+     the seal. A solid plate gives it a body to sit on. */
+  padding: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 30%, #fff 0%, #f8f4ec 68%, #efe7d8 100%);
+  transition: transform 0.28s var(--kp-ease), box-shadow 0.28s ease;
+  box-shadow:
+    0 0 0 1px rgba(var(--kp-gold-rgb), 0.55),
+    0 0 0 9px rgba(var(--kp-gold-rgb), 0.08),
+    0 0 32px 4px rgba(var(--kp-gold-rgb), 0.34),
+    0 22px 36px -22px rgba(var(--kp-ink-deep-rgb), 0.6);
+}
+
+.counter-style-01 .kp-badge img {
+  display: block;
+  width: 132px;
+  height: 132px;
+  border-radius: 50%;
+}
+
+.counter-style-01 .kp-badge a:hover,
+.counter-style-01 .kp-badge a:focus-visible {
+  transform: translateY(-3px);
+  box-shadow:
+    0 0 0 1px rgba(var(--kp-gold-rgb), 0.8),
+    0 0 0 9px rgba(var(--kp-gold-rgb), 0.12),
+    0 0 44px 6px rgba(var(--kp-gold-rgb), 0.46),
+    0 26px 40px -22px rgba(var(--kp-ink-deep-rgb), 0.65);
+}
+
+/* --- reveal -------------------------------------------------------------- */
+/* nothing is hidden unless JavaScript is present, so the block never depends
+   on it; .kp-js is added by js/kp-stats.js before first paint */
+.counter-style-01.kp-js .row [data-kp-reveal] {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.counter-style-01.is-in .row [data-kp-reveal] {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.55s ease, transform 0.55s var(--kp-ease);
+}
+
+.counter-style-01.is-in .row [data-kp-reveal]:nth-child(2) {
+  transition-delay: 0.08s;
+}
+
+.counter-style-01.is-in .row [data-kp-reveal]:nth-child(3) {
+  transition-delay: 0.16s;
+}
+
+/* the badge keeps its -50%,-50% centring while it fades in */
+.counter-style-01.kp-js .kp-badge[data-kp-reveal] {
+  opacity: 0;
+  transform: translate(-50%, calc(-50% + 10px));
+}
+
+.counter-style-01.is-in .kp-badge[data-kp-reveal] {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.55s ease 0.18s, transform 0.55s var(--kp-ease) 0.18s;
+}
+
+/* --- focus --------------------------------------------------------------- */
+.counter-style-01 a:focus-visible,
+.counter-style-01 .kp-badge a:focus-visible {
+  outline: 2px solid var(--kp-accent);
+  outline-offset: 4px;
+}
+
+/* --- breakpoints --------------------------------------------------------- */
+@media (max-width: 991.98px) {
+  .counter-style-01 {
+    padding: 56px 0 92px;
+  }
+
+  /* .row uses g-5 below lg, which already spaces the stacked middle column,
+     so no extra margin here — 3rem gutter + 44px would have been 92px */
+
+  .counter-style-01 .kp-copy {
+    max-width: 46ch;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .counter-style-01 {
+    padding: 48px 0 84px;
+  }
+
+  .counter-style-01 .kp-figure {
+    font-size: 2.4rem;
+  }
+
+  .counter-style-01 .count-no {
+    font-size: 8.5rem;
+  }
+
+  .counter-style-01 .kp-copy {
+    max-width: 34ch;
+  }
+
+  .counter-style-01 .kp-badge img {
+    width: 96px;
+    height: 96px;
+  }
+
+  .counter-style-01 .kp-badge a {
+    padding: 6px;
+    box-shadow:
+      0 0 0 1px rgba(var(--kp-gold-rgb), 0.55),
+      0 0 0 7px rgba(var(--kp-gold-rgb), 0.08),
+      0 0 24px 3px rgba(var(--kp-gold-rgb), 0.32),
+      0 16px 28px -18px rgba(var(--kp-ink-deep-rgb), 0.55);
+  }
+}
+
+/* --- motion -------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .counter-style-01.kp-js .row [data-kp-reveal],
+  .counter-style-01.is-in .row [data-kp-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none !important;
+  }
+
+  .counter-style-01.kp-js .kp-badge[data-kp-reveal],
+  .counter-style-01.is-in .kp-badge[data-kp-reveal] {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+    transition: none !important;
+  }
+
+  .counter-style-01 .kp-link,
+  .counter-style-01 .kp-link i,
+  .counter-style-01 .kp-badge a {
+    transition: none !important;
+  }
+
+  .counter-style-01 .kp-link:hover,
+  .counter-style-01 .kp-badge a:hover {
+    transform: none;
+  }
+}

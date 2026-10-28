@@ -117,6 +117,20 @@
     <!-- Intl-Tel-Input CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.min.css">
 
+    <!-- Design tokens: colours and easing, single source of truth -->
+    <link rel="stylesheet" href="css/global.css?v=<?php echo @filemtime('css/global.css') ?: 1; ?>">
+
+    <!-- Component styles (separate files so they can never be served stale) -->
+    <link rel="stylesheet" href="css/kp-header.css?v=<?php echo @filemtime('css/kp-header.css') ?: 1; ?>">
+    <link rel="stylesheet" href="css/kp-hero.css?v=<?php echo @filemtime('css/kp-hero.css') ?: 1; ?>">
+    <link rel="stylesheet" href="css/kp-stats.css?v=<?php echo @filemtime('css/kp-stats.css') ?: 1; ?>">
+    <link rel="stylesheet" href="css/kp-about.css?v=<?php echo @filemtime('css/kp-about.css') ?: 1; ?>">
+    <link rel="stylesheet" href="css/kp-loader.css?v=<?php echo @filemtime('css/kp-loader.css') ?: 1; ?>">
+    <script src="js/kp-header.js?v=<?php echo @filemtime('js/kp-header.js') ?: 1; ?>" defer></script>
+    <script src="js/kp-hero.js?v=<?php echo @filemtime('js/kp-hero.js') ?: 1; ?>" defer></script>
+    <script src="js/kp-stats.js?v=<?php echo @filemtime('js/kp-stats.js') ?: 1; ?>" defer></script>
+    <script src="js/kp-about.js?v=<?php echo @filemtime('js/kp-about.js') ?: 1; ?>" defer></script>
+
 
     <!-- Service Worker & PWA -->
     <script type="module">
@@ -134,7 +148,13 @@
 
     <!-- PAGE LOADING
     ================================================== -->
-    <div id="preloader"></div>
+    <div id="preloader">
+        <div class="kp-loader">
+            <img class="kp-loader__logo" src="img/logo/logo.png" alt="Kriscent" width="274" height="72">
+            <span class="kp-loader__track" aria-hidden="true"><i></i></span>
+            <span class="kp-loader__sr" role="status">Loading</span>
+        </div>
+    </div>
 
     <!-- MAIN WRAPPER
     ================================================== -->
@@ -142,73 +162,152 @@
 
         <!-- HEADER
         ================================================== -->
-        <header class="header-style2">
-            <div class="navbar-default bg-white bg-opacity-75 shadow-sm border-bottom border-light">
-                <div class="container-fluid px-lg-4 px-xl-5 px-xxl-5 py-2">
-                    <div class="row align-items-center">
-                        <div class="col-12 col-lg-12">
-                            <div class="menu_area alt-font">
-                                <nav class="navbar navbar-expand-lg navbar-light p-0">
-                                    <div class="navbar-header navbar-header-custom">
-                                        <a href="https://kriscent.in/" class="navbar-brand logodefault" target="_blank">
-                                            <img width="auto" height="auto" id="logo" src="./img/logo/logo.png"
-                                                alt="header-logo" class="img-fluid" />
-                                        </a>
-                                    </div>
+        <header class="kp-header">
+            <div class="kp-bar">
+                <div class="kp-bar-inner">
+                    <a href="https://kriscent.in/" class="kp-brand" target="_blank">
+                        <img width="auto" height="auto" id="logo" src="./img/logo/logo.png" alt="header-logo" />
+                    </a>
 
-                                    <div class="navbar-toggler bg-primary rounded-2 shadow-sm border-0"></div>
-
-                                    <!-- start menu area -->
-                                    <ul class="navbar-nav ms-auto gap-lg-1" id="nav">
-                                        <li class="active">
-                                            <a href="#home" class="nav-link fw-semibold text-primary px-3">Home</a>
-                                        </li>
-                                        <li>
-                                            <a href="#about" class="nav-link fw-medium text-dark px-3">About</a>
-                                        </li>
-                                        <li>
-                                            <a href="#product" class="nav-link fw-medium text-dark px-3">Product</a>
-                                        </li>
-                                        <li>
-                                            <a href="#testimonial"
-                                                class="nav-link fw-medium text-dark px-3">Testimonial</a>
-                                        </li>
-                                    </ul>
-                                    <!-- end menu area -->
-
-                                    <!-- start attribute navigation -->
-                                    <div class="attr-nav align-items-xl-center ms-xl-auto main-font">
-                                        <ul class="list-unstyled mb-0">
-                                            <li class="d-none d-xl-inline-block">
-                                                <a href="https://kriscent.in/contact" target="_blank"
-                                                    class="btn btn-primary rounded-pill px-4 py-2 fw-semibold shadow-sm">
-                                                    Free Quote
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </nav>
-                            </div>
-                        </div>
+                    <div class="kp-nav" role="navigation" aria-label="Main navigation">
+                        <ul id="nav">
+                            <li class="active">
+                                <a href="#home">Home</a>
+                            </li>
+                            <li>
+                                <a href="#about">About</a>
+                            </li>
+                            <li>
+                                <a href="#product">Product</a>
+                            </li>
+                            <li>
+                                <a href="#testimonial">Testimonial</a>
+                            </li>
+                        </ul>
                     </div>
+
+                    <a href="https://kriscent.in/contact" target="_blank" class="kp-cta kp-cta--desk">
+                        <span>Free Quote</span>
+                        <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                    </a>
+
+                    <a href="https://kriscent.in/contact" target="_blank" class="kp-cta kp-cta--mob">
+                        <span>Free Quote</span>
+                        <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                    </a>
+
+                    <button type="button" class="kp-burger" aria-controls="nav" aria-expanded="false"
+                        aria-label="Open menu">
+                        <span></span>
+                    </button>
                 </div>
             </div>
         </header>
 
         <!-- BANNER
         ================================================== -->
-        <section class="py-0 banner" id="home"> <!--slider-fade1 -->
-            <div class="slider-fade1 owl-carousel owl-theme w-100" id="home-slider">
-                <div class="item bg-img cover-background">
-                    <img src="img/banner/slider-4.webp" alt="banner slider">
-                </div>
-                <div class="item bg-img cover-background">
-                    <img src="img/banner/slider-5.webp" alt="banner slider">
-                </div>
-                <div class="item bg-img cover-background">
+        <section class="kp-hero" id="home">
+            <!-- slide 1 -->
+            <figure class="kp-hero-slide is-active" id="kp-slide-0" aria-hidden="true">
+                <img src="img/hero/k-astrofy.jpg" alt="K-Astrofy astrology consulting portal"
+                    width="1376" height="768" fetchpriority="high">
+            </figure>
+            <!-- slide 2 -->
+            <figure class="kp-hero-slide" id="kp-slide-1" aria-hidden="true">
+                <img src="img/hero/k-smart.jpg" alt="K-SMART CRM software" width="1376" height="768"
+                    loading="lazy" decoding="async">
+            </figure>
+            <!-- slide 3 -->
+            <figure class="kp-hero-slide" id="kp-slide-2" aria-hidden="true">
+                <img src="img/hero/k-exam.jpg" alt="K-Exam online examination portal" width="1376" height="768"
+                    loading="lazy" decoding="async">
+            </figure>
 
-                    <img src="img/banner/slider-6.webp" alt="banner slider">
+            <div class="kp-hero-inner">
+                <div class="kp-hero-copy-wrap">
+                    <div class="kp-hero-panel is-active" id="kp-panel-0" role="tabpanel" aria-labelledby="kp-rail-0"
+                        aria-hidden="false">
+                        <p class="kp-hero-name">K-Astrofy</p>
+                        <p class="kp-hero-title">Connect with expert astrologers, live</p>
+                        <p class="kp-hero-sub">Chat, call and go live with verified astrologers, shop curated
+                            remedies, and take consultations without leaving the portal.</p>
+                        <div class="kp-hero-actions">
+                            <a href="https://kriscent.in/product/kastrofy/" target="_blank" class="kp-btn kp-btn--primary">
+                                <span>Explore K-Astrofy</span>
+                                <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                            </a>
+                            <a href="https://kriscent.in/contact" target="_blank" class="kp-btn kp-btn--ghost">
+                                <span>Get a free quote</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="kp-hero-panel" id="kp-panel-1" role="tabpanel" aria-labelledby="kp-rail-1"
+                        aria-hidden="true">
+                        <p class="kp-hero-name">K-SMART</p>
+                        <p class="kp-hero-title">Every lead in one workspace</p>
+                        <p class="kp-hero-sub">Lead management, campaigns, quotations and invoices, WhatsApp
+                            automation and team chat — one CRM instead of six tools.</p>
+                        <div class="kp-hero-actions">
+                            <a href="https://www.kriscent.in/product/ksmart/" target="_blank"
+                                class="kp-btn kp-btn--primary">
+                                <span>Explore K-SMART</span>
+                                <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                            </a>
+                            <a href="https://kriscent.in/contact" target="_blank" class="kp-btn kp-btn--ghost">
+                                <span>Get a free quote</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="kp-hero-panel" id="kp-panel-2" role="tabpanel" aria-labelledby="kp-rail-2"
+                        aria-hidden="true">
+                        <p class="kp-hero-name">K-Exam</p>
+                        <p class="kp-hero-title">Exams that stay secure online</p>
+                        <p class="kp-hero-sub">Build tests with any question type, run them with anti-cheating
+                            measures in place, and publish results without the paperwork.</p>
+                        <div class="kp-hero-actions">
+                            <a href="https://www.kriscent.in/product/kexam/" target="_blank"
+                                class="kp-btn kp-btn--primary">
+                                <span>Explore K-Exam</span>
+                                <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                            </a>
+                            <a href="https://kriscent.in/contact" target="_blank" class="kp-btn kp-btn--ghost">
+                                <span>Get a free quote</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <p class="kp-hero-trust">
+                        <i class="fa fa-check-circle" aria-hidden="true"></i>
+                        1,549+ projects · 1,245+ clients · building software since 2014
+                    </p>
+
                 </div>
+            </div>
+
+            <div class="kp-hero-controls">
+                <div class="kp-hero-rail" role="tablist" aria-label="Product showcase">
+                    <button type="button" role="tab" id="kp-rail-0" aria-controls="kp-panel-0"
+                        aria-selected="true" aria-label="K-Astrofy, slide 1 of 3">
+                        <span class="kp-num">01</span>
+                        <span class="kp-track"><i></i></span>
+                    </button>
+                    <button type="button" role="tab" id="kp-rail-1" aria-controls="kp-panel-1"
+                        aria-selected="false" tabindex="-1" aria-label="K-SMART, slide 2 of 3">
+                        <span class="kp-num">02</span>
+                        <span class="kp-track"><i></i></span>
+                    </button>
+                    <button type="button" role="tab" id="kp-rail-2" aria-controls="kp-panel-2"
+                        aria-selected="false" tabindex="-1" aria-label="K-Exam, slide 3 of 3">
+                        <span class="kp-num">03</span>
+                        <span class="kp-track"><i></i></span>
+                    </button>
+                </div>
+
+                <button type="button" class="kp-hero-play" aria-pressed="false" aria-label="Pause slideshow">
+                    <i class="fa fa-pause" aria-hidden="true"></i>
+                </button>
             </div>
         </section>
 
@@ -264,44 +363,40 @@
 
         <!-- COUNTER
         ================================================== -->
-        <section class="counter-style-01 bg-light pb-16 pt-3 overflow-visible">
-            <div class="container overflow-hidden">
+        <section class="counter-style-01 bg-light">
+            <div class="container">
                 <div class="row g-5 g-lg-0 position-relative z-index-9">
-                    <div class="col-md-6 col-lg-3 order-2 order-lg-1 mt-1-9 wow fadeInUp" data-wow-delay="200ms">
+                    <div class="col-md-6 col-lg-3 order-2 order-lg-1" data-kp-reveal>
                         <div class="text-center text-md-start">
-                            <div
-                                class="display-3 font-weight-800 mb-3 lh-1 text-primary d-flex justify-content-center justify-content-md-start">
-                                <div class="countup">1,549</div>+
-                            </div>
-                            <span class="text-uppercase letter-spacing-4 d-block font-weight-700 mb-2">Project
-                                Completed</span>
-                            <p class="mb-3">Before dealing with projects, we explore with clients about technology,
+                            <p class="kp-figure display-3">
+                                <span class="countup" data-count="1549">1,549</span><span class="kp-plus">+</span>
+                            </p>
+                            <span class="kp-label d-block">Project Completed</span>
+                            <p class="kp-copy">Before dealing with projects, we explore with clients about technology,
                                 time, and cost.</p>
-                            <a href="https://kriscent.in/portfolio" class="text-primary projectBtn" target="_blank">
+                            <a href="https://kriscent.in/portfolio" class="projectBtn kp-link" target="_blank">
                                 <span>Projects</span>
                                 <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
                             </a>
                         </div>
                     </div>
-                    <div class="col-lg-6 order-1 order-lg-2 wow fadeInUp" data-wow-delay="400ms">
-                        <div class="text-center">
-                            <span class="bg-img cover-background count-no" data-background="img/bg/bg-08.webp">12</span>
-                            <span class="text-primary text-uppercase letter-spacing-4 d-block font-weight-700">Years Of
-                                Experience</span>
+
+                    <div class="col-lg-6 order-1 order-lg-2" data-kp-reveal>
+                        <div class="kp-years text-center">
+                            <span class="count-no">13</span>
+                            <span class="kp-label kp-label--accent d-block">Years Of Experience</span>
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-3 order-2 mt-1-9 wow fadeInUp" data-wow-delay="600ms">
+
+                    <div class="col-md-6 col-lg-3 order-2" data-kp-reveal>
                         <div class="text-center text-md-end">
-                            <div class="mb-3 d-flex justify-content-center justify-content-md-end">
-                                <div class="display-3 font-weight-800 lh-1 text-primary d-flex">
-                                    <div class="countup">1245</div>+
-                                </div>
-                            </div>
-                            <span class="text-uppercase letter-spacing-4 d-block font-weight-700 mb-2">Trusted By 1245+
-                                Clients</span>
-                            <p class="mb-3">95% of our clients are satisfied with our services because we do work on the
-                                latest technologies.</p>
-                            <a href="https://kriscent.in/clients" class="text-primary projectBtn" target="_blank">
+                            <p class="kp-figure display-3">
+                                <span class="countup" data-count="1245">1,245</span><span class="kp-plus">+</span>
+                            </p>
+                            <span class="kp-label d-block">Trusted By 1,245+ Clients</span>
+                            <p class="kp-copy">95% of our clients are satisfied with our services because we do work on
+                                the latest technologies.</p>
+                            <a href="https://kriscent.in/clients" class="projectBtn kp-link" target="_blank">
                                 <span>Clients</span>
                                 <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
                             </a>
@@ -309,60 +404,63 @@
                     </div>
                 </div>
             </div>
-            <div class="position-absolute top-100 start-50 translate-middle z-index-9 wow fadeIn"
-                data-wow-delay="800ms">
+
+            <div class="kp-badge" data-kp-reveal>
                 <a href="https://kriscent.in/" target="_blank">
-                    <img src="img/icons/cmmi.webp" alt="logo" width="140" height="160" class="count-img">
+                    <img src="img/icons/cmmi.webp" alt="logo" width="200" height="200">
                 </a>
             </div>
-            <div class="position-absolute bottom-0 left-0 opacity3">
-                <img src="img/bg/bg-06.webp" width="190" height="190" alt="bg">
+
+            <div class="kp-texture" aria-hidden="true">
+                <img src="img/bg/bg-06.webp" width="190" height="190" alt="">
             </div>
         </section>
 
         <!-- ABOUT
         ================================================== -->
-        <section class="overflow-visible" id="about">
-            <div class="container position-relative z-index-3">
-                <div class="row align-items-center about-style-03">
-                    <div class="col-lg-6 wow fadeIn" data-wow-delay="200ms">
-                        <div class="">
-                            <div class="section-title mb-1">
-                                <span class="sm-title">About Us</span>
-                                <h1 class="f-two">Kriscent Techno Hub Pvt Ltd.</h1>
-                            </div>
-                            <div class="mb-1">
-                                <div class="about-text rounded">
-                                    <p class="mb-2 text-justify">Innovating IT Solutions for a Brighter Future Since
-                                        2014 Kriscent is a trusted global IT company offering innovative digital
-                                        solutions since 2014. Founded by <a
-                                            href="https://in.linkedin.com/in/kapil-gautam" target="_blank"
-                                            class="text-theme">Mr. Kapil Gautam</a> in Kota, Rajasthan, we provide
-                                        technology services that help businesses grow and succeed worldwide, including
-                                        in the USA, UK, Australia, Dubai, New Zealand, and more.</p>
-                                    <p class="mb-3 text-justify">Running a business is challenging, but getting the
-                                        right tools shouldn’t be. At Kriscent, we offer ready-to-use products that help
-                                        businesses work smarter, not harder. From advanced CRM software to efficient ERP
-                                        systems, our solutions are designed for instant use—no long development cycles,
-                                        no hassle.</p>
-                                    <p class="text-justify">We are committed to staying ahead of the curve, constantly
-                                        adapting to the latest industry trends and tools, such as AI technologies like
-                                        ChatGPT, DALL-E 2, GPT-4, and the Metaverse. </p>
-                                </div>
-                                <a href="https://kriscent.in/" class="btn-style10 p-4-16 mb-4" target="_blank">
-                                    <span>Visit Website</span>
-                                    <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
-                                </a>
-                            </div>
-                        </div>
+        <section class="kp-about" id="about">
+            <div class="container">
+                <div class="kp-about-grid">
+                    <div class="kp-about-media">
+                        <figure class="kp-about-shot">
+                            <img src="img/content/about-main.webp" alt="about us" width="760" height="950"
+                                loading="lazy" decoding="async">
+                        </figure>
+                        <figure class="kp-about-shot--inset">
+                            <img src="img/content/about-inset.webp" alt="about us" width="440" height="587"
+                                loading="lazy" decoding="async">
+                        </figure>
                     </div>
-                    <div class="col-lg-6 wow fadeIn" data-wow-delay="400ms">
-                        <div class="ps-lg-2-9 position-relative text-center text-sm-start">
-                            <img src="img/content/about7.webp" alt="about us" width="auto" height="auto">
-                            <div class="about-img d-none d-sm-block">
-                                <img src="img/content/about6.webp" alt="about us" width="auto" height="auto">
+
+                    <div class="kp-about-copy">
+                        <p class="kp-about-eyebrow">About Us</p>
+                        <h1 class="kp-about-title f-two">Kriscent Techno Hub Pvt Ltd.</h1>
+                        <p class="kp-about-lead">A trusted global IT company offering innovative digital solutions
+                            since 2014. Founded by <a href="https://in.linkedin.com/in/kapil-gautam" target="_blank"
+                                class="kp-about-link">Mr. Kapil Gautam</a> in Kota, Rajasthan, we help businesses grow
+                            and succeed worldwide.</p>
+                        <p class="kp-about-text">Ready-to-use products, from advanced CRM software to efficient ERP
+                            systems, built for instant use with no long development cycles.</p>
+
+                        <dl class="kp-about-facts">
+                            <div class="kp-about-fact">
+                                <dt>Founded</dt>
+                                <dd>2014, Kota, Rajasthan</dd>
                             </div>
-                        </div>
+                            <div class="kp-about-fact">
+                                <dt>Reach</dt>
+                                <dd>USA · UK · Australia · Dubai · New Zealand</dd>
+                            </div>
+                            <div class="kp-about-fact">
+                                <dt>Focus</dt>
+                                <dd>CRM · ERP · AI · Metaverse</dd>
+                            </div>
+                        </dl>
+
+                        <a href="https://kriscent.in/" class="kp-about-cta" target="_blank">
+                            <span>Visit Website</span>
+                            <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                        </a>
                     </div>
                 </div>
             </div>

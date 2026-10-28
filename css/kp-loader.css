@@ -1,0 +1,150 @@
+/* =========================================================================
+   PRELOADER  ·  kp-loader.css
+   -------------------------------------------------------------------------
+   Replaces the theme's two pulsing rings (styles.css draws #preloader:before
+   and :after as 80px red circles) with the actual logo and a single thin
+   sweep underneath it.
+
+   White rather than the hero's dark: the logo's "Incredible Think Ahead"
+   tagline is near-black and would vanish on a dark plate, and the header above
+   the hero is white anyway, so this reads as the page arriving rather than a
+   colour jump.
+
+   The markup is still #preloader, so js/main.js keeps fading it out on window
+   load exactly as before — nothing in the theme's JS is touched. A CSS
+   failsafe hides it after 8s even if `load` never fires (a stalled image
+   would otherwise leave the wheel spinning over the site for good).
+   ========================================================================= */
+
+#preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  /* a whisper of brand behind the mark, so the plate is not a blank void */
+  background-image: radial-gradient(
+    ellipse 38% 30% at 50% 46%,
+    rgba(var(--kp-accent-rgb), 0.07),
+    rgba(var(--kp-accent-rgb), 0) 70%
+  );
+  /* failsafe: never hold the page hostage if window.load never arrives */
+  animation: kpLoaderFailsafe 0.4s ease 8s forwards;
+}
+
+/* remove the theme's rings entirely rather than trying to restyle them */
+#preloader::before,
+#preloader::after {
+  content: none;
+  animation: none;
+}
+
+.kp-loader {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 26px;
+  animation: kpLoaderIn 0.55s var(--kp-ease) both;
+}
+
+.kp-loader__logo {
+  display: block;
+  width: 152px;
+  height: auto;
+}
+
+.kp-loader__track {
+  position: relative;
+  display: block;
+  width: 152px;
+  height: 2px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: rgba(var(--kp-ink-rgb), 0.1);
+}
+
+.kp-loader__track i {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 46%;
+  height: 100%;
+  border-radius: 2px;
+  background: linear-gradient(
+    90deg,
+    rgba(var(--kp-accent-rgb), 0),
+    var(--kp-accent),
+    rgba(var(--kp-accent-rgb), 0)
+  );
+  animation: kpLoaderSweep 1.25s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+/* announced to screen readers, invisible on screen */
+.kp-loader__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+@keyframes kpLoaderIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes kpLoaderSweep {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(320%);
+  }
+}
+
+@keyframes kpLoaderFailsafe {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .kp-loader__logo,
+  .kp-loader__track {
+    width: 128px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kp-loader {
+    animation: none;
+  }
+
+  .kp-loader__track i {
+    width: 100%;
+    opacity: 0.55;
+    animation: none;
+  }
+
+  /* the failsafe must survive this block, otherwise a stalled load would hold
+     a reduced-motion visitor on the loader forever; 0s means it hides instantly */
+  #preloader {
+    animation: kpLoaderFailsafe 0s linear 8s forwards;
+  }
+}

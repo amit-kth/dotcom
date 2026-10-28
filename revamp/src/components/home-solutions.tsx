@@ -9,6 +9,7 @@ import {
   GraduationCap,
   HeartPulse,
   Landmark,
+  LayoutGrid,
   type LucideIcon,
   Sparkles,
   Truck,
@@ -59,15 +60,14 @@ export function HomeSolutions() {
   const [selected, setSelected] = useState<CategoryId | null>(null);
   const listRef = useRef<HTMLDivElement | null>(null);
 
-  /* Which screen stands in the hero. No choice yet: the first thing we can
-     install today. After a choice: that industry's own build, so the hero
-     answers in the visitor's context instead of a generic one. */
-  const stage = useMemo(() => {
-    const product = selected ? productsInCategory(selected)[0] : availableProducts[0];
-    return product
-      ? VISUAL_BY_PRODUCT[product.id]
-      : { variant: "dashboard" as const, accent: "blue" as const };
-  }, [selected]);
+  /* The preview only exists once there is something to preview. On first load
+     the hero holds nothing but the question and the chips. */
+  const stageProduct = useMemo(
+    () => (selected ? productsInCategory(selected)[0] : undefined),
+    [selected],
+  );
+
+  const stage = stageProduct ? VISUAL_BY_PRODUCT[stageProduct.id] : null;
 
   const visible = useMemo(
     () => (selected ? productsInCategory(selected) : availableProducts),
@@ -79,112 +79,141 @@ export function HomeSolutions() {
   const activeLabel = selected ? categoryLabel(selected) : null;
 
   const choose = (id: CategoryId | null) => {
-    /* No scrolling on purpose. The pick changes the hero — the mockup, its
-       accent and the glow behind it — and scrolling away from that would hide
-       the answer at the exact moment it arrives. The list below updates in
-       place, and the announcement below covers it for screen readers. */
     setSelected(id);
+    if (!id) return;
+
+    /* The pick answers in two places: the hero shows a small preview, then the
+       page moves to the solutions it just filtered. The delay is long enough
+       for the preview to register and short enough not to feel laggy. */
+    window.setTimeout(() => {
+      listRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 260);
   };
 
   return (
     <>
-      {/* ================================================== 1. the opening ==== */}
+      {/* ==================================================== 1. the hero ====
+          PURPOSE: get the visitor to name the business they run.
+
+          Everything here serves that and nothing else. There is deliberately no
+          mockup on first load: a product screen beside the headline competes
+          with the chips, and the chips are the only thing we need clicked. The
+          preview appears after a choice, as a receipt for the decision that was
+          just made.
+          ==================================================================== */}
       <section
-        className="hero-field relative isolate flex min-h-[min(100svh,50rem)] flex-col justify-center overflow-hidden"
+        className="hero-field relative isolate flex min-h-[min(100svh,52rem)] flex-col justify-center overflow-hidden"
         aria-labelledby="hero-title"
       >
+        {/* Light, not decoration: it marks the zone the visitor should act in. */}
+        <div aria-hidden="true" className="hero-halo" />
+
         <div className="shell hero-body relative z-10">
-          <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.72fr)] lg:gap-14">
-            {/* ------------------------------------------- the words, and the control */}
-            <div>
-              <h1 id="hero-title" className="hero-h1 hero-in text-white">
-                Ready-made software.
-                {/* The promise, on its own line, with the number drawn hollow:
-                    it is the one figure a buyer should leave with. */}
-                <span className="mt-1 block">
-                  Live in <span className="hero-num">15</span> days.
-                </span>
-              </h1>
+          <h1 id="hero-title" className="hero-h1 hero-in text-white">
+            Ready-made software.
+            <span className="mt-1 block">
+              Live in <span className="hero-num">15 days</span>.
+            </span>
+          </h1>
 
-              <p
-                className="hero-sub hero-in max-w-[34rem] text-[0.9375rem] leading-relaxed text-ink-foreground/75 sm:text-base"
-                style={{ animationDelay: "70ms" }}
-              >
-                Pick your industry to see what is already built and running.
-              </p>
+          <p className="hero-sub hero-in max-w-[44ch] text-[1.0625rem] leading-relaxed text-white/80">
+            Pick your industry and we will show you what is already built for it.
+          </p>
 
-              {/* The control. Chips, not a white panel: the choice is part of
-                  the sentence the visitor is reading, not a form they fill in. */}
-              <div
-                role="group"
-                aria-label="Industry"
-                className="hero-chips flex flex-wrap gap-2"
-              >
-                {categories.map((category, index) => {
-                  const Icon = ICONS[category.id];
-                  const active = selected === category.id;
-
-                  return (
-                    <button
-                      key={category.id}
-                      type="button"
-                      style={{
-                        animationDelay: `${140 + index * 45}ms`,
-                      }}
-                      aria-pressed={active}
-                      onClick={() => choose(active ? null : category.id)}
-                      className={cn(
-                        "hero-in inline-flex items-center gap-2 rounded-full border px-3.5 py-2 text-[0.8125rem] font-medium transition-all duration-200",
-                        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-peri",
-                        active
-                          ? "border-peri bg-peri text-[oklch(21%_0.06_277.93)] shadow-[0_12px_34px_-12px_oklch(78%_0.1_264.38/0.7)]"
-                          : "border-white/15 bg-white/[0.06] text-ink-foreground/80 hover:-translate-y-0.5 hover:border-white/30 hover:bg-white/[0.11] hover:text-white",
-                      )}
-                    >
-                      <Icon className="size-4" aria-hidden="true" />
-                      {category.label}
-                    </button>
-                  );
-                })}
-              </div>
-
-            </div>
-
-            {/* --------------------------------------- proof that it already exists
-                A product screen, tilted back, with a phone over its corner and
-                a glow behind. Picking an industry swaps all of it, so the page
-                answers the visitor in their own context. */}
-            <div
-              className="hero-stage hero-in"
-              style={{ animationDelay: "260ms" }}
-              data-accent={stage.accent}
-              aria-hidden="true"
+          <div className="hero-chips hero-in">
+            <p
+              id="industry-label"
+              className="text-[0.8125rem] font-semibold uppercase tracking-[0.14em] text-white/60"
             >
-              <div className="hero-glow" />
+              What does your business do?
+            </p>
 
-              <div className="hero-browser">
-                <div className="hero-browser-bar">
-                  <span className="hero-dot" />
-                  <span className="hero-dot" />
-                  <span className="hero-dot" />
-                  <span className="ml-2 h-3 w-24 rounded-full bg-[oklch(92%_0.01_260)]" />
-                </div>
+            {/* The control. 56px tall, high contrast, and the widest thing in
+                the section after the headline — because it is the only thing
+                that has to be used. */}
+            <div
+              role="group"
+              aria-labelledby="industry-label"
+              className="mt-4 grid max-w-[54rem] grid-cols-2 gap-2.5 sm:grid-cols-4"
+            >
+              {categories.map((category, index) => {
+                const Icon = ICONS[category.id];
+                const active = selected === category.id;
+
+                return (
+                  <button
+                    key={category.id}
+                    type="button"
+                    aria-pressed={active}
+                    onClick={() => choose(active ? null : category.id)}
+                    style={{ animationDelay: `${120 + index * 40}ms` }}
+                    className={cn(
+                      "hero-in flex min-h-[3.75rem] items-center gap-2 rounded-2xl border-[1.5px] px-3.5 text-sm font-semibold transition-all duration-200 sm:gap-2.5 sm:px-5 sm:text-base",
+                      "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white",
+                      active
+                        ? "border-white bg-white text-ink shadow-[0_20px_50px_-20px_oklch(0%_0_0/0.9)]"
+                        : "border-white/25 bg-white/[0.08] text-white hover:-translate-y-0.5 hover:border-white/50 hover:bg-white/[0.14]",
+                    )}
+                  >
+                    <Icon
+                      className={cn(
+                        "size-4 shrink-0 transition-colors sm:size-[1.125rem]",
+                        active ? "text-primary" : "text-white/70",
+                      )}
+                      aria-hidden="true"
+                    />
+                    {category.label}
+                  </button>
+                );
+              })}
+
+              {/* The eighth cell. Seven loud options leave a hole in a 4-column
+                  pad, and the hole is worse than the tile: it reads as something
+                  missing. This one is deliberately quiet — dashed, muted — because
+                  it is the option for visitors whose industry is not listed. */}
+              <button
+                type="button"
+                onClick={() => choose(null)}
+                className="hero-in flex min-h-[3.75rem] items-center gap-2 rounded-2xl border-[1.5px] border-dashed border-white/20 px-3.5 text-sm font-medium text-white/60 transition-all duration-200 hover:-translate-y-0.5 hover:border-white/40 hover:bg-white/[0.06] hover:text-white sm:gap-2.5 sm:px-5 sm:text-base"
+              >
+                <LayoutGrid
+                  className="size-4 shrink-0 opacity-70 sm:size-[1.125rem]"
+                  aria-hidden="true"
+                />
+                All industries
+              </button>
+            </div>
+          </div>
+
+          {/* The receipt. Small on purpose: it confirms the choice without
+              becoming a second thing to look at. */}
+          {stage && (
+            <div className="hero-preview mt-7 flex w-full max-w-[34rem] items-center gap-4 rounded-2xl border border-white/15 bg-white/[0.05] p-3 backdrop-blur-sm">
+              <div className="w-[9.5rem] shrink-0 overflow-hidden rounded-lg ring-1 ring-white/15">
                 <ProductVisual
                   variant={stage.variant}
                   accent={stage.accent}
                   className="aspect-[640/400] w-full"
                 />
               </div>
-
-              <div className="hero-phone">
-                <ProductVisual
-                  variant={stage.variant}
-                  accent={stage.accent}
-                  className="size-full"
+              <div className="min-w-0">
+                <p className="text-[0.75rem] font-semibold uppercase tracking-[0.14em] text-white/50">
+                  {activeLabel}
+                </p>
+                <p className="mt-1 truncate text-[1.0625rem] font-semibold text-white">
+                  {stageProduct?.name}
+                </p>
+              </div>
+              <div className="ml-auto shrink-0 pr-1">
+                <RequestDemoDialog
+                  product={stageProduct?.name}
+                  label="Request a demo"
+                  variant="onInk"
+                  size="sm"
                 />
               </div>
             </div>
-          </div>
+          )}
         </div>
       </section>
 

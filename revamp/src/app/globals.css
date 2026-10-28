@@ -150,8 +150,9 @@
     padding-inline: clamp(1.25rem, 4vw, 2.75rem);
   }
 
+  /* Sections breathe at py-16 on a phone and py-24 on a desktop, never less. */
   .band {
-    padding-block: clamp(4rem, 7vw, 6.5rem);
+    padding-block: clamp(4rem, 7vw, 7rem);
   }
 
   .band-sm {
@@ -211,9 +212,15 @@
     letter-spacing: -0.008em;
   }
 
+  /* Body never goes below 16px, and on a dark surface it never goes grey. */
   .body {
-    font-size: 0.9375rem;
+    font-size: 1.0625rem;
     line-height: 1.65;
+    color: var(--secondary-foreground);
+  }
+
+  .surface-ink .body {
+    color: oklch(92% 0.02 264);
   }
 
   .meta {
@@ -333,8 +340,8 @@
 
 /* Large on purpose: at this size the type is the design. */
 .hero-h1 {
-  font-size: clamp(2.5rem, min(4.9vw, 9.8vh), 4rem);
-  line-height: 0.98;
+  font-size: clamp(2.125rem, min(5.6vw, 9.4vh), 4.5rem);
+  line-height: 0.96;
   letter-spacing: -0.042em;
   font-weight: 600;
   text-wrap: balance;
@@ -345,23 +352,39 @@
 }
 
 .hero-chips {
-  margin-top: clamp(1.25rem, 3.4vh, 2rem);
+  margin-top: clamp(1.5rem, 4vh, 2.5rem);
 }
 
-/* "15" as a hollow numeral. It is the one number worth remembering, so it is
-   drawn rather than printed. Falls back to a solid accent where text-stroke
-   is unsupported. */
+/* A light behind the control, so the eye lands there before it lands on the
+   empty right-hand side of the screen. */
+.hero-halo {
+  position: absolute;
+  z-index: -1;
+  left: 40%;
+  top: 56%;
+  width: min(110%, 62rem);
+  aspect-ratio: 1.9 / 1;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    closest-side,
+    oklch(49.03% 0.2158 264.38 / 0.3),
+    oklch(49.03% 0.2158 264.38 / 0.08) 58%,
+    transparent 80%
+  );
+  filter: blur(36px);
+  pointer-events: none;
+}
+
+.hero-preview {
+  animation: hero-in 420ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+/* The promise, at numeral scale. Solid accent: it is the one figure a buyer
+   should leave with, so it is drawn plainly rather than decorated. */
 .hero-num {
   color: var(--peri);
   font-variant-numeric: tabular-nums;
-}
-
-@supports (-webkit-text-stroke: 1px currentColor) {
-  .hero-num {
-    color: transparent;
-    -webkit-text-stroke: 0.028em var(--peri);
-    text-shadow: 0 0 60px oklch(78% 0.1 264.38 / 0.45);
-  }
+  letter-spacing: -0.05em;
 }
 
 /* --- the stage: mockups in space ------------------------------------------

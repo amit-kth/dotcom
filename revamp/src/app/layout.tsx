@@ -1,7 +1,7 @@
-import "@fontsource/poppins/latin-400.css";
-import "@fontsource/poppins/latin-500.css";
-import "@fontsource/poppins/latin-600.css";
-import "@fontsource/poppins/latin-700.css";
+import "@fontsource/inter/latin-400.css";
+import "@fontsource/inter/latin-500.css";
+import "@fontsource/inter/latin-600.css";
+import "@fontsource/inter/latin-700.css";
 import "./globals.css";
 import { site } from "@/config/variables";
 
@@ -14,12 +14,11 @@ import { site } from "@/config/variables";
 
    FONTS
    -----
-   Poppins is Google's typeface, self-hosted through @fontsource. It is the
-   same font file Google serves, but bundled at build time instead of fetched
-   at runtime, which keeps the static export free of external font requests.
-   Only the four weights the design uses are imported, and only the `latin`
-   subset: the site is English, so the devanagari and latin-ext files Google
-   also ships would be dead weight.
+   Inter, self-hosted through @fontsource: the same files Google serves, bundled
+   at build time so the static export makes no external font request. Only the
+   four weights in use, and only the `latin` subset. Poppins was replaced here
+   because a soft geometric face is what made the page read as generic; Inter's
+   tighter forms hold up at headline size.
 
    Deliberately NO `export const metadata` here. Next would then emit its own
    <title> and <meta name="description"> in addition to the ones seo.tsx renders,
@@ -34,7 +33,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className="min-h-screen bg-background text-foreground antialiased">
+      <body className="min-h-screen bg-cream text-foreground antialiased">
         {/* Google Tag Manager (noscript) — pairs with the script in seo.tsx */}
         <noscript>
           <iframe

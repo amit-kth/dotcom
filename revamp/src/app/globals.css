@@ -3,43 +3,46 @@
 /* ============================================================================
    KRISCENT · globals.css
    ----------------------------------------------------------------------------
-   Three rules govern this file:
+   The site has one visual language and it is defined here:
 
-   1. Colour is declared once, here, as raw HSL triplets. Components use the
-      mapped utilities and never a hex value.
-   2. Only three surfaces exist: paper (warm white), sand (tinted), ink (near
-      black). Every section picks one, which is what gives the page its rhythm.
-      A page that is 100% white has no rhythm, and reads as unfinished.
-   3. Type and vertical spacing come from the fixed scale below. Nothing in a
-      component invents its own section padding, so the page keeps a metronome.
+   SURFACES  ink (near-black navy), cream (warm paper), white (cards)
+   ACCENTS   red (the brand), amber, teal. Three, no more: they mark categories
+             and the one thing the eye should land on in a mockup.
+   TYPE      Inter. 500/600 for headings with tight tracking, 400 for body.
+             Poppins was dropped because a soft geometric face is what makes a
+             page read as generic.
+   RHYTHM    sections alternate surfaces, so the page has a beat: dark, light,
+             warm, dark, light, dark.
    ========================================================================== */
 
 /* --- 1. tokens ------------------------------------------------------------ */
 :root {
   /* surfaces */
-  --background: 40 33% 98%; /* paper: warm white, never #fff */
-  --foreground: 220 24% 9%; /* ink text on paper */
-  --ink: 220 26% 8%; /* the dark surface */
-  --ink-foreground: 40 24% 95%; /* text on ink */
-  --ink-muted: 220 12% 66%; /* secondary text on ink */
-  --sand: 36 33% 92%; /* the tinted band */
+  --ink: 220 48% 7%; /* #0A111C */
+  --ink-raised: 220 38% 11%; /* panels on ink */
+  --ink-foreground: 40 30% 96%;
+  --ink-muted: 220 14% 64%;
+  --line-on-ink: 220 22% 18%;
 
-  /* brand */
-  --primary: 356 72% 46%; /* red, carried over from kriscent.in */
+  --cream: 40 44% 96%; /* #FAF7F1 */
+  --background: 40 44% 96%;
+  --foreground: 220 40% 9%;
+
+  --white: 0 0% 100%;
+
+  /* accents */
+  --primary: 356 66% 50%; /* #D62B36 */
   --primary-foreground: 0 0% 100%;
-  --primary-soft: 356 70% 96%; /* wash behind a red detail */
+  --amber: 34 76% 53%; /* #E39B2D */
+  --teal: 175 66% 36%; /* #1F9A8C */
 
-  /* neutral */
-  --secondary: 38 26% 94%;
-  --muted-foreground: 220 10% 38%;
-  --border: 30 14% 87%; /* warm hairline, not grey */
-  --line-on-ink: 220 14% 20%;
-  --ring: 356 72% 46%;
+  /* neutrals */
+  --secondary: 38 30% 92%;
+  --muted-foreground: 220 9% 42%;
+  --border: 36 20% 87%;
+  --ring: 356 66% 50%;
 
-  /* per-surface focus colour, so the ring survives on dark bands */
-  --focus: 356 72% 46%;
-
-  --radius: 0.75rem;
+  --radius: 1rem;
 }
 
 /* --- 2. utilities --------------------------------------------------------- */
@@ -47,24 +50,27 @@
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
   --color-ink: hsl(var(--ink));
+  --color-ink-raised: hsl(var(--ink-raised));
   --color-ink-foreground: hsl(var(--ink-foreground));
   --color-ink-muted: hsl(var(--ink-muted));
-  --color-sand: hsl(var(--sand));
+  --color-line-on-ink: hsl(var(--line-on-ink));
+  --color-cream: hsl(var(--cream));
+  --color-white: hsl(var(--white));
   --color-primary: hsl(var(--primary));
   --color-primary-foreground: hsl(var(--primary-foreground));
-  --color-primary-soft: hsl(var(--primary-soft));
+  --color-amber: hsl(var(--amber));
+  --color-teal: hsl(var(--teal));
   --color-secondary: hsl(var(--secondary));
   --color-muted-foreground: hsl(var(--muted-foreground));
   --color-border: hsl(var(--border));
-  --color-line-on-ink: hsl(var(--line-on-ink));
   --color-ring: hsl(var(--ring));
 
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 6px);
+  --radius-md: calc(var(--radius) - 4px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 6px);
 
-  --font-sans: "Poppins", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
     Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
@@ -83,20 +89,19 @@
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
     font-family: var(--font-sans);
+    font-feature-settings: "cv11", "ss01";
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
 
-  /* One visible focus ring for the whole site. The colour flips on dark
-     surfaces because the classes below set --focus per surface. */
   :focus-visible {
-    outline: 2px solid hsl(var(--focus));
+    outline: 2px solid hsl(var(--focus, 356 66% 50%));
     outline-offset: 3px;
   }
 
   ::selection {
     background-color: hsl(var(--primary));
-    color: hsl(var(--primary-foreground));
+    color: #fff;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -109,52 +114,46 @@
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
-      scroll-behavior: auto !important;
     }
   }
 }
 
-/* --- 4. layout primitives -------------------------------------------------
-   .shell  the one content width on the site
-   .band   the one rhythm between sections
-   ------------------------------------------------------------------------- */
+/* --- 4. layout + surfaces ------------------------------------------------- */
 @layer components {
   .shell {
     width: 100%;
-    max-width: 78rem; /* 1248px */
+    max-width: 80rem;
     margin-inline: auto;
-    padding-inline: clamp(1.25rem, 4vw, 2.75rem);
+    padding-inline: clamp(1.25rem, 4vw, 3rem);
   }
 
   .band {
-    padding-block: clamp(3.5rem, 7vw, 6.5rem);
+    padding-block: clamp(4rem, 7.5vw, 7rem);
   }
 
   .band-sm {
-    padding-block: clamp(2.5rem, 4.5vw, 4rem);
+    padding-block: clamp(3rem, 5vw, 4.5rem);
   }
 
-  /* --- surfaces --- */
-  .surface-paper {
-    background-color: hsl(var(--background));
+  .surface-cream {
+    background-color: hsl(var(--cream));
     color: hsl(var(--foreground));
-    --focus: 356 72% 46%;
+    --focus: 356 66% 50%;
   }
 
-  .surface-sand {
-    background-color: hsl(var(--sand));
+  .surface-white {
+    background-color: hsl(var(--white));
     color: hsl(var(--foreground));
-    --focus: 356 72% 46%;
+    --focus: 356 66% 50%;
   }
 
   .surface-ink {
     background-color: hsl(var(--ink));
     color: hsl(var(--ink-foreground));
-    --focus: 40 24% 95%;
+    --focus: 40 30% 96%;
     border-color: hsl(var(--line-on-ink));
   }
 
-  /* Secondary text that follows the surface it sits on. */
   .dim {
     color: hsl(var(--muted-foreground));
   }
@@ -171,25 +170,24 @@
     border-color: hsl(var(--line-on-ink));
   }
 
-  /* --- type scale: 6 steps, no ad-hoc sizes --- */
+  /* --- type --- */
   .eyebrow {
     font-size: 0.6875rem;
     font-weight: 600;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     color: hsl(var(--primary));
   }
 
   .surface-ink .eyebrow {
-    color: hsl(var(--ink-muted));
+    color: hsl(var(--amber));
   }
 
   .display {
-    /* 36px on a phone, 60px on desktop. Both ends are measured: at 40px the
-       headline takes four lines on a 390px screen and pushes the industry chips
-       below the fold; at 68px its longest line is wider than the column it sits
-       in and runs under the product image. */
-    font-size: clamp(2.25rem, 4.6vw, 3.75rem);
+    /* 36px phone, 56px desktop. Measured: the hero headline is 1216px wide at
+       64px and 1064px at 56px, so 56 is the largest size that stays on one line
+       inside the 1184px shell and keeps the industry chips above the fold. */
+    font-size: clamp(2.25rem, 4.4vw, 3.5rem);
     line-height: 1.02;
     letter-spacing: -0.04em;
     font-weight: 600;
@@ -197,63 +195,53 @@
   }
 
   .title-section {
-    font-size: clamp(1.75rem, 3vw, 2.75rem);
-    line-height: 1.08;
-    letter-spacing: -0.03em;
+    font-size: clamp(1.75rem, 3vw, 2.625rem);
+    line-height: 1.06;
+    letter-spacing: -0.035em;
     font-weight: 600;
     text-wrap: balance;
   }
 
   .title-card {
-    font-size: 1.25rem;
+    font-size: 1.1875rem;
     line-height: 1.25;
-    letter-spacing: -0.015em;
+    letter-spacing: -0.02em;
     font-weight: 600;
   }
 
   .lead {
-    font-size: clamp(1rem, 1.15vw, 1.125rem);
-    line-height: 1.65;
-    letter-spacing: -0.005em;
+    font-size: clamp(1.0625rem, 1.2vw, 1.1875rem);
+    line-height: 1.6;
+    letter-spacing: -0.01em;
   }
 
   .body {
     font-size: 0.9375rem;
-    line-height: 1.7;
+    line-height: 1.65;
   }
 
   .meta {
     font-size: 0.75rem;
     line-height: 1.5;
-    letter-spacing: 0.01em;
   }
 
-  /* Measured paragraph widths. Text that runs the full 1248px is unreadable;
-     these caps are what make long-form copy feel composed. */
   .measure {
-    max-width: 34rem;
+    max-width: 33rem;
   }
-
   .measure-tight {
-    max-width: 26rem;
+    max-width: 24rem;
   }
 }
 
-/* --- 5. third-party field: phone number -----------------------------------
-   react-international-phone is themed here, through the CSS variables it
-   exposes, so the phone field matches the inputs around it without a single
-   `!important` in the component.
-   ------------------------------------------------------------------------- */
+/* --- 5. phone field ------------------------------------------------------- */
 .phone-field {
   --react-international-phone-height: 3rem;
-  --react-international-phone-border-radius: 0.5rem;
+  --react-international-phone-border-radius: 0.625rem;
   --react-international-phone-border-color: hsl(var(--border));
-  --react-international-phone-background-color: hsl(var(--background));
+  --react-international-phone-background-color: #fff;
   --react-international-phone-text-color: hsl(var(--foreground));
   --react-international-phone-font-size: 0.875rem;
-  --react-international-phone-country-selector-background-color: hsl(
-    var(--background)
-  );
+  --react-international-phone-country-selector-background-color: #fff;
   --react-international-phone-country-selector-background-color-hover: hsl(
     var(--secondary)
   );
@@ -265,9 +253,7 @@
   --react-international-phone-dropdown-top: calc(3rem + 6px);
   --react-international-phone-dropdown-item-height: 2.25rem;
   --react-international-phone-dropdown-item-font-size: 0.8125rem;
-  --react-international-phone-dropdown-item-background-color: hsl(
-    var(--background)
-  );
+  --react-international-phone-dropdown-item-background-color: #fff;
   --react-international-phone-dropdown-item-text-color: hsl(var(--foreground));
   --react-international-phone-selected-dropdown-item-background-color: hsl(
     var(--secondary)
@@ -276,58 +262,78 @@
     var(--foreground)
   );
   --react-international-phone-dropdown-shadow: 0 18px 40px -16px
-    hsl(var(--ink) / 0.45);
+    hsl(220 48% 7% / 0.35);
 }
 
 .phone-field .react-international-phone-input-container {
   width: 100%;
 }
-
 .phone-field .react-international-phone-country-selector-button {
   padding-inline: 0.625rem;
 }
-
 .phone-field .react-international-phone-input {
   width: 100%;
   padding-inline: 0.875rem;
 }
-
 .phone-field .react-international-phone-input:focus-visible {
   outline: 2px solid hsl(var(--primary));
   outline-offset: 1px;
 }
-
 .phone-field .react-international-phone-country-selector-dropdown {
   width: 300px;
   max-width: calc(100vw - 3rem);
   z-index: 60;
 }
-
 .phone-field--error .react-international-phone-country-selector-button,
 .phone-field--error .react-international-phone-input {
   border-color: hsl(var(--primary));
 }
 
-/* --- 6. dialog enter ------------------------------------------------------
-   Radix unmounts on close, so only the open state animates.
-   ------------------------------------------------------------------------- */
+/* --- 6. ambient ----------------------------------------------------------- */
+/* A faint grid behind the dark hero. Without it the ink surface is a flat
+   rectangle; with it the section reads as a designed backdrop. */
+.grid-veil {
+  background-image: linear-gradient(
+      to right,
+      hsl(0 0% 100% / 0.045) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, hsl(0 0% 100% / 0.045) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(120% 90% at 50% 0%, #000 30%, transparent 78%);
+}
+
+.hero-glow::before {
+  content: "";
+  position: absolute;
+  inset: -30% -10% auto auto;
+  width: 46rem;
+  height: 46rem;
+  border-radius: 9999px;
+  background: radial-gradient(
+    closest-side,
+    hsl(var(--primary) / 0.28),
+    transparent
+  );
+  filter: blur(10px);
+  pointer-events: none;
+}
+
+/* --- 7. dialog ------------------------------------------------------------ */
 @keyframes overlay-in {
   from {
     opacity: 0;
   }
 }
-
 @keyframes content-in {
   from {
     opacity: 0;
     scale: 0.985;
   }
 }
-
 .dialog-overlay[data-state="open"] {
   animation: overlay-in 180ms ease-out;
 }
-
 .dialog-content[data-state="open"] {
   animation: content-in 200ms cubic-bezier(0.22, 1, 0.36, 1);
 }

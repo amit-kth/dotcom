@@ -10,16 +10,17 @@ import { cn } from "@/lib/utils";
 /* ============================================================================
    SiteHeader
    ----------------------------------------------------------------------------
-   Three links and one action. A header with seven links is a header nobody
-   reads; these three are the only destinations that exist.
+   A permanent dark bar. It matches the ink hero, so the page opens as one
+   designed block rather than a white strip on top of a dark one, and it keeps
+   the brand consistent on the lighter /solutions page.
 
-   It sits on the paper surface and only changes twice: a hairline appears once
-   the page has scrolled, and the row gets slightly shorter. No colour inversion,
-   no logo swap, no animation.
+   The logo file is dark artwork, so it is inverted to a white wordmark here.
+   That is the one place a filter is used, and it is cheaper than maintaining a
+   second logo file.
    ========================================================================== */
 
 const NAV = [
-  { label: "Solutions", href: "/solutions" },
+  { label: "Systems", href: "/solutions" },
   { label: "How it works", href: "/#process" },
   { label: "Contact", href: "/#contact" },
 ] as const;
@@ -29,7 +30,7 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 4);
+    const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -45,33 +46,30 @@ export function SiteHeader() {
   return (
     <header
       className={cn(
-        "sticky top-0 z-40 bg-background/95 backdrop-blur-sm transition-colors duration-200",
-        scrolled || open ? "border-b border-border" : "border-b border-transparent",
+        "surface-ink sticky top-0 z-40 transition-shadow duration-200",
+        scrolled && "border-b border-line-on-ink",
+        open && "border-b border-line-on-ink",
       )}
     >
       <div className="shell">
-        <div className="flex h-16 items-center justify-between gap-6">
-          <Link
-            href="/"
-            aria-label={`${site.name} home`}
-            className="shrink-0 rounded-sm"
-          >
+        <div className="flex h-[4.5rem] items-center justify-between gap-6">
+          <Link href="/" aria-label={`${site.name} home`} className="shrink-0">
             <img
               src={asset("logo/logo.png")}
               alt={site.name}
               width={274}
               height={72}
-              className="h-7 w-auto"
+              className="h-7 w-auto brightness-0 invert"
             />
           </Link>
 
           <nav aria-label="Main" className="hidden md:block">
-            <ul className="flex items-center gap-8">
+            <ul className="flex items-center gap-9">
               {NAV.map((item) => (
                 <li key={item.label}>
                   <Link
                     href={item.href}
-                    className="rounded-sm text-[0.8125rem] font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground"
+                    className="text-[0.8125rem] font-medium text-ink-foreground/65 transition-colors duration-200 hover:text-ink-foreground"
                   >
                     {item.label}
                   </Link>
@@ -82,7 +80,11 @@ export function SiteHeader() {
 
           <div className="flex items-center gap-2">
             <div className="hidden sm:block">
-              <RequestDemoDialog size="sm" label="Book a walkthrough" />
+              <RequestDemoDialog
+                size="sm"
+                label="Book a walkthrough"
+                variant="onInk"
+              />
             </div>
 
             <button
@@ -91,7 +93,7 @@ export function SiteHeader() {
               aria-expanded={open}
               aria-controls="mobile-nav"
               aria-label={open ? "Close menu" : "Open menu"}
-              className="flex size-10 items-center justify-center rounded-md border border-border text-foreground md:hidden"
+              className="flex size-10 items-center justify-center rounded-lg border border-line-on-ink text-ink-foreground md:hidden"
             >
               {open ? (
                 <X className="size-5" aria-hidden="true" />
@@ -103,15 +105,22 @@ export function SiteHeader() {
         </div>
       </div>
 
-      <div id="mobile-nav" hidden={!open} className="border-t border-border md:hidden">
+      <div
+        id="mobile-nav"
+        hidden={!open}
+        className="border-t border-line-on-ink md:hidden"
+      >
         <nav aria-label="Mobile" className="shell py-3">
           <ul>
             {NAV.map((item) => (
-              <li key={item.label} className="border-b border-border last:border-0">
+              <li
+                key={item.label}
+                className="border-b border-line-on-ink last:border-0"
+              >
                 <Link
                   href={item.href}
                   onClick={() => setOpen(false)}
-                  className="block py-3.5 text-sm font-medium text-foreground"
+                  className="block py-3.5 text-sm font-medium text-ink-foreground"
                 >
                   {item.label}
                 </Link>

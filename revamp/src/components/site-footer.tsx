@@ -19,7 +19,7 @@ export function SiteFooter() {
       <div className="shell">
         <div className="grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr]">
           <div>
-            <p className="text-base font-semibold tracking-[-0.02em]">
+            <p className="text-lg font-semibold tracking-[-0.02em]">
               {site.name}
             </p>
             <p className="body dim measure-tight mt-3">

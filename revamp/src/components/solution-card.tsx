@@ -1,150 +1,176 @@
 import { ArrowUpRight } from "lucide-react";
-import { asset } from "@/config/variables";
 import { RequestDemoDialog } from "@/components/request-demo-dialog";
+import {
+  ProductVisual,
+  VISUAL_BY_PRODUCT,
+} from "@/components/product-visual";
 import { categoryLabel } from "@/data/categories";
 import { DELIVERY_DAYS, type Product } from "@/data/products";
-import { cn } from "@/lib/utils";
 
 /* ============================================================================
-   SolutionCard + FeatureCard
+   SolutionCard
    ----------------------------------------------------------------------------
-   A card carries four things and nothing else: what it is, what it does, two
-   outcomes, and how to act. No price, no badge of availability, no index
-   number in a gutter, no full-bleed product photo. Those four things are what
-   made the first version read like a shop listing.
+   A card is a picture of the product, a name, one sentence, two outcomes and a
+   way in. The picture is a real interface mockup, not a grey box: that single
+   change is what stops the section reading as a list of links.
 
-   The two variants exist so the grid never has an orphan row: the flagship is
-   a wide card at the top of the section, the rest are a 2 x 2 grid.
+   The flagship gets a wider card so the grid never ends on an orphan.
    ========================================================================== */
 
-function Outcomes({ items, onInk }: { items: string[]; onInk?: boolean }) {
+function Visual({ product }: { product: Product }) {
+  const visual = VISUAL_BY_PRODUCT[product.id] ?? {
+    variant: "dashboard" as const,
+    accent: "red" as const,
+  };
   return (
-    <ul className="mt-5 space-y-2">
-      {items.map((item) => (
-        <li
-          key={item}
-          className={cn(
-            "flex items-start gap-2.5 text-[0.8125rem] leading-snug",
-            onInk ? "text-ink-foreground/85" : "text-foreground/80",
-          )}
-        >
-          <span
-            aria-hidden="true"
-            className="mt-[0.5rem] h-px w-3 shrink-0 bg-primary"
-          />
-          {item}
-        </li>
-      ))}
-    </ul>
+    <ProductVisual
+      variant={visual.variant}
+      accent={visual.accent}
+      className="h-full w-full"
+    />
   );
 }
 
-function Actions({ product }: { product: Product }) {
+function Body({ product }: { product: Product }) {
   const link = product.links.find((entry) => entry.url);
 
   return (
-    <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2">
-      <RequestDemoDialog
-        product={product.name}
-        label={product.demoCtaLabel}
-        variant="link"
-        className="h-auto p-0 text-[0.8125rem] font-semibold text-primary hover:no-underline"
-      />
-      {link && (
-        <a
-          href={link.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 text-[0.8125rem] font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground"
-        >
-          {link.title}
-          <ArrowUpRight className="size-3.5" aria-hidden="true" />
-        </a>
-      )}
+    <div className="flex flex-1 flex-col p-6 sm:p-7">
+      <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.16em] text-primary">
+        {product.categories.map(categoryLabel).join(" · ")}
+      </p>
+
+      <h3 className="mt-2.5 text-[1.25rem] font-semibold leading-tight tracking-[-0.02em]">
+        {product.name}
+      </h3>
+
+      <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+        {product.description}
+      </p>
+
+      <ul className="mt-4 space-y-1.5">
+        {product.outcomes.slice(0, 2).map((item) => (
+          <li
+            key={item}
+            className="flex items-start gap-2 text-[0.8125rem] leading-snug text-foreground/75"
+          >
+            <span
+              aria-hidden="true"
+              className="mt-[0.45rem] size-1 shrink-0 rounded-full bg-amber"
+            />
+            {item}
+          </li>
+        ))}
+      </ul>
+
+      <div className="mt-auto flex flex-wrap items-center gap-x-5 gap-y-2 pt-5">
+        <RequestDemoDialog
+          product={product.name}
+          label={product.demoCtaLabel}
+          variant="link"
+          className="h-auto p-0 text-[0.8125rem] font-semibold"
+        />
+        {link && (
+          <a
+            href={link.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 text-[0.8125rem] font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground"
+          >
+            {link.title}
+            <ArrowUpRight className="size-3.5" aria-hidden="true" />
+          </a>
+        )}
+      </div>
     </div>
   );
 }
 
-/* ------------------------------------------------------------------ card */
-
 export function SolutionCard({ product }: { product: Product }) {
   return (
-    <article className="group flex h-full flex-col rounded-xl border border-border bg-background p-6 transition-all duration-200 hover:border-foreground/20 hover:shadow-[0_18px_40px_-28px_hsl(var(--ink)/0.35)] sm:p-7">
-      <p className="meta font-semibold uppercase tracking-[0.14em] text-primary">
-        {product.categories.map(categoryLabel).join(" · ")}
-      </p>
-
-      <h3 className="title-card mt-3">{product.name}</h3>
-
-      <p className="body dim mt-2">{product.description}</p>
-
-      <Outcomes items={product.outcomes.slice(0, 2)} />
-
-      <div className="mt-auto">
-        <Actions product={product} />
+    <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-white transition-all duration-300 hover:-translate-y-0.5 hover:border-foreground/15 hover:shadow-[0_28px_60px_-38px_hsl(220_48%_7%/0.45)]">
+      <div className="border-b border-border bg-secondary/50 p-2.5">
+        <div className="aspect-[16/8] overflow-hidden rounded-lg ring-1 ring-black/5">
+          <Visual product={product} />
+        </div>
       </div>
+      <Body product={product} />
     </article>
   );
 }
-
-/* ---------------------------------------------------------------- feature */
 
 export function FeatureCard({ product }: { product: Product }) {
   return (
-    <article className="grid overflow-hidden rounded-xl border border-border bg-background lg:grid-cols-[1.05fr_0.95fr]">
-      <div className="order-2 flex flex-col justify-center p-6 sm:p-9 lg:order-1 lg:py-10">
-        <div className="flex items-center gap-3">
-          <p className="meta font-semibold uppercase tracking-[0.14em] text-primary">
-            {product.categories.map(categoryLabel).join(" · ")}
+    <article className="group grid overflow-hidden rounded-2xl border border-border bg-white transition-shadow duration-300 hover:shadow-[0_34px_70px_-40px_hsl(220_48%_7%/0.45)] lg:grid-cols-[1.02fr_0.98fr]">
+      <div className="flex flex-col justify-center p-7 sm:p-9">
+        <div className="flex flex-wrap items-center gap-3">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-1 text-[0.6875rem] font-semibold uppercase tracking-[0.12em] text-primary">
+            Flagship
+          </span>
+          <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+            {product.categories.map(categoryLabel).join(" · ")} · Live in{" "}
+            {DELIVERY_DAYS} days
           </p>
-          <span aria-hidden="true" className="h-px w-6 bg-border" />
-          <p className="meta dim">Live in {DELIVERY_DAYS} days</p>
         </div>
 
-        <h3 className="title-section mt-4 text-[clamp(1.5rem,2.2vw,2rem)]">
+        <h3 className="mt-4 text-[clamp(1.5rem,2.3vw,2rem)] font-semibold leading-[1.1] tracking-[-0.03em]">
           {product.name}
         </h3>
 
-        <p className="body dim measure mt-3">{product.description}</p>
+        <p className="mt-3 max-w-md text-[0.9375rem] leading-relaxed text-muted-foreground">
+          {product.description}
+        </p>
 
-        <Outcomes items={product.outcomes} />
+        <ul className="mt-5 space-y-2">
+          {product.outcomes.map((item) => (
+            <li
+              key={item}
+              className="flex items-start gap-2.5 text-sm leading-snug text-foreground/80"
+            >
+              <span
+                aria-hidden="true"
+                className="mt-[0.5rem] size-1 shrink-0 rounded-full bg-amber"
+              />
+              {item}
+            </li>
+          ))}
+        </ul>
 
-        <div className="mt-7">
-          <Actions product={product} />
+        <div className="mt-7 flex flex-wrap items-center gap-5">
+          <RequestDemoDialog product={product.name} label="See it working" />
+          {product.links.find((l) => l.url) && (
+            <a
+              href={product.links.find((l) => l.url)!.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Product page
+              <ArrowUpRight className="size-4" aria-hidden="true" />
+            </a>
+          )}
         </div>
       </div>
 
-      <div className="order-1 border-b border-border bg-sand lg:order-2 lg:border-b-0 lg:border-l">
-        <img
-          src={asset(product.banner)}
-          alt={`${product.name} product screen`}
-          width={1200}
-          height={900}
-          loading="lazy"
-          decoding="async"
-          className="h-full max-h-[22rem] w-full object-cover"
-        />
+      <div className="order-first bg-ink p-3 sm:p-5 lg:order-last">
+        <div className="h-full overflow-hidden rounded-xl shadow-[0_20px_50px_-20px_rgba(0,0,0,0.6)]">
+          <Visual product={product} />
+        </div>
       </div>
     </article>
   );
 }
 
-/* -------------------------------------------------------------- empty state */
-
 export function NoSolutions({ label }: { label: string }) {
   return (
-    <div className="rounded-xl border border-dashed border-border px-6 py-14 text-center">
-      <p className="title-card">Nothing listed for {label} yet</p>
-      <p className="body dim mx-auto mt-2 measure-tight">
+    <div className="rounded-2xl border border-dashed border-border bg-white/60 px-6 py-16 text-center">
+      <p className="text-lg font-semibold">Nothing listed for {label} yet</p>
+      <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-muted-foreground">
         We have built more than we list here. Tell us what you run and we will
         tell you honestly whether we have done it before.
       </p>
       <div className="mt-6 flex justify-center">
-        <RequestDemoDialog
-          label="Talk to us"
-          variant="outline"
-          size="sm"
-        />
+        <RequestDemoDialog label="Talk to us" variant="outline" size="sm" />
       </div>
     </div>
   );

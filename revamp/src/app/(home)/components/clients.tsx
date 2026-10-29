@@ -49,9 +49,12 @@ export function Clients() {
             <p className={cn(T_LABEL, "text-slate-500")}>Clients</p>
             <h2
               id="clients-title"
-              className={cn(T_HEADING, "mt-4 max-w-[20ch]")}
+              className={cn(T_HEADING, "mt-4 max-w-[26ch]")}
             >
-              Judged after go-live, not at demo.
+              <span className="block whitespace-nowrap">
+                Judged after go-live,
+              </span>
+              <span className="block">not at demo.</span>
             </h2>
           </Reveal>
           <Reveal delay={0.1}>

@@ -236,4 +236,4 @@ configured in `config/variables.ts`. Wide screens use expanding columns; phones
 use expanding rows to leave room for readable addresses. Selection uses native
 buttons, while map links are siblings (never nested inside buttons). Autoplay
 pauses during interaction, when offscreen or in a hidden tab, and under reduced
-motion. An explicit playback button is available. About cards use 32px corners.
+motion. No visible playback controls are rendered. About cards use 32px corners.

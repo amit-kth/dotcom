@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { OfficeGallery } from "@/components/footer/office-gallery";
-import { ArrowUpRight, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
 import { contact, site } from "@/config/variables";
 import { asset } from "@/config/variables";
-import { SOCIAL_ICONS } from "@/components/social-icons";
+import { SOCIAL_ICONS, WhatsAppIcon } from "@/components/social-icons";
 import { buttonVariants } from "@/components/ui/button";
 import { products, DELIVERY_DAYS } from "@/data/products";
 import { categories } from "@/data/categories";
-import { SHELL, T_DISPLAY, T_LABEL } from "@/lib/ui";
+import { SHELL, T_LABEL } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 
 /* ============================================================================
@@ -60,21 +60,21 @@ export function SiteFooter() {
     <footer id="contact" className="bg-slate-950">
       <div className={SHELL}>
         {/* ---- the closing call ---- */}
-        <div className="flex flex-col gap-8 border-b border-white/15 py-[clamp(3.5rem,7vw,6rem)] lg:flex-row lg:items-center lg:justify-between lg:gap-12">
+        <div className="flex flex-row items-center gap-5 border-b border-white/15 py-8 sm:py-10 lg:flex-row lg:items-center lg:justify-between lg:gap-12">
           <div>
             <p className={cn(T_LABEL, "text-slate-300")}>Contact</p>
-            <h2 className={cn(T_DISPLAY, "mt-4 max-w-[16ch]")}>
+            <h2 className="mt-3 max-w-[20ch] text-2xl font-bold leading-tight tracking-tight sm:text-4xl">
               Tell us what you run.
             </h2>
           </div>
 
           <div className="flex shrink-0 flex-col items-start gap-4 sm:items-end">
-            <p className="text-[1rem] leading-relaxed text-slate-300">
+            <p className="hidden text-[1rem] leading-relaxed text-slate-300 sm:block">
               One call. We tell you what fits.
             </p>
             <Link
               href={contact.contactPath}
-              className={buttonVariants({ variant: "primary", size: "lg" })}
+              className={buttonVariants({ variant: "primary", size: "md" })}
             >
               Contact us
               <ArrowUpRight className="size-4" aria-hidden="true" />
@@ -85,8 +85,8 @@ export function SiteFooter() {
         <OfficeGallery />
 
         {/* ---- five columns, one baseline ---- */}
-        <div className="grid gap-x-8 gap-y-12 py-14 sm:grid-cols-2 lg:grid-cols-[1.25fr_0.9fr_0.9fr_0.9fr_1.45fr]">
-          <div>
+        <div className="grid grid-cols-2 gap-x-6 gap-y-6 border-t border-white/15 py-8 lg:grid-cols-[minmax(15rem,1.2fr)_repeat(3,minmax(0,0.8fr))_minmax(14rem,1.3fr)]">
+          <div className="col-span-2 lg:col-span-1">
             <img
               src={asset("logo/logo.png")}
               alt={site.name}
@@ -95,17 +95,17 @@ export function SiteFooter() {
               loading="lazy"
               className="h-8 w-auto brightness-0 invert"
             />
-            <p className="mt-5 max-w-[30ch] text-[1rem] leading-relaxed text-slate-300">
+            <p className="mt-3 max-w-[34ch] text-[1rem] leading-relaxed text-slate-300">
               Ready-made software, installed and supported by the team that
               built it. Live in {DELIVERY_DAYS} days.
             </p>
 
-            <ul className="mt-6 flex flex-wrap items-center gap-2">
+            <ul className="mt-4 flex flex-nowrap items-center gap-1">
               {contact.socials.map((social) => {
                 const Icon =
                   SOCIAL_ICONS[social.label as keyof typeof SOCIAL_ICONS];
                 return (
-                  <li key={social.label}>
+                  <li key={social.label} className="shrink-0">
                     <a
                       href={social.href}
                       target="_blank"
@@ -151,9 +151,9 @@ export function SiteFooter() {
             </ul>
           </nav>
 
-          <nav aria-label="Company">
+          <nav aria-label="Company" className="col-span-2 sm:col-span-1">
             <h2 className={cn(T_LABEL, "text-slate-300")}>Company</h2>
-            <ul className="mt-2 flex flex-col">
+            <ul className="mt-2 grid grid-cols-2 sm:flex sm:flex-col">
               {COMPANY_LINKS.map((item) => (
                 <li key={item.label}>
                   {item.external ? (
@@ -179,7 +179,7 @@ export function SiteFooter() {
             </ul>
           </nav>
 
-          <div>
+          <div className="col-span-2 sm:col-span-1 lg:col-span-1">
             <h2 className={cn(T_LABEL, "text-slate-300")}>Get in touch</h2>
             <ul className="mt-2 flex flex-col">
               {/* Five lines, one link: "+91-7240560001/2/3/4/5" dials the
@@ -213,13 +213,10 @@ export function SiteFooter() {
                   rel="noopener noreferrer"
                   className={cn(
                     LINK,
-                    "gap-2.5 font-medium text-blue-100 hover:text-blue-100",
+                    "gap-2.5 font-medium text-green-400 hover:text-green-300",
                   )}
                 >
-                  <MessageCircle
-                    className="size-4 shrink-0"
-                    aria-hidden="true"
-                  />
+                  <WhatsAppIcon className="size-4 shrink-0" />
                   WhatsApp us
                 </a>
               </li>

@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef, useState, type ComponentProps } from "react";
-import { ArrowUpRight, Pause, Play } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ArrowUpRight } from "lucide-react";
 import { locations, type LocationItem } from "@/data/locations";
 import { useReducedMotion } from "@/lib/use-reduced-motion";
 import { cn } from "@/lib/utils";
@@ -15,7 +14,7 @@ type OfficeGalleryProps = ComponentProps<"section"> & {
 /** Adapted from the supplied Expandable gallery; vertical on narrow phones so
  * addresses remain legible. Native buttons and sibling map links avoid nested
  * interactive elements. Autoplay pauses for keyboard, pointer, hidden tabs,
- * offscreen galleries and reduced motion, with an explicit pause control. */
+ * offscreen galleries and reduced motion, without extra playback controls. */
 export function OfficeGallery({
   list = locations,
   autoPlay = true,
@@ -23,7 +22,6 @@ export function OfficeGallery({
   ...props
 }: OfficeGalleryProps) {
   const [activeItem, setActiveItem] = useState(0);
-  const [paused, setPaused] = useState(false);
   const [hovering, setHovering] = useState(false);
   const [focused, setFocused] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -54,7 +52,6 @@ export function OfficeGallery({
   useEffect(() => {
     if (
       !autoPlay ||
-      paused ||
       hovering ||
       focused ||
       !visible ||
@@ -70,7 +67,6 @@ export function OfficeGallery({
     return () => window.clearInterval(timer);
   }, [
     autoPlay,
-    paused,
     hovering,
     focused,
     visible,
@@ -92,7 +88,7 @@ export function OfficeGallery({
       {...props}
       ref={ref}
       aria-label="Office locations gallery"
-      className={cn("py-10 sm:py-12", className)}
+      className={cn("py-6 sm:py-8", className)}
       onMouseEnter={() => setHovering(true)}
       onMouseLeave={() => setHovering(false)}
       onFocusCapture={() => setFocused(true)}
@@ -105,25 +101,8 @@ export function OfficeGallery({
         <h2 className="text-xl font-semibold tracking-tight text-slate-50 sm:text-2xl">
           Our locations
         </h2>
-        {autoPlay && !reduceMotion && list.length > 1 && (
-          <Button
-            variant="outline"
-            size="sm"
-            type="button"
-            aria-label={paused ? "Play office gallery" : "Pause office gallery"}
-            aria-pressed={paused}
-            onClick={() => setPaused((value) => !value)}
-          >
-            {paused ? (
-              <Play aria-hidden="true" />
-            ) : (
-              <Pause aria-hidden="true" />
-            )}
-            {paused ? "Play" : "Pause"}
-          </Button>
-        )}
       </div>
-      <div className="flex h-[28rem] w-full min-w-0 flex-col gap-2 md:h-80 md:flex-row">
+      <div className="flex h-[26rem] w-full min-w-0 flex-col gap-2 md:h-64 md:flex-row">
         {list.map((item, index) => {
           const active = index === activeIndex;
           return (
@@ -194,7 +173,7 @@ export function OfficeGallery({
                   href={item.mapLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="pointer-events-auto mt-3 inline-flex min-h-11 max-w-[38ch] items-start gap-2 rounded-lg text-sm leading-relaxed text-white underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-300 sm:text-base"
+                  className="pointer-events-auto mt-3 inline-flex min-h-11 max-w-[38ch] items-start gap-2 rounded-lg text-sm leading-relaxed text-white no-underline hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-300 sm:text-base"
                   aria-label={`Open ${item.city} office in Google Maps: ${item.address}`}
                 >
                   {item.address}

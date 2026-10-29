@@ -59,3 +59,16 @@ at 1440/768/390/320px have no horizontal overflow; the active address stays
 inside its panel. Phone panels stack vertically with 44px collapsed targets.
 Build, TypeScript and exported SEO checks pass. Remote ImageKit image responses
 cannot be verified here because that host is outside the outbound allowlist.
+
+
+## Footer compactness follow-up
+
+Removed the unrequested Play/Pause control and the address hover underline.
+Reduced CTA, gallery and column spacing; mobile uses a two-column link layout.
+WhatsApp now uses a green brand logo/link. Social icons use a non-wrapping row
+with enough width reserved in the desktop grid. The Clients title keeps go-live
+together and renders on two deliberate lines.
+
+Chromium checks at 1440/1024/768/691/390/320px confirmed one social row, no
+horizontal overflow, no playback button, and the Clients heading fitting its
+container. Build, TypeScript and exported SEO checks pass.

@@ -49,7 +49,7 @@ export type Product = {
   /** path under ASSETS_BASE_URL */
   banner: string;
   /** the product's own page, taken from the old site — never invented.
-      "Book a demo" always goes to /contact. */
+      "Request a demo" always goes to /contact?solution=<id>. */
   href?: string;
   /** shown in the homepage list; false = only on /solutions */
   featured: boolean;

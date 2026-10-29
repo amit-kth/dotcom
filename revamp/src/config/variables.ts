@@ -41,11 +41,10 @@ export const asset = (path: string): string => {
 /* ---------------------------------------------------------------------------
    2. API
    ---------------------------------------------------------------------------
-   The enquiry form calls exactly one function, which reads this. The Laravel
+   The contact form calls exactly one function, which reads this. The Laravel
    endpoint is not built yet; the placeholder is deliberately invalid so a
    misconfigured deploy fails loudly rather than silently posting nowhere.
 --------------------------------------------------------------------------- */
-export const API_ENDPOINT = "TODO_LARAVEL_ENDPOINT"; // e.g. "https://api.kriscent.com/enquiry"
 
 /** The contact page form posts here. Same TODO rule: while this starts with
     "TODO" the form simulates success so the states can be reviewed, and a real

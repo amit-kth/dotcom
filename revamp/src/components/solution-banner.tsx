@@ -81,16 +81,17 @@ export function SolutionBanner({
           ))}
         </ul>
 
-        {/* Two jobs, two buttons: book a demo (which is the enquiry page, not a
-            modal, because it is the second thing this reader wants) and read
-            about the product on its own page. */}
+        {/* Two jobs, two buttons. "Request a demo" opens the contact form with
+            THIS solution already filled in and the form titled after it; the
+            second button goes to the product's own page. These are the only two
+            call-to-action labels the site uses. */}
         <div className="mt-8 flex flex-wrap items-center gap-3">
           <Link
-            href={contact.contactPath}
+            href={`${contact.contactPath}?solution=${product.id}`}
             className={cn(buttonVariants({ variant: "outline", size: "md" }), "group")}
           >
             <CalendarCheck className="size-4" aria-hidden="true" />
-            Book a demo
+            Request a demo
           </Link>
 
           {product.href && (

@@ -1,10 +1,12 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
 import { Check, Loader2, Send } from "lucide-react";
 import { submitContact } from "@/lib/submit-contact";
+import { useRequestedSolution } from "@/lib/use-requested-solution";
+import { products } from "@/data/products";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 
@@ -13,7 +15,8 @@ import { buttonVariants } from "@/components/ui/button";
    ----------------------------------------------------------------------------
    The fields are the old site's, in the old order and with the old labels:
    Your Name, Your Email, Contact Number, Your Subject, Message, and a "Send
-   Message" button. The phone keeps the country picker the old form had, and its
+   Message" button. One field is new and sits above them: Solution. It is empty
+   on "Contact us" and filled in when the visitor arrived from a product banner. The phone keeps the country picker the old form had, and its
    country name is sent as `country_name`, which is what query.php expected.
 
    The only thing that changed is where it goes: `submitContact` in
@@ -30,6 +33,14 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 export function ContactForm() {
   const uid = useId();
+
+  /* filled from ?solution= when a banner sent the visitor here */
+  const requested = useRequestedSolution();
+  const [solution, setSolution] = useState("");
+
+  useEffect(() => {
+    if (requested) setSolution(requested.name);
+  }, [requested]);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -74,6 +85,7 @@ export function ContactForm() {
       country,
       subject: subject.trim(),
       message: message.trim(),
+      solution: solution || null,
     });
 
     if (result.ok) setStatus("success");
@@ -103,6 +115,24 @@ export function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-4">
+      <Field id={`${uid}-solution`} label="Solution">
+        <select
+          id={`${uid}-solution`}
+          name="solution"
+          value={solution}
+          disabled={busy}
+          onChange={(event) => setSolution(event.target.value)}
+          className="field"
+        >
+          <option value="">Not sure yet</option>
+          {products.map((product) => (
+            <option key={product.id} value={product.name}>
+              {product.name}
+            </option>
+          ))}
+        </select>
+      </Field>
+
       <div className="grid gap-4 sm:grid-cols-2">
         <Field id={`${uid}-name`} label="Your Name" required error={errors.name}>
           <input

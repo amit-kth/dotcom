@@ -15,36 +15,33 @@ import {
 } from "lucide-react";
 import { asset } from "@/config/variables";
 import { useCategory } from "@/components/category-context";
-import { counters } from "@/data/site-content";
 import { categories, type CategoryId } from "@/data/categories";
 import { DELIVERY_DAYS } from "@/data/products";
 
 /* ============================================================================
    Hero
    ----------------------------------------------------------------------------
-   PURPOSE: the visitor picks the business they run.
+   PURPOSE: the visitor picks the business they run. That is the only job of
+   this screen, and nothing here may compete with that one click.
 
-   The composition, top to bottom:
+   PRIORITY, top to bottom:
+     1  the question and the seven category chips — the focal point
+     2  the headline (ready-made, 15 days)
+     3  one line of subtext
+     4  the nav and the photograph, deliberately quiet
 
-     1  one headline, two lines, sized to end flush with the right of the
-        column at every desktop width — measured, not guessed
-     2  one sentence under it
-     3  the label, then the chips, which are the only interactive thing here
+   So the chips are 60px tall, 17px semibold, 28px of horizontal padding and a
+   16px icon: they read as buttons, not tags. The photograph behind them is
+   blurred and covered by a ~84% dark wash, because nothing sharp may sit beside
+   or behind the thing the visitor is meant to click.
 
-   The right-hand side is one photograph — a shop counter at night, faded in
-   from the left — and a blue wash. No rings, no grid, no floating panels:
-   nothing that competes with the chips.
-
-   CHIPS AT EVERY WIDTH
-   Seven chips, and the layout guarantees none of them is ever stranded:
-     >= 1120px   one row (1013px of chips in a 1030px column)
-     640-1119    4 + 3 grid
-     < 640       2 + 2 + 2 + 1, the last chip spanning both columns
+   What is deliberately NOT here: the stats strip (the figures live in About),
+   badges, mockups, outlined numerals, a second call to action.
 
    MOTION
-   Lines rise once on load, chips follow 40ms apart. Hover is a Framer spring
-   lift plus a brand sheen and icon nudge; press is a 1.5% scale. All of it is
-   transform/opacity, and all of it is off under prefers-reduced-motion.
+   The headline lands, then the chips stagger in 40ms apart — the whole entrance
+   is under 700ms. Hover is a 2px lift plus a glow, press is a 1.5% scale. All
+   of it is transform/opacity, and all of it is off under reduced motion.
    ========================================================================== */
 
 const ICONS: Record<CategoryId, LucideIcon> = {
@@ -57,12 +54,15 @@ const ICONS: Record<CategoryId, LucideIcon> = {
   "real-estate": Building2,
 };
 
+const EASE = [0.22, 0.61, 0.36, 1] as const;
+
 export function Hero() {
   const { selected, setSelected } = useCategory();
   const reduceMotion = useReducedMotion();
-  const scroller = useRef<HTMLDivElement | null>(null);
   const heroRef = useRef<HTMLElement | null>(null);
 
+  /* The click changes the chip's state and nothing else. No element in the hero
+     is added, removed or resized, so the page never shifts under the pointer. */
   const choose = (id: CategoryId) => {
     const next = selected === id ? null : id;
     setSelected(next);
@@ -70,13 +70,12 @@ export function Hero() {
     const target = document.getElementById("solutions");
     if (!target) return;
 
+    /* land on the top of the solutions list, below the sticky bar */
     const top =
       target.getBoundingClientRect().top +
       window.scrollY -
       parseFloat(
-        getComputedStyle(document.documentElement).getPropertyValue(
-          "--header-h",
-        ) || "60",
+        getComputedStyle(document.documentElement).getPropertyValue("--header-h"),
       ) -
       8;
 
@@ -86,17 +85,16 @@ export function Hero() {
   const line: Variants = reduceMotion
     ? {}
     : {
-        hidden: { opacity: 0, y: "0.4em" },
+        hidden: { opacity: 0, y: "0.35em" },
         show: {
           opacity: 1,
           y: 0,
-          transition: { duration: 0.6, ease: [0.22, 0.61, 0.36, 1] },
+          transition: { duration: 0.38, ease: EASE },
         },
       };
 
   return (
     <section id="top" className="hero" aria-labelledby="hero-title" ref={heroRef}>
-      {/* the photograph, at low opacity, under the aurora */}
       <div
         aria-hidden="true"
         className="hero-photo"
@@ -106,7 +104,7 @@ export function Hero() {
 
       <div className="shell hero-inner">
         <h1 id="hero-title" className="t-display hero-title">
-          {["Ready-made software.", null].map((text, index) =>
+          {["Ready-made software.", null].map((text) =>
             text ? (
               <span key={text} className="block overflow-hidden">
                 <motion.span
@@ -125,7 +123,7 @@ export function Hero() {
                   variants={line}
                   initial={reduceMotion ? false : "hidden"}
                   animate="show"
-                  transition={{ delay: 0.12 }}
+                  transition={{ delay: 0.06 }}
                 >
                   Live in <span className="t-accent">{DELIVERY_DAYS} days</span>.
                 </motion.span>
@@ -136,9 +134,9 @@ export function Hero() {
 
         <motion.p
           className="hero-sub"
-          initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.28, ease: [0.22, 0.61, 0.36, 1] }}
+          transition={{ duration: 0.34, delay: 0.1, ease: EASE }}
         >
           Pick your industry and we will show you what is already built for it.
         </motion.p>
@@ -149,22 +147,18 @@ export function Hero() {
             className="hero-prompt"
             initial={reduceMotion ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.4, delay: 0.36 }}
+            transition={{ duration: 0.26, delay: 0.12 }}
           >
-            <span className="hero-prompt__mark" aria-hidden="true" />
             What does your business do?
           </motion.p>
 
           <div
-            ref={scroller}
             role="group"
             aria-labelledby="industry-label"
-            className="chip-group mt-5"
+            className="chip-group"
           >
             {categories.map((category, index) => {
               const active = selected === category.id;
-              /* the selected chip swaps its industry icon for a tick: colour
-                 alone is not a state, especially at 32px */
               const Icon = active ? Check : ICONS[category.id];
 
               return (
@@ -175,43 +169,23 @@ export function Hero() {
                   aria-pressed={active}
                   data-cat={category.id}
                   className="chip"
-                  initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+                  initial={reduceMotion ? false : { opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{
-                    duration: 0.45,
-                    delay: 0.4 + index * 0.04,
-                    ease: [0.22, 0.61, 0.36, 1],
+                    duration: 0.3,
+                    delay: 0.14 + index * 0.04,
+                    ease: EASE,
                   }}
-                  whileHover={reduceMotion ? undefined : { y: -3 }}
-                  whileTap={reduceMotion ? undefined : { scale: 0.975 }}
+                  whileHover={reduceMotion ? undefined : { y: -2 }}
+                  whileTap={reduceMotion ? undefined : { scale: 0.985 }}
                 >
-                  {/* the chip's own hue, applied in CSS from --chip */}
-                  <Icon className="shrink-0" aria-hidden="true" />
+                  <Icon className="chip__icon" aria-hidden="true" />
                   {category.label}
                 </motion.button>
               );
             })}
           </div>
         </div>
-
-        {/* who we are, in three figures — the same approved numbers the About
-            band uses, quoted once here as a reason to keep reading */}
-        <motion.ul
-          className="hero-stats"
-          initial={reduceMotion ? false : { opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.62 }}
-        >
-          {[counters[0], counters[1], counters[2]].map((counter) => (
-            <li key={counter.label} className="hero-stat">
-              <b>
-                {counter.value}
-                {counter.suffix ?? ""}
-              </b>
-              {counter.label}
-            </li>
-          ))}
-        </motion.ul>
       </div>
     </section>
   );

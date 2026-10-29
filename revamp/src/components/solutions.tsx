@@ -6,7 +6,6 @@ import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion
 import { ArrowRight } from "lucide-react";
 import { useCategory } from "@/components/category-context";
 import { SolutionBanner } from "@/components/solution-banner";
-import { RequestDemoDialog } from "@/components/request-demo-dialog";
 import { categories, categoryLabel, type CategoryId } from "@/data/categories";
 import { featuredProducts, productsInCategory } from "@/data/products";
 import { buttonVariants } from "@/components/ui/button";
@@ -16,6 +15,7 @@ import {
   SelectItem,
   SelectTrigger,
 } from "@/components/ui/select";
+import { contact } from "@/config/variables";
 import { cn } from "@/lib/utils";
 
 /* ============================================================================
@@ -181,7 +181,13 @@ export function Solutions() {
                 Nothing pre-built for this yet. Talk to us.
               </h3>
               <div className="mt-8">
-                <RequestDemoDialog label="Request a demo" />
+                <Link
+                  href={contact.contactPath}
+                  className={buttonVariants({ variant: "inverse", size: "md" })}
+                >
+                  Contact us
+                  <ArrowRight className="size-4" aria-hidden="true" />
+                </Link>
               </div>
             </div>
           </div>

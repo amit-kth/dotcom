@@ -53,44 +53,59 @@ Escape, outside click or focus leaving. No focus trap — it is a menu.
 
 One system: `components/ui/button.tsx` plus `.btn` in the CSS. Variants
 primary / inverse / secondary / outline / ghost / link, sizes sm 36 · md 44 ·
-lg 52 · icon. Lucide icons are passed **by name** (`icon="arrow-up-right"` in
-`RequestDemoDialog`) because server components cannot pass a component across
-the boundary. On product banners the pair is always the same: *Book a demo*
-(outline, to `/contact`) and *Explore …* (primary, to the product page).
+lg 52 · icon. Every action is a `<Link>` or a `<button>` — there is no dialog
+component any more, so nothing needs an icon passed across a server/client
+boundary.
+
+On product banners the pair is always the same: *Request a demo* (outline, to
+`/contact?solution=<id>`) and *Explore …* (primary, to the product page). In the
+nav and the footer, *Contact us* is the outlined, quieter action, because the
+chips in the hero are the loudest thing on the page.
 
 ## Hero
 
-Two things and one decision: a headline, one sentence, then "What does your
-business do?" and seven category chips. The chips are the point, so the prompt
-carries a brand mark and a rule that runs to the edge of the column, and each
-chip is a solid pill in its own hue — deep enough for white type, with a
-hairline and an icon in the same colour. Each pill is exactly its label plus its
-icon — 32px tall, 13px label, 12px icon on desktop; 34px on a phone. Nothing
-stretches them: no `1fr` grid columns and no `flex: 1 1 auto`, so the row wraps
-instead of turning seven short words into seven long pills, which is what made
-them look wrong. Chip size lives in the base `.chip` rule and in the
-`min-width: 1024px` block, which repeats the same compact values. Never add a
-larger size further down the sheet: that is what silently overrode the smaller
-ones.
+**Purpose: the visitor picks the business they run.** Everything else on the
+screen supports that one click.
 
-A selected chip cannot be mistaken for an unselected one: the dark gradient
-flips to a bright solid in the same hue, the label and icon invert to near-black,
-a 2px white ring sits outside the pill, and the industry icon becomes a tick.
-Colour alone is not a state at 32px.
+Priority, highest first:
 
-The background is one macro photograph of real hardware: a dark circuit board
-with copper traces converging on a processor, raked by blue light. It is
-**dulled on purpose**
-(opacity 0.9, brightness 0.66, saturation 0.9) and then covered by
-`.hero::after` at `inset: 0`: 0.97 opaque at the left edge, 0.94 at 30%, 0.86 at
-55%, and still 0.76 at the right edge. The image is a backdrop everywhere — it
-is never left bright — so the type and the chip row own the surface. Plus a top
-vignette for the bar and a floor where the banner stack begins. The overlay is a
-separate layer because `.hero-aurora` is oversized (`inset: -20%`) for its
-drift, and a gradient painted on an oversized box lands its percentages
-somewhere else. No floating panels, no windows, no wireframe
-grid, no 3D ribbon, no neon rainbow — and nothing that could be mistaken for a
-small-business photo: this is a software company.
+1. the question and the seven chips — the focal point
+2. the headline ("ready-made, 15 days")
+3. one line of subtext
+4. the nav and the photograph, clearly quieter than all of the above
+
+**The chips** are 60px tall, 17px semibold, 28px of side padding, with a 16px
+icon — they read as buttons, not tags. All seven share one glass material
+(translucent fill, 1px light border, backdrop blur) because a different colour
+per chip made the row read as a spectrum instead of a set of choices; category
+identity is the icon's hue, and the hue only becomes a surface on hover and when
+selected. Selected flips to a solid light fill with dark text and a glow — the
+inverse of the unselected pill, so there is no ambiguity. The row measures
+~1177px, which fits the 1184px column from 1280px up; below that it is capped to
+a 4 + 3 break, and on a phone it wraps 2 + 2 + 2 + 1 with the last chip taking
+the full row.
+
+**The question** is 20-24px semibold, high contrast, directly above the chips.
+No mark, no rule: they pulled the eye off the words.
+
+**The headline** is one step quieter than the chips (38-60px desktop,
+32-35px phone). The subtext is one line at 18-20px, in a measure wide enough that
+it does not wrap on desktop.
+
+**Removed from the hero**: the stats strip (the figures live in About), badges,
+mockups, outlined numerals, and any second call to action.
+
+**The background** is the circuit-board photograph, blurred 14px, at 62% and
+behind a ~84% wash of the dark token, with one soft brand-blue pool under the
+chip row. Nothing sharp sits behind or beside the chips. The wash is on
+`.hero::after` at `inset: 0` — `.hero-aurora` is oversized for its drift, and a
+gradient on an oversized box lands its percentages somewhere else.
+
+**No layout shift, ever.** Clicking a chip changes `aria-pressed` and swaps a
+16px icon for a 16px tick. Nothing is added, removed or resized, so the hero
+never moves under the pointer. The click then smooth-scrolls to the top of the
+solutions list, offset for the sticky bar; clicking the selected chip again
+clears the filter.
 
 ## Solutions and the catalogue
 
@@ -133,7 +148,7 @@ initiator only. The five published lines print as one link —
 
 ## Contact
 
-`/contact` is the page every *Book a demo* points at. Left: what we are and
+`/contact` is where "Contact us" and "Request a demo" both land. Left: what we are and
 every way to reach us. Right: `components/contact-form.tsx`, which keeps the old
 site's fields, labels, order and phone-with-country behaviour, and submits
 through `lib/submit-contact.ts`.
@@ -142,6 +157,19 @@ through `lib/submit-contact.ts`.
 While it is, the form simulates success so every state can be reviewed; setting
 a real URL switches it on with no component change. The payload keeps the old
 form's names (`name`, `email`, `phone`, `country_name`, `subject`, `message`).
+
+## Call-to-action labels
+
+Two, and only two — every other variant is banned:
+
+| Where | Label | Destination | Form title |
+|---|---|---|---|
+| Nav, footer, section ends | **Contact us** | `/contact` | "Contact us", solution field empty |
+| A product banner | **Request a demo** | `/contact?solution=<id>` | "Request a demo of <product>", solution pre-filled |
+
+One form serves both. `?solution=` sets the page title and the Solution field
+(`lib/use-requested-solution.ts`); the dialog and its separate enquiry form were
+deleted rather than left as a third way in.
 
 ## The banners
 
@@ -157,7 +185,7 @@ component do not change. The brief and the production steps are in
 
 | Item | State |
 |---|---|
-| `API_ENDPOINT`, `CONTACT_ENDPOINT` | `TODO_…`; both forms simulate success until they are real |
+| `CONTACT_ENDPOINT` | `TODO_…`; the form simulates success until it is real |
 | Product problem / outcome lines | DRAFT — written from the old site, need sign-off |
 | Industries per solution | DRAFT — decides which chip finds which solution |
 | Delivery day ranges (`src/data/steps.ts`) | DRAFT — the 15-day total is approved, the split is not |

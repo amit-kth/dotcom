@@ -59,7 +59,7 @@ export default function SolutionsPage() {
                 href={contact.contactPath}
                 className={cn(buttonVariants({ variant: "secondary", size: "md" }), "group")}
               >
-                Book a demo
+                Contact us
                 <ArrowRight
                   className="size-4 transition-transform duration-200 group-hover:translate-x-0.5"
                   aria-hidden="true"
@@ -99,7 +99,7 @@ export default function SolutionsPage() {
               href={contact.contactPath}
               className={cn(buttonVariants({ variant: "primary", size: "md" }), "group")}
             >
-              Talk to us
+              Contact us
               <ArrowRight
                 className="size-4 transition-transform duration-200 group-hover:translate-x-0.5"
                 aria-hidden="true"

@@ -8,8 +8,8 @@ import {
 } from "lucide-react";
 import { contact, site } from "@/config/variables";
 import { asset } from "@/config/variables";
-import { RequestDemoDialog } from "@/components/request-demo-dialog";
 import { SOCIAL_ICONS } from "@/components/social-icons";
+import { buttonVariants } from "@/components/ui/button";
 import { products, DELIVERY_DAYS } from "@/data/products";
 import { categories } from "@/data/categories";
 
@@ -51,7 +51,7 @@ const COMPANY_LINKS: FooterLink[] = [
   { label: "Clients", href: contact.clientsPage, external: true },
   { label: "How we deliver", href: "/#delivery" },
   { label: "All solutions", href: "/solutions" },
-  { label: "Contact", href: "/contact" },
+  { label: "Contact us", href: contact.contactPath },
 ];
 
 export function SiteFooter() {
@@ -69,7 +69,13 @@ export function SiteFooter() {
             <p className="text-[1rem] leading-relaxed text-on-dark-soft">
               One call. We tell you what fits.
             </p>
-            <RequestDemoDialog label="Contact us" size="lg" icon="arrow-up-right" />
+            <Link
+              href={contact.contactPath}
+              className={buttonVariants({ variant: "primary", size: "lg" })}
+            >
+              Contact us
+              <ArrowUpRight className="size-4" aria-hidden="true" />
+            </Link>
           </div>
         </div>
 

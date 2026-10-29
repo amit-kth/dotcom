@@ -4,15 +4,20 @@ import { SiteHeader } from "@/components/site-header";
 import { CategoryProvider } from "@/components/category-context";
 import { SiteFooter } from "@/components/site-footer";
 import { ContactForm } from "@/components/contact-form";
+import { ContactHeading } from "@/components/contact-heading";
 import { contact, site } from "@/config/variables";
-import { DELIVERY_DAYS } from "@/data/products";
 
 /* ============================================================================
-   /contact  —  the page every "Book a demo" points at
+   /contact  —  where both call-to-action labels land
    ----------------------------------------------------------------------------
-   Left: what we are, and every way to reach us. Right: the old site's contact
-   form, field for field, so the enquiry arrives in the shape the backend
-   already knows.
+   Left: the title and every way to reach us. Right: the old site's contact form,
+   field for field, so the enquiry arrives in the shape the backend already
+   knows, plus the one field this site adds — the solution.
+
+   The two entry points:
+     nav and footer  ->  "Contact us"                  /contact
+     product banner  ->  "Request a demo"               /contact?solution=<id>
+   Same page, same form, one different title and one pre-filled field.
 
    The form is its own component (`components/contact-form.tsx`) and submits
    through `lib/submit-contact.ts`; the endpoint is a TODO in
@@ -36,14 +41,9 @@ export default function ContactPage() {
           <div className="grid gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16">
             {/* ---- the pitch and the details ---- */}
             <div>
-              <p className="t-label">Contact</p>
-              <h1 className="t-heading mt-4 max-w-[16ch]">
-                Tell us what you run.
-              </h1>
-              <p className="t-body mt-6 max-w-[44ch]">
-                One call is usually enough to say which solution fits, and when
-                it can be live. Every one of them ships in {DELIVERY_DAYS} days.
-              </p>
+              {/* the title is the only thing on this page that changes with the
+                  query string: "Contact us", or "Request a demo of <product>" */}
+              <ContactHeading />
 
               <ul className="mt-10 flex flex-col gap-1">
                 <li>

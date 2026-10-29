@@ -27,6 +27,8 @@ export type ContactPayload = {
   country: string;
   subject: string;
   message: string;
+  /** the product the visitor picked, or null on the general "Contact us" path */
+  solution: string | null;
 };
 
 export type ContactResult = { ok: true } | { ok: false; error: string };

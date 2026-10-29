@@ -3,12 +3,13 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowRight, ChevronDown, Menu, X } from "lucide-react";
+import { ArrowRight, ArrowUpRight, ChevronDown, Menu, X } from "lucide-react";
 import { asset, site } from "@/config/variables";
-import { RequestDemoDialog } from "@/components/request-demo-dialog";
 import { useCategory } from "@/components/category-context";
 import { categories } from "@/data/categories";
 import { featuredProducts } from "@/data/products";
+import { buttonVariants } from "@/components/ui/button";
+import { contact } from "@/config/variables";
 import { cn } from "@/lib/utils";
 
 /* ============================================================================
@@ -265,13 +266,20 @@ export function SiteHeader({ solid = false }: { solid?: boolean }) {
         </nav>
 
         <div className="flex items-center gap-2">
-          <div className="hidden sm:block">
-            <RequestDemoDialog
-              label="Contact us"
-              size="md"
-              icon="arrow-up-right"
-            />
-          </div>
+          {/* "Contact us" is a general contact action, with no product
+              attached: it opens the form with the solution field empty. It is
+              outlined on purpose — the chips, not this button, are the main
+              action in the hero. */}
+          <Link
+            href={contact.contactPath}
+            className={cn(
+              buttonVariants({ variant: "outline", size: "md" }),
+              "hidden sm:inline-flex",
+            )}
+          >
+            Contact us
+            <ArrowUpRight className="size-4" aria-hidden="true" />
+          </Link>
 
           <button
             type="button"
@@ -337,11 +345,17 @@ export function SiteHeader({ solid = false }: { solid?: boolean }) {
           </div>
 
           <div className="py-4 sm:hidden">
-            <RequestDemoDialog
-              label="Contact us"
-              className="w-full"
-              icon="arrow-up-right"
-            />
+            <Link
+              href={contact.contactPath}
+              onClick={() => setOpen(false)}
+              className={cn(
+                buttonVariants({ variant: "outline", size: "md" }),
+                "w-full",
+              )}
+            >
+              Contact us
+              <ArrowUpRight className="size-4" aria-hidden="true" />
+            </Link>
           </div>
         </nav>
       </div>

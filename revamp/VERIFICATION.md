@@ -45,3 +45,17 @@ The phone library's remote flag CDN is also blocked here.
 Scrollbar rules use standard scrollbar-color/width and an older WebKit fallback,
 with forced-colour resets. Chromium was tested; Safari and Firefox were not
 available for runtime checks. Native OS overlay-scrollbar preferences still apply.
+
+## Office gallery update
+
+About cells now use 32px corners. The shared footer's new office gallery uses
+only the supplied locations and map URLs, with a separate ImageKit base so
+existing local banners/logos are unaffected. Existing phone/contact links remain
+unchanged.
+
+Chromium: click selection, arrow-key selection, UAE map URL, pause/resume control
+and reduced-motion playback suppression pass with no page exceptions. Layouts
+at 1440/768/390/320px have no horizontal overflow; the active address stays
+inside its panel. Phone panels stack vertically with 44px collapsed targets.
+Build, TypeScript and exported SEO checks pass. Remote ImageKit image responses
+cannot be verified here because that host is outside the outbound allowlist.

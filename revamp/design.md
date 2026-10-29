@@ -227,3 +227,13 @@ There is no browser in the build sandbox, so verification is: `tsc --noEmit`,
 `npm run build` with `output: "export"`, a class audit over `out/*.html` (every
 class used exists in the emitted CSS), HTML content checks, and layout proofs
 rendered from the same tokens, type scale and spacing the build uses.
+
+## Footer office gallery
+
+`components/footer/office-gallery.tsx` adapts the supplied kriscent.in expandable
+gallery. Data is in `data/locations.ts`, with the office ImageKit base separately
+configured in `config/variables.ts`. Wide screens use expanding columns; phones
+use expanding rows to leave room for readable addresses. Selection uses native
+buttons, while map links are siblings (never nested inside buttons). Autoplay
+pauses during interaction, when offscreen or in a hidden tab, and under reduced
+motion. An explicit playback button is available. About cards use 32px corners.

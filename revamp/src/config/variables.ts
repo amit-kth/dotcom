@@ -27,6 +27,9 @@ export const ASSETS_BASE_URL = isProd
   ? "" // TODO(ImageKit): e.g. "https://ik.imagekit.io/kriscent/tr:w-auto"
   : "";
 
+/** Office photography shared with kriscent.in; other site assets stay local. */
+export const OFFICE_ASSETS_BASE_URL = "https://ik.imagekit.io/qk2ww553c";
+
 /**
  * Build a full image URL.
  * - A full http(s) URL is returned untouched, so an ImageKit or CDN banner can

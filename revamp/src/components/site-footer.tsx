@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { OfficeGallery } from "@/components/footer/office-gallery";
 import { ArrowUpRight, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { contact, site } from "@/config/variables";
 import { asset } from "@/config/variables";
@@ -80,6 +81,8 @@ export function SiteFooter() {
             </Link>
           </div>
         </div>
+
+        <OfficeGallery />
 
         {/* ---- five columns, one baseline ---- */}
         <div className="grid gap-x-8 gap-y-12 py-14 sm:grid-cols-2 lg:grid-cols-[1.25fr_0.9fr_0.9fr_0.9fr_1.45fr]">

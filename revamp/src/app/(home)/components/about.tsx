@@ -185,7 +185,7 @@ function Cell({
       whileHover={reduceMotion ? undefined : { y: -4 }}
       transition={{ type: "spring", stiffness: 260, damping: 26 }}
       className={cn(
-        "relative flex flex-col justify-center overflow-hidden rounded-2xl border p-6 sm:p-8",
+        "relative flex flex-col justify-center overflow-hidden rounded-[2rem] border p-6 sm:p-8",
         surface ?? "border-white/15 bg-white/5",
         className,
       )}

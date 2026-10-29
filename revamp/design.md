@@ -65,11 +65,11 @@ business do?" and seven category chips. The chips are the point, so they are
 56px tall on desktop, each tinted with its own hue, and the prompt line carries
 a brand mark and a rule that runs to the edge of the column.
 
-The background is one photograph, not a render: a small shop counter at night —
-an open ledger, a receipt spike, the cash tray, jars, and a phone glowing blue —
-lit by a single amber lamp, fading to black under the type. It says what the
-page is about (businesses still run on paper and one phone) without a single
-floating panel. There are no rings, no grid and no 3D glass.
+The background is one premium tech key visual: a single brushed-metal ribbon
+looping through deep navy space, traced by one electric-blue line, lit like a
+hardware launch photograph. It sits in the right two thirds and fades to black
+under the type, so the hero reads as a software company without a single
+floating panel, window or wireframe grid. No glass cards, no neon rainbow.
 
 ## Solutions and the catalogue
 

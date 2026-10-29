@@ -415,10 +415,10 @@
       padding-block: 2rem 2.5rem;
     }
 
-    /* a portrait viewport crops a 2.3:1 photograph hard, so it is aimed at the
-       counter itself and allowed further across before the fade finishes */
+    /* a portrait viewport crops a 16:9 key visual hard, so it is aimed at the
+       lit part of the form and allowed further across before the fade ends */
     .hero-photo {
-      background-position: 64% 48%;
+      background-position: 72% 50%;
       -webkit-mask-image: linear-gradient(
         100deg,
         transparent 0%,
@@ -431,6 +431,25 @@
         rgb(0 0 0 / 0.4) 30%,
         black 58%
       );
+    }
+
+    /* On a phone the copy runs the full width, so a left-to-right scrim cannot
+       protect it: the wash becomes vertical instead, dark where the type is and
+       open at the bottom where the artwork is allowed to show. */
+    .hero-aurora {
+      background:
+        linear-gradient(
+          180deg,
+          rgb(10 8 32 / 0.92) 0%,
+          rgb(10 8 32 / 0.86) 42%,
+          rgb(10 8 32 / 0.6) 68%,
+          rgb(10 8 32 / 0.24) 100%
+        ),
+        radial-gradient(
+          70% 38% at 10% 24%,
+          rgb(30 79 216 / 0.3) 0%,
+          transparent 70%
+        );
     }
 
     .hero-sub {

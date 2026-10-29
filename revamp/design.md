@@ -3,17 +3,23 @@
 What is built, why it looks the way it does, what is still placeholder, and
 what needs a decision. Banners have their own brief: `BANNER-DIRECTION.md`.
 
-## Styling: Tailwind first
+## Styling and ownership
 
-All component styling uses Tailwind utilities in TSX: layout, responsive rules,
-pseudo-elements, hover/focus/selected states, gradients, and phone-library
-internals (arbitrary descendant variants). Shared type/layout utility strings
-are in `src/lib/ui.ts`; button variants use CVA.
-
-`src/app/globals.css` contains only Tailwind imports/theme tokens, base element
-and accessibility defaults, and six custom animation keyframes. No custom
-component selectors and no `@apply` component styles. New visual changes belong
-in the component's utility classes, not in this stylesheet.
+- Use Tailwind's standard slate/blue/red/amber/etc. palette classes directly.
+  No paper, line, on-dark, or band colour aliases and no second palette in CSS.
+- Shared primitives live in `src/components/ui`: shadcn-style Input, Textarea,
+  Label and Button (CVA + Radix Slot), and Select (Radix). `components.json`
+  configures shadcn for Tailwind v4 with `cssVariables: false`.
+- Route-owned components live beside their pages: `app/(home)/components`,
+  `app/solutions/components`, and `app/contact/components`. Contact submission
+  and query helpers are in `app/contact/lib`. Global navigation, footer,
+  providers, and cross-route primitives stay in `src/components`.
+- `lib/seo.tsx` owns page metadata. GTM, Organization and WebSite schema load
+  once in `app/layout.tsx`; `components/route-tracker.tsx` reports later routes.
+- `globals.css` only contains Tailwind imports, font/header setup, base
+  accessibility defaults, animation keyframes and native scrollbar compatibility
+  rules. Scrollbars retain OS behaviour and reset in forced-colour mode.
+- Cards use larger `rounded-2xl` corners; solution banners use `rounded-3xl`.
 
 ## The page, in order, with the job of each block
 
@@ -31,17 +37,12 @@ dark instead of one long navy scroll, and each light band is a divider between
 two dark ones. `/solutions` is a light page with the same dark banners laid on
 it, and `/contact` is dark because it carries a form.
 
-## Palette — the client's values, nothing else
+## Palette
 
-```
-paper  #F8FAFC   ink    #050125   card   #FFFFFF
-blue   #2C53E0   prim   #1E4FD8   accent #CEDEFF
-soft   #E5ECF6   line   #D8DEE8   muted  #4D5566
-danger #EF4444
-```
-
-Everything is a token in `app/globals.css`. The blue appears once per block, on
-the action or the one number that matters.
+Use Tailwind's built-in palette directly: `slate-950`/`slate-50` surfaces,
+`slate-300`/`slate-600` supporting text, `blue-600` actions, and standard
+red/amber/violet/cyan/emerald accents where the content calls for them.
+No custom semantic colour aliases. The app icon uses the same blue family.
 
 ## Type
 

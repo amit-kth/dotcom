@@ -14,10 +14,10 @@ export const T_LABEL =
   "text-[0.8125rem] leading-[1.4] font-semibold uppercase tracking-[0.16em]";
 
 export const GLASS =
-  "border border-glass-border bg-glass backdrop-blur-md backdrop-saturate-150";
+  "border border-white/15 bg-white/5 backdrop-blur-md backdrop-saturate-150";
 
 export const LIGHT_BAND = [
-  "relative isolate bg-[var(--band,var(--paper))] text-on-light",
+  "relative isolate bg-slate-50 text-slate-950",
   "before:pointer-events-none before:absolute before:inset-0 before:-z-10",
   "before:bg-[radial-gradient(48%_60%_at_84%_8%,rgb(206_222_255/0.55),transparent_70%),radial-gradient(40%_50%_at_6%_92%,rgb(229_236_246/0.9),transparent_72%)]",
 ].join(" ");

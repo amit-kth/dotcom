@@ -153,7 +153,7 @@ export function SiteHeader({ solid = false }: { solid?: boolean }) {
         "after:bg-[rgb(10_8_32/0.72)] after:backdrop-blur-md after:backdrop-saturate-150 after:opacity-0",
         "after:transition-opacity after:duration-[260ms] after:content-['']",
         (scrolled || open || panel || solid) &&
-          "before:opacity-0 after:border-glass-border after:opacity-100",
+          "before:opacity-0 after:border-white/15 after:opacity-100",
       )}
     >
       <div
@@ -197,9 +197,9 @@ export function SiteHeader({ solid = false }: { solid?: boolean }) {
               aria-haspopup="true"
               onClick={() => setPanel((value) => !value)}
               className={cn(
-                "inline-flex h-9 items-center gap-1.5 rounded-[0.625rem] px-3 text-[0.9375rem] font-medium text-on-dark-soft transition-colors duration-200 hover:bg-white/[0.06] hover:text-on-dark",
+                "inline-flex h-9 items-center gap-1.5 rounded-[0.625rem] px-3 text-[0.9375rem] font-medium text-slate-300 transition-colors duration-200 hover:bg-white/[0.06] hover:text-slate-50",
                 (panel || active === "solutions") &&
-                  "bg-white/[0.09] text-on-dark shadow-[inset_0_0_0_1px_rgb(255_255_255/0.06)]",
+                  "bg-white/[0.09] text-slate-50 shadow-[inset_0_0_0_1px_rgb(255_255_255/0.06)]",
               )}
             >
               Solutions
@@ -216,13 +216,13 @@ export function SiteHeader({ solid = false }: { solid?: boolean }) {
               id="solutions-panel"
               hidden={!panel}
               className={cn(
-                "absolute top-[calc(100%+0.75rem)] left-0 z-60 w-[min(40rem,calc(100vw-3rem))] p-5 rounded-[1.25rem] border border-glass-border bg-[rgb(9_7_28/0.985)] backdrop-blur-xl backdrop-saturate-150 shadow-[0_30px_70px_-32px_rgb(0_0_0/0.85),inset_0_1px_0_rgb(255_255_255/0.06)] animate-[nav-panel-in_170ms_cubic-bezier(0.22,0.61,0.36,1)_both]",
+                "absolute top-[calc(100%+0.75rem)] left-0 z-60 w-[min(40rem,calc(100vw-3rem))] p-5 rounded-[1.25rem] border border-white/15 bg-[rgb(9_7_28/0.985)] backdrop-blur-xl backdrop-saturate-150 shadow-[0_30px_70px_-32px_rgb(0_0_0/0.85),inset_0_1px_0_rgb(255_255_255/0.06)] animate-[nav-panel-in_170ms_cubic-bezier(0.22,0.61,0.36,1)_both]",
                 "lg:left-1/2 lg:-translate-x-1/2",
               )}
             >
               <div className="grid gap-6 lg:grid-cols-[1.25fr_1fr]">
                 <div>
-                  <p className="text-xs font-semibold tracking-[0.14em] text-on-dark-faint uppercase">
+                  <p className="text-xs font-semibold tracking-[0.14em] text-slate-400 uppercase">
                     Products
                   </p>
                   <ul className="mt-2 flex flex-col">
@@ -233,10 +233,10 @@ export function SiteHeader({ solid = false }: { solid?: boolean }) {
                           onClick={() => closePanel()}
                           className="flex flex-col gap-0.5 rounded-[0.625rem] px-2.5 py-2 transition-colors duration-150 hover:bg-white/[0.06]"
                         >
-                          <span className="text-[0.9375rem] font-semibold text-on-dark">
+                          <span className="text-[0.9375rem] font-semibold text-slate-50">
                             {product.name}
                           </span>
-                          <span className="line-clamp-1 text-[0.8125rem] leading-[1.45] text-on-dark-faint">
+                          <span className="line-clamp-1 text-[0.8125rem] leading-[1.45] text-slate-400">
                             {product.problem}
                           </span>
                         </Link>
@@ -245,8 +245,8 @@ export function SiteHeader({ solid = false }: { solid?: boolean }) {
                   </ul>
                 </div>
 
-                <div className="border-t border-glass-border pt-5 lg:border-l lg:border-t-0 lg:pl-6 lg:pt-0">
-                  <p className="text-xs font-semibold tracking-[0.14em] text-on-dark-faint uppercase">
+                <div className="border-t border-white/15 pt-5 lg:border-l lg:border-t-0 lg:pl-6 lg:pt-0">
+                  <p className="text-xs font-semibold tracking-[0.14em] text-slate-400 uppercase">
                     By industry
                   </p>
                   <div className="mt-3 flex flex-wrap gap-2">
@@ -257,9 +257,9 @@ export function SiteHeader({ solid = false }: { solid?: boolean }) {
                         data-cat={category.id}
                         onClick={() => chooseIndustry(category.id)}
                         className={cn(
-                          "inline-flex h-8 items-center gap-1.5 rounded-full border border-glass-border px-[0.6875rem] text-[0.8125rem] font-medium text-on-dark-soft",
-                          "transition-colors duration-150 hover:border-glass-border-hover hover:bg-white/5 hover:text-on-dark",
-                          "before:size-1.5 before:rounded-full before:bg-[hsl(var(--chip,224)_72%_62%)] before:content-['']",
+                          "inline-flex h-8 items-center gap-1.5 rounded-full border border-white/15 px-[0.6875rem] text-[0.8125rem] font-medium text-slate-300",
+                          "transition-colors duration-150 hover:border-white/30 hover:bg-white/5 hover:text-slate-50",
+                          "before:size-1.5 before:rounded-full before:bg-[var(--chip,var(--color-blue-300))] before:content-['']",
                           categoryHue[category.id],
                         )}
                       >
@@ -271,7 +271,7 @@ export function SiteHeader({ solid = false }: { solid?: boolean }) {
                   <Link
                     href="/solutions"
                     onClick={() => closePanel()}
-                    className="mt-5 inline-flex items-center gap-1.5 text-[0.875rem] font-semibold text-accent-bright hover:underline hover:underline-offset-4"
+                    className="mt-5 inline-flex items-center gap-1.5 text-[0.875rem] font-semibold text-blue-100 hover:underline hover:underline-offset-4"
                   >
                     All solutions
                     <ArrowRight className="size-3.5" aria-hidden="true" />
@@ -287,9 +287,9 @@ export function SiteHeader({ solid = false }: { solid?: boolean }) {
               href={item.href}
               aria-current={active === item.id ? "true" : undefined}
               className={cn(
-                "inline-flex h-9 items-center gap-1.5 rounded-[0.625rem] px-3 text-[0.9375rem] font-medium text-on-dark-soft transition-colors duration-200 hover:bg-white/[0.06] hover:text-on-dark",
+                "inline-flex h-9 items-center gap-1.5 rounded-[0.625rem] px-3 text-[0.9375rem] font-medium text-slate-300 transition-colors duration-200 hover:bg-white/[0.06] hover:text-slate-50",
                 active === item.id &&
-                  "bg-white/[0.09] text-on-dark shadow-[inset_0_0_0_1px_rgb(255_255_255/0.06)]",
+                  "bg-white/[0.09] text-slate-50 shadow-[inset_0_0_0_1px_rgb(255_255_255/0.06)]",
               )}
             >
               {item.label}
@@ -319,7 +319,7 @@ export function SiteHeader({ solid = false }: { solid?: boolean }) {
             aria-expanded={open}
             aria-controls="mobile-nav"
             aria-label={open ? "Close menu" : "Open menu"}
-            className="flex size-10 items-center justify-center rounded-full border border-glass-border text-on-dark transition-colors hover:border-glass-border-hover hover:bg-glass lg:hidden"
+            className="flex size-10 items-center justify-center rounded-full border border-white/15 text-slate-50 transition-colors hover:border-white/30 hover:bg-white/5 lg:hidden"
           >
             {open ? (
               <X className="size-5" aria-hidden="true" />
@@ -333,7 +333,7 @@ export function SiteHeader({ solid = false }: { solid?: boolean }) {
       <div
         id="mobile-nav"
         hidden={!open}
-        className="absolute inset-x-0 top-full border-t border-glass-border bg-[rgb(10_8_32/0.97)] backdrop-blur-lg lg:hidden"
+        className="absolute inset-x-0 top-full border-t border-white/15 bg-[rgb(10_8_32/0.97)] backdrop-blur-lg lg:hidden"
       >
         <nav
           aria-label="Sections"
@@ -347,13 +347,13 @@ export function SiteHeader({ solid = false }: { solid?: boolean }) {
               key={item.id}
               href={item.href}
               onClick={() => setOpen(false)}
-              className="flex min-h-12 items-center border-b border-glass-border text-base font-medium text-on-dark-soft transition-colors hover:text-on-dark"
+              className="flex min-h-12 items-center border-b border-white/15 text-base font-medium text-slate-300 transition-colors hover:text-slate-50"
             >
               {item.label}
             </Link>
           ))}
 
-          <p className="mt-5 text-xs font-semibold tracking-[0.14em] text-on-dark-faint uppercase">
+          <p className="mt-5 text-xs font-semibold tracking-[0.14em] text-slate-400 uppercase">
             Products
           </p>
           <ul className="mt-1 grid grid-cols-2 gap-x-4">
@@ -362,7 +362,7 @@ export function SiteHeader({ solid = false }: { solid?: boolean }) {
                 <Link
                   href="/#solutions"
                   onClick={() => setOpen(false)}
-                  className="flex min-h-11 items-center text-[0.9375rem] font-medium text-on-dark-soft hover:text-on-dark"
+                  className="flex min-h-11 items-center text-[0.9375rem] font-medium text-slate-300 hover:text-slate-50"
                 >
                   {product.name}
                 </Link>
@@ -370,7 +370,7 @@ export function SiteHeader({ solid = false }: { solid?: boolean }) {
             ))}
           </ul>
 
-          <p className="mt-4 text-xs font-semibold tracking-[0.14em] text-on-dark-faint uppercase">
+          <p className="mt-4 text-xs font-semibold tracking-[0.14em] text-slate-400 uppercase">
             By industry
           </p>
           <div className="mt-2 flex flex-wrap gap-2">
@@ -384,9 +384,9 @@ export function SiteHeader({ solid = false }: { solid?: boolean }) {
                   setOpen(false);
                 }}
                 className={cn(
-                  "inline-flex h-8 items-center gap-1.5 rounded-full border border-glass-border px-[0.6875rem] text-[0.8125rem] font-medium text-on-dark-soft",
-                  "transition-colors duration-150 hover:border-glass-border-hover hover:bg-white/5 hover:text-on-dark",
-                  "before:size-1.5 before:rounded-full before:bg-[hsl(var(--chip,224)_72%_62%)] before:content-['']",
+                  "inline-flex h-8 items-center gap-1.5 rounded-full border border-white/15 px-[0.6875rem] text-[0.8125rem] font-medium text-slate-300",
+                  "transition-colors duration-150 hover:border-white/30 hover:bg-white/5 hover:text-slate-50",
+                  "before:size-1.5 before:rounded-full before:bg-[var(--chip,var(--color-blue-300))] before:content-['']",
                   categoryHue[category.id],
                 )}
               >

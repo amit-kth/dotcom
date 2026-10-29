@@ -72,16 +72,13 @@ export const categories: Category[] = [
 export const categoryLabel = (id: CategoryId): string =>
   categories.find((c) => c.id === id)?.label ?? id;
 
-/* The hue each category owns, as a Tailwind arbitrary property (`[--chip:224]`)
-   rather than a colour: the hue is written once and read by the icon, the dot
-   and the glow through `var(--chip)`. Written as literal strings, not
-   generated, because Tailwind reads class names from source text. */
+/** Category identity uses Tailwind palette colours, shared by hero and navigation. */
 export const categoryHue: Record<CategoryId, string> = {
-  fintech: "[--chip:224]",
-  logistics: "[--chip:190]",
-  manufacturing: "[--chip:264]",
-  healthcare: "[--chip:4]",
-  astrology: "[--chip:282]",
-  edtech: "[--chip:34]",
-  "real-estate": "[--chip:150]",
+  fintech: "[--chip:var(--color-blue-300)]",
+  logistics: "[--chip:var(--color-cyan-300)]",
+  manufacturing: "[--chip:var(--color-violet-300)]",
+  healthcare: "[--chip:var(--color-red-300)]",
+  astrology: "[--chip:var(--color-fuchsia-300)]",
+  edtech: "[--chip:var(--color-amber-300)]",
+  "real-estate": "[--chip:var(--color-emerald-300)]",
 };

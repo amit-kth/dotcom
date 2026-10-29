@@ -1,16 +1,13 @@
 "use client";
 
+import { useReducedMotion } from "@/lib/use-reduced-motion";
+
 import { useRef } from "react";
 import Link from "next/link";
-import {
-  motion,
-  useReducedMotion,
-  useScroll,
-  useTransform,
-} from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useCategory } from "@/components/category-context";
-import { SolutionBanner } from "@/components/solution-banner";
+import { SolutionBanner } from "@/app/solutions/components/solution-banner";
 import { categories, categoryLabel, type CategoryId } from "@/data/categories";
 import { featuredProducts, productsInCategory } from "@/data/products";
 import { buttonVariants } from "@/components/ui/button";
@@ -96,7 +93,7 @@ export function Solutions() {
       <div className={cn(SHELL, "pt-[clamp(4.5rem,9vw,10rem)]")}>
         <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-4">
           <div>
-            <p className={cn(T_LABEL, "text-on-light-faint")}>Solutions</p>
+            <p className={cn(T_LABEL, "text-slate-500")}>Solutions</p>
             <h2
               id="solutions-title"
               className={cn(T_HEADING, "mt-4 max-w-[24ch]")}
@@ -113,7 +110,7 @@ export function Solutions() {
           <div className="flex h-11 items-center gap-3">
             <label
               htmlFor="solutions-filter"
-              className="text-[0.9375rem] text-on-light-soft"
+              className="text-[0.9375rem] text-slate-600"
             >
               Showing
             </label>
@@ -148,7 +145,7 @@ export function Solutions() {
               <button
                 type="button"
                 onClick={clearFilter}
-                className="inline-flex min-h-11 items-center text-[0.9375rem] font-semibold text-brand underline-offset-4 hover:underline"
+                className="inline-flex min-h-11 items-center text-[0.9375rem] font-semibold text-blue-600 underline-offset-4 hover:underline"
               >
                 Clear
               </button>
@@ -183,9 +180,9 @@ export function Solutions() {
         /* A category with nothing pre-built still gets a banner-sized answer,
            never an empty area. */
         <div className="mt-12 sm:mt-16">
-          <article className="relative mx-auto flex w-full max-w-[112rem] flex-col overflow-hidden border border-white/[0.06] bg-[#0a0822] text-on-dark shadow-[var(--shadow-lift)] [--hue:var(--hue-violet)] lg:aspect-[16/7] lg:max-h-[84svh] lg:flex-row lg:items-center">
+          <article className="relative mx-auto flex w-full max-w-[112rem] flex-col overflow-hidden border border-white/[0.06] bg-slate-950 text-slate-50 shadow-[0_24px_60px_-32px_rgb(15_23_42/0.45)] [--hue:var(--color-violet-500)] lg:aspect-[16/7] lg:max-h-[84svh] lg:flex-row lg:items-center">
             <div className="relative z-2 w-full py-[clamp(1.75rem,4vw,3.5rem)] px-[max(clamp(1.5rem,4vw,3rem),calc((100%_-_80rem)/2_+_clamp(1.5rem,4vw,3rem)))] lg:w-[min(60%,44rem)]">
-              <p className={cn(T_LABEL, "text-on-dark-soft")}>
+              <p className={cn(T_LABEL, "text-slate-300")}>
                 {selected ? categoryLabel(selected) : "Solutions"}
               </p>
               <h3 className="mt-3 max-w-[20ch] text-[clamp(1.75rem,4vw,3rem)] font-bold leading-[1.04] tracking-[-0.035em]">
@@ -208,10 +205,10 @@ export function Solutions() {
       <div
         className={cn(
           SHELL,
-          "relative z-1 mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-8 sm:mt-16",
+          "relative z-1 mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-slate-200 pt-8 sm:mt-16",
         )}
       >
-        <p className="text-[1.0625rem] text-on-light-soft">
+        <p className="text-[1.0625rem] text-slate-600">
           Not sure which fits? Talk to us.
         </p>
         <Link
@@ -281,7 +278,7 @@ function StackItem({
           {children}
           <motion.div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 z-3 bg-[#070512]"
+            className="pointer-events-none absolute inset-0 z-3 bg-slate-950"
             style={{ opacity: shade }}
           />
         </div>

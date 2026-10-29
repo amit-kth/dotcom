@@ -138,3 +138,12 @@ im.crop((left, 0, left + 1680, 735)).save("public/banners/name.webp", "WEBP", qu
    bright inside the first 40% of the frame is a legibility bug.
 4. On phones the art is cropped to the right (`object-position: 78%`), so the
    product must survive losing its left third twice.
+
+## AI Calling Agents — finance team update
+
+The selected banner depicts three small friendly headset-wearing robots:
+Recovery (repayment document and confirmation), Support (help folder), and
+Sales (approved loan and growth chart). The left third stays dark for HTML
+copy; the team occupies the right. The saved creative brief above was used.
+Only `ai-calling-agents.webp` was replaced, at 1680 × 735, WebP quality 86,
+82,908 bytes. No other product artwork was modified.

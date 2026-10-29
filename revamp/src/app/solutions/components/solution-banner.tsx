@@ -11,10 +11,10 @@ import { cn } from "@/lib/utils";
 
 /** The per-product accent, written once as a variable the banner reads. */
 const HUE_CLASS: Record<Product["accentHue"], string> = {
-  blue: "[--hue:var(--hue-blue)]",
-  violet: "[--hue:var(--hue-violet)]",
-  coral: "[--hue:var(--hue-coral)]",
-  teal: "[--hue:var(--hue-teal)]",
+  blue: "[--hue:var(--color-blue-600)]",
+  violet: "[--hue:var(--color-violet-500)]",
+  coral: "[--hue:var(--color-red-500)]",
+  teal: "[--hue:var(--color-cyan-600)]",
 };
 
 /* ============================================================================
@@ -42,16 +42,16 @@ export function SolutionBanner({
   return (
     <article
       className={cn(
-        "relative mx-auto flex w-full max-w-[112rem] flex-col items-stretch overflow-hidden",
-        "border border-white/[0.06] bg-[#0a0822] text-on-dark shadow-[var(--shadow-lift)]",
-        "max-lg:bg-[linear-gradient(165deg,color-mix(in_oklch,var(--hue,var(--accent-bright))_22%,#0a0822)_0%,#0a0822_62%)]",
+        "relative mx-auto flex w-full max-w-[112rem] flex-col items-stretch overflow-hidden rounded-3xl",
+        "border border-white/[0.06] bg-slate-950 text-slate-50 shadow-[0_24px_60px_-32px_rgb(15_23_42/0.45)]",
+        "max-lg:bg-[linear-gradient(165deg,color-mix(in_oklch,var(--hue,var(--color-blue-100))_22%,var(--color-slate-950))_0%,var(--color-slate-950)_62%)]",
         "lg:aspect-[16/7] lg:max-h-[84svh] lg:flex-row lg:items-center",
-        "lg:hover:border-[color-mix(in_oklch,var(--hue,var(--accent-bright))_45%,transparent)]",
+        "lg:hover:border-[color-mix(in_oklch,var(--hue,var(--color-blue-100))_45%,transparent)]",
         HUE_CLASS[product.accentHue],
         preview && "opacity-45 saturate-50",
       )}
     >
-      <div className="relative order-2 aspect-[4/3] border-t border-glass-border lg:absolute lg:inset-0 lg:order-none lg:aspect-auto lg:border-0">
+      <div className="relative order-2 aspect-[4/3] border-t border-white/15 lg:absolute lg:inset-0 lg:order-none lg:aspect-auto lg:border-0">
         <img
           src={asset(product.banner)}
           alt=""
@@ -73,15 +73,15 @@ export function SolutionBanner({
 
       <div className="relative z-2 w-full py-[clamp(1.75rem,4vw,3.5rem)] px-[max(clamp(1.5rem,4vw,3rem),calc((100%_-_80rem)/2_+_clamp(1.5rem,4vw,3rem)))] lg:w-[min(60%,44rem)]">
         {/* only the primary industry is shown; the rest are filter tags */}
-        <p className={cn(T_LABEL, "text-on-dark-soft")}>
+        <p className={cn(T_LABEL, "text-slate-300")}>
           {categoryLabel(product.categories[0])}
         </p>
 
-        <h3 className="mt-3 text-[clamp(1.75rem,4.2vw,3.25rem)] font-bold leading-[1.02] tracking-[-0.035em] text-on-dark">
+        <h3 className="mt-3 text-[clamp(1.75rem,4.2vw,3.25rem)] font-bold leading-[1.02] tracking-[-0.035em] text-slate-50">
           {product.name}
         </h3>
 
-        <p className="mt-3 max-w-[34ch] text-[1.0625rem] leading-relaxed text-on-dark-soft">
+        <p className="mt-3 max-w-[34ch] text-[1.0625rem] leading-relaxed text-slate-300">
           {product.problem}
         </p>
 
@@ -89,11 +89,11 @@ export function SolutionBanner({
           {product.outcomes.map((outcome) => (
             <li
               key={outcome}
-              className="flex items-start gap-2.5 text-[1rem] leading-snug text-on-dark-soft"
+              className="flex items-start gap-2.5 text-[1rem] leading-snug text-slate-300"
             >
               <span
                 aria-hidden="true"
-                className="mt-2 size-1.5 shrink-0 rounded-full bg-[var(--hue,var(--accent-bright))]"
+                className="mt-2 size-1.5 shrink-0 rounded-full bg-[var(--hue,var(--color-blue-100))]"
               />
               {outcome}
             </li>

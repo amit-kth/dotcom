@@ -40,13 +40,13 @@ export function Clients() {
   return (
     <section
       id="clients"
-      className={cn(LIGHT_BAND, "[--band:var(--band-clients)] overflow-hidden")}
+      className={cn(LIGHT_BAND, "bg-slate-100 overflow-hidden")}
       aria-labelledby="clients-title"
     >
       <div className={cn(SHELL, BAND, "pb-0")}>
         <div className="flex flex-wrap items-end justify-between gap-x-12 gap-y-6">
           <Reveal>
-            <p className={cn(T_LABEL, "text-on-light-faint")}>Clients</p>
+            <p className={cn(T_LABEL, "text-slate-500")}>Clients</p>
             <h2
               id="clients-title"
               className={cn(T_HEADING, "mt-4 max-w-[20ch]")}
@@ -58,7 +58,7 @@ export function Clients() {
             <p
               className={cn(
                 T_BODY,
-                "max-w-[40ch] pb-2 text-[1rem] text-on-light-soft",
+                "max-w-[40ch] pb-2 text-[1rem] text-slate-600",
               )}
             >
               {clientLogos.length} companies so far, and every one of them on
@@ -85,17 +85,17 @@ export function Clients() {
             <figure
               key={item.id}
               className={cn(
-                "flex h-full flex-col justify-between rounded-md border border-line bg-card p-7 shadow-[var(--shadow-on-light)]",
+                "flex h-full flex-col justify-between rounded-2xl border border-slate-200 bg-white p-7 shadow-[0_24px_60px_-36px_rgb(15_23_42/0.28)]",
                 "transition-transform duration-300 hover:-translate-y-1",
                 odd && index === testimonials.length - 1 && "sm:col-span-2",
               )}
             >
               <blockquote>
-                <p className="text-[1.0625rem] leading-[1.7] text-on-light-soft">
+                <p className="text-[1.0625rem] leading-[1.7] text-slate-600">
                   {item.quote}
                 </p>
               </blockquote>
-              <figcaption className="mt-7 flex items-center gap-3 border-t border-line pt-5">
+              <figcaption className="mt-7 flex items-center gap-3 border-t border-slate-200 pt-5">
                 <img
                   src={asset(item.logo)}
                   alt=""
@@ -105,13 +105,11 @@ export function Clients() {
                   decoding="async"
                   className="h-7 w-auto max-w-[5rem] object-contain"
                 />
-                <div className="border-l border-line pl-3">
-                  <p className="text-[0.9375rem] font-semibold text-on-light">
+                <div className="border-l border-slate-200 pl-3">
+                  <p className="text-[0.9375rem] font-semibold text-slate-950">
                     {item.name}
                   </p>
-                  <p className="text-[0.875rem] text-on-light-soft">
-                    {item.role}
-                  </p>
+                  <p className="text-[0.875rem] text-slate-600">{item.role}</p>
                 </div>
               </figcaption>
             </figure>

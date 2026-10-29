@@ -41,7 +41,10 @@ export async function submitContact(
   if (CONTACT_ENDPOINT.startsWith("TODO")) {
     await new Promise((resolve) => setTimeout(resolve, 800));
     // eslint-disable-next-line no-console
-    console.info("[contact] simulated submission, endpoint not configured", payload);
+    console.info(
+      "[contact] simulated submission, endpoint not configured",
+      payload,
+    );
     return { ok: true };
   }
 

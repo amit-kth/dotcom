@@ -128,7 +128,7 @@ export const contact = {
    ---------------------------------------------------------------------------
    Every page's <title>, description, canonical path and social card live here.
    Adding a page means adding an entry to this object, then wrapping the page
-   component in <Seo page="...">. See components/seo.tsx for how it is applied.
+   component in <Seo page="...">. See lib/seo.tsx for how it is applied.
 
    `path` is the route with a leading slash and no trailing slash; the Seo
    component combines it with site.url to build the canonical and og:url.

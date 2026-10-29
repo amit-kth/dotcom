@@ -1,154 +1,16 @@
 @import "tailwindcss";
 @import "react-international-phone/style.css" layer(base);
 
-@custom-variant dark (&:is(.dark *));
-
 :root {
-  --brand: #2c53e0;
-  --brand-deep: #1e4fd8;
-  --brand-soft: #cedeff;
-  --brand-ink: #050125;
-
-  --paper: #f8fafc;
-  --paper-alt: #eef2f9;
-  --card: #ffffff;
-  --line: #d8dee8;
-  --soft: #e5ecf6;
-  --muted: #4d5566;
-
-  --destructive: #ef4444;
-
-  --destructive-on-dark: #ff8a86;
-
-  --background: var(--brand-ink);
-  --foreground: #f4f6fb;
-  --card-foreground: #f4f6fb;
-  --popover: #0d0b24;
-  --popover-foreground: #f4f6fb;
-  --primary: var(--brand-deep);
-  --primary-foreground: #ffffff;
-  --secondary: rgb(255 255 255 / 0.07);
-  --secondary-foreground: #e7eaf5;
-  --muted-foreground: #b6bccd;
-  --accent: var(--brand-soft);
-  --accent-foreground: var(--brand-ink);
-  --destructive-foreground: #ffffff;
-  --border: rgb(255 255 255 / 0.12);
-  --input: rgb(255 255 255 / 0.06);
-  --ring: var(--brand);
-
-  --chart-1: var(--brand);
-  --chart-2: #7a4dee;
-  --chart-3: #ec554c;
-  --chart-4: var(--brand-soft);
-  --chart-5: #b6bccd;
-
-  --band-base: #0a0820;
-  --band-solutions: var(--paper);
-  --band-about: #08061b;
-  --band-footer: #050314;
-  --band-delivery: var(--paper);
-  --band-clients: var(--paper-alt);
-
   --header-h: 3.75rem;
-
-  --on-dark: #f4f6fb;
-  --on-dark-soft: #b6bccd;
-  --on-dark-faint: #8d94aa;
-
-  --on-light: var(--brand-ink);
-  --on-light-soft: var(--muted);
-  --on-light-faint: #5b6478;
-
-  --accent-bright: var(--brand-soft);
-  --accent-glow: rgb(44 83 224 / 0.55);
-
-  --hue-blue: var(--brand);
-  --hue-violet: #7a4dee;
-  --hue-coral: #ec554c;
-  --hue-teal: var(--brand-deep);
-
-  --shade: #070512;
-  --glass-fill: rgb(255 255 255 / 0.06);
-  --glass-fill-hover: rgb(255 255 255 / 0.11);
-  --glass-border: rgb(255 255 255 / 0.14);
-  --glass-border-hover: rgb(255 255 255 / 0.34);
-
-  --radius: 0.75rem;
-  --radius-md: 1.25rem;
-  --radius-lg: 2rem;
-
-  --shadow-lift: 0 24px 60px -32px rgb(5 1 37 / 0.45);
-  --shadow-card: 0 40px 120px -60px rgb(5 1 37 / 0.6);
-  --shadow-on-light: 0 24px 60px -36px rgb(5 1 37 / 0.28);
 }
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-on-dark: var(--destructive-on-dark);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-
-  --color-band-base: var(--band-base);
-  --color-band-solutions: var(--band-solutions);
-  --color-band-delivery: var(--band-delivery);
-  --color-band-about: var(--band-about);
-  --color-band-clients: var(--band-clients);
-  --color-band-footer: var(--band-footer);
-
-  --color-on-dark: var(--on-dark);
-  --color-on-dark-soft: var(--on-dark-soft);
-  --color-on-dark-faint: var(--on-dark-faint);
-  --color-accent-bright: var(--accent-bright);
-  --color-accent-glow: var(--accent-glow);
-
-  --color-glass: var(--glass-fill);
-  --color-glass-border: var(--glass-border);
-  --color-glass-border-hover: var(--glass-border-hover);
-
-  --color-brand: var(--brand);
-  --color-brand-deep: var(--brand-deep);
-  --color-brand-soft: var(--brand-soft);
-  --color-brand-ink: var(--brand-ink);
-  --color-paper: var(--paper);
-  --color-paper-alt: var(--paper-alt);
-  --color-line: var(--line);
-  --color-soft: var(--soft);
-  --color-on-light: var(--on-light);
-  --color-on-light-soft: var(--on-light-soft);
-  --color-on-light-faint: var(--on-light-faint);
-
-  --radius-sm: var(--radius);
-  --radius-md: var(--radius-md);
-  --radius-lg: var(--radius-lg);
-
   --font-sans: var(--font-display), ui-sans-serif, system-ui, sans-serif;
 }
 
 @layer base {
   * {
-    border-color: var(--border);
+    border-color: var(--color-slate-200);
   }
 
   html {
@@ -160,8 +22,8 @@
   }
 
   body {
-    background-color: var(--band-base);
-    color: var(--foreground);
+    background-color: var(--color-slate-950);
+    color: var(--color-slate-50);
     font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
     font-size: 1.0625rem;
     line-height: 1.6;
@@ -170,14 +32,14 @@
   }
 
   ::selection {
-    background: var(--accent-bright);
+    background: var(--color-blue-100);
     color: oklch(16% 0.05 277.93);
   }
 
   :focus-visible {
-    outline: 2px solid var(--ring);
+    outline: 2px solid var(--color-blue-600);
     outline-offset: 3px;
-    border-radius: var(--radius);
+    border-radius: 0.75rem;
   }
 
   h1,
@@ -264,5 +126,39 @@
   to {
     opacity: 1;
     translate: 0 0;
+  }
+}
+
+/* Native standard for Firefox/current engines; WebKit fallback for older Safari.
+   Keep native scrolling and forced-colour accessibility; no JS scrollbar. */
+@layer base {
+  @supports (scrollbar-color: auto) {
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: var(--color-slate-400) var(--color-slate-950);
+    }
+  }
+  @supports not (scrollbar-color: auto) {
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--color-slate-950);
+    }
+    ::-webkit-scrollbar-thumb {
+      border: 2px solid var(--color-slate-950);
+      border-radius: 999px;
+      background: var(--color-slate-400);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--color-blue-500);
+    }
+  }
+  @media (forced-colors: active) {
+    * {
+      scrollbar-color: auto;
+      scrollbar-width: auto;
+    }
   }
 }

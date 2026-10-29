@@ -3,11 +3,20 @@
 import { useEffect, useId, useState } from "react";
 import { PhoneInput } from "react-international-phone";
 import { Check, Loader2, Send } from "lucide-react";
-import { submitContact } from "@/lib/submit-contact";
-import { useRequestedSolution } from "@/lib/use-requested-solution";
+import { submitContact } from "@/app/contact/lib/submit-contact";
+import { useRequestedSolution } from "@/app/contact/lib/use-requested-solution";
 import { products } from "@/data/products";
 import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+} from "@/components/ui/select";
 
 /* ============================================================================
    ContactForm  —  the form on /contact
@@ -33,33 +42,24 @@ type Errors = Partial<
 /* A field is a visible fill with a visible border — a one-pixel hairline is not
    a field on a dark surface. Written once because five controls share it. */
 const FIELD = cn(
-  "w-full min-h-12 rounded-xl border border-white/[0.22] bg-white/[0.07] px-3.5 py-3 text-base text-on-dark",
+  "w-full min-h-12 rounded-2xl border border-white/[0.22] bg-white/[0.07] px-3.5 py-3 text-base text-slate-50",
   "transition-[border-color,background-color] duration-[160ms]",
-  "placeholder:text-on-dark-faint hover:border-white/[0.32]",
-  "focus:border-accent-bright focus:bg-white/[0.1] focus:shadow-[0_0_0_3px_oklch(49.03%_0.2158_264.38/0.35)] focus:outline-none",
-  "aria-invalid:border-destructive",
+  "placeholder:text-slate-400 hover:border-white/[0.32]",
+  "focus:border-blue-100 focus:bg-white/[0.1] focus:shadow-[0_0_0_3px_oklch(49.03%_0.2158_264.38/0.35)] focus:outline-none",
+  "aria-invalid:border-red-500",
 );
 
 /* Tailwind descendant variants skin the phone library’s internal markup. */
 const PHONE = cn(
-  "flex min-h-12 w-full items-stretch rounded-xl border border-white/[0.22] bg-white/[0.07]",
-  "transition-colors duration-150 focus-within:border-accent-bright focus-within:bg-white/10 focus-within:ring-3 focus-within:ring-brand/35",
+  "flex min-h-12 w-full items-stretch rounded-2xl border border-white/[0.22] bg-white/[0.07]",
+  "transition-colors duration-150 focus-within:border-blue-100 focus-within:bg-white/10 focus-within:ring-3 focus-within:ring-blue-600/35",
   "[&_.react-international-phone-country-selector-button]:flex [&_.react-international-phone-country-selector-button]:h-full [&_.react-international-phone-country-selector-button]:items-center [&_.react-international-phone-country-selector-button]:gap-1.5",
   "[&_.react-international-phone-country-selector-button]:rounded-none [&_.react-international-phone-country-selector-button]:border-0 [&_.react-international-phone-country-selector-button]:border-r [&_.react-international-phone-country-selector-button]:border-white/15 [&_.react-international-phone-country-selector-button]:bg-transparent [&_.react-international-phone-country-selector-button]:pr-2 [&_.react-international-phone-country-selector-button]:pl-3.5",
-  "[&_.react-international-phone-country-selector-button__dropdown-arrow]:border-t-on-dark-soft",
-  "[&_.react-international-phone-input]:h-auto [&_.react-international-phone-input]:min-w-0 [&_.react-international-phone-input]:flex-1 [&_.react-international-phone-input]:rounded-none [&_.react-international-phone-input]:border-0 [&_.react-international-phone-input]:bg-transparent [&_.react-international-phone-input]:px-3.5 [&_.react-international-phone-input]:py-3 [&_.react-international-phone-input]:text-base [&_.react-international-phone-input]:text-on-dark [&_.react-international-phone-input]:outline-none",
-  "[&_.react-international-phone-input::placeholder]:text-on-dark-faint",
-  "[&_.react-international-phone-country-selector-dropdown]:mt-2 [&_.react-international-phone-country-selector-dropdown]:rounded-xl [&_.react-international-phone-country-selector-dropdown]:border [&_.react-international-phone-country-selector-dropdown]:border-glass-border [&_.react-international-phone-country-selector-dropdown]:bg-band-about [&_.react-international-phone-country-selector-dropdown]:text-on-dark [&_.react-international-phone-country-selector-dropdown]:shadow-[var(--shadow-card)]",
-  "[&_.react-international-phone-country-selector-dropdown__list-item--focused]:bg-white/10 [&_.react-international-phone-country-selector-dropdown__list-item-dial-code]:text-on-dark-soft",
-);
-
-/* A select is a field too, but a native one needs its own arrow on dark. */
-const SELECT = cn(
-  FIELD,
-  "appearance-none pr-11 bg-no-repeat",
-  "[background-image:linear-gradient(45deg,transparent_50%,var(--color-on-dark-soft)_50%),linear-gradient(135deg,var(--color-on-dark-soft)_50%,transparent_50%)]",
-  "[background-position:calc(100%_-_1.375rem)_calc(50%_+_1px),calc(100%_-_1rem)_calc(50%_+_1px)]",
-  "[background-size:0.375rem_0.375rem]",
+  "[&_.react-international-phone-country-selector-button__dropdown-arrow]:border-t-slate-300",
+  "[&_.react-international-phone-input]:h-auto [&_.react-international-phone-input]:min-w-0 [&_.react-international-phone-input]:flex-1 [&_.react-international-phone-input]:rounded-none [&_.react-international-phone-input]:border-0 [&_.react-international-phone-input]:bg-transparent [&_.react-international-phone-input]:px-3.5 [&_.react-international-phone-input]:py-3 [&_.react-international-phone-input]:text-base [&_.react-international-phone-input]:text-slate-50 [&_.react-international-phone-input]:outline-none",
+  "[&_.react-international-phone-input::placeholder]:text-slate-400",
+  "[&_.react-international-phone-country-selector-dropdown]:mt-2 [&_.react-international-phone-country-selector-dropdown]:rounded-2xl [&_.react-international-phone-country-selector-dropdown]:border [&_.react-international-phone-country-selector-dropdown]:border-white/15 [&_.react-international-phone-country-selector-dropdown]:bg-slate-950 [&_.react-international-phone-country-selector-dropdown]:text-slate-50 [&_.react-international-phone-country-selector-dropdown]:shadow-[0_40px_120px_-60px_rgb(15_23_42/0.6)]",
+  "[&_.react-international-phone-country-selector-dropdown__list-item--focused]:bg-white/10 [&_.react-international-phone-country-selector-dropdown__list-item-dial-code]:text-slate-300",
 );
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -132,12 +132,12 @@ export function ContactForm() {
   if (status === "success") {
     return (
       <div role="status" className="flex flex-col items-start gap-4 py-4">
-        <span className="flex size-11 items-center justify-center rounded-full bg-accent-bright text-band-base">
+        <span className="flex size-11 items-center justify-center rounded-full bg-blue-100 text-slate-950">
           <Check className="size-5" aria-hidden="true" />
         </span>
         <div>
           <p className="text-lg font-semibold">That&apos;s with us.</p>
-          <p className="mt-1 text-on-dark-soft">We will reply to {email}.</p>
+          <p className="mt-1 text-slate-300">We will reply to {email}.</p>
         </div>
       </div>
     );
@@ -148,21 +148,28 @@ export function ContactForm() {
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-4">
       <Field id={`${uid}-solution`} label="Solution">
-        <select
-          id={`${uid}-solution`}
+        <Select
           name="solution"
-          value={solution}
+          value={solution || "none"}
           disabled={busy}
-          onChange={(event) => setSolution(event.target.value)}
-          className={SELECT}
+          onValueChange={(value) => setSolution(value === "none" ? "" : value)}
         >
-          <option value="">Not sure yet</option>
-          {products.map((product) => (
-            <option key={product.id} value={product.name}>
-              {product.name}
-            </option>
-          ))}
-        </select>
+          <SelectTrigger
+            id={`${uid}-solution`}
+            surface="dark"
+            className="w-full"
+          >
+            <span className="truncate">{solution || "Not sure yet"}</span>
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="none">Not sure yet</SelectItem>
+            {products.map((product) => (
+              <SelectItem key={product.id} value={product.name}>
+                {product.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </Field>
 
       <div className="grid gap-4 sm:grid-cols-2">
@@ -172,7 +179,7 @@ export function ContactForm() {
           required
           error={errors.name}
         >
-          <input
+          <Input
             id={`${uid}-name`}
             name="name"
             autoComplete="name"
@@ -193,7 +200,7 @@ export function ContactForm() {
           required
           error={errors.email}
         >
-          <input
+          <Input
             id={`${uid}-email`}
             name="email"
             type="email"
@@ -234,10 +241,10 @@ export function ContactForm() {
                 ? `${uid}-phone-error`
                 : undefined,
             }}
-            className={cn(PHONE, errors.phone && "border-destructive")}
+            className={cn(PHONE, errors.phone && "border-red-500")}
           />
           {/* what query.php used to receive from intl-tel-input */}
-          <input type="hidden" name="country_name" value={country} />
+          <Input type="hidden" name="country_name" value={country} />
         </Field>
 
         <Field
@@ -246,7 +253,7 @@ export function ContactForm() {
           required
           error={errors.subject}
         >
-          <input
+          <Input
             id={`${uid}-subject`}
             name="subject"
             placeholder="Your subject here"
@@ -269,7 +276,7 @@ export function ContactForm() {
         required
         error={errors.message}
       >
-        <textarea
+        <Textarea
           id={`${uid}-message`}
           name="message"
           rows={5}
@@ -287,21 +294,14 @@ export function ContactForm() {
       {status === "error" && serverError && (
         <p
           role="alert"
-          className="rounded-md border border-destructive-on-dark/50 bg-destructive/15 px-3 py-2.5 text-[0.9375rem] text-on-dark"
+          className="rounded-2xl border border-red-400/50 bg-red-500/15 px-3 py-2.5 text-[0.9375rem] text-slate-50"
         >
           {serverError}
         </p>
       )}
 
       <div className="pt-1">
-        <button
-          type="submit"
-          disabled={busy}
-          className={cn(
-            buttonVariants({ variant: "primary", size: "md" }),
-            "min-w-[11rem]",
-          )}
-        >
+        <Button type="submit" disabled={busy} className="min-w-[11rem]">
           {busy ? (
             <>
               <Loader2 className="size-4 animate-spin" aria-hidden="true" />
@@ -313,7 +313,7 @@ export function ContactForm() {
               <Send className="size-4" aria-hidden="true" />
             </>
           )}
-        </button>
+        </Button>
       </div>
     </form>
   );
@@ -334,18 +334,18 @@ function Field({
 }) {
   return (
     <div className="space-y-2">
-      <label
+      <Label
         htmlFor={id}
-        className="block text-[0.8125rem] font-semibold text-on-dark-soft"
+        className="block text-[0.8125rem] font-semibold text-slate-300"
       >
         {label}
-        {required && <span className="ml-1 text-accent-bright">*</span>}
-      </label>
+        {required && <span className="ml-1 text-blue-100">*</span>}
+      </Label>
       {children}
       {error && (
         <p
           id={`${id}-error`}
-          className="text-[0.8125rem] font-medium text-destructive-on-dark"
+          className="text-[0.8125rem] font-medium text-red-400"
         >
           {error}
         </p>

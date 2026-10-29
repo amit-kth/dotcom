@@ -1,10 +1,11 @@
 "use client";
 
+import { useReducedMotion } from "@/lib/use-reduced-motion";
+
 import { useEffect, useRef, useState } from "react";
 import {
   motion,
   useInView,
-  useReducedMotion,
   useScroll,
   useTransform,
   type MotionValue,
@@ -69,16 +70,13 @@ export function Delivery() {
   return (
     <section
       id="delivery"
-      className={cn(
-        LIGHT_BAND,
-        "[--band:var(--band-delivery)] overflow-hidden",
-      )}
+      className={cn(LIGHT_BAND, "bg-slate-50 overflow-hidden")}
       aria-labelledby="delivery-title"
     >
       <div className={cn(SHELL, BAND)}>
         <div className="grid gap-x-16 gap-y-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.85fr)] lg:items-end">
           <Reveal>
-            <p className={cn(T_LABEL, "text-on-light-faint")}>How it works</p>
+            <p className={cn(T_LABEL, "text-slate-500")}>How it works</p>
             <h2
               id="delivery-title"
               className={cn(T_HEADING, "mt-4 max-w-[18ch]")}
@@ -88,9 +86,7 @@ export function Delivery() {
           </Reveal>
 
           <Reveal delay={0.1}>
-            <p
-              className={cn(T_BODY, "max-w-[40ch] text-on-light-soft lg:pb-2")}
-            >
+            <p className={cn(T_BODY, "max-w-[40ch] text-slate-600 lg:pb-2")}>
               Four stages, one team, and the date quoted before we start.
             </p>
           </Reveal>
@@ -98,12 +94,12 @@ export function Delivery() {
 
         <div ref={numberRef} className="mt-12 flex items-end gap-5 sm:mt-16">
           <p
-            className="text-[clamp(4.5rem,14vw,9rem)] font-bold leading-[0.82] tracking-[-0.05em] text-brand tabular-nums"
+            className="text-[clamp(4.5rem,14vw,9rem)] font-bold leading-[0.82] tracking-[-0.05em] text-blue-600 tabular-nums"
             aria-hidden="true"
           >
             {String(count).padStart(2, "0")}
           </p>
-          <p className="pb-3 text-[1.0625rem] font-semibold leading-snug text-on-light-soft">
+          <p className="pb-3 text-[1.0625rem] font-semibold leading-snug text-slate-600">
             days
             <br />
             to go live
@@ -116,10 +112,10 @@ export function Delivery() {
         <div ref={railRef} className="mt-10 sm:mt-12">
           {/* desktop / tablet: one rail, four stops */}
           <div className="hidden sm:block">
-            <div className="relative h-[3px] w-full rounded-full bg-line">
+            <div className="relative h-[3px] w-full rounded-full bg-slate-200">
               <motion.span
                 aria-hidden="true"
-                className="absolute inset-y-0 left-0 w-full origin-left rounded-full bg-[linear-gradient(90deg,var(--brand)_0%,#4f74ee_55%,#9db4ff_100%)]"
+                className="absolute inset-y-0 left-0 w-full origin-left rounded-full bg-[linear-gradient(90deg,var(--color-blue-600)_0%,var(--color-blue-500)_55%,var(--color-blue-300)_100%)]"
                 style={reduceMotion ? undefined : { scaleX: railFillX }}
               />
 
@@ -148,10 +144,10 @@ export function Delivery() {
                   progress={scrollYProgress}
                   reduceMotion={Boolean(reduceMotion)}
                 >
-                  <p className="text-[0.75rem] font-semibold uppercase tracking-[0.14em] text-on-light-faint">
+                  <p className="text-[0.75rem] font-semibold uppercase tracking-[0.14em] text-slate-500">
                     {step.days}
                   </p>
-                  <h3 className="mt-2 text-[1.125rem] font-semibold leading-snug tracking-[-0.02em] text-on-light">
+                  <h3 className="mt-2 text-[1.125rem] font-semibold leading-snug tracking-[-0.02em] text-slate-950">
                     {step.title}
                   </h3>
                 </Stage>
@@ -163,11 +159,11 @@ export function Delivery() {
           <ol className="relative flex flex-col gap-6 pl-8 sm:hidden">
             <span
               aria-hidden="true"
-              className="absolute bottom-2 left-[5px] top-2 w-[2px] rounded-full bg-line"
+              className="absolute bottom-2 left-[5px] top-2 w-[2px] rounded-full bg-slate-200"
             />
             <motion.span
               aria-hidden="true"
-              className="absolute bottom-2 left-[5px] top-2 w-[2px] origin-top rounded-full bg-brand"
+              className="absolute bottom-2 left-[5px] top-2 w-[2px] origin-top rounded-full bg-blue-600"
               style={reduceMotion ? undefined : { scaleY: railFillY }}
             />
             {deliverySteps.map((step, index) => (
@@ -178,10 +174,10 @@ export function Delivery() {
                 reduceMotion={Boolean(reduceMotion)}
                 marker
               >
-                <p className="text-[0.75rem] font-semibold uppercase tracking-[0.14em] text-on-light-faint">
+                <p className="text-[0.75rem] font-semibold uppercase tracking-[0.14em] text-slate-500">
                   {step.days}
                 </p>
-                <h3 className="mt-1.5 text-[1.0625rem] font-semibold tracking-[-0.02em] text-on-light">
+                <h3 className="mt-1.5 text-[1.0625rem] font-semibold tracking-[-0.02em] text-slate-950">
                   {step.title}
                 </h3>
               </Stage>
@@ -211,7 +207,7 @@ function RailStop({
   return (
     <motion.span
       aria-hidden="true"
-      className="absolute top-1/2 size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand"
+      className="absolute top-1/2 size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-600"
       style={{
         left: `${at * 100}%`,
         opacity: reduceMotion ? 1 : lit,
@@ -229,7 +225,7 @@ function RailPuck({ progress }: { progress: MotionValue<number> }) {
   return (
     <motion.span
       aria-hidden="true"
-      className="absolute top-1/2 size-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white bg-brand shadow-[0_0_0_5px_rgb(44_83_224_/_0.14),0_0_18px_2px_rgb(44_83_224_/_0.45)]"
+      className="absolute top-1/2 size-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white bg-blue-600 shadow-[0_0_0_5px_rgb(44_83_224_/_0.14),0_0_18px_2px_rgb(44_83_224_/_0.45)]"
       style={{ left, opacity }}
     />
   );
@@ -259,7 +255,7 @@ function Stage({
       className={cn(
         "relative",
         marker &&
-          "before:absolute before:-left-8 before:top-[0.4375rem] before:-ml-[0.3125rem] before:size-3 before:rounded-full before:border-2 before:border-brand before:bg-paper before:content-['']",
+          "before:absolute before:-left-8 before:top-[0.4375rem] before:-ml-[0.3125rem] before:size-3 before:rounded-full before:border-2 before:border-blue-600 before:bg-slate-50 before:content-['']",
       )}
       style={reduceMotion ? undefined : { opacity, y }}
     >

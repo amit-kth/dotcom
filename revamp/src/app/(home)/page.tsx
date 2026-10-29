@@ -1,11 +1,11 @@
-import { Seo } from "@/components/seo";
+import { Seo } from "@/lib/seo";
 import { SiteHeader } from "@/components/site-header";
 import { CategoryProvider } from "@/components/category-context";
-import { Hero } from "@/components/hero";
-import { Solutions } from "@/components/solutions";
-import { Delivery } from "@/components/sections/delivery";
-import { About } from "@/components/sections/about";
-import { Clients } from "@/components/sections/clients";
+import { Hero } from "@/app/(home)/components/hero";
+import { Solutions } from "@/app/(home)/components/solutions";
+import { Delivery } from "@/app/(home)/components/delivery";
+import { About } from "@/app/(home)/components/about";
+import { Clients } from "@/app/(home)/components/clients";
 import { SiteFooter } from "@/components/site-footer";
 
 /* ============================================================================

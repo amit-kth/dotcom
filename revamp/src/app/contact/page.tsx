@@ -1,17 +1,17 @@
 import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
-import { Seo } from "@/components/seo";
+import { Seo } from "@/lib/seo";
 import { SiteHeader } from "@/components/site-header";
 import { CategoryProvider } from "@/components/category-context";
 import { SiteFooter } from "@/components/site-footer";
-import { ContactForm } from "@/components/contact-form";
-import { ContactHeading } from "@/components/contact-heading";
+import { ContactForm } from "@/app/contact/components/contact-form";
+import { ContactHeading } from "@/app/contact/components/contact-heading";
 import { contact, site } from "@/config/variables";
 import { SHELL } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 
 /** The contact rows: 44px tall, and the only motion is a 2px nudge. */
 const LINK =
-  "flex min-h-11 items-center text-on-dark-soft transition-[color,transform] duration-200 hover:translate-x-0.5 hover:text-on-dark";
+  "flex min-h-11 items-center text-slate-300 transition-[color,transform] duration-200 hover:translate-x-0.5 hover:text-slate-50";
 
 /* ============================================================================
    /contact  —  where both call-to-action labels land
@@ -42,7 +42,7 @@ export default function ContactPage() {
       <CategoryProvider>
         <SiteHeader />
 
-        <main className="bg-band-base">
+        <main className="bg-slate-950">
           <div
             className={cn(
               SHELL,
@@ -60,10 +60,10 @@ export default function ContactPage() {
                   <li>
                     <a
                       href={`mailto:${contact.emails.sales}`}
-                      className={cn(LINK, "gap-3 text-[1rem] text-on-dark")}
+                      className={cn(LINK, "gap-3 text-[1rem] text-slate-50")}
                     >
                       <Mail
-                        className="size-4 shrink-0 text-accent-bright"
+                        className="size-4 shrink-0 text-blue-100"
                         aria-hidden="true"
                       />
                       {contact.emails.sales}
@@ -72,10 +72,10 @@ export default function ContactPage() {
                   <li>
                     <a
                       href={`mailto:${contact.emails.general}`}
-                      className={cn(LINK, "gap-3 text-[1rem] text-on-dark")}
+                      className={cn(LINK, "gap-3 text-[1rem] text-slate-50")}
                     >
                       <Mail
-                        className="size-4 shrink-0 text-accent-bright"
+                        className="size-4 shrink-0 text-blue-100"
                         aria-hidden="true"
                       />
                       {contact.emails.general}
@@ -86,11 +86,11 @@ export default function ContactPage() {
                       href={contact.phoneHref}
                       className={cn(
                         LINK,
-                        "gap-3 text-[1rem] tabular-nums text-on-dark",
+                        "gap-3 text-[1rem] tabular-nums text-slate-50",
                       )}
                     >
                       <Phone
-                        className="size-4 shrink-0 text-accent-bright"
+                        className="size-4 shrink-0 text-blue-100"
                         aria-hidden="true"
                       />
                       {contact.phoneLine}
@@ -103,7 +103,7 @@ export default function ContactPage() {
                       rel="noopener noreferrer"
                       className={cn(
                         LINK,
-                        "gap-3 text-[1rem] font-medium text-accent-bright hover:text-accent-bright",
+                        "gap-3 text-[1rem] font-medium text-blue-100 hover:text-blue-100",
                       )}
                     >
                       <MessageCircle
@@ -113,23 +113,23 @@ export default function ContactPage() {
                       WhatsApp us
                     </a>
                   </li>
-                  <li className="flex min-h-11 items-center gap-3 text-[1rem] text-on-dark-soft">
+                  <li className="flex min-h-11 items-center gap-3 text-[1rem] text-slate-300">
                     <MapPin
-                      className="size-4 shrink-0 text-accent-bright"
+                      className="size-4 shrink-0 text-blue-100"
                       aria-hidden="true"
                     />
                     {contact.locality}
                   </li>
                 </ul>
 
-                <p className="mt-8 max-w-[40ch] border-t border-glass-border pt-6 text-[0.9375rem] leading-relaxed text-on-dark-faint">
+                <p className="mt-8 max-w-[40ch] border-t border-white/15 pt-6 text-[0.9375rem] leading-relaxed text-slate-400">
                   {site.legalName}. We build the software, install it and
                   support it — the enquiry goes to that same team.
                 </p>
               </div>
 
               {/* ---- the form ---- */}
-              <div className="rounded-md border border-glass-border bg-glass p-6 sm:p-8">
+              <div className="rounded-2xl border border-white/15 bg-white/5 p-6 sm:p-8">
                 <ContactForm />
               </div>
             </div>

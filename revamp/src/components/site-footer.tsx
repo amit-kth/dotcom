@@ -52,23 +52,23 @@ const COMPANY_LINKS: FooterLink[] = [
 
 /** One row of the footer: 44px tall, and the only motion is a 2px nudge. */
 const LINK =
-  "flex min-h-11 items-center text-[0.9375rem] text-on-dark-soft transition-[color,transform] duration-200 hover:translate-x-0.5 hover:text-on-dark";
+  "flex min-h-11 items-center text-[0.9375rem] text-slate-300 transition-[color,transform] duration-200 hover:translate-x-0.5 hover:text-slate-50";
 
 export function SiteFooter() {
   return (
-    <footer id="contact" className="bg-band-footer">
+    <footer id="contact" className="bg-slate-950">
       <div className={SHELL}>
         {/* ---- the closing call ---- */}
-        <div className="flex flex-col gap-8 border-b border-glass-border py-[clamp(3.5rem,7vw,6rem)] lg:flex-row lg:items-center lg:justify-between lg:gap-12">
+        <div className="flex flex-col gap-8 border-b border-white/15 py-[clamp(3.5rem,7vw,6rem)] lg:flex-row lg:items-center lg:justify-between lg:gap-12">
           <div>
-            <p className={cn(T_LABEL, "text-on-dark-soft")}>Contact</p>
+            <p className={cn(T_LABEL, "text-slate-300")}>Contact</p>
             <h2 className={cn(T_DISPLAY, "mt-4 max-w-[16ch]")}>
               Tell us what you run.
             </h2>
           </div>
 
           <div className="flex shrink-0 flex-col items-start gap-4 sm:items-end">
-            <p className="text-[1rem] leading-relaxed text-on-dark-soft">
+            <p className="text-[1rem] leading-relaxed text-slate-300">
               One call. We tell you what fits.
             </p>
             <Link
@@ -92,7 +92,7 @@ export function SiteFooter() {
               loading="lazy"
               className="h-8 w-auto brightness-0 invert"
             />
-            <p className="mt-5 max-w-[30ch] text-[1rem] leading-relaxed text-on-dark-soft">
+            <p className="mt-5 max-w-[30ch] text-[1rem] leading-relaxed text-slate-300">
               Ready-made software, installed and supported by the team that
               built it. Live in {DELIVERY_DAYS} days.
             </p>
@@ -108,7 +108,7 @@ export function SiteFooter() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`${site.name} on ${social.label}`}
-                      className="flex size-11 items-center justify-center rounded-full border border-glass-border text-on-dark-soft transition-[background-color,border-color,color,transform] duration-200 hover:-translate-y-0.5 hover:border-glass-border-hover hover:bg-white/[0.07] hover:text-on-dark"
+                      className="flex size-11 items-center justify-center rounded-full border border-white/15 text-slate-300 transition-[background-color,border-color,color,transform] duration-200 hover:-translate-y-0.5 hover:border-white/30 hover:bg-white/[0.07] hover:text-slate-50"
                     >
                       {Icon ? (
                         <Icon className="size-[1.05rem]" />
@@ -123,7 +123,7 @@ export function SiteFooter() {
           </div>
 
           <nav aria-label="Solutions">
-            <h2 className={cn(T_LABEL, "text-on-dark-soft")}>Solutions</h2>
+            <h2 className={cn(T_LABEL, "text-slate-300")}>Solutions</h2>
             <ul className="mt-2 flex flex-col">
               {products.map((product) => (
                 <li key={product.id}>
@@ -136,7 +136,7 @@ export function SiteFooter() {
           </nav>
 
           <nav aria-label="Industries">
-            <h2 className={cn(T_LABEL, "text-on-dark-soft")}>Industries</h2>
+            <h2 className={cn(T_LABEL, "text-slate-300")}>Industries</h2>
             <ul className="mt-2 flex flex-col">
               {categories.map((category) => (
                 <li key={category.id}>
@@ -149,7 +149,7 @@ export function SiteFooter() {
           </nav>
 
           <nav aria-label="Company">
-            <h2 className={cn(T_LABEL, "text-on-dark-soft")}>Company</h2>
+            <h2 className={cn(T_LABEL, "text-slate-300")}>Company</h2>
             <ul className="mt-2 flex flex-col">
               {COMPANY_LINKS.map((item) => (
                 <li key={item.label}>
@@ -177,7 +177,7 @@ export function SiteFooter() {
           </nav>
 
           <div>
-            <h2 className={cn(T_LABEL, "text-on-dark-soft")}>Get in touch</h2>
+            <h2 className={cn(T_LABEL, "text-slate-300")}>Get in touch</h2>
             <ul className="mt-2 flex flex-col">
               {/* Five lines, one link: "+91-7240560001/2/3/4/5" dials the
                   first. Splitting them into five 44px rows made the column
@@ -210,7 +210,7 @@ export function SiteFooter() {
                   rel="noopener noreferrer"
                   className={cn(
                     LINK,
-                    "gap-2.5 font-medium text-accent-bright hover:text-accent-bright",
+                    "gap-2.5 font-medium text-blue-100 hover:text-blue-100",
                   )}
                 >
                   <MessageCircle
@@ -220,7 +220,7 @@ export function SiteFooter() {
                   WhatsApp us
                 </a>
               </li>
-              <li className="flex min-h-11 items-center gap-2.5 text-[0.9375rem] text-on-dark-soft">
+              <li className="flex min-h-11 items-center gap-2.5 text-[0.9375rem] text-slate-300">
                 <MapPin className="size-4 shrink-0" aria-hidden="true" />
                 {contact.locality}
               </li>
@@ -230,14 +230,14 @@ export function SiteFooter() {
       </div>
 
       {/* ---- legal bar ---- */}
-      <div className="border-t border-glass-border">
+      <div className="border-t border-white/15">
         <div
           className={cn(
             SHELL,
             "flex flex-col gap-2 py-5 sm:flex-row sm:items-center sm:justify-between",
           )}
         >
-          <p className="text-[0.875rem] text-on-dark-faint">
+          <p className="text-[0.875rem] text-slate-400">
             © {new Date().getFullYear()} {site.legalName}. All rights reserved.
           </p>
           <div className="flex flex-wrap items-center gap-6">
@@ -247,7 +247,7 @@ export function SiteFooter() {
               href="https://kriscent.in/terms-conditions"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-h-11 items-center text-[0.875rem] text-on-dark-faint transition-colors hover:text-on-dark-soft"
+              className="inline-flex min-h-11 items-center text-[0.875rem] text-slate-400 transition-colors hover:text-slate-300"
             >
               Terms &amp; conditions
             </a>
@@ -255,7 +255,7 @@ export function SiteFooter() {
               href="https://kriscent.in"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-h-11 items-center gap-1.5 text-[0.875rem] text-on-dark-faint transition-colors hover:text-on-dark-soft"
+              className="inline-flex min-h-11 items-center gap-1.5 text-[0.875rem] text-slate-400 transition-colors hover:text-slate-300"
             >
               kriscent.in
               <ArrowUpRight className="size-3.5" aria-hidden="true" />

@@ -2,7 +2,7 @@
 
 import { T_BODY, T_HEADING, T_LABEL } from "@/lib/ui";
 import { cn } from "@/lib/utils";
-import { useRequestedSolution } from "@/lib/use-requested-solution";
+import { useRequestedSolution } from "@/app/contact/lib/use-requested-solution";
 
 /* ============================================================================
    ContactHeading  —  the one line that changes with the query string
@@ -21,7 +21,7 @@ export function ContactHeading() {
 
   return (
     <>
-      <p className={cn(T_LABEL, "text-on-dark-soft")}>
+      <p className={cn(T_LABEL, "text-slate-300")}>
         {solution ? "Request a demo" : "Contact"}
       </p>
 
@@ -29,14 +29,14 @@ export function ContactHeading() {
         {solution ? (
           <>
             Request a demo of{" "}
-            <span className="text-accent-bright">{solution.name}</span>
+            <span className="text-blue-100">{solution.name}</span>
           </>
         ) : (
           "Contact us"
         )}
       </h1>
 
-      <p className={cn(T_BODY, "mt-6 max-w-[44ch] text-on-dark-soft")}>
+      <p className={cn(T_BODY, "mt-6 max-w-[44ch] text-slate-300")}>
         {solution
           ? solution.problem
           : "One call is usually enough to say which solution fits, and when it can be live."}

@@ -1,7 +1,9 @@
 "use client";
 
+import { useReducedMotion } from "@/lib/use-reduced-motion";
+
 import { useEffect, useRef, useState } from "react";
-import { motion, useInView, useReducedMotion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { asset } from "@/config/variables";
 import { certifications, company, counters } from "@/data/site-content";
 import { BAND, SHELL, T_HEADING, T_LABEL } from "@/lib/ui";
@@ -11,13 +13,13 @@ import { cn } from "@/lib/utils";
    single material, so they live here rather than being spelled out twice. */
 const RED = [
   "border-white/[0.22]",
-  "bg-[radial-gradient(120%_120%_at_12%_0%,#f4685f_0%,#e03127_46%,#b8160f_100%)]",
+  "bg-[radial-gradient(120%_120%_at_12%_0%,var(--color-red-400)_0%,var(--color-red-600)_46%,var(--color-red-800)_100%)]",
   "shadow-[inset_0_1px_0_rgb(255_255_255/0.28),0_30px_70px_-34px_rgb(224_49_39/0.65)]",
 ].join(" ");
 
 const GOLD = [
   "border-[rgb(255_214_122/0.45)]",
-  "bg-[linear-gradient(118deg,#fff6dc_0%,#ffe6a8_26%,#f7cf74_48%,#ffeec4_68%,#f3c65c_100%)] bg-[length:220%_220%]",
+  "bg-[linear-gradient(118deg,var(--color-amber-50)_0%,var(--color-amber-200)_26%,var(--color-amber-300)_48%,var(--color-amber-100)_68%,var(--color-amber-400)_100%)] bg-[length:220%_220%]",
   "animate-[gold-drift_14s_ease-in-out_infinite_alternate]",
   "shadow-[inset_0_1px_0_rgb(255_255_255/0.9),0_30px_80px_-34px_rgb(247_207_116/0.85)]",
   /* the bloom + grain: a soft highlight over a faint diagonal tooth */
@@ -47,7 +49,7 @@ export function About() {
   return (
     <section
       id="about"
-      className="relative overflow-hidden bg-band-about"
+      className="relative overflow-hidden bg-slate-950"
       aria-labelledby="about-title"
     >
       <div
@@ -57,10 +59,10 @@ export function About() {
 
       <div className={cn(SHELL, BAND, "relative z-1")}>
         <div>
-          <p className={cn(T_LABEL, "text-on-dark-soft")}>About Kriscent</p>
+          <p className={cn(T_LABEL, "text-slate-300")}>About Kriscent</p>
           <h2 id="about-title" className={cn(T_HEADING, "mt-4 max-w-[22ch]")}>
-            <span className="text-brand">13</span> years of shipping software,
-            from Kota.
+            <span className="text-blue-600">13</span> years of shipping
+            software, from Kota.
           </h2>
         </div>
 
@@ -78,16 +80,16 @@ export function About() {
           {/* the headline number */}
           <Cell className="lg:col-span-7">
             <Counter value={counters[0]} size="huge" />
-            <p className="mt-6 max-w-[34ch] text-[1.0625rem] leading-relaxed text-on-dark-soft">
+            <p className="mt-6 max-w-[34ch] text-[1.0625rem] leading-relaxed text-slate-300">
               {company.line}
             </p>
           </Cell>
 
           {/* the certifications, at a size you can actually read */}
           <Cell surface={GOLD} className="lg:col-span-5">
-            <p className={cn(T_LABEL, "text-[#6b4e00]")}>Certified</p>
+            <p className={cn(T_LABEL, "text-amber-800")}>Certified</p>
             <div className="mt-5 flex items-center gap-5">
-              <span className="relative flex size-[7.5rem] shrink-0 items-center justify-center rounded-md bg-white p-3 shadow-[0_0_0_1px_rgb(255_255_255/0.3),0_24px_60px_-28px_rgb(44_83_224/0.75),0_0_70px_-10px_rgb(44_83_224/0.55)]">
+              <span className="relative flex size-[7.5rem] shrink-0 items-center justify-center rounded-2xl bg-white p-3 shadow-[0_0_0_1px_rgb(255_255_255/0.3),0_24px_60px_-28px_rgb(44_83_224/0.75),0_0_70px_-10px_rgb(44_83_224/0.55)]">
                 <img
                   src={asset(certifications[0].src)}
                   alt={certifications[0].alt}
@@ -99,10 +101,10 @@ export function About() {
                 />
               </span>
               <div>
-                <p className="text-[1.375rem] font-semibold leading-tight tracking-[-0.02em] text-[#2a1d00]">
+                <p className="text-[1.375rem] font-semibold leading-tight tracking-[-0.02em] text-amber-950">
                   {certifications[0].name}
                 </p>
-                <p className="mt-1 text-[0.9375rem] text-[#6b4e00]">
+                <p className="mt-1 text-[0.9375rem] text-amber-800">
                   Appraised process maturity
                 </p>
               </div>
@@ -111,7 +113,7 @@ export function About() {
             <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3 border-t border-[rgb(120_86_0_/_0.28)] pt-5">
               {certifications.slice(1).map((cert) => (
                 <div key={cert.name} className="flex items-center gap-2.5">
-                  <span className="flex size-10 shrink-0 items-center justify-center rounded-[0.625rem] bg-on-dark p-1.5">
+                  <span className="flex size-10 shrink-0 items-center justify-center rounded-[0.625rem] bg-slate-50 p-1.5">
                     <img
                       src={asset(cert.src)}
                       alt={cert.alt}
@@ -122,7 +124,7 @@ export function About() {
                       className="size-full object-contain"
                     />
                   </span>
-                  <p className="text-[0.9375rem] font-semibold text-[#2a1d00]">
+                  <p className="text-[0.9375rem] font-semibold text-amber-950">
                     {cert.name}
                   </p>
                 </div>
@@ -141,11 +143,11 @@ export function About() {
           </Cell>
 
           <Cell className="lg:col-span-6">
-            <p className={cn(T_LABEL, "text-on-dark-soft")}>Based in</p>
-            <p className="mt-3 text-[1.0625rem] font-semibold leading-snug text-on-dark">
+            <p className={cn(T_LABEL, "text-slate-300")}>Based in</p>
+            <p className="mt-3 text-[1.0625rem] font-semibold leading-snug text-slate-50">
               {company.location}
               <br />
-              <span className="font-normal text-on-dark-soft">
+              <span className="font-normal text-slate-300">
                 building since {company.founded}
               </span>
             </p>
@@ -183,8 +185,8 @@ function Cell({
       whileHover={reduceMotion ? undefined : { y: -4 }}
       transition={{ type: "spring", stiffness: 260, damping: 26 }}
       className={cn(
-        "relative flex flex-col justify-center overflow-hidden rounded-md border p-6 sm:p-8",
-        surface ?? "border-glass-border bg-glass",
+        "relative flex flex-col justify-center overflow-hidden rounded-2xl border p-6 sm:p-8",
+        surface ?? "border-white/15 bg-white/5",
         className,
       )}
     >
@@ -230,9 +232,9 @@ function Counter({
       <p
         className={cn(
           "font-bold leading-[0.9] tracking-[-0.04em] tabular-nums",
-          tone === "default" && "text-on-dark",
+          tone === "default" && "text-slate-50",
           tone === "light" && "text-white",
-          tone === "ink" && "text-[#3b2a00]",
+          tone === "ink" && "text-amber-950",
           size === "huge"
             ? "text-[clamp(3.25rem,7.4vw,5.75rem)]"
             : "text-[clamp(2.25rem,4vw,3.25rem)]",
@@ -242,9 +244,9 @@ function Counter({
         {value.suffix && (
           <span
             className={cn(
-              tone === "default" && "text-accent-bright",
+              tone === "default" && "text-blue-100",
               tone === "light" && "text-white/70",
-              tone === "ink" && "text-[#7a5a00]",
+              tone === "ink" && "text-amber-700",
             )}
           >
             {value.suffix}
@@ -255,9 +257,9 @@ function Counter({
         className={cn(
           T_LABEL,
           "mt-4",
-          tone === "default" && "text-on-dark-soft",
+          tone === "default" && "text-slate-300",
           tone === "light" && "text-white/75",
-          tone === "ink" && "text-[#6b4e00]",
+          tone === "ink" && "text-amber-800",
         )}
       >
         {value.label}

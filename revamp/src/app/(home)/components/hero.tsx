@@ -1,6 +1,8 @@
 "use client";
 
-import { motion, useReducedMotion, type Variants } from "framer-motion";
+import { useReducedMotion } from "@/lib/use-reduced-motion";
+
+import { motion, type Variants } from "framer-motion";
 import {
   Building2,
   Check,
@@ -58,12 +60,12 @@ const CHIP = [
   "transition-[background-color,border-color,color,box-shadow] duration-200 ease-out",
   /* hover: the hue finally shows up, as light under the pill */
   "hover:border-white/[0.42] hover:bg-white/[0.13]",
-  "hover:shadow-[inset_0_1px_0_rgb(255_255_255/0.18),0_16px_34px_-16px_rgb(0_0_0/0.95),0_0_24px_-6px_hsl(var(--chip,224)_90%_60%/0.55)]",
-  "focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent-bright",
+  "hover:shadow-[inset_0_1px_0_rgb(255_255_255/0.18),0_16px_34px_-16px_rgb(0_0_0/0.95),0_0_24px_-6px_color-mix(in_srgb,var(--chip,var(--color-blue-300))_55%,transparent)]",
+  "focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-blue-100",
   "active:bg-white/20",
   /* the selected state is the inverse pill: solid light, dark type, glow */
-  "aria-pressed:border-white aria-pressed:bg-[#f2f5fb] aria-pressed:text-[#08061b]",
-  "aria-pressed:shadow-[inset_0_1px_0_#fff,0_0_0_1px_rgb(255_255_255/0.55),0_14px_34px_-14px_rgb(0_0_0/0.9),0_0_34px_-6px_hsl(var(--chip,224)_90%_62%/0.65)]",
+  "aria-pressed:border-white aria-pressed:bg-slate-50 aria-pressed:text-slate-950",
+  "aria-pressed:shadow-[inset_0_1px_0_#fff,0_0_0_1px_rgb(255_255_255/0.55),0_14px_34px_-14px_rgb(0_0_0/0.9),0_0_34px_-6px_color-mix(in_srgb,var(--chip,var(--color-blue-300))_55%,transparent)]",
   "aria-pressed:hover:bg-white",
   /* tablet: one step down; phone: one more, and the row wraps instead */
   "max-lg:min-h-14 max-lg:text-base sm:max-lg:px-5",
@@ -163,7 +165,7 @@ export function Hero() {
                   transition={{ delay: 0.06 }}
                 >
                   Live in{" "}
-                  <span className="text-brand">{DELIVERY_DAYS} days</span>.
+                  <span className="text-blue-600">{DELIVERY_DAYS} days</span>.
                 </motion.span>
               </span>
             ),
@@ -171,7 +173,7 @@ export function Hero() {
         </h1>
 
         <motion.p
-          className="mt-6 max-w-[46rem] text-[clamp(1.125rem,1.3vw,1.25rem)] leading-[1.5] text-on-dark-soft max-sm:mt-4 max-sm:text-[1.0625rem]"
+          className="mt-6 max-w-[46rem] text-[clamp(1.125rem,1.3vw,1.25rem)] leading-[1.5] text-slate-300 max-sm:mt-4 max-sm:text-[1.0625rem]"
           initial={reduceMotion ? false : { opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.34, delay: 0.1, ease: EASE }}
@@ -182,7 +184,7 @@ export function Hero() {
         <div className="mt-[clamp(2.25rem,5vh,3.25rem)] max-sm:mt-7">
           <motion.p
             id="industry-label"
-            className="mb-[1.125rem] text-[clamp(1.25rem,1.5vw,1.5rem)] leading-tight font-semibold tracking-[-0.015em] text-on-dark max-sm:mb-4 max-sm:text-[1.1875rem]"
+            className="mb-[1.125rem] text-[clamp(1.25rem,1.5vw,1.5rem)] leading-tight font-semibold tracking-[-0.015em] text-slate-50 max-sm:mb-4 max-sm:text-[1.1875rem]"
             initial={reduceMotion ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.26, delay: 0.12 }}
@@ -228,8 +230,8 @@ export function Hero() {
                          stay readable; the class cannot read the button's state,
                          so the state chooses the class */
                       active
-                        ? "text-[hsl(var(--chip,224)_78%_40%)]"
-                        : "text-[hsl(var(--chip,224)_92%_74%)]",
+                        ? "text-blue-700"
+                        : "text-[var(--chip,var(--color-blue-300))]",
                     )}
                   />
                   {category.label}

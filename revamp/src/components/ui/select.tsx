@@ -22,9 +22,9 @@ import { cn } from "@/lib/utils";
    surface does. */
 const TRIGGER = [
   "inline-flex h-11 min-w-[12.5rem] items-center justify-between gap-3 rounded-[0.6875rem] px-3.5 text-[0.9375rem] font-semibold tracking-[-0.006em]",
-  "border border-line bg-white text-on-light shadow-[0_1px_2px_rgb(5_1_37/0.06)]",
+  "border border-slate-200 bg-white text-slate-950 shadow-[0_1px_2px_rgb(5_1_37/0.06)]",
   "transition-[border-color,background-color,box-shadow] duration-[160ms]",
-  "hover:border-[color-mix(in_oklch,var(--brand)_40%,var(--line))]",
+  "hover:border-[color-mix(in_oklch,var(--color-blue-600)_40%,var(--color-slate-200))]",
   "focus-visible:outline-2 focus-visible:outline-offset-2",
 ];
 
@@ -42,10 +42,11 @@ function SelectTrigger({
 }) {
   return (
     <SelectPrimitive.Trigger
+      data-slot="select-trigger"
       className={cn(
         ...TRIGGER,
         surface === "dark" &&
-          "border-glass-border bg-white/[0.04] text-on-dark shadow-none hover:border-glass-border-hover hover:bg-white/[0.08]",
+          "border-white/15 bg-white/[0.04] text-slate-50 shadow-none hover:border-white/30 hover:bg-white/[0.08]",
         className,
       )}
       {...props}
@@ -67,9 +68,10 @@ function SelectContent({
   return (
     <SelectPrimitive.Portal>
       <SelectPrimitive.Content
+        data-slot="select-content"
         className={cn(
           "z-70 max-h-[var(--radix-select-content-available-height)] min-w-[var(--radix-select-trigger-width)] overflow-hidden",
-          "rounded-[0.875rem] border border-line bg-white shadow-[0_24px_48px_-24px_rgb(5_1_37/0.35)]",
+          "rounded-[0.875rem] border border-slate-200 bg-white shadow-[0_24px_48px_-24px_rgb(5_1_37/0.35)]",
           "animate-[select-in_140ms_cubic-bezier(0.22,0.61,0.36,1)]",
           className,
         )}
@@ -92,9 +94,10 @@ function SelectItem({
 }: React.ComponentProps<typeof SelectPrimitive.Item>) {
   return (
     <SelectPrimitive.Item
+      data-slot="select-item"
       className={cn(
-        "relative flex h-9 cursor-pointer items-center justify-between gap-3 rounded-[0.5rem] px-2.5 text-[0.9375rem] text-on-light outline-none",
-        "data-[highlighted]:bg-paper-alt data-[state=checked]:font-semibold data-[state=checked]:text-brand",
+        "relative flex h-9 cursor-pointer items-center justify-between gap-3 rounded-[0.5rem] px-2.5 text-[0.9375rem] text-slate-950 outline-none",
+        "data-[highlighted]:bg-slate-100 data-[state=checked]:font-semibold data-[state=checked]:text-blue-600",
         className,
       )}
       {...props}
@@ -102,7 +105,7 @@ function SelectItem({
       <span className="truncate">
         <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
       </span>
-      <SelectPrimitive.ItemIndicator className="inline-flex text-brand">
+      <SelectPrimitive.ItemIndicator className="inline-flex text-blue-600">
         <Check className="size-3.5" aria-hidden="true" />
       </SelectPrimitive.ItemIndicator>
     </SelectPrimitive.Item>
@@ -116,7 +119,7 @@ function SelectLabel({
   return (
     <SelectPrimitive.Label
       className={cn(
-        "px-2.5 py-1.5 text-[0.6875rem] font-semibold tracking-[0.14em] text-on-light-faint uppercase",
+        "px-2.5 py-1.5 text-[0.6875rem] font-semibold tracking-[0.14em] text-slate-500 uppercase",
         className,
       )}
       {...props}

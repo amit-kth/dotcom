@@ -1,12 +1,9 @@
 import { Seo } from "@/lib/seo";
-import { SiteHeader } from "@/components/site-header";
-import { CategoryProvider } from "@/components/category-context";
 import { Hero } from "@/app/(home)/components/hero";
 import { Solutions } from "@/app/(home)/components/solutions";
 import { Delivery } from "@/app/(home)/components/delivery";
 import { About } from "@/app/(home)/components/about";
 import { Clients } from "@/app/(home)/components/clients";
-import { SiteFooter } from "@/components/site-footer";
 
 /* ============================================================================
    HOMEPAGE
@@ -32,17 +29,13 @@ export default function HomePage() {
     <>
       <Seo page="home" />
 
-      <CategoryProvider>
-        <SiteHeader />
-        <main>
-          <Hero />
-          <Solutions />
-          <Delivery />
-          <About />
-          <Clients />
-        </main>
-        <SiteFooter />
-      </CategoryProvider>
+      <main>
+        <Hero />
+        <Solutions />
+        <Delivery />
+        <About />
+        <Clients />
+      </main>
     </>
   );
 }

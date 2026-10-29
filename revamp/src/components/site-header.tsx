@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { ArrowRight, ArrowUpRight, ChevronDown, Menu, X } from "lucide-react";
 import { asset, site } from "@/config/variables";
 import { useCategory } from "@/components/category-context";
@@ -37,7 +37,7 @@ import { cn } from "@/lib/utils";
    a solution yet, so there is nothing to demo. It links to the contact page.
 
    ON A LIGHT PAGE
-   The bar is dark glass at rest, so `solid` is passed on /solutions: white type
+   The bar uses dark glass at rest on /solutions: white type
    over a paper band would be invisible until the first scroll.
    ========================================================================== */
 
@@ -47,7 +47,9 @@ const NAV = [
   { label: "Clients", href: "/#clients", id: "clients" },
 ] as const;
 
-export function SiteHeader({ solid = false }: { solid?: boolean }) {
+export function SiteHeader() {
+  const pathname = usePathname();
+  const solid = pathname === "/solutions" || pathname === "/solutions/";
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [panel, setPanel] = useState(false);
@@ -65,6 +67,14 @@ export function SiteHeader({ solid = false }: { solid?: boolean }) {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // The shared header survives navigation: close menus and observe the new page.
+  useEffect(() => {
+    setOpen(false);
+    setPanel(false);
+    setActive(null);
+    if (closeTimer.current) window.clearTimeout(closeTimer.current);
+  }, [pathname]);
 
   useEffect(() => {
     const sections = [...NAV.map((item) => item.id), "solutions"]
@@ -84,7 +94,7 @@ export function SiteHeader({ solid = false }: { solid?: boolean }) {
 
     sections.forEach((section) => observer.observe(section));
     return () => observer.disconnect();
-  }, []);
+  }, [pathname]);
 
   /* one place closes the panel, so every path behaves the same */
   const closePanel = useCallback((returnFocus = false) => {

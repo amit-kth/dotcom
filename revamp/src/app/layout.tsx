@@ -1,10 +1,13 @@
 import "./globals.css";
 import { display } from "./fonts";
 import Script from "next/script";
+import { CategoryProvider } from "@/components/category-context";
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
 import { RouteTracker } from "@/components/route-tracker";
 import { site, contact } from "@/config/variables";
 
-/** The root owns fonts, GTM (script + noscript), and site-wide schemas once.
+/** The root owns the shared header, footer, category provider, fonts, GTM (script + noscript), and site-wide schemas once.
  * Page metadata stays in lib/seo.tsx; no layout metadata export duplicates it.
  * Poppins is self-hosted. RouteTracker reports subsequent client navigations.
  */
@@ -83,7 +86,11 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: serializeSchema(websiteSchema) }}
         />
         <RouteTracker />
-        {children}
+        <CategoryProvider>
+          <SiteHeader />
+          {children}
+          <SiteFooter />
+        </CategoryProvider>
       </body>
     </html>
   );

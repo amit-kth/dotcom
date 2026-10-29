@@ -14,6 +14,8 @@ what needs a decision. Banners have their own brief: `BANNER-DIRECTION.md`.
   `app/solutions/components`, and `app/contact/components`. Contact submission
   and query helpers are in `app/contact/lib`. Global navigation, footer,
   providers, and cross-route primitives stay in `src/components`.
+- `app/layout.tsx` renders the header, footer and category provider once. Pages
+  contain only their metadata and route content.
 - `lib/seo.tsx` owns page metadata. GTM, Organization and WebSite schema load
   once in `app/layout.tsx`; `components/route-tracker.tsx` reports later routes.
 - `globals.css` only contains Tailwind imports, font/header setup, base

@@ -74,9 +74,24 @@ export const contact = {
     general: "info@kriscent.in",
     sales: "sales@kriscent.in",
   },
-  phones: ["+91-7240560001", "+91-8947027625"],
+  /** Five published lines, shown in the footer as they are on the old site. */
+  phones: [
+    "+91-7240560001",
+    "+91-7240560002",
+    "+91-7240560003",
+    "+91-7240560004",
+    "+91-7240560005",
+  ],
+  /** The WhatsApp line is a separate number on purpose: it is the chat
+      initiator only, never printed as a call number. */
+  whatsappNumber: "+918947027625",
   /** wa.me link, carried over from the old site's floating button. */
   whatsapp: "https://wa.me/918947027625",
+  /** The old site's contact page; the footer links to it rather than
+      duplicating a form here. */
+  contactPage: "https://kriscent.in/contact",
+  aboutPage: "https://kriscent.in/about",
+  clientsPage: "https://kriscent.in/clients",
   /* The profiles the old site links to in its own footer. Nothing invented:
      these five are the ones that appear in index.php. */
   socials: [

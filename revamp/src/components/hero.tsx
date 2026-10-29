@@ -96,14 +96,6 @@ export function Hero() {
     window.scrollTo({ top, behavior: reduceMotion ? "auto" : "smooth" });
   };
 
-  const trackPointer = (event: React.PointerEvent<HTMLDivElement>) => {
-    const group = scroller.current;
-    if (!group) return;
-    const rect = group.getBoundingClientRect();
-    group.style.setProperty("--mx", `${event.clientX - rect.left}px`);
-    group.style.setProperty("--my", `${event.clientY - rect.top}px`);
-  };
-
   const line: Variants = reduceMotion
     ? {}
     : {
@@ -192,7 +184,6 @@ export function Hero() {
             ref={scroller}
             role="group"
             aria-labelledby="industry-label"
-            onPointerMove={trackPointer}
             className="chip-group mt-5"
           >
             {categories.map((category, index) => {

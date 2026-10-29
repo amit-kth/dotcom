@@ -1,33 +1,40 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
+import { ArrowRight, ArrowUpRight, ChevronDown, Menu, X } from "lucide-react";
 import { asset, site } from "@/config/variables";
 import { RequestDemoDialog } from "@/components/request-demo-dialog";
+import { useCategory } from "@/components/category-context";
+import { categories } from "@/data/categories";
+import { featuredProducts } from "@/data/products";
 import { cn } from "@/lib/utils";
 
 /* ============================================================================
    SiteHeader
    ----------------------------------------------------------------------------
-   PURPOSE: logo, four section links, one action, and then out of the way.
+   PURPOSE: the brand, the way into the six products, and one action.
 
    HEIGHT
-   60px, fixed, at every scroll position. The bar only fades its glass and its
-   hairline in after the first scroll — it never changes height, because a
-   header that grows on scroll is the most common cause of layout shift on a
-   landing page.
+   60px, fixed, at every scroll position. The bar fades its glass in after the
+   first scroll; it never changes height, so nothing on the page shifts.
 
-   The logo is 32px tall inside that 60px bar: big enough to be the brand, not
-   so big that it pushes the bar open.
+   THE MENU
+   "Solutions" is a menu, not a link, because the site only has six products and
+   a visitor should be able to see all of them without leaving the page they are
+   on. The panel holds both ways in: by product (name and the problem it
+   removes) and by industry (the same seven categories as the hero chips, which
+   set the filter and scroll to the stack).
+   It opens on hover for a mouse, on click for a keyboard or a touch, closes on
+   Escape, on an outside click, and when focus leaves it. No focus trap: this is
+   a menu, not a modal, so the page behind stays reachable.
 
-   The action is "Contact us", not "Request a demo": at the top of the page the
-   visitor has not picked a solution yet, so there is nothing to demo. It opens
-   the same enquiry modal.
+   THE ACTION
+   "Contact us", not "Request a demo": at the top of the page nobody has picked
+   a solution yet, so there is nothing to demo. It opens the enquiry dialog.
    ========================================================================== */
 
 const NAV = [
-  { label: "Solutions", href: "/#solutions", id: "solutions" },
   { label: "How it works", href: "/#delivery", id: "delivery" },
   { label: "About", href: "/#about", id: "about" },
   { label: "Clients", href: "/#clients", id: "clients" },
@@ -36,7 +43,13 @@ const NAV = [
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [panel, setPanel] = useState(false);
   const [active, setActive] = useState<string | null>(null);
+  const { setSelected } = useCategory();
+
+  const panelRef = useRef<HTMLDivElement | null>(null);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
+  const closeTimer = useRef<number | null>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -46,9 +59,9 @@ export function SiteHeader() {
   }, []);
 
   useEffect(() => {
-    const sections = NAV.map((item) => document.getElementById(item.id)).filter(
-      (el): el is HTMLElement => Boolean(el),
-    );
+    const sections = [...NAV.map((item) => item.id), "solutions"]
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => Boolean(el));
     if (!sections.length) return;
 
     const observer = new IntersectionObserver(
@@ -65,6 +78,30 @@ export function SiteHeader() {
     return () => observer.disconnect();
   }, []);
 
+  /* one place closes the panel, so every path behaves the same */
+  const closePanel = useCallback((returnFocus = false) => {
+    setPanel(false);
+    if (returnFocus) triggerRef.current?.focus();
+  }, []);
+
+  useEffect(() => {
+    if (!panel) return;
+
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") closePanel(true);
+    };
+    const onPointerDown = (event: PointerEvent) => {
+      if (!panelRef.current?.contains(event.target as Node)) setPanel(false);
+    };
+
+    window.addEventListener("keydown", onKey);
+    window.addEventListener("pointerdown", onPointerDown);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      window.removeEventListener("pointerdown", onPointerDown);
+    };
+  }, [panel, closePanel]);
+
   useEffect(() => {
     if (!open) return;
     const onKey = (event: KeyboardEvent) => {
@@ -78,45 +115,148 @@ export function SiteHeader() {
     };
   }, [open]);
 
+  /* the hover grace period: a mouse travelling from the trigger into the panel
+     must not lose it in the one pixel between them */
+  const openOnHover = () => {
+    if (closeTimer.current) window.clearTimeout(closeTimer.current);
+    setPanel(true);
+  };
+  const closeOnHover = () => {
+    closeTimer.current = window.setTimeout(() => setPanel(false), 140);
+  };
+
+  const chooseIndustry = (id: (typeof categories)[number]["id"]) => {
+    setSelected(id);
+    closePanel();
+    document.getElementById("solutions")?.scrollIntoView({ block: "start" });
+  };
+
   return (
     <header
       className={cn(
         "site-header sticky top-0 z-50 h-[var(--header-h)]",
-        (scrolled || open) && "is-solid",
+        (scrolled || open || panel) && "is-solid",
       )}
     >
       <div className="shell relative flex h-full items-center justify-between gap-6">
-        <Link href="/" aria-label={`${site.name} home`} className="shrink-0">
-          <img
-            src={asset("logo/logo.png")}
-            alt={site.name}
-            width={274}
-            height={72}
-            className="h-8 w-auto brightness-0 invert"
-          />
-        </Link>
+        <div className="flex items-center gap-5">
+          <Link href="/" aria-label={`${site.name} home`} className="shrink-0">
+            <img
+              src={asset("logo/logo.png")}
+              alt={site.name}
+              width={274}
+              height={72}
+              className="h-8 w-auto brightness-0 invert"
+            />
+          </Link>
+          <span aria-hidden="true" className="hidden h-6 w-px bg-white/12 lg:block" />
+          {/* not the hero headline again: a fact the logo cannot carry */}
+          <span className="hidden text-[0.8125rem] font-medium leading-tight tracking-[0.01em] text-on-dark-faint lg:block">
+            Since {site.founded}
+          </span>
+        </div>
 
-        <nav aria-label="Sections" className="hidden items-center gap-1 lg:flex">
+        <nav aria-label="Sections" className="hidden items-center gap-0.5 lg:flex">
+          <div
+            ref={panelRef}
+            className="relative"
+            onMouseEnter={openOnHover}
+            onMouseLeave={closeOnHover}
+            onBlur={(event) => {
+              /* focus leaving the menu closes it, so a keyboard user is never
+                 left with a panel they cannot see the trigger for */
+              if (!event.currentTarget.contains(event.relatedTarget as Node)) {
+                setPanel(false);
+              }
+            }}
+          >
+            <button
+              ref={triggerRef}
+              type="button"
+              aria-expanded={panel}
+              aria-controls="solutions-panel"
+              aria-haspopup="true"
+              onClick={() => setPanel((value) => !value)}
+              className={cn(
+                "nav-item",
+                (panel || active === "solutions") && "nav-item--on",
+              )}
+            >
+              Solutions
+              <ChevronDown
+                aria-hidden="true"
+                className={cn(
+                  "size-4 transition-transform duration-200",
+                  panel && "rotate-180",
+                )}
+              />
+            </button>
+
+            <div
+              id="solutions-panel"
+              hidden={!panel}
+              className="nav-panel lg:left-1/2 lg:-translate-x-1/2"
+            >
+              <div className="grid gap-6 lg:grid-cols-[1.25fr_1fr]">
+                <div>
+                  <p className="nav-panel__title">Products</p>
+                  <ul className="mt-2 flex flex-col">
+                    {featuredProducts.map((product) => (
+                      <li key={product.id}>
+                        <Link
+                          href="/#solutions"
+                          onClick={() => closePanel()}
+                          className="nav-product"
+                        >
+                          <span className="nav-product__name">
+                            {product.name}
+                          </span>
+                          <span className="nav-product__line">
+                            {product.problem}
+                          </span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="border-t border-glass-border pt-5 lg:border-l lg:border-t-0 lg:pl-6 lg:pt-0">
+                  <p className="nav-panel__title">By industry</p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {categories.map((category) => (
+                      <button
+                        key={category.id}
+                        type="button"
+                        data-cat={category.id}
+                        onClick={() => chooseIndustry(category.id)}
+                        className="nav-chip"
+                      >
+                        {category.label}
+                      </button>
+                    ))}
+                  </div>
+
+                  <Link
+                    href="/solutions"
+                    onClick={() => closePanel()}
+                    className="mt-5 inline-flex items-center gap-1.5 text-[0.875rem] font-semibold text-accent-bright hover:underline hover:underline-offset-4"
+                  >
+                    All solutions
+                    <ArrowRight className="size-3.5" aria-hidden="true" />
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {NAV.map((item) => (
             <Link
               key={item.id}
               href={item.href}
               aria-current={active === item.id ? "true" : undefined}
-              className={cn(
-                "relative rounded-md px-3 py-2 text-[0.9375rem] font-medium transition-colors duration-200",
-                active === item.id
-                  ? "text-on-dark"
-                  : "text-on-dark-soft hover:text-on-dark",
-              )}
+              className={cn("nav-item", active === item.id && "nav-item--on")}
             >
               {item.label}
-              <span
-                aria-hidden="true"
-                className={cn(
-                  "absolute inset-x-3 -bottom-px h-[2px] origin-left rounded-full bg-brand transition-transform duration-300",
-                  active === item.id ? "scale-x-100" : "scale-x-0",
-                )}
-              />
             </Link>
           ))}
         </nav>
@@ -125,8 +265,8 @@ export function SiteHeader() {
           <div className="hidden sm:block">
             <RequestDemoDialog
               label="Contact us"
-              size="sm"
-              className="rounded-full px-5"
+              size="md"
+              icon="arrow-up-right"
             />
           </div>
 
@@ -148,21 +288,56 @@ export function SiteHeader() {
       </div>
 
       <div id="mobile-nav" hidden={!open} className="site-header-sheet lg:hidden">
-        <nav aria-label="Sections" className="shell flex flex-col py-2">
+        <nav aria-label="Sections" className="shell max-h-[calc(100svh-var(--header-h))] overflow-y-auto py-3">
           {NAV.map((item) => (
             <Link
               key={item.id}
               href={item.href}
               onClick={() => setOpen(false)}
-              className="border-b border-glass-border py-3.5 text-base font-medium text-on-dark-soft transition-colors last:border-0 hover:text-on-dark"
+              className="flex min-h-12 items-center border-b border-glass-border text-base font-medium text-on-dark-soft transition-colors hover:text-on-dark"
             >
               {item.label}
             </Link>
           ))}
-          <div className="py-3 sm:hidden">
+
+          <p className="nav-panel__title mt-5">Products</p>
+          <ul className="mt-1 grid grid-cols-2 gap-x-4">
+            {featuredProducts.map((product) => (
+              <li key={product.id}>
+                <Link
+                  href="/#solutions"
+                  onClick={() => setOpen(false)}
+                  className="flex min-h-11 items-center text-[0.9375rem] font-medium text-on-dark-soft hover:text-on-dark"
+                >
+                  {product.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+
+          <p className="nav-panel__title mt-4">By industry</p>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {categories.map((category) => (
+              <button
+                key={category.id}
+                type="button"
+                data-cat={category.id}
+                onClick={() => {
+                  chooseIndustry(category.id);
+                  setOpen(false);
+                }}
+                className="nav-chip"
+              >
+                {category.label}
+              </button>
+            ))}
+          </div>
+
+          <div className="py-4 sm:hidden">
             <RequestDemoDialog
               label="Contact us"
-              className="w-full rounded-full"
+              className="w-full"
+              icon="arrow-up-right"
             />
           </div>
         </nav>

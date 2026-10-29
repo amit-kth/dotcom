@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView, useReducedMotion } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
 import { asset } from "@/config/variables";
 import { certifications, company, counters } from "@/data/site-content";
 import { cn } from "@/lib/utils";
@@ -35,27 +34,12 @@ export function About() {
       <div aria-hidden="true" className="about-glow" />
 
       <div className="shell band relative z-[1]">
-        <div className="flex flex-wrap items-end justify-between gap-x-12 gap-y-6">
-          <div>
-            <p className="t-label">About Kriscent</p>
-            <h2 id="about-title" className="t-heading mt-4 max-w-[22ch]">
-              <span className="text-brand">13</span> years of shipping
-              software, from Kota.
-            </h2>
-          </div>
-
-          <a
-            href="https://kriscent.in"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group inline-flex min-h-11 items-center gap-2 pb-2 text-[1.0625rem] font-semibold text-accent-bright"
-          >
-            Need custom development?
-            <ArrowUpRight
-              className="size-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-              aria-hidden="true"
-            />
-          </a>
+        <div>
+          <p className="t-label">About Kriscent</p>
+          <h2 id="about-title" className="t-heading mt-4 max-w-[22ch]">
+            <span className="text-brand">13</span> years of shipping
+            software, from Kota.
+          </h2>
         </div>
 
         {/* ---- the bento: unequal on purpose ---- */}
@@ -78,7 +62,7 @@ export function About() {
           </Cell>
 
           {/* the certifications, at a size you can actually read */}
-          <Cell className="cell-gold lg:col-span-5" spotlight={false}>
+          <Cell className="cell-gold lg:col-span-5">
             <p className="t-label !text-[#6b4e00]">Certified</p>
             <div className="mt-5 flex items-center gap-5">
               <span className="cert-plate relative flex size-[7.5rem] shrink-0 items-center justify-center rounded-md p-3">
@@ -126,7 +110,7 @@ export function About() {
 
           {/* 13 years: the one solid-red surface on the page, so the eye
               lands on tenure before it lands on volume. */}
-          <Cell className="cell-red lg:col-span-3" spotlight={false}>
+          <Cell className="cell-red lg:col-span-3">
             <Counter value={counters[1]} size="large" tone="light" />
           </Cell>
 
@@ -155,11 +139,9 @@ export function About() {
 function Cell({
   children,
   className,
-  spotlight = true,
 }: {
   children: React.ReactNode;
   className?: string;
-  spotlight?: boolean;
 }) {
   const reduceMotion = useReducedMotion();
 
@@ -172,24 +154,9 @@ function Cell({
       whileHover={reduceMotion ? undefined : { y: -4 }}
       transition={{ type: "spring", stiffness: 260, damping: 26 }}
       className={cn(
-        "spotlight relative flex flex-col justify-center overflow-hidden rounded-md border border-glass-border bg-glass p-6 sm:p-8",
+        "relative flex flex-col justify-center overflow-hidden rounded-md border border-glass-border bg-glass p-6 sm:p-8",
         className,
       )}
-      onPointerMove={
-        spotlight
-          ? (event) => {
-              const rect = event.currentTarget.getBoundingClientRect();
-              event.currentTarget.style.setProperty(
-                "--mx",
-                `${event.clientX - rect.left}px`,
-              );
-              event.currentTarget.style.setProperty(
-                "--my",
-                `${event.clientY - rect.top}px`,
-              );
-            }
-          : undefined
-      }
     >
       {children}
     </motion.div>

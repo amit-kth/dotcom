@@ -9,6 +9,8 @@ import { SolutionBanner } from "@/components/solution-banner";
 import { RequestDemoDialog } from "@/components/request-demo-dialog";
 import { categoryLabel } from "@/data/categories";
 import { featuredProducts, productsInCategory } from "@/data/products";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 /* ============================================================================
    Solutions
@@ -158,11 +160,11 @@ export function Solutions() {
         </p>
         <Link
           href="/solutions"
-          className="group inline-flex min-h-11 items-center gap-2 text-[1.0625rem] font-semibold text-brand"
+          className={cn(buttonVariants({ variant: "secondary", size: "md" }), "group")}
         >
           View all solutions
           <ArrowRight
-            className="size-4 transition-transform group-hover:translate-x-1"
+            className="size-4 transition-transform duration-200 group-hover:translate-x-0.5"
             aria-hidden="true"
           />
         </Link>

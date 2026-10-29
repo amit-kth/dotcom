@@ -9,6 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { ArrowRight, ArrowUpRight, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { EnquiryForm } from "@/components/enquiry-form";
 
@@ -31,14 +32,18 @@ type RequestDemoDialogProps = {
   className?: string;
   size?: React.ComponentProps<typeof Button>["size"];
   variant?: React.ComponentProps<typeof Button>["variant"];
+  /** Named, not a component: this trigger is rendered from server components
+      too, and a function cannot cross that boundary. */
+  icon?: "arrow-right" | "arrow-up-right" | "message" | "none";
 };
 
 export function RequestDemoDialog({
   product,
   label,
   className,
-  size = "default",
-  variant = "default",
+  size = "md",
+  variant = "primary",
+  icon = "arrow-right",
 }: RequestDemoDialogProps) {
   const [open, setOpen] = useState(false);
 
@@ -48,7 +53,20 @@ export function RequestDemoDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button size={size} variant={variant} className={className}>
+        <Button
+          size={size}
+          variant={variant}
+          className={className}
+          icon={
+            icon === "none"
+              ? undefined
+              : icon === "arrow-up-right"
+                ? ArrowUpRight
+                : icon === "message"
+                  ? MessageCircle
+                  : ArrowRight
+          }
+        >
           {triggerLabel}
         </Button>
       </DialogTrigger>

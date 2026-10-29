@@ -9,6 +9,7 @@ import { submitEnquiry } from "@/lib/submit-enquiry";
 import { categories } from "@/data/categories";
 import { featuredProducts } from "@/data/products";
 import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
 
 /* ============================================================================
    EnquiryForm  —  the only form on the site, used by the demo modal
@@ -254,7 +255,11 @@ export function EnquiryForm({ product }: { product?: string }) {
       )}
 
       <div className="flex flex-wrap items-center gap-x-4 gap-y-2 pt-1">
-        <button type="submit" disabled={busy} className="btn-primary min-w-[11rem]">
+        <button
+          type="submit"
+          disabled={busy}
+          className={cn(buttonVariants({ variant: "primary", size: "md" }), "min-w-[11rem]")}
+        >
           {busy ? (
             <>
               <Loader2 className="size-4 animate-spin" aria-hidden="true" />

@@ -1,6 +1,13 @@
 import Link from "next/link";
-import { ArrowUpRight, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
-import { asset, contact, site } from "@/config/variables";
+import {
+  ArrowUpRight,
+  Mail,
+  MapPin,
+  MessageCircle,
+  Phone,
+} from "lucide-react";
+import { contact, site } from "@/config/variables";
+import { asset } from "@/config/variables";
 import { RequestDemoDialog } from "@/components/request-demo-dialog";
 import { SOCIAL_ICONS } from "@/components/social-icons";
 import { products, DELIVERY_DAYS } from "@/data/products";
@@ -11,43 +18,58 @@ import { categories } from "@/data/categories";
    ----------------------------------------------------------------------------
    PURPOSE: the decisive final step, then every way to reach us.
 
+   THE CLOSING BAND
+   Heading on the left, the action on the right, on one baseline. The helper
+   line sits above the button so the button is the last thing in the row — the
+   eye finishes on the thing you want clicked. Height is unchanged: the heading
+   still governs the band.
+
    FIVE COLUMNS, ONE BASELINE
    Brand · Solutions · Industries · Company · Contact. Every column starts on the
    same rule and every list item is a 44px row, so the five columns line up with
-   each other and with the container edges. Nothing is stacked below another
-   column, and there is no oversized wordmark: the wordmark is the logo at the
-   top of column one, once.
+   each other and with the container edges. There is no oversized wordmark: the
+   wordmark is the logo at the top of column one, once.
 
-   SOCIAL
-   Icon buttons, because that is what a professional footer uses. The five
-   profiles are the old site's own, from config/variables.ts `contact.socials`,
-   which the Organization schema also reads.
+   WHAT LINKS WHERE
+   About and Clients are the client's own pages (kriscent.in/about,
+   kriscent.in/clients); Contact is kriscent.in/contact. All three open in a new
+   tab because they leave this site. "How we deliver" and "All solutions" stay
+   here.
 
-   No stats and no CMMI badge here — those live once, in About.
+   PHONE NUMBERS
+   The five published lines, and only those. The WhatsApp number is a chat
+   initiator, not a call line, so it appears as "WhatsApp us" and never as a
+   number.
+
+   No stats and no CMMI badge down here — those live once, in About.
    ========================================================================== */
 
-const COMPANY_LINKS = [
-  { label: "About Kriscent", href: "/#about" },
+type FooterLink = { label: string; href: string; external?: boolean };
+
+const COMPANY_LINKS: FooterLink[] = [
+  { label: "About Kriscent", href: contact.aboutPage, external: true },
+  { label: "Clients", href: contact.clientsPage, external: true },
   { label: "How we deliver", href: "/#delivery" },
-  { label: "Clients", href: "/#clients" },
   { label: "All solutions", href: "/solutions" },
-] as const;
+  { label: "Contact", href: contact.contactPage, external: true },
+];
 
 export function SiteFooter() {
   return (
     <footer id="contact" className="bg-band-footer">
       <div className="shell">
         {/* ---- the closing call ---- */}
-        <div className="flex flex-col items-start gap-10 border-b border-glass-border py-[clamp(3.5rem,7vw,6rem)] lg:flex-row lg:items-end lg:justify-between">
+        <div className="flex flex-col gap-8 border-b border-glass-border py-[clamp(3.5rem,7vw,6rem)] lg:flex-row lg:items-center lg:justify-between lg:gap-12">
           <div>
             <p className="t-label">Contact</p>
             <h2 className="t-display mt-4 max-w-[16ch]">Tell us what you run.</h2>
           </div>
-          <div className="flex flex-col items-start gap-3 lg:items-end lg:pb-2">
-            <RequestDemoDialog label="Contact us" size="lg" />
-            <p className="text-[1rem] text-on-dark-soft">
-              We will tell you what fits, in one call.
+
+          <div className="flex shrink-0 flex-col items-start gap-4 sm:items-end">
+            <p className="text-[1rem] leading-relaxed text-on-dark-soft">
+              One call. We tell you what fits.
             </p>
+            <RequestDemoDialog label="Contact us" size="lg" icon="arrow-up-right" />
           </div>
         </div>
 
@@ -128,32 +150,48 @@ export function SiteFooter() {
             <h2 className="t-label">Company</h2>
             <ul className="mt-2 flex flex-col">
               {COMPANY_LINKS.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="footer-link flex min-h-11 items-center text-[0.9375rem] text-on-dark-soft"
-                  >
-                    {item.label}
-                  </Link>
+                <li key={item.label}>
+                  {item.external ? (
+                    <a
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="footer-link flex min-h-11 items-center gap-1.5 text-[0.9375rem] text-on-dark-soft"
+                    >
+                      {item.label}
+                      <ArrowUpRight
+                        className="size-3.5 opacity-60"
+                        aria-hidden="true"
+                      />
+                    </a>
+                  ) : (
+                    <Link
+                      href={item.href}
+                      className="footer-link flex min-h-11 items-center text-[0.9375rem] text-on-dark-soft"
+                    >
+                      {item.label}
+                    </Link>
+                  )}
                 </li>
               ))}
-              <li>
-                <a
-                  href="https://kriscent.in"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="footer-link flex min-h-11 items-center gap-1.5 text-[0.9375rem] text-on-dark-soft"
-                >
-                  Custom development
-                  <ArrowUpRight className="size-3.5" aria-hidden="true" />
-                </a>
-              </li>
             </ul>
           </nav>
 
           <div>
             <h2 className="t-label">Get in touch</h2>
             <ul className="mt-2 flex flex-col">
+              {contact.phones.map((phone) => (
+                <li key={phone}>
+                  <a
+                    href={`tel:${phone.replace(/[^\d+]/g, "")}`}
+                    className="footer-link flex min-h-11 items-center gap-2.5 text-[0.9375rem] tabular-nums text-on-dark-soft"
+                  >
+                    <Phone className="size-4 shrink-0" aria-hidden="true" />
+                    {phone}
+                  </a>
+                </li>
+              ))}
+
               {[contact.emails.sales, contact.emails.general].map((email) => (
                 <li key={email}>
                   <a
@@ -165,17 +203,7 @@ export function SiteFooter() {
                   </a>
                 </li>
               ))}
-              {contact.phones.map((phone) => (
-                <li key={phone}>
-                  <a
-                    href={`tel:${phone.replace(/[^\d+]/g, "")}`}
-                    className="footer-link flex min-h-11 items-center gap-2.5 text-[0.9375rem] text-on-dark-soft"
-                  >
-                    <Phone className="size-4 shrink-0" aria-hidden="true" />
-                    {phone}
-                  </a>
-                </li>
-              ))}
+
               <li>
                 <a
                   href={contact.whatsapp}

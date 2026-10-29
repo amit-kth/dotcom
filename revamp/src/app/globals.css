@@ -1110,6 +1110,159 @@
   border-bottom: 1px solid var(--glass-border);
 }
 
+/* --- header navigation -----------------------------------------------------
+   Nav items are pills, not underlined text, because the bar already has a
+   hairline and a glass fill; a second line under the label made the bar read as
+   a mock-up. The current section is a filled pill, the rest only fill on hover.
+   -------------------------------------------------------------------------- */
+.nav-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  height: 2.25rem;
+  padding-inline: 0.75rem;
+  border-radius: 0.625rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  color: var(--on-dark-soft);
+  transition:
+    background-color 180ms ease,
+    color 180ms ease;
+}
+
+.nav-item:hover {
+  color: var(--on-dark);
+  background-color: rgb(255 255 255 / 0.06);
+}
+
+.nav-item--on {
+  color: var(--on-dark);
+  background-color: rgb(255 255 255 / 0.09);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.06);
+}
+
+.nav-panel {
+  position: absolute;
+  top: calc(100% + 0.75rem);
+  left: 0;
+  z-index: 60;
+  width: min(40rem, calc(100vw - 3rem));
+  padding: 1.25rem;
+  border-radius: 1.25rem;
+  border: 1px solid var(--glass-border);
+  background: rgb(9 7 28 / 0.985);
+  backdrop-filter: blur(22px) saturate(140%);
+  -webkit-backdrop-filter: blur(22px) saturate(140%);
+  box-shadow:
+    0 30px 70px -32px rgb(0 0 0 / 0.85),
+    inset 0 1px 0 rgb(255 255 255 / 0.06);
+  /* `translate` is animated instead of `transform` so the desktop centring
+     transform on this same element is never overwritten by the animation */
+  animation: nav-panel-in 170ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+@keyframes nav-panel-in {
+  from {
+    opacity: 0;
+    translate: 0 -6px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+.nav-panel__title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--on-dark-faint);
+}
+
+.nav-product {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  padding: 0.5rem 0.625rem;
+  border-radius: 0.625rem;
+  transition: background-color 160ms ease;
+}
+
+.nav-product:hover {
+  background-color: rgb(255 255 255 / 0.06);
+}
+
+.nav-product__name {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--on-dark);
+}
+
+.nav-product__line {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--on-dark-faint);
+}
+
+.nav-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4375rem;
+  height: 2rem;
+  padding-inline: 0.6875rem;
+  border-radius: 999px;
+  border: 1px solid var(--glass-border);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--on-dark-soft);
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease;
+}
+
+.nav-chip::before {
+  content: "";
+  width: 0.375rem;
+  height: 0.375rem;
+  border-radius: 999px;
+  background: oklch(72% 0.16 var(--chip, 224));
+}
+
+.nav-chip:hover {
+  color: var(--on-dark);
+  border-color: var(--glass-border-hover);
+  background-color: rgb(255 255 255 / 0.05);
+}
+
+.nav-chip[data-cat="fintech"] {
+  --chip: 224;
+}
+.nav-chip[data-cat="logistics"] {
+  --chip: 190;
+}
+.nav-chip[data-cat="manufacturing"] {
+  --chip: 264;
+}
+.nav-chip[data-cat="healthcare"] {
+  --chip: 4;
+}
+.nav-chip[data-cat="astrology"] {
+  --chip: 282;
+}
+.nav-chip[data-cat="edtech"] {
+  --chip: 34;
+}
+.nav-chip[data-cat="real-estate"] {
+  --chip: 150;
+}
+
 /* ============================================================================
    BANNERS  (solutions)
    ----------------------------------------------------------------------------
@@ -1256,7 +1409,7 @@
   background: var(--shade);
 }
 
-/* Per-product accents: one hairline and one spotlight, set by the data file. */
+/* Per-product accents: one hairline and one dot colour, set by the data file. */
 .banner[data-hue="blue"] {
   --hue: var(--hue-blue);
 }
@@ -1278,45 +1431,6 @@
   .banner:hover {
     border-color: color-mix(in oklch, var(--hue, var(--accent-bright)) 45%, transparent);
   }
-
-  /* the spotlight: a soft light that follows the pointer across the banner */
-  .banner::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    background: radial-gradient(
-      320px 220px at var(--mx, 50%) var(--my, 50%),
-      color-mix(in oklch, var(--hue, var(--accent-bright)) 22%, transparent),
-      transparent 70%
-    );
-    opacity: 0;
-    transition: opacity 260ms ease;
-    pointer-events: none;
-  }
-
-  .banner:hover::after {
-    opacity: 1;
-  }
-}
-
-/* --- bento spotlight (About) ---------------------------------------------- */
-.spotlight::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    220px 160px at var(--mx, 50%) var(--my, 50%),
-    oklch(100% 0 0 / 0.08),
-    transparent 70%
-  );
-  opacity: 0;
-  transition: opacity 260ms ease;
-  pointer-events: none;
-}
-
-.spotlight:hover::after {
-  opacity: 1;
 }
 
 /* --- marquee (Clients) -----------------------------------------------------
@@ -1490,55 +1604,234 @@ textarea.field {
   color: var(--destructive);
 }
 
-/* --- the one primary button ------------------------------------------------
-   Used by every "Request a demo" on the site. One component, one colour, one
-   hover, one press. If a second primary style appears anywhere, the hierarchy
-   has stopped meaning anything.
-   -------------------------------------------------------------------------- */
-.btn-primary {
+/* --- buttons ---------------------------------------------------------------
+   One system, one component. The primary is the only saturated fill on the
+   page; every other variant is a quiet surface, so "the blue button" keeps
+   meaning "the action". Sizes set --btn-h, so an icon-only button is square by
+   construction and nothing has to be measured at the call site.
+   ------------------------------------------------------------------------- */
+/* --- the delivery rail, phones -------------------------------------------- */
+.rail-mobile > li::before {
+  content: "";
+  position: absolute;
+  left: -2rem;
+  top: 0.4375rem;
+  width: 0.75rem;
+  height: 0.75rem;
+  margin-left: -0.3125rem;
+  border-radius: 999px;
+  border: 2px solid var(--brand);
+  background: var(--paper);
+}
+
+.btn {
+  --btn-h: 2.75rem;
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  height: 3rem;
-  padding-inline: 1.5rem;
-  border-radius: var(--radius);
-  background: var(--brand);
-  color: #ffffff;
+  height: var(--btn-h);
+  padding-inline: 1.25rem;
+  border: 1px solid transparent;
+  border-radius: 0.6875rem;
+  font-family: inherit;
   font-size: 0.9375rem;
-  font-weight: 700;
-  letter-spacing: -0.005em;
+  font-weight: 600;
+  letter-spacing: -0.006em;
+  line-height: 1;
   white-space: nowrap;
-  box-shadow: 0 14px 34px -16px var(--accent-glow);
+  text-decoration: none;
+  cursor: pointer;
+  isolation: isolate;
+  -webkit-tap-highlight-color: transparent;
   transition:
-    transform 160ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    box-shadow 160ms ease,
-    background-color 160ms ease;
+    background-color 180ms ease,
+    background-position 220ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
-.btn-primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 20px 44px -18px var(--accent-glow);
+.btn svg {
+  flex: none;
 }
 
-.btn-primary:active {
-  transform: translateY(0) scale(0.99);
+.btn:active {
+  transform: translateY(1px);
 }
 
-.btn-primary:disabled {
-  opacity: 0.6;
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  opacity: 0.55;
   pointer-events: none;
 }
 
-/* stand-in for the size utilities on the primary class */
-.btn-primary.h-14 {
-  height: 3.5rem;
-  padding-inline: 2rem;
-  font-size: 1rem;
+/* --- sizes */
+.btn--sm {
+  --btn-h: 2.25rem;
+  padding-inline: 0.875rem;
+  font-size: 0.875rem;
+  border-radius: 0.625rem;
 }
-.btn-primary.h-11 {
-  height: 2.75rem;
-  padding-inline: 1.25rem;
+
+.btn--md {
+  --btn-h: 2.75rem;
+}
+
+.btn--lg {
+  --btn-h: 3.25rem;
+  padding-inline: 1.75rem;
+  font-size: 1rem;
+  border-radius: 0.8125rem;
+}
+
+.btn--icon {
+  width: var(--btn-h);
+  padding: 0;
+}
+
+/* --- the one primary action */
+.btn--primary {
+  color: #fff;
+  border-color: rgb(255 255 255 / 0.12);
+  background-image: linear-gradient(180deg, #4066ec 0%, var(--brand) 52%, #2447cf 100%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.26),
+    inset 0 -1px 0 rgb(4 1 30 / 0.22),
+    0 1px 2px rgb(4 1 30 / 0.35),
+    0 12px 26px -14px var(--accent-glow);
+}
+
+/* the hover lightening is an overlay, so the change is a fade rather than a
+   gradient swap (background-image cannot be transitioned) */
+.btn--primary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background-image: linear-gradient(180deg, #4d70f2 0%, #3059e8 52%, #2950dc 100%);
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+.btn--primary:hover::before {
+  opacity: 1;
+}
+
+/* a single sheen that crosses the button once, on hover — it is the only
+   decoration the primary gets, and it is drawn with a pseudo-element so no
+   extra markup is needed anywhere on the site */
+.btn--primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: linear-gradient(
+    105deg,
+    transparent 32%,
+    rgb(255 255 255 / 0.22) 48%,
+    transparent 64%
+  );
+  opacity: 0;
+  transform: translateX(-40%);
+  transition:
+    opacity 260ms ease,
+    transform 620ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.btn--primary:hover {
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.3),
+    inset 0 -1px 0 rgb(4 1 30 / 0.22),
+    0 1px 2px rgb(4 1 30 / 0.35),
+    0 18px 34px -16px var(--accent-glow);
+  transform: translateY(-1px);
+}
+
+.btn--primary:hover::after {
+  opacity: 1;
+  transform: translateX(40%);
+}
+
+.btn--primary:active {
+  transform: translateY(0);
+}
+
+/* --- white button on a dark band */
+.btn--inverse {
+  color: var(--brand-ink);
+  background-color: var(--on-dark);
+  border-color: rgb(255 255 255 / 0.16);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.6),
+    0 1px 2px rgb(4 1 30 / 0.4),
+    0 10px 26px -18px rgb(0 0 0 / 0.8);
+}
+
+.btn--inverse:hover {
+  background-color: #fff;
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.7),
+    0 1px 2px rgb(4 1 30 / 0.4),
+    0 16px 30px -18px rgb(0 0 0 / 0.8);
+}
+
+/* --- secondary, for light bands */
+.btn--secondary {
+  color: var(--brand-ink);
+  background-color: #fff;
+  border-color: var(--line);
+  box-shadow: 0 1px 2px rgb(5 1 37 / 0.06);
+}
+
+.btn--secondary:hover {
+  color: var(--brand);
+  border-color: color-mix(in oklch, var(--brand) 45%, var(--line));
+  box-shadow: 0 10px 22px -16px rgb(5 1 37 / 0.45);
+  transform: translateY(-1px);
+}
+
+/* --- outline, for dark bands */
+.btn--outline {
+  color: var(--on-dark);
+  border-color: var(--glass-border);
+  background-color: rgb(255 255 255 / 0.02);
+}
+
+.btn--outline:hover {
+  background-color: var(--glass-fill-hover);
+  border-color: var(--glass-border-hover);
+}
+
+/* --- ghost: the quietest action that still looks like an action */
+.btn--ghost {
+  color: var(--on-dark-soft);
+  background-color: transparent;
+}
+
+.btn--ghost:hover {
+  color: var(--on-dark);
+  background-color: var(--glass-fill);
+}
+
+/* --- inline text action */
+.btn--link {
+  height: auto;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent-bright);
+  font-weight: 600;
+}
+
+.btn--link:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 /* the material behind the modal */

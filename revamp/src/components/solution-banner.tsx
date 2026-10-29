@@ -35,11 +35,6 @@ export function SolutionBanner({
         preview && "opacity-45 saturate-50",
       )}
       data-hue={product.accentHue}
-      onPointerMove={(event) => {
-        const rect = event.currentTarget.getBoundingClientRect();
-        event.currentTarget.style.setProperty("--mx", `${event.clientX - rect.left}px`);
-        event.currentTarget.style.setProperty("--my", `${event.clientY - rect.top}px`);
-      }}
     >
       <div className="banner-art">
         <img

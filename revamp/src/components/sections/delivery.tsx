@@ -7,6 +7,7 @@ import {
   useReducedMotion,
   useScroll,
   useTransform,
+  type MotionValue,
 } from "framer-motion";
 import { Reveal } from "@/components/reveal";
 import { deliverySteps } from "@/data/steps";
@@ -17,26 +18,34 @@ import { DELIVERY_DAYS } from "@/data/products";
    ----------------------------------------------------------------------------
    PURPOSE: make the 15-day promise believable.
 
-   This is the first light band on the page. It sits between Solutions and
-   About, so it works as a divider: dark banners above, dark bento below, and a
-   sheet of paper in the middle holding one number and four stages.
+   One idea per row: the number, then the rail. Each stage is two words and a
+   date range — the sentences that used to sit under them were explaining the
+   rail rather than adding to it.
 
-   Three things happen once as it scrolls in, all driven off one scroll value:
-   the 15 counts up, each stage's segment of the rail draws, and its node fills
-   in. `prefers-reduced-motion` renders the finished state immediately.
+   MOTION (one scroll value, all of it transform/opacity)
+     - the 15 counts up once, when the number enters the viewport
+     - the rail fills left to right as the section passes
+     - a single lit puck rides the leading edge of the fill
+     - each stop wakes as the fill reaches it: label up, dot filled
 
-   The day ranges are DRAFT — see data/steps.ts.
+   `prefers-reduced-motion` renders the finished state: 15, full rail, all stops
+   lit. Nothing depends on the animation to be readable.
    ========================================================================== */
 
 export function Delivery() {
   const reduceMotion = useReducedMotion();
-  const sectionRef = useRef<HTMLDivElement | null>(null);
-  const inView = useInView(sectionRef, { once: true, margin: "-20% 0px" });
+  const numberRef = useRef<HTMLDivElement | null>(null);
+  const railRef = useRef<HTMLDivElement | null>(null);
+  const inView = useInView(numberRef, { once: true, margin: "-20% 0px" });
 
   const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start 0.85", "end 0.5"],
+    target: railRef,
+    offset: ["start 0.9", "end 0.6"],
   });
+
+  /* hoisted: hooks may not run inside the JSX conditionals below */
+  const railFillX = useTransform(scrollYProgress, [0, 1], [0, 1]);
+  const railFillY = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
   /* Server prints 15, so a crawler or a no-JS visit never sees a zero. */
   const [count, setCount] = useState(DELIVERY_DAYS);
@@ -61,8 +70,8 @@ export function Delivery() {
       className="light-band relative overflow-hidden bg-band-delivery"
       aria-labelledby="delivery-title"
     >
-      <div ref={sectionRef} className="shell band">
-        <div className="grid gap-x-16 gap-y-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] lg:items-end">
+      <div className="shell band">
+        <div className="grid gap-x-16 gap-y-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.85fr)] lg:items-end">
           <Reveal>
             <p className="t-label">How it works</p>
             <h2 id="delivery-title" className="t-heading mt-4 max-w-[18ch]">
@@ -71,19 +80,14 @@ export function Delivery() {
           </Reveal>
 
           <Reveal delay={0.1}>
-            <p className="t-body max-w-[46ch] lg:pb-2">
-              One track, four stages. You work with the people doing the work,
-              and we quote the date before we start.
+            <p className="t-body max-w-[40ch] lg:pb-2">
+              Four stages, one team, and the date quoted before we start.
             </p>
           </Reveal>
         </div>
 
-        {/* ---- the number ---- */}
-        <div className="mt-14 flex flex-wrap items-end gap-x-6 gap-y-3 sm:mt-20">
-          <p
-            className="figure-number tabular-nums"
-            aria-hidden="true"
-          >
+        <div ref={numberRef} className="mt-12 flex items-end gap-5 sm:mt-16">
+          <p className="figure-number tabular-nums" aria-hidden="true">
             {String(count).padStart(2, "0")}
           </p>
           <p className="pb-3 text-[1.0625rem] font-semibold leading-snug text-on-light-soft">
@@ -96,25 +100,80 @@ export function Delivery() {
           </span>
         </div>
 
-        {/* ---- the rail ---- */}
-        <ol className="mt-10 grid gap-y-10 sm:grid-cols-2 sm:gap-x-8 lg:mt-12 lg:grid-cols-4">
-          {deliverySteps.map((step, index) => (
-            <Stage
-              key={step.id}
-              index={index}
-              progress={scrollYProgress}
-              reduceMotion={Boolean(reduceMotion)}
-            >
-              <p className="t-label">{step.days}</p>
-              <h3 className="mt-2 text-xl font-semibold tracking-[-0.02em] text-on-light">
-                {step.title}
-              </h3>
-              <p className="mt-2 max-w-[28ch] text-[1rem] leading-relaxed text-on-light-soft">
-                {step.line}
-              </p>
-            </Stage>
-          ))}
-        </ol>
+        <div ref={railRef} className="mt-10 sm:mt-12">
+          {/* desktop / tablet: one rail, four stops */}
+          <div className="hidden sm:block">
+            <div className="relative h-[3px] w-full rounded-full bg-line">
+              <motion.span
+                aria-hidden="true"
+                className="absolute inset-y-0 left-0 w-full origin-left rounded-full bg-[linear-gradient(90deg,var(--brand)_0%,#4f74ee_55%,#9db4ff_100%)]"
+                style={reduceMotion ? undefined : { scaleX: railFillX }}
+              />
+
+              {deliverySteps.map((step, index) => (
+                <RailStop
+                  key={step.id}
+                  index={index}
+                  progress={scrollYProgress}
+                  reduceMotion={Boolean(reduceMotion)}
+                />
+              ))}
+              <RailStop
+                index={deliverySteps.length}
+                progress={scrollYProgress}
+                reduceMotion={Boolean(reduceMotion)}
+              />
+
+              {!reduceMotion && <RailPuck progress={scrollYProgress} />}
+            </div>
+
+            <ol className="mt-8 grid grid-cols-4 gap-x-6">
+              {deliverySteps.map((step, index) => (
+                <Stage
+                  key={step.id}
+                  index={index}
+                  progress={scrollYProgress}
+                  reduceMotion={Boolean(reduceMotion)}
+                >
+                  <p className="text-[0.75rem] font-semibold uppercase tracking-[0.14em] text-on-light-faint">
+                    {step.days}
+                  </p>
+                  <h3 className="mt-2 text-[1.125rem] font-semibold leading-snug tracking-[-0.02em] text-on-light">
+                    {step.title}
+                  </h3>
+                </Stage>
+              ))}
+            </ol>
+          </div>
+
+          {/* phones: the same rail, stood on its end */}
+          <ol className="rail-mobile relative flex flex-col gap-6 pl-8 sm:hidden">
+            <span
+              aria-hidden="true"
+              className="absolute bottom-2 left-[5px] top-2 w-[2px] rounded-full bg-line"
+            />
+            <motion.span
+              aria-hidden="true"
+              className="absolute bottom-2 left-[5px] top-2 w-[2px] origin-top rounded-full bg-brand"
+              style={reduceMotion ? undefined : { scaleY: railFillY }}
+            />
+            {deliverySteps.map((step, index) => (
+              <Stage
+                key={step.id}
+                index={index}
+                progress={scrollYProgress}
+                reduceMotion={Boolean(reduceMotion)}
+              >
+                <p className="text-[0.75rem] font-semibold uppercase tracking-[0.14em] text-on-light-faint">
+                  {step.days}
+                </p>
+                <h3 className="mt-1.5 text-[1.0625rem] font-semibold tracking-[-0.02em] text-on-light">
+                  {step.title}
+                </h3>
+              </Stage>
+            ))}
+          </ol>
+        </div>
       </div>
     </section>
   );
@@ -122,6 +181,47 @@ export function Delivery() {
 
 /* -------------------------------------------------------------------------- */
 
+/** A stop on the rail. Fills in once the drawn line reaches it. */
+function RailStop({
+  index,
+  progress,
+  reduceMotion,
+}: {
+  index: number;
+  progress: MotionValue<number>;
+  reduceMotion: boolean;
+}) {
+  const at = index / deliverySteps.length;
+  const lit = useTransform(progress, [at - 0.06, at + 0.02], [0, 1]);
+
+  return (
+    <motion.span
+      aria-hidden="true"
+      className="absolute top-1/2 size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand"
+      style={{
+        left: `${at * 100}%`,
+        opacity: reduceMotion ? 1 : lit,
+        scale: reduceMotion ? 1 : lit,
+      }}
+    />
+  );
+}
+
+/** The lit puck that rides the leading edge of the fill. */
+function RailPuck({ progress }: { progress: MotionValue<number> }) {
+  const left = useTransform(progress, [0, 1], ["0%", "100%"]);
+  const opacity = useTransform(progress, [0, 0.02, 0.97, 1], [0.9, 1, 1, 0]);
+
+  return (
+    <motion.span
+      aria-hidden="true"
+      className="absolute top-1/2 size-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white bg-brand shadow-[0_0_0_5px_rgb(44_83_224_/_0.14),0_0_18px_2px_rgb(44_83_224_/_0.45)]"
+      style={{ left, opacity }}
+    />
+  );
+}
+
+/** The label under a stop: lifts and brightens as the fill arrives. */
 function Stage({
   children,
   index,
@@ -130,38 +230,19 @@ function Stage({
 }: {
   children: React.ReactNode;
   index: number;
-  progress: ReturnType<typeof useScroll>["scrollYProgress"];
+  progress: MotionValue<number>;
   reduceMotion: boolean;
 }) {
-  const from = index / deliverySteps.length;
-  const to = (index + 1) / deliverySteps.length;
-
-  const draw = useTransform(progress, [from, to], [0, 1]);
-  const lit = useTransform(progress, [to - 0.05, to], [0, 1]);
+  const at = index / deliverySteps.length;
+  const opacity = useTransform(progress, [at - 0.12, at], [0.45, 1]);
+  const y = useTransform(progress, [at - 0.12, at], [10, 0]);
 
   return (
-    <li className="relative pt-7">
-      {/* the unfilled rail */}
-      <span
-        aria-hidden="true"
-        className="absolute inset-x-0 top-0 h-[2px] rounded-full bg-line lg:-right-8"
-      />
-      {/* the brand part, drawn as the section scrolls */}
-      <motion.span
-        aria-hidden="true"
-        className="absolute inset-x-0 top-0 h-[2px] origin-left rounded-full bg-brand lg:-right-8"
-        style={reduceMotion ? { scaleX: 1 } : { scaleX: draw }}
-      />
-      <span
-        aria-hidden="true"
-        className="absolute -top-[5px] left-0 size-3 rounded-full border-2 border-line bg-white"
-      />
-      <motion.span
-        aria-hidden="true"
-        className="absolute -top-[5px] left-0 size-3 rounded-full bg-brand"
-        style={reduceMotion ? { opacity: 1 } : { opacity: lit, scale: lit }}
-      />
+    <motion.li
+      className="relative"
+      style={reduceMotion ? undefined : { opacity, y }}
+    >
       {children}
-    </li>
+    </motion.li>
   );
 }

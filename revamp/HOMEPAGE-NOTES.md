@@ -85,7 +85,13 @@ steps live in `BANNER-DIRECTION.md`. Follow it for every future banner.
 - One entrance animation (`components/reveal.tsx`): 20px up, fade, once.
   `prefers-reduced-motion` renders the finished state, drops the sticky stack to
   a plain list, and stops the marquees and the hero rings.
-- Header: 60px fixed height, 32px logo, one "Contact us".
+- Header: 60px fixed height, 32px logo, "Since 2014", pill nav with a
+  Solutions menu (six products + the seven industries), one "Contact us".
+- One button system (`components/ui/button.tsx` + `.btn` in the CSS): primary,
+  inverse, secondary, outline, ghost, link — three sizes, lucide icons passed
+  by name so they work from server components too.
+- Delivery is a rail, not a list: the fill, the puck and the four stops are all
+  driven by one scroll value; reduced motion shows the finished rail.
 
 ## How this build was verified
 

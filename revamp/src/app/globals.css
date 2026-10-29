@@ -348,8 +348,10 @@
     background-size: cover;
     background-position: 72% 46%;
     background-repeat: no-repeat;
-    opacity: 0.92;
-    filter: saturate(0.94) contrast(1.02);
+    /* The artwork is the mood, not the subject: it is held back so the type and
+       the chips always win, and so the board reads as depth rather than noise. */
+    opacity: 0.88;
+    filter: saturate(0.92) contrast(1.04) brightness(0.78);
     -webkit-mask-image: linear-gradient(
       100deg,
       transparent 0%,
@@ -386,6 +388,8 @@
       ),
       /* the top vignette, so the bar stays legible over the bright part */
       linear-gradient(180deg, rgb(10 8 32 / 0.72) 0%, transparent 26%),
+      /* and a floor, so the banner stack below does not begin on a bright edge */
+      linear-gradient(0deg, rgb(10 8 32 / 0.62) 0%, rgb(10 8 32 / 0) 34%),
       radial-gradient(
         42% 52% at 10% 26%,
         rgb(30 79 216 / 0.34) 0%,
@@ -659,10 +663,10 @@
     color: var(--on-dark);
     /* a dark base under the hue: the photograph runs behind this row, and a
        translucent pill would take its contrast from whatever is behind it */
-    background-color: rgb(10 8 32 / 0.66);
+    background-color: rgb(10 8 32 / 0.76);
     background-image: linear-gradient(
-      hsl(var(--chip, 224) 82% 58% / 0.26),
-      hsl(var(--chip, 224) 82% 58% / 0.26)
+      hsl(var(--chip, 224) 82% 58% / 0.3),
+      hsl(var(--chip, 224) 82% 58% / 0.3)
     );
     border: 1px solid hsl(var(--chip, 224) 82% 64% / 0.62);
     box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.08);

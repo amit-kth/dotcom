@@ -65,11 +65,12 @@ business do?" and seven category chips. The chips are the point, so they are
 56px tall on desktop, each tinted with its own hue, and the prompt line carries
 a brand mark and a rule that runs to the edge of the column.
 
-The background is one premium tech key visual: a single brushed-metal ribbon
-looping through deep navy space, traced by one electric-blue line, lit like a
-hardware launch photograph. It sits in the right two thirds and fades to black
-under the type, so the hero reads as a software company without a single
-floating panel, window or wireframe grid. No glass cards, no neon rainbow.
+The background is one macro photograph of real hardware: a dark circuit board
+with copper traces converging on a processor, raked by blue light, held at 78%
+brightness so it reads as depth rather than noise. It fills the right two thirds
+and fades to black under the type. No floating panels, no windows, no wireframe
+grid, no 3D ribbon, no neon rainbow — and nothing that could be mistaken for a
+small-business photo: this is a software company.
 
 ## Solutions and the catalogue
 

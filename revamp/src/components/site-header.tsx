@@ -2,7 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, ChevronDown, Menu, X } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { ArrowRight, ChevronDown, Menu, X } from "lucide-react";
 import { asset, site } from "@/config/variables";
 import { RequestDemoDialog } from "@/components/request-demo-dialog";
 import { useCategory } from "@/components/category-context";
@@ -46,6 +47,7 @@ export function SiteHeader() {
   const [panel, setPanel] = useState(false);
   const [active, setActive] = useState<string | null>(null);
   const { setSelected } = useCategory();
+  const router = useRouter();
 
   const panelRef = useRef<HTMLDivElement | null>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
@@ -125,10 +127,14 @@ export function SiteHeader() {
     closeTimer.current = window.setTimeout(() => setPanel(false), 140);
   };
 
+  /* The chips filter the homepage stack. On /solutions there is no stack, so
+     the choice is carried home instead of being silently applied off-screen. */
   const chooseIndustry = (id: (typeof categories)[number]["id"]) => {
     setSelected(id);
     closePanel();
-    document.getElementById("solutions")?.scrollIntoView({ block: "start" });
+    const target = document.getElementById("solutions");
+    if (target) target.scrollIntoView({ block: "start" });
+    else router.push("/#solutions");
   };
 
   return (

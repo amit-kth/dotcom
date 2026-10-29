@@ -182,10 +182,8 @@ export function Hero() {
                   whileHover={reduceMotion ? undefined : { y: -3 }}
                   whileTap={reduceMotion ? undefined : { scale: 0.975 }}
                 >
-                  <Icon
-                    className="size-4 shrink-0 text-brand-soft"
-                    aria-hidden="true"
-                  />
+                  {/* the chip's own hue, applied in CSS from --chip */}
+                  <Icon className="shrink-0" aria-hidden="true" />
                   {category.label}
                 </motion.button>
               );

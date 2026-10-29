@@ -64,16 +64,17 @@ Two things and one decision: a headline, one sentence, then "What does your
 business do?" and seven category chips. The chips are the point, so the prompt
 carries a brand mark and a rule that runs to the edge of the column, and each
 chip is a solid pill in its own hue — deep enough for white type, with a
-hairline and an icon in the same colour. They are deliberately compact (44px on
-desktop, 48px on a phone): a translucent pill over the photograph turns all
-seven the same muddy grey, so they are opaque and small rather than big and
-lost.
+hairline and an icon in the same colour. They are deliberately compact — 36px
+on desktop, 40px on a phone, 14px label: a translucent pill over the photograph
+turns all seven the same muddy grey, so they are opaque and small rather than
+big and lost.
 
 The background is one macro photograph of real hardware: a dark circuit board
 with copper traces converging on a processor, raked by blue light, held at 78%
-brightness so it reads as depth rather than noise. It fills the right two thirds
-and fades to black under the type: the scrim is only as long as it has to be,
-clearing by 64% across, so the hardware stays visible behind the chips. No floating panels, no windows, no wireframe
+brightness so it reads as depth rather than noise. The photograph stays bright
+(94%) because the overlay does the work instead: the scrim is 0.97 opaque under
+the copy, holds 0.62 until 46% across, and is fully clear by 78% — heavy where
+the type is, absent over the hardware on the right. No floating panels, no windows, no wireframe
 grid, no 3D ribbon, no neon rainbow — and nothing that could be mistaken for a
 small-business photo: this is a software company.
 

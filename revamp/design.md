@@ -64,23 +64,26 @@ Two things and one decision: a headline, one sentence, then "What does your
 business do?" and seven category chips. The chips are the point, so the prompt
 carries a brand mark and a rule that runs to the edge of the column, and each
 chip is a solid pill in its own hue — deep enough for white type, with a
-hairline and an icon in the same colour. They are deliberately compact — 36px on
-desktop (2.25rem, 14px label, 14px icon), 40px on a phone: a translucent pill
-over the photograph turns all seven the same muddy grey, so they are opaque and
-small rather than big and lost. Chip size lives in the base `.chip` rule and in the
+hairline and an icon in the same colour. Each pill is exactly its label plus its
+icon — 32px tall, 13px label, 12px icon on desktop; 34px on a phone. Nothing
+stretches them: no `1fr` grid columns and no `flex: 1 1 auto`, so the row wraps
+instead of turning seven short words into seven long pills, which is what made
+them look wrong. Chip size lives in the base `.chip` rule and in the
 `min-width: 1024px` block, which repeats the same compact values. Never add a
 larger size further down the sheet: that is what silently overrode the smaller
 ones.
 
 The background is one macro photograph of real hardware: a dark circuit board
 with copper traces converging on a processor, raked by blue light, held at 78%
-brightness so it reads as depth rather than noise. The photograph is left bright
-on purpose (98% opacity, brightness 1.06) because the overlay does the work
-instead: `.hero::after` is its own layer at `inset: 0` — 0.97 opaque at the left
-edge, 0.95 at 32%, 0.72 at 48%, 0.40 at 60%, clear by 78% — plus a top vignette
-for the bar and a floor where the banner stack begins. It is a separate layer
-because `.hero-aurora` is oversized (`inset: -20%`) for its drift, and a
-gradient painted on an oversized box lands its percentages somewhere else. No floating panels, no windows, no wireframe
+brightness so it reads as depth rather than noise. It is **dulled on purpose**
+(opacity 0.9, brightness 0.66, saturation 0.9) and then covered by
+`.hero::after` at `inset: 0`: 0.97 opaque at the left edge, 0.94 at 30%, 0.86 at
+55%, and still 0.76 at the right edge. The image is a backdrop everywhere — it
+is never left bright — so the type and the chip row own the surface. Plus a top
+vignette for the bar and a floor where the banner stack begins. The overlay is a
+separate layer because `.hero-aurora` is oversized (`inset: -20%`) for its
+drift, and a gradient painted on an oversized box lands its percentages
+somewhere else. No floating panels, no windows, no wireframe
 grid, no 3D ribbon, no neon rainbow — and nothing that could be mistaken for a
 small-business photo: this is a software company.
 

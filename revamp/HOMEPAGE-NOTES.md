@@ -37,14 +37,17 @@ Banner spec: **16:7**, 1680 × 735 WebP, artwork right, left third calm.
 Files: `public/banners/*.webp`. To replace one, overwrite the file — the data
 file and the component do not change.
 
-The art is photographic, not diagrammatic: dark-navy studio renders with the
-product as a physical object on the right. AI Calling Agents is the light-wave
-render; WhatsApp CRM is a phone running a chat thread; K-Exam is a tablet with a
-live test on a desk; K-LMS is a laptop with a course dashboard and headphones;
-K-Edusity is an isometric campus cutaway; Kastrofy is a cosmic chart. K-Edusity
-and Kastrofy still read more like illustration than photograph and are the two
-to redo if the art direction moves again. All six are placeholders for art
-direction, not final brand assets.
+The art is photographic, not diagrammatic: dark-navy studio renders of the
+product as a physical object on the right, empty calm space on the left for the
+copy. AI Calling Agents: a phone in a call with a light ribbon and floating call
+cards. WhatsApp CRM: a phone running a chat thread. K-Exam: a tablet showing a
+live test while paper sheets dissolve into it. K-LMS: a laptop with course cards
+and learner cards arcing toward it. K-Edusity: a laptop running a school
+operations panel, in a school corridor. Kastrofy: a phone showing a birth chart,
+with an astrolabe and star charts.
+
+The brief, the fixed layout rule (16:7, left third empty) and the production
+steps live in `BANNER-DIRECTION.md`. Follow it for every future banner.
 
 ## Still placeholder or unconfirmed
 

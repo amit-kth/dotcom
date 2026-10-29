@@ -1196,8 +1196,16 @@
   .banner-art {
     position: relative;
     order: 2;
-    aspect-ratio: 16 / 7;
+    /* The art is composed as "empty left, product right", which is exactly the
+       layout the desktop copy needs. On a phone there is no copy over the art,
+       so the frame crops in on the right half instead of showing a small
+       product inside a wide empty banner. */
+    aspect-ratio: 4 / 3;
     border-top: 1px solid var(--glass-border);
+  }
+
+  .banner-art img {
+    object-position: 78% 50%;
   }
 }
 

@@ -47,6 +47,11 @@ export const asset = (path: string): string => {
 --------------------------------------------------------------------------- */
 export const API_ENDPOINT = "TODO_LARAVEL_ENDPOINT"; // e.g. "https://api.kriscent.com/enquiry"
 
+/** The contact page form posts here. Same TODO rule: while this starts with
+    "TODO" the form simulates success so the states can be reviewed, and a real
+    URL switches it on with no component change. */
+export const CONTACT_ENDPOINT = "TODO_LARAVEL_CONTACT_ENDPOINT"; // e.g. "https://api.kriscent.com/contact"
+
 /* ---------------------------------------------------------------------------
    3. SITE
 --------------------------------------------------------------------------- */
@@ -101,9 +106,8 @@ export const contact = {
   whatsappNumber: "+918947027625",
   /** wa.me link, carried over from the old site's floating button. */
   whatsapp: "https://wa.me/918947027625",
-  /** The old site's contact page; the footer links to it rather than
-      duplicating a form here. */
-  contactPage: "https://kriscent.in/contact",
+  /** Our own contact page. */
+  contactPath: "/contact",
   aboutPage: "https://kriscent.in/about",
   clientsPage: "https://kriscent.in/clients",
   /* The profiles the old site links to in its own footer. Nothing invented:
@@ -131,7 +135,7 @@ export const contact = {
    component combines it with site.url to build the canonical and og:url.
    `noindex` should stay false unless a page genuinely must not be indexed.
 --------------------------------------------------------------------------- */
-export type PageKey = "home" | "solutions";
+export type PageKey = "home" | "solutions" | "contact";
 
 export type PageMeta = {
   path: string;
@@ -155,6 +159,13 @@ export const pages: Record<PageKey, PageMeta> = {
     title: "All Ready-Made Solutions | Kriscent",
     description:
       "The full catalogue of Kriscent ready-made solutions, themes and additional products. Every system can be live in 15 days.",
+    ogImage: "logo/og.png",
+  },
+  contact: {
+    path: "/contact",
+    title: "Contact Kriscent | Ready-Made Software, Live in 15 Days",
+    description:
+      "Tell us what you run and we will show you the closest thing we have already built. Enquiries are answered by the team that builds and installs the software.",
     ogImage: "logo/og.png",
   },
 };

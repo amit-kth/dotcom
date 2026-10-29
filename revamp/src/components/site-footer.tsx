@@ -51,7 +51,7 @@ const COMPANY_LINKS: FooterLink[] = [
   { label: "Clients", href: contact.clientsPage, external: true },
   { label: "How we deliver", href: "/#delivery" },
   { label: "All solutions", href: "/solutions" },
-  { label: "Contact", href: contact.contactPage, external: true },
+  { label: "Contact", href: "/contact" },
 ];
 
 export function SiteFooter() {

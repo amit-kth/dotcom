@@ -1,10 +1,12 @@
 import { type CategoryId } from "./categories";
 
 /* ============================================================================
-   products.ts  —  the six solutions we show
+   products.ts  —  the five solutions we show
    ----------------------------------------------------------------------------
-   This list is the client's: AI Calling Agents, WhatsApp CRM, K-Exam, K-LMS,
-   K-Edusity, Kastrofy. Nothing else is added here.
+   This list is the client's: AI Calling Agents, WhatsApp CRM, K-Exam,
+   K-Edusity (the school ERP — what used to be K-LMS and K-Edusity, merged:
+   they were the same product) and Kastrofy. Nothing else is added here; the
+   rest of the client's catalogue lives in catalogue.ts.
 
    BANNER SPEC
    -----------
@@ -46,6 +48,9 @@ export type Product = {
   accentHue: AccentHue;
   /** path under ASSETS_BASE_URL */
   banner: string;
+  /** the product's own page, taken from the old site — never invented.
+      "Book a demo" always goes to /contact. */
+  href?: string;
   /** shown in the homepage list; false = only on /solutions */
   featured: boolean;
   order: number;
@@ -68,6 +73,8 @@ export const products: Product[] = [
     ],
     accentHue: "blue",
     banner: "banners/ai-calling-agents.webp",
+    /* the client's own site for this product */
+    href: "https://agents-website.kriscenttechnohub.com/",
     featured: true,
     order: 1,
   },
@@ -84,6 +91,7 @@ export const products: Product[] = [
     ],
     accentHue: "teal",
     banner: "banners/k-smart.webp",
+    href: "https://www.kriscent.in/product/ksmart/",
     featured: true,
     order: 2,
   },
@@ -100,40 +108,28 @@ export const products: Product[] = [
     ],
     accentHue: "coral",
     banner: "banners/k-exam.webp",
+    href: "https://www.kriscent.in/product/kexam/",
     featured: true,
     order: 3,
   },
   {
-    id: "k-lms",
-    name: "K-LMS",
-    problem: "Training progress lives in spreadsheets nobody updates.",
-    // TODO(confirm): K-LMS lines are DRAFT.
-    categories: ["edtech", "manufacturing"],
-    outcomes: [
-      "Courses and batches in one place",
-      "Trainers see learner progress",
-      "Certificates issued on completion",
-    ],
-    accentHue: "violet",
-    banner: "banners/k-lms.webp",
-    featured: true,
-    order: 4,
-  },
-  {
     id: "k-edusity",
     name: "K-Edusity",
+    /* School ERP. This is the merge of the old K-Edusity and K-LMS entries:
+       admissions, fees, attendance, transport, exams and courses are one
+       system, so they are one solution. */
     problem: "A school runs on registers, WhatsApp groups and memory.",
-    // TODO(confirm): K-Edusity (school ERP) lines are DRAFT.
-    categories: ["edtech"],
+    categories: ["edtech", "manufacturing"],
     outcomes: [
-      "Admissions to attendance in one place",
-      "Fees, exams and transport together",
-      "Parents see what the school sees",
+      "Admissions, fees and attendance",
+      "Timetables, transport and exams",
+      "Courses, learners and certificates",
     ],
     accentHue: "blue",
     banner: "banners/k-edusity.webp",
+    href: "https://www.kriscent.com/product/kedusity/",
     featured: true,
-    order: 5,
+    order: 4,
   },
   {
     id: "kastrofy",
@@ -149,8 +145,9 @@ export const products: Product[] = [
     ],
     accentHue: "violet",
     banner: "banners/kastrofy.webp",
+    href: "https://kriscent.in/product/kastrofy/",
     featured: true,
-    order: 6,
+    order: 5,
   },
 ];
 

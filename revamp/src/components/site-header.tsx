@@ -14,14 +14,14 @@ import { cn } from "@/lib/utils";
 /* ============================================================================
    SiteHeader
    ----------------------------------------------------------------------------
-   PURPOSE: the brand, the way into the six products, and one action.
+   PURPOSE: the brand, the way into the five solutions, and one action.
 
    HEIGHT
    60px, fixed, at every scroll position. The bar fades its glass in after the
    first scroll; it never changes height, so nothing on the page shifts.
 
    THE MENU
-   "Solutions" is a menu, not a link, because the site only has six products and
+   "Solutions" is a menu, not a link, because the site only has five solutions and
    a visitor should be able to see all of them without leaving the page they are
    on. The panel holds both ways in: by product (name and the problem it
    removes) and by industry (the same seven categories as the hero chips, which
@@ -33,6 +33,10 @@ import { cn } from "@/lib/utils";
    THE ACTION
    "Contact us", not "Request a demo": at the top of the page nobody has picked
    a solution yet, so there is nothing to demo. It opens the enquiry dialog.
+
+   ON A LIGHT PAGE
+   The bar is dark glass at rest, so `solid` is passed on /solutions: white type
+   over a paper band would be invisible until the first scroll.
    ========================================================================== */
 
 const NAV = [
@@ -41,7 +45,7 @@ const NAV = [
   { label: "Clients", href: "/#clients", id: "clients" },
 ] as const;
 
-export function SiteHeader() {
+export function SiteHeader({ solid = false }: { solid?: boolean }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [panel, setPanel] = useState(false);
@@ -141,26 +145,19 @@ export function SiteHeader() {
     <header
       className={cn(
         "site-header sticky top-0 z-50 h-[var(--header-h)]",
-        (scrolled || open || panel) && "is-solid",
+        (scrolled || open || panel || solid) && "is-solid",
       )}
     >
       <div className="shell relative flex h-full items-center justify-between gap-6">
-        <div className="flex items-center gap-5">
-          <Link href="/" aria-label={`${site.name} home`} className="shrink-0">
-            <img
-              src={asset("logo/logo.png")}
-              alt={site.name}
-              width={274}
-              height={72}
-              className="h-8 w-auto brightness-0 invert"
-            />
-          </Link>
-          <span aria-hidden="true" className="hidden h-6 w-px bg-white/12 lg:block" />
-          {/* not the hero headline again: a fact the logo cannot carry */}
-          <span className="hidden text-[0.8125rem] font-medium leading-tight tracking-[0.01em] text-on-dark-faint lg:block">
-            Since {site.founded}
-          </span>
-        </div>
+        <Link href="/" aria-label={`${site.name} home`} className="shrink-0">
+          <img
+            src={asset("logo/logo.png")}
+            alt={site.name}
+            width={274}
+            height={72}
+            className="h-8 w-auto brightness-0 invert"
+          />
+        </Link>
 
         <nav aria-label="Sections" className="hidden items-center gap-0.5 lg:flex">
           <div

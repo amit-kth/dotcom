@@ -1,7 +1,9 @@
 "use client";
 
-import { asset } from "@/config/variables";
-import { RequestDemoDialog } from "@/components/request-demo-dialog";
+import Link from "next/link";
+import { ArrowUpRight, CalendarCheck } from "lucide-react";
+import { asset, contact } from "@/config/variables";
+import { buttonVariants } from "@/components/ui/button";
 import { categoryLabel } from "@/data/categories";
 import { BANNER_RATIO, type Product } from "@/data/products";
 import { cn } from "@/lib/utils";
@@ -79,8 +81,32 @@ export function SolutionBanner({
           ))}
         </ul>
 
-        <div className="mt-8">
-          <RequestDemoDialog product={product.name} label="Request a demo" />
+        {/* Two jobs, two buttons: book a demo (which is the enquiry page, not a
+            modal, because it is the second thing this reader wants) and read
+            about the product on its own page. */}
+        <div className="mt-8 flex flex-wrap items-center gap-3">
+          <Link
+            href={contact.contactPath}
+            className={cn(buttonVariants({ variant: "outline", size: "md" }), "group")}
+          >
+            <CalendarCheck className="size-4" aria-hidden="true" />
+            Book a demo
+          </Link>
+
+          {product.href && (
+            <a
+              href={product.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={cn(buttonVariants({ variant: "primary", size: "md" }), "group")}
+            >
+              Explore {product.name}
+              <ArrowUpRight
+                className="size-4 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                aria-hidden="true"
+              />
+            </a>
+          )}
         </div>
       </div>
     </article>

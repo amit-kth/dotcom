@@ -7,9 +7,15 @@ import { ArrowRight } from "lucide-react";
 import { useCategory } from "@/components/category-context";
 import { SolutionBanner } from "@/components/solution-banner";
 import { RequestDemoDialog } from "@/components/request-demo-dialog";
-import { categoryLabel } from "@/data/categories";
+import { categories, categoryLabel, type CategoryId } from "@/data/categories";
 import { featuredProducts, productsInCategory } from "@/data/products";
 import { buttonVariants } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+} from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 
 /* ============================================================================
@@ -91,22 +97,50 @@ export function Solutions() {
             </h2>
           </div>
 
-          {/* Fixed height in every state: the label never reflows the row, and
-              the action only appears when there is something to clear. */}
-          <div className="flex h-11 items-center gap-4">
-            <p className="text-[1rem] text-on-light-soft">
-              Showing:{" "}
-              <span className="font-semibold text-on-light">
-                {selected ? categoryLabel(selected) : "all solutions"}
-              </span>
-            </p>
+          {/* A real control instead of a line of text: it says the list is
+              filtered, it changes the list, and the row keeps its height in
+              every state. */}
+          <div className="flex h-11 items-center gap-3">
+            <label
+              htmlFor="solutions-filter"
+              className="text-[0.9375rem] text-on-light-soft"
+            >
+              Showing
+            </label>
+            <Select
+              value={selected ?? "all"}
+              onValueChange={(value) => {
+                const next = value === "all" ? null : (value as CategoryId);
+                setSelected(next);
+                document.getElementById("solutions")?.scrollIntoView({
+                  block: "start",
+                });
+              }}
+            >
+              <SelectTrigger id="solutions-filter">
+                {/* Radix resolves <SelectValue /> from mounted items, which on a
+                    static export it never has at first paint, so the trigger
+                    prints its own label instead. */}
+                <span className="truncate">
+                  {selected ? categoryLabel(selected) : "All solutions"}
+                </span>
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All solutions</SelectItem>
+                {categories.map((category) => (
+                  <SelectItem key={category.id} value={category.id}>
+                    {category.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
             {selected && (
               <button
                 type="button"
                 onClick={clearFilter}
-                className="inline-flex min-h-11 items-center text-[1rem] font-semibold text-brand underline-offset-4 hover:underline"
+                className="inline-flex min-h-11 items-center text-[0.9375rem] font-semibold text-brand underline-offset-4 hover:underline"
               >
-                Show all
+                Clear
               </button>
             )}
           </div>

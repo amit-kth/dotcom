@@ -1,13 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import {
-  motion,
-  useReducedMotion,
-  useScroll,
-  useTransform,
-  type Variants,
-} from "framer-motion";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
 import {
   Building2,
   Factory,
@@ -36,9 +30,9 @@ import { DELIVERY_DAYS } from "@/data/products";
      2  one sentence under it
      3  the label, then the chips, which are the only interactive thing here
 
-   The right-hand side is depth: four concentric brand rings with a slow
-   rotating dashed ring, sitting behind the headline. Nothing to look at that
-   competes with the chips.
+   The right-hand side is one photograph — a shop counter at night, faded in
+   from the left — and a blue wash. No rings, no grid, no floating panels:
+   nothing that competes with the chips.
 
    CHIPS AT EVERY WIDTH
    Seven chips, and the layout guarantees none of them is ever stranded:
@@ -67,14 +61,6 @@ export function Hero() {
   const reduceMotion = useReducedMotion();
   const scroller = useRef<HTMLDivElement | null>(null);
   const heroRef = useRef<HTMLElement | null>(null);
-
-  /* The rings drift up slightly slower than the page. One value, one
-     transform — nothing here re-renders React on scroll. */
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"],
-  });
-  const figureY = useTransform(scrollYProgress, [0, 1], [0, -90]);
 
   const choose = (id: CategoryId) => {
     const next = selected === id ? null : id;
@@ -116,19 +102,6 @@ export function Hero() {
         style={{ "--hero-photo": `url(${asset("hero-bg.webp")})` } as React.CSSProperties}
       />
       <div aria-hidden="true" className="hero-aurora" />
-      <div aria-hidden="true" className="hero-grid" />
-
-      <motion.div
-        aria-hidden="true"
-        className="hero-figure"
-        style={reduceMotion ? undefined : { y: figureY }}
-      >
-        <span />
-        <span />
-        <span />
-        <span />
-        <span />
-      </motion.div>
 
       <div className="shell hero-inner">
         <h1 id="hero-title" className="t-display hero-title">
@@ -172,11 +145,12 @@ export function Hero() {
         <div className="hero-picker">
           <motion.p
             id="industry-label"
-            className="t-label"
+            className="hero-prompt"
             initial={reduceMotion ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.4, delay: 0.36 }}
           >
+            <span className="hero-prompt__mark" aria-hidden="true" />
             What does your business do?
           </motion.p>
 

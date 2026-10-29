@@ -337,134 +337,67 @@
     overflow: hidden;
   }
 
-  /* The photograph. Very dark, very soft, and it never sits under the chips at
-     full strength: the mask keeps the light in the upper left and fades it out
-     by the time it reaches the type. */
+  /* The artwork. It carries the top of the page now that the rings and the
+     grid are gone, so it is allowed to actually be seen: full strength on the
+     right, faded to nothing by 62% where the type starts. */
   .hero-photo {
     position: absolute;
     inset: 0;
     z-index: 0;
     background-image: var(--hero-photo);
     background-size: cover;
-    background-position: 40% 30%;
-    opacity: 0.55;
-    -webkit-mask-image: radial-gradient(
-      120% 90% at 30% 22%,
-      black 0%,
-      rgb(0 0 0 / 0.6) 45%,
-      transparent 78%
+    background-position: 72% 46%;
+    background-repeat: no-repeat;
+    opacity: 0.92;
+    filter: saturate(0.94) contrast(1.02);
+    -webkit-mask-image: linear-gradient(
+      100deg,
+      transparent 0%,
+      rgb(0 0 0 / 0.25) 34%,
+      black 62%
     );
-    mask-image: radial-gradient(
-      120% 90% at 30% 22%,
-      black 0%,
-      rgb(0 0 0 / 0.6) 45%,
-      transparent 78%
+    mask-image: linear-gradient(
+      100deg,
+      transparent 0%,
+      rgb(0 0 0 / 0.25) 34%,
+      black 62%
     );
     pointer-events: none;
   }
 
+  /* The wash sits on top of the photograph: a brand-blue pool under the copy on
+     the left, and one soft blue breath at the bottom where the banner stack
+     begins. Blue only — the warmth in the artwork comes from the lamp, and a
+     second colour here would fight it. */
   .hero-aurora {
     position: absolute;
     inset: -20%;
     z-index: 0;
     background:
+      /* the scrim: everything the type and the chips sit on is guaranteed dark,
+         and the photograph is untouched from 74% rightwards */
+      linear-gradient(
+        90deg,
+        rgb(10 8 32 / 0.94) 0%,
+        rgb(10 8 32 / 0.88) 28%,
+        rgb(10 8 32 / 0.52) 50%,
+        rgb(10 8 32 / 0.12) 66%,
+        transparent 78%
+      ),
+      /* the top vignette, so the bar stays legible over the bright part */
+      linear-gradient(180deg, rgb(10 8 32 / 0.72) 0%, transparent 26%),
       radial-gradient(
-        40% 46% at 12% 18%,
-        rgb(30 79 216 / 0.62) 0%,
-        transparent 64%
+        42% 52% at 10% 26%,
+        rgb(30 79 216 / 0.34) 0%,
+        transparent 66%
       ),
       radial-gradient(
-        30% 36% at 76% 8%,
-        rgb(122 77 238 / 0.3) 0%,
-        transparent 64%
-      ),
-      radial-gradient(
-        46% 40% at 54% 100%,
-        rgb(44 83 224 / 0.42) 0%,
-        transparent 70%
+        50% 40% at 58% 104%,
+        rgb(44 83 224 / 0.24) 0%,
+        transparent 72%
       );
     filter: blur(18px);
     animation: aurora-drift 26s ease-in-out infinite alternate;
-    pointer-events: none;
-  }
-
-  /* --- the figure on the right ------------------------------------------
-     Concentric brand rings with a slow rotating dashed ring inside them. It
-     is depth, not a subject: 1px lines at 10-18% brand, and the only motion is
-     a 90s rotation. On a phone it is hidden, because there is no right side.
-     ---------------------------------------------------------------------- */
-  .hero-figure {
-    position: absolute;
-    top: 50%;
-    right: -6rem;
-    z-index: 0;
-    width: min(46rem, 52vw);
-    aspect-ratio: 1;
-    translate: 0 -50%;
-    pointer-events: none;
-  }
-
-  .hero-figure span {
-    position: absolute;
-    border-radius: 50%;
-    border: 1px solid rgb(44 83 224 / 0.18);
-  }
-
-  .hero-figure span:nth-child(1) {
-    inset: 0;
-  }
-  .hero-figure span:nth-child(2) {
-    inset: 11%;
-    border-color: rgb(44 83 224 / 0.14);
-  }
-  .hero-figure span:nth-child(3) {
-    inset: 23%;
-    border-color: rgb(44 83 224 / 0.22);
-  }
-  .hero-figure span:nth-child(4) {
-    inset: 34%;
-    border-style: dashed;
-    border-color: rgb(206 222 255 / 0.22);
-    animation: figure-spin 90s linear infinite;
-  }
-  .hero-figure span:nth-child(5) {
-    inset: 46%;
-    background: radial-gradient(
-      circle at 50% 50%,
-      rgb(44 83 224 / 0.22),
-      transparent 70%
-    );
-    border: 0;
-  }
-
-  @keyframes figure-spin {
-    to {
-      transform: rotate(360deg);
-    }
-  }
-
-  @media (max-width: 1023px) {
-    .hero-figure {
-      display: none;
-    }
-  }
-
-  /* A faint grid keeps the empty right side from looking unfinished, without
-     becoming a second thing to look at. */
-  .hero-grid {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    background-image:
-      linear-gradient(to right, oklch(100% 0 0 / 0.045) 1px, transparent 1px),
-      linear-gradient(to bottom, oklch(100% 0 0 / 0.045) 1px, transparent 1px);
-    background-size: 96px 96px;
-    -webkit-mask-image: radial-gradient(
-      70% 60% at 50% 45%,
-      black,
-      transparent 78%
-    );
-    mask-image: radial-gradient(70% 60% at 50% 45%, black, transparent 78%);
     pointer-events: none;
   }
 
@@ -482,6 +415,24 @@
       padding-block: 2rem 2.5rem;
     }
 
+    /* a portrait viewport crops a 2.3:1 photograph hard, so it is aimed at the
+       counter itself and allowed further across before the fade finishes */
+    .hero-photo {
+      background-position: 64% 48%;
+      -webkit-mask-image: linear-gradient(
+        100deg,
+        transparent 0%,
+        rgb(0 0 0 / 0.4) 30%,
+        black 58%
+      );
+      mask-image: linear-gradient(
+        100deg,
+        transparent 0%,
+        rgb(0 0 0 / 0.4) 30%,
+        black 58%
+      );
+    }
+
     .hero-sub {
       margin-top: 1rem;
       font-size: 1rem;
@@ -493,9 +444,12 @@
   }
 
   .hero-title {
-    /* the headline never runs wider than the column: 84px of Poppins 700 is
-       940px for "Ready-made software." inside 1184px */
+    /* Smaller on purpose: the headline sets the tone, the chips do the work.
+       4.6vw is 63px at 1366, capped at 52px, and the column keeps it to two
+       lines at every width. */
     max-width: 20ch;
+    font-size: clamp(1.5rem, 4.6vw, 3.25rem);
+    line-height: 1.06;
   }
 
   .hero-sub {
@@ -507,7 +461,39 @@
   }
 
   .hero-picker {
-    margin-top: clamp(2rem, 4.5vh, 3rem);
+    margin-top: clamp(2rem, 4.5vh, 2.75rem);
+  }
+
+  /* "What does your business do?" is the most important line in the hero
+     after the headline, so it is a sentence at reading size with a brand
+     mark, a rule running off to the edge, and the chips directly under it. */
+  .hero-prompt {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    font-size: 1.0625rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--on-dark);
+  }
+
+  .hero-prompt__mark {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 2px;
+    background: var(--accent-bright);
+    box-shadow: 0 0 0 4px rgb(206 222 255 / 0.14);
+  }
+
+  .hero-prompt::after {
+    content: "";
+    flex: 1 1 auto;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      rgb(255 255 255 / 0.24) 0%,
+      rgb(255 255 255 / 0) 100%
+    );
   }
 
   /* The three figures, under the chips. They are here — and only here in the
@@ -607,8 +593,10 @@
       gap: 0.5rem;
     }
 
+    /* grow from each label's own width, so the row reaches the right edge of
+       the column instead of stopping in the middle of it */
     .chip-group > .chip {
-      flex: 0 0 auto;
+      flex: 1 1 auto;
     }
   }
 
@@ -641,17 +629,23 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.4375rem;
-    min-height: 2.875rem;
-    padding-inline: 0.75rem;
+    gap: 0.5rem;
+    min-height: 3.25rem;
+    padding-inline: 1rem;
     border-radius: 999px;
-    font-size: 0.875rem;
+    font-size: 0.9375rem;
     font-weight: 600;
     letter-spacing: -0.005em;
     white-space: nowrap;
     color: var(--on-dark);
-    background: hsl(var(--chip, 224) 82% 62% / 0.14);
-    border: 1px solid hsl(var(--chip, 224) 82% 62% / 0.42);
+    /* a dark base under the hue: the photograph runs behind this row, and a
+       translucent pill would take its contrast from whatever is behind it */
+    background-color: rgb(10 8 32 / 0.66);
+    background-image: linear-gradient(
+      hsl(var(--chip, 224) 82% 58% / 0.26),
+      hsl(var(--chip, 224) 82% 58% / 0.26)
+    );
+    border: 1px solid hsl(var(--chip, 224) 82% 64% / 0.62);
     box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.08);
     transition:
       background-color 200ms ease,
@@ -694,8 +688,12 @@
   }
 
   .chip:hover {
-    border-color: hsl(var(--chip, 224) 82% 68% / 0.9);
-    background: hsl(var(--chip, 224) 82% 62% / 0.26);
+    border-color: hsl(var(--chip, 224) 82% 68% / 0.95);
+    background-color: rgb(10 8 32 / 0.78);
+    background-image: linear-gradient(
+      hsl(var(--chip, 224) 82% 58% / 0.42),
+      hsl(var(--chip, 224) 82% 58% / 0.42)
+    );
     box-shadow:
       inset 0 1px 0 rgb(255 255 255 / 0.14),
       0 14px 34px -18px hsl(var(--chip, 224) 82% 62% / 0.9);
@@ -757,9 +755,9 @@
   @media (min-width: 1024px) {
     .chip {
       gap: 0.5rem;
-      padding-inline: 1rem;
-      font-size: 0.9375rem;
-      min-height: 3rem;
+      padding-inline: 1.125rem;
+      font-size: 1rem;
+      min-height: 3.5rem;
     }
 
     .chip svg {
@@ -786,8 +784,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-aurora,
-  .hero-figure span {
+  .hero-aurora {
     animation: none;
   }
 }
@@ -1080,6 +1077,23 @@
    60px, translucent at rest, solid once the page moves. The glass is its own
    paint so the bar's height never changes — only its opacity and its hairline.
    ========================================================================== */
+/* At rest the bar is not a solid block, but it is not naked either: a scrim
+   from the top keeps the nav legible over the hero photograph, and it fades
+   out as the glass comes in. */
+.site-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg, rgb(5 3 20 / 0.66) 0%, rgb(5 3 20 / 0) 100%);
+  pointer-events: none;
+  transition: opacity 260ms ease;
+}
+
+.site-header.is-solid::before {
+  opacity: 0;
+}
+
 .site-header::after {
   content: "";
   position: absolute;
@@ -1610,6 +1624,186 @@ textarea.field {
    meaning "the action". Sizes set --btn-h, so an icon-only button is square by
    construction and nothing has to be measured at the call site.
    ------------------------------------------------------------------------- */
+/* --- select (solutions filter) ---------------------------------------------
+   A real control, not a line of text: it says "this list is filtered", it
+   changes the list, and it is reachable by keyboard.
+   -------------------------------------------------------------------------- */
+.select-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  height: 2.75rem;
+  min-width: 12.5rem;
+  padding-inline: 0.875rem;
+  border-radius: 0.6875rem;
+  border: 1px solid var(--line);
+  background-color: #fff;
+  color: var(--on-light);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.006em;
+  box-shadow: 0 1px 2px rgb(5 1 37 / 0.06);
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    background-color 160ms ease;
+}
+
+.select-trigger:hover {
+  border-color: color-mix(in oklch, var(--brand) 40%, var(--line));
+}
+
+.select-trigger:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.select-trigger--dark {
+  border-color: var(--glass-border);
+  background-color: rgb(255 255 255 / 0.04);
+  color: var(--on-dark);
+  box-shadow: none;
+}
+
+.select-trigger--dark:hover {
+  border-color: var(--glass-border-hover);
+  background-color: var(--glass-fill-hover);
+}
+
+.select-content {
+  z-index: 70;
+  min-width: var(--radix-select-trigger-width);
+  max-height: var(--radix-select-content-available-height);
+  overflow: hidden;
+  border-radius: 0.875rem;
+  border: 1px solid var(--line);
+  background-color: #fff;
+  box-shadow: 0 24px 48px -24px rgb(5 1 37 / 0.35);
+  animation: select-in 140ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+@keyframes select-in {
+  from {
+    opacity: 0;
+    translate: 0 -4px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+.select-viewport {
+  padding: 0.3125rem;
+}
+
+.select-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  height: 2.25rem;
+  padding-inline: 0.625rem;
+  border-radius: 0.5rem;
+  font-size: 0.9375rem;
+  color: var(--on-light);
+  cursor: pointer;
+  outline: none;
+}
+
+.select-item[data-highlighted] {
+  background-color: var(--paper-alt);
+}
+
+.select-item[data-state="checked"] {
+  color: var(--brand);
+  font-weight: 600;
+}
+
+.select-item__check {
+  display: none;
+  color: var(--brand);
+}
+
+.select-item[data-state="checked"] .select-item__check {
+  display: inline-flex;
+}
+
+.select-label {
+  padding: 0.375rem 0.625rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--on-light-faint);
+}
+
+/* --- artwork slot ----------------------------------------------------------
+   Where a product render will go. It is a placeholder on purpose, so it is
+   drawn as one: a quiet field, a hairline, one word. Swapping in an <img>
+   replaces it with no layout change.
+   -------------------------------------------------------------------------- */
+/* The artwork slot on /solutions. It is a reserved space, so it is designed as
+   one: paper, a hairline, a hatch fine enough to read as texture, the product
+   group in the corner and one glyph. No grey box, no wireframe. */
+.media-slot {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 10;
+  padding: 0.875rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--line);
+  background-color: #f3f6fb;
+  background-image:
+    radial-gradient(120% 90% at 88% 0%, rgb(206 222 255 / 0.55), transparent 62%),
+    repeating-linear-gradient(
+      135deg,
+      rgb(5 1 37 / 0.05) 0px,
+      rgb(5 1 37 / 0.05) 1px,
+      transparent 1px,
+      transparent 10px
+    );
+  overflow: hidden;
+}
+
+.media-slot__group {
+  position: absolute;
+  left: 0.875rem;
+  bottom: 0.8125rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--on-light-faint);
+}
+
+.media-slot__rule {
+  position: absolute;
+  left: 0.875rem;
+  bottom: 1.75rem;
+  width: 1.5rem;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--brand);
+  opacity: 0.85;
+}
+
+.media-slot__mark {
+  position: absolute;
+  top: 0.875rem;
+  right: 0.875rem;
+  width: 1rem;
+  height: 1rem;
+  color: var(--on-light-faint);
+  opacity: 0.5;
+}
+
+.group:hover .media-slot {
+  border-color: color-mix(in oklch, var(--brand) 32%, var(--line));
+}
+
 /* --- the delivery rail, phones -------------------------------------------- */
 .rail-mobile > li::before {
   content: "";

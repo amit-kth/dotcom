@@ -74,7 +74,7 @@ export function SiteFooter() {
         </div>
 
         {/* ---- five columns, one baseline ---- */}
-        <div className="grid gap-x-8 gap-y-12 py-14 sm:grid-cols-2 lg:grid-cols-[1.5fr_0.9fr_0.9fr_0.9fr_1.1fr]">
+        <div className="grid gap-x-8 gap-y-12 py-14 sm:grid-cols-2 lg:grid-cols-[1.25fr_0.9fr_0.9fr_0.9fr_1.45fr]">
           <div>
             <img
               src={asset("logo/logo.png")}
@@ -180,17 +180,20 @@ export function SiteFooter() {
           <div>
             <h2 className="t-label">Get in touch</h2>
             <ul className="mt-2 flex flex-col">
-              {contact.phones.map((phone) => (
-                <li key={phone}>
-                  <a
-                    href={`tel:${phone.replace(/[^\d+]/g, "")}`}
-                    className="footer-link flex min-h-11 items-center gap-2.5 text-[0.9375rem] tabular-nums text-on-dark-soft"
-                  >
-                    <Phone className="size-4 shrink-0" aria-hidden="true" />
-                    {phone}
-                  </a>
-                </li>
-              ))}
+              {/* Five lines, one link: "+91-7240560001/2/3/4/5" dials the
+                  first. Splitting them into five 44px rows made the column
+                  twice as tall as its neighbours for no extra information. */}
+              <li>
+                <a
+                  href={contact.phoneHref}
+                  /* read as five lines, printed as one */
+                  aria-label={`Call us on ${contact.phones[0]}, lines one to five`}
+                  className="footer-link flex min-h-11 items-center gap-2.5 whitespace-nowrap text-[0.9375rem] tabular-nums text-on-dark-soft"
+                >
+                  <Phone className="size-4 shrink-0" aria-hidden="true" />
+                  {contact.phoneLine}
+                </a>
+              </li>
 
               {[contact.emails.sales, contact.emails.general].map((email) => (
                 <li key={email}>

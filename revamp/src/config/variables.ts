@@ -69,19 +69,33 @@ export const site = {
    Carried over from the current site. TODO(confirm): display address is not
    present in the old markup, only the phone numbers and inboxes are.
 --------------------------------------------------------------------------- */
+/* The five published lines on one exchange. The footer prints them as a single
+   link — "+91-7240560001/2/3/4/5" — and dials the first one, so the list stays
+   the only place a number is written down. */
+const PHONES: string[] = [
+  "+91-7240560001",
+  "+91-7240560002",
+  "+91-7240560003",
+  "+91-7240560004",
+  "+91-7240560005",
+];
+
+export const PHONE_LINE = PHONES.map((phone, index) =>
+  index === 0 ? phone : phone.slice(-1),
+).join("/");
+
+export const PHONE_HREF = `tel:${PHONES[0].replace(/[^\d+]/g, "")}`;
+
 export const contact = {
   emails: {
     general: "info@kriscent.in",
     sales: "sales@kriscent.in",
   },
-  /** Five published lines, shown in the footer as they are on the old site. */
-  phones: [
-    "+91-7240560001",
-    "+91-7240560002",
-    "+91-7240560003",
-    "+91-7240560004",
-    "+91-7240560005",
-  ],
+  phones: PHONES,
+  /** "+91-7240560001/2/3/4/5" — one line, one link. */
+  phoneLine: PHONE_LINE,
+  /** The first line is the one that rings, so it is the one that is dialled. */
+  phoneHref: PHONE_HREF,
   /** The WhatsApp line is a separate number on purpose: it is the chat
       initiator only, never printed as a call number. */
   whatsappNumber: "+918947027625",

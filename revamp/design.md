@@ -73,9 +73,14 @@ them look wrong. Chip size lives in the base `.chip` rule and in the
 larger size further down the sheet: that is what silently overrode the smaller
 ones.
 
+A selected chip cannot be mistaken for an unselected one: the dark gradient
+flips to a bright solid in the same hue, the label and icon invert to near-black,
+a 2px white ring sits outside the pill, and the industry icon becomes a tick.
+Colour alone is not a state at 32px.
+
 The background is one macro photograph of real hardware: a dark circuit board
-with copper traces converging on a processor, raked by blue light, held at 78%
-brightness so it reads as depth rather than noise. It is **dulled on purpose**
+with copper traces converging on a processor, raked by blue light. It is
+**dulled on purpose**
 (opacity 0.9, brightness 0.66, saturation 0.9) and then covered by
 `.hero::after` at `inset: 0`: 0.97 opaque at the left edge, 0.94 at 30%, 0.86 at
 55%, and still 0.76 at the right edge. The image is a backdrop everywhere — it

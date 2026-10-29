@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import {
   Building2,
+  Check,
   Factory,
   GraduationCap,
   HeartPulse,
@@ -161,8 +162,10 @@ export function Hero() {
             className="chip-group mt-5"
           >
             {categories.map((category, index) => {
-              const Icon = ICONS[category.id];
               const active = selected === category.id;
+              /* the selected chip swaps its industry icon for a tick: colour
+                 alone is not a state, especially at 32px */
+              const Icon = active ? Check : ICONS[category.id];
 
               return (
                 <motion.button

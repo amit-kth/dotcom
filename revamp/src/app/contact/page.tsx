@@ -6,6 +6,12 @@ import { SiteFooter } from "@/components/site-footer";
 import { ContactForm } from "@/components/contact-form";
 import { ContactHeading } from "@/components/contact-heading";
 import { contact, site } from "@/config/variables";
+import { SHELL } from "@/lib/ui";
+import { cn } from "@/lib/utils";
+
+/** The contact rows: 44px tall, and the only motion is a 2px nudge. */
+const LINK =
+  "flex min-h-11 items-center text-on-dark-soft transition-[color,transform] duration-200 hover:translate-x-0.5 hover:text-on-dark";
 
 /* ============================================================================
    /contact  —  where both call-to-action labels land
@@ -37,71 +43,97 @@ export default function ContactPage() {
         <SiteHeader />
 
         <main className="bg-band-base">
-        <div className="shell pb-[clamp(4.5rem,9vw,10rem)] pt-[clamp(3rem,7vw,6rem)]">
-          <div className="grid gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16">
-            {/* ---- the pitch and the details ---- */}
-            <div>
-              {/* the title is the only thing on this page that changes with the
+          <div
+            className={cn(
+              SHELL,
+              "pb-[clamp(4.5rem,9vw,10rem)] pt-[clamp(3rem,7vw,6rem)]",
+            )}
+          >
+            <div className="grid gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16">
+              {/* ---- the pitch and the details ---- */}
+              <div>
+                {/* the title is the only thing on this page that changes with the
                   query string: "Contact us", or "Request a demo of <product>" */}
-              <ContactHeading />
+                <ContactHeading />
 
-              <ul className="mt-10 flex flex-col gap-1">
-                <li>
-                  <a
-                    href={`mailto:${contact.emails.sales}`}
-                    className="footer-link flex min-h-11 items-center gap-3 text-[1rem] text-on-dark"
-                  >
-                    <Mail className="size-4 shrink-0 text-accent-bright" aria-hidden="true" />
-                    {contact.emails.sales}
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href={`mailto:${contact.emails.general}`}
-                    className="footer-link flex min-h-11 items-center gap-3 text-[1rem] text-on-dark"
-                  >
-                    <Mail className="size-4 shrink-0 text-accent-bright" aria-hidden="true" />
-                    {contact.emails.general}
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href={contact.phoneHref}
-                    className="footer-link flex min-h-11 items-center gap-3 text-[1rem] tabular-nums text-on-dark"
-                  >
-                    <Phone className="size-4 shrink-0 text-accent-bright" aria-hidden="true" />
-                    {contact.phoneLine}
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href={contact.whatsapp}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="footer-link flex min-h-11 items-center gap-3 text-[1rem] font-medium text-accent-bright"
-                  >
-                    <MessageCircle className="size-4 shrink-0" aria-hidden="true" />
-                    WhatsApp us
-                  </a>
-                </li>
-                <li className="flex min-h-11 items-center gap-3 text-[1rem] text-on-dark-soft">
-                  <MapPin className="size-4 shrink-0 text-accent-bright" aria-hidden="true" />
-                  {contact.locality}
-                </li>
-              </ul>
+                <ul className="mt-10 flex flex-col gap-1">
+                  <li>
+                    <a
+                      href={`mailto:${contact.emails.sales}`}
+                      className={cn(LINK, "gap-3 text-[1rem] text-on-dark")}
+                    >
+                      <Mail
+                        className="size-4 shrink-0 text-accent-bright"
+                        aria-hidden="true"
+                      />
+                      {contact.emails.sales}
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href={`mailto:${contact.emails.general}`}
+                      className={cn(LINK, "gap-3 text-[1rem] text-on-dark")}
+                    >
+                      <Mail
+                        className="size-4 shrink-0 text-accent-bright"
+                        aria-hidden="true"
+                      />
+                      {contact.emails.general}
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href={contact.phoneHref}
+                      className={cn(
+                        LINK,
+                        "gap-3 text-[1rem] tabular-nums text-on-dark",
+                      )}
+                    >
+                      <Phone
+                        className="size-4 shrink-0 text-accent-bright"
+                        aria-hidden="true"
+                      />
+                      {contact.phoneLine}
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href={contact.whatsapp}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={cn(
+                        LINK,
+                        "gap-3 text-[1rem] font-medium text-accent-bright hover:text-accent-bright",
+                      )}
+                    >
+                      <MessageCircle
+                        className="size-4 shrink-0"
+                        aria-hidden="true"
+                      />
+                      WhatsApp us
+                    </a>
+                  </li>
+                  <li className="flex min-h-11 items-center gap-3 text-[1rem] text-on-dark-soft">
+                    <MapPin
+                      className="size-4 shrink-0 text-accent-bright"
+                      aria-hidden="true"
+                    />
+                    {contact.locality}
+                  </li>
+                </ul>
 
-              <p className="mt-8 max-w-[40ch] border-t border-glass-border pt-6 text-[0.9375rem] leading-relaxed text-on-dark-faint">
-                {site.legalName}. We build the software, install it and support it
-                — the enquiry goes to that same team.
-              </p>
-            </div>
+                <p className="mt-8 max-w-[40ch] border-t border-glass-border pt-6 text-[0.9375rem] leading-relaxed text-on-dark-faint">
+                  {site.legalName}. We build the software, install it and
+                  support it — the enquiry goes to that same team.
+                </p>
+              </div>
 
-            {/* ---- the form ---- */}
-            <div className="rounded-md border border-glass-border bg-glass p-6 sm:p-8">
-              <ContactForm />
+              {/* ---- the form ---- */}
+              <div className="rounded-md border border-glass-border bg-glass p-6 sm:p-8">
+                <ContactForm />
+              </div>
             </div>
           </div>
-        </div>
         </main>
 
         <SiteFooter />

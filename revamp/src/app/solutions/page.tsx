@@ -7,6 +7,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { SolutionBanner } from "@/components/solution-banner";
 import { CatalogueGrid } from "@/components/catalogue-grid";
 import { buttonVariants } from "@/components/ui/button";
+import { LIGHT_BAND, SHELL, T_BODY, T_HEADING, T_LABEL } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import { products, DELIVERY_DAYS } from "@/data/products";
 import { contact } from "@/config/variables";
@@ -24,9 +25,9 @@ import { catalogue } from "@/data/catalogue";
    product the client lists on the old site, as a catalogue with artwork slots
    waiting for renders.
 
-   This page sits on a LIGHT band (`light-band` + `bg-band-solutions`), so every
-   text colour here is an `on-light` token; the banners keep their own dark
-   surface inside `.banner`.
+   This page sits on a LIGHT band (the `LIGHT_BAND` utility string), so every
+   text colour here is an `on-light` token; each banner brings its own dark
+   surface with it.
    ========================================================================== */
 
 export default function SolutionsPage() {
@@ -37,8 +38,8 @@ export default function SolutionsPage() {
       <CategoryProvider>
         <SiteHeader solid />
 
-        <main className="light-band bg-band-solutions">
-          <div className="shell pt-[clamp(4rem,8vw,7rem)] pb-14">
+        <main className={LIGHT_BAND}>
+          <div className={cn(SHELL, "pt-[clamp(4rem,8vw,7rem)] pb-14")}>
             <Link
               href="/"
               className="inline-flex min-h-11 items-center gap-2 text-[0.9375rem] font-medium text-on-light-soft transition-colors hover:text-on-light"
@@ -47,17 +48,20 @@ export default function SolutionsPage() {
               Back
             </Link>
 
-            <h1 className="t-heading mt-6 max-w-[20ch]">
+            <h1 className={cn(T_HEADING, "mt-6 max-w-[20ch]")}>
               Everything we have already built.
             </h1>
             <div className="mt-6 flex flex-wrap items-end justify-between gap-6">
-              <p className="t-body max-w-[46ch]">
+              <p className={cn(T_BODY, "max-w-[46ch] text-on-light-soft")}>
                 Each one can be live in {DELIVERY_DAYS} days. Pick the one that
                 fits and ask for a demo.
               </p>
               <Link
                 href={contact.contactPath}
-                className={cn(buttonVariants({ variant: "secondary", size: "md" }), "group")}
+                className={cn(
+                  buttonVariants({ variant: "secondary", size: "md" }),
+                  "group",
+                )}
               >
                 Contact us
                 <ArrowRight
@@ -74,15 +78,21 @@ export default function SolutionsPage() {
             ))}
           </div>
 
-          <section className="shell mt-20 sm:mt-28" aria-labelledby="catalogue-title">
-            <p className="t-label">Also available</p>
-            <h2 id="catalogue-title" className="t-heading mt-4 max-w-[24ch]">
+          <section
+            className={cn(SHELL, "mt-20 sm:mt-28")}
+            aria-labelledby="catalogue-title"
+          >
+            <p className={cn(T_LABEL, "text-on-light-faint")}>Also available</p>
+            <h2
+              id="catalogue-title"
+              className={cn(T_HEADING, "mt-4 max-w-[24ch]")}
+            >
               The rest of the catalogue.
             </h2>
-            <p className="t-body mt-4 max-w-[54ch]">
+            <p className={cn(T_BODY, "mt-4 max-w-[54ch] text-on-light-soft")}>
               {catalogue.length} more we have already shipped — portals, POS,
-              billing, hospital and campus software. Ask about any of them and we
-              will show it running.
+              billing, hospital and campus software. Ask about any of them and
+              we will show it running.
             </p>
 
             <div className="mt-12">
@@ -90,14 +100,22 @@ export default function SolutionsPage() {
             </div>
           </section>
 
-          <div className="shell mt-16 flex flex-wrap items-center justify-between gap-4 border-t border-line py-14 sm:mt-20">
+          <div
+            className={cn(
+              SHELL,
+              "mt-16 flex flex-wrap items-center justify-between gap-4 border-t border-line py-14 sm:mt-20",
+            )}
+          >
             <p className="text-[1.0625rem] text-on-light-soft">
               Something else in mind? That is a build rather than a solution —
               tell us what you run and we will say which it is.
             </p>
             <Link
               href={contact.contactPath}
-              className={cn(buttonVariants({ variant: "primary", size: "md" }), "group")}
+              className={cn(
+                buttonVariants({ variant: "primary", size: "md" }),
+                "group",
+              )}
             >
               Contact us
               <ArrowRight

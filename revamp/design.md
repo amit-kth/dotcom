@@ -3,6 +3,18 @@
 What is built, why it looks the way it does, what is still placeholder, and
 what needs a decision. Banners have their own brief: `BANNER-DIRECTION.md`.
 
+## Styling: Tailwind first
+
+All component styling uses Tailwind utilities in TSX: layout, responsive rules,
+pseudo-elements, hover/focus/selected states, gradients, and phone-library
+internals (arbitrary descendant variants). Shared type/layout utility strings
+are in `src/lib/ui.ts`; button variants use CVA.
+
+`src/app/globals.css` contains only Tailwind imports/theme tokens, base element
+and accessibility defaults, and six custom animation keyframes. No custom
+component selectors and no `@apply` component styles. New visual changes belong
+in the component's utility classes, not in this stylesheet.
+
 ## The page, in order, with the job of each block
 
 | # | Block | Surface | One job |
@@ -35,9 +47,9 @@ the action or the one number that matters.
 
 - Poppins 400/500/600/700, self-hosted in `src/fonts`, loaded with
   `next/font/local`.
-- Four levels: `.t-display`, `.t-heading`, `.t-body`, `.t-label`. `.t-heading`
+- Four utility presets: `T_DISPLAY`, `T_HEADING`, `T_BODY`, `T_LABEL`. `T_HEADING`
   floors at 1.5rem so the longest heading still holds two lines at 390px.
-- The hero headline is sized by `.hero-title` (`clamp(1.5rem, 4.6vw, 3.25rem)`)
+- The hero headline uses `text-[clamp(2.375rem,4.15vw,3.75rem)]`
   and is deliberately smaller than it used to be: the headline sets the tone,
   the chips do the work.
 
@@ -51,7 +63,7 @@ Escape, outside click or focus leaving. No focus trap — it is a menu.
 
 ## Buttons
 
-One system: `components/ui/button.tsx` plus `.btn` in the CSS. Variants
+One system: Tailwind utilities with CVA in `components/ui/button.tsx`. Variants
 primary / inverse / secondary / outline / ghost / link, sizes sm 36 · md 44 ·
 lg 52 · icon. Every action is a `<Link>` or a `<button>` — there is no dialog
 component any more, so nothing needs an icon passed across a server/client
@@ -98,7 +110,7 @@ mockups, outlined numerals, and any second call to action.
 **The background** is the circuit-board photograph, blurred 14px, at 62% and
 behind a ~84% wash of the dark token, with one soft brand-blue pool under the
 chip row. Nothing sharp sits behind or beside the chips. The wash is on
-`.hero::after` at `inset: 0` — `.hero-aurora` is oversized for its drift, and a
+Tailwind `after:` utilities at `inset: 0` — `.hero-aurora` is oversized for its drift, and a
 gradient on an oversized box lands its percentages somewhere else.
 
 **No layout shift, ever.** Clicking a chip changes `aria-pressed` and swaps a

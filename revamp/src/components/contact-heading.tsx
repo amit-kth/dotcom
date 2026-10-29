@@ -1,5 +1,7 @@
 "use client";
 
+import { T_BODY, T_HEADING, T_LABEL } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 import { useRequestedSolution } from "@/lib/use-requested-solution";
 
 /* ============================================================================
@@ -19,9 +21,11 @@ export function ContactHeading() {
 
   return (
     <>
-      <p className="t-label">{solution ? "Request a demo" : "Contact"}</p>
+      <p className={cn(T_LABEL, "text-on-dark-soft")}>
+        {solution ? "Request a demo" : "Contact"}
+      </p>
 
-      <h1 className="t-heading mt-4 max-w-[20ch]">
+      <h1 className={cn(T_HEADING, "mt-4 max-w-[20ch]")}>
         {solution ? (
           <>
             Request a demo of{" "}
@@ -32,7 +36,7 @@ export function ContactHeading() {
         )}
       </h1>
 
-      <p className="t-body mt-6 max-w-[44ch]">
+      <p className={cn(T_BODY, "mt-6 max-w-[44ch] text-on-dark-soft")}>
         {solution
           ? solution.problem
           : "One call is usually enough to say which solution fits, and when it can be live."}

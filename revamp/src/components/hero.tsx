@@ -1,6 +1,5 @@
 "use client";
 
-import { useRef } from "react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import {
   Building2,
@@ -15,8 +14,10 @@ import {
 } from "lucide-react";
 import { asset } from "@/config/variables";
 import { useCategory } from "@/components/category-context";
-import { categories, type CategoryId } from "@/data/categories";
+import { categories, categoryHue, type CategoryId } from "@/data/categories";
 import { DELIVERY_DAYS } from "@/data/products";
+import { SHELL } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 
 /* ============================================================================
    Hero
@@ -24,24 +25,18 @@ import { DELIVERY_DAYS } from "@/data/products";
    PURPOSE: the visitor picks the business they run. That is the only job of
    this screen, and nothing here may compete with that one click.
 
-   PRIORITY, top to bottom:
-     1  the question and the seven category chips — the focal point
-     2  the headline (ready-made, 15 days)
-     3  one line of subtext
-     4  the nav and the photograph, deliberately quiet
+   PRIORITY: chips → headline → one line of subtext → nav and background.
 
-   So the chips are 60px tall, 17px semibold, 28px of horizontal padding and a
-   16px icon: they read as buttons, not tags. The photograph behind them is
-   blurred and covered by a ~84% dark wash, because nothing sharp may sit beside
-   or behind the thing the visitor is meant to click.
+   ALL STYLING IS TAILWIND. The photograph, the wash over it and the chips are
+   utility strings below; there is no `.hero` or `.chip` rule in the stylesheet.
+   The two things that cannot be a utility — the token-driven background image
+   and the per-category hue — are set as CSS custom properties (`--hero-photo`,
+   `--chip`) and consumed through arbitrary values, which is how Tailwind wants
+   a value that comes from data.
 
-   What is deliberately NOT here: the stats strip (the figures live in About),
-   badges, mockups, outlined numerals, a second call to action.
-
-   MOTION
-   The headline lands, then the chips stagger in 40ms apart — the whole entrance
-   is under 700ms. Hover is a 2px lift plus a glow, press is a 1.5% scale. All
-   of it is transform/opacity, and all of it is off under reduced motion.
+   MOTION: headline lands, chips follow 40ms apart, entrance under 700ms. Hover
+   lifts 2px, press is a 1.5% scale. Everything is transform/opacity and all of
+   it is off under reduced motion.
    ========================================================================== */
 
 const ICONS: Record<CategoryId, LucideIcon> = {
@@ -54,28 +49,48 @@ const ICONS: Record<CategoryId, LucideIcon> = {
   "real-estate": Building2,
 };
 
+/** One glass material for all seven chips; the hue only reaches the icon. */
+const CHIP = [
+  "relative inline-flex flex-none items-center justify-center gap-2.5 rounded-full",
+  "min-h-[3.75rem] px-[1.4375rem] text-[1.0625rem] font-semibold tracking-[-0.01em] whitespace-nowrap",
+  "border border-white/[0.22] bg-white/[0.07] text-white backdrop-blur-md backdrop-saturate-150",
+  "shadow-[inset_0_1px_0_rgb(255_255_255/0.12),0_10px_26px_-18px_rgb(0_0_0/0.9)]",
+  "transition-[background-color,border-color,color,box-shadow] duration-200 ease-out",
+  /* hover: the hue finally shows up, as light under the pill */
+  "hover:border-white/[0.42] hover:bg-white/[0.13]",
+  "hover:shadow-[inset_0_1px_0_rgb(255_255_255/0.18),0_16px_34px_-16px_rgb(0_0_0/0.95),0_0_24px_-6px_hsl(var(--chip,224)_90%_60%/0.55)]",
+  "focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent-bright",
+  "active:bg-white/20",
+  /* the selected state is the inverse pill: solid light, dark type, glow */
+  "aria-pressed:border-white aria-pressed:bg-[#f2f5fb] aria-pressed:text-[#08061b]",
+  "aria-pressed:shadow-[inset_0_1px_0_#fff,0_0_0_1px_rgb(255_255_255/0.55),0_14px_34px_-14px_rgb(0_0_0/0.9),0_0_34px_-6px_hsl(var(--chip,224)_90%_62%/0.65)]",
+  "aria-pressed:hover:bg-white",
+  /* tablet: one step down; phone: one more, and the row wraps instead */
+  "max-lg:min-h-14 max-lg:text-base sm:max-lg:px-5",
+  "max-sm:min-h-14 max-sm:gap-2 max-sm:px-4 max-sm:text-base",
+].join(" ");
+
 const EASE = [0.22, 0.61, 0.36, 1] as const;
 
 export function Hero() {
   const { selected, setSelected } = useCategory();
   const reduceMotion = useReducedMotion();
-  const heroRef = useRef<HTMLElement | null>(null);
 
-  /* The click changes the chip's state and nothing else. No element in the hero
+  /* The click changes the chip's state and nothing else: no element in the hero
      is added, removed or resized, so the page never shifts under the pointer. */
   const choose = (id: CategoryId) => {
-    const next = selected === id ? null : id;
-    setSelected(next);
+    setSelected(selected === id ? null : id);
 
     const target = document.getElementById("solutions");
     if (!target) return;
 
-    /* land on the top of the solutions list, below the sticky bar */
     const top =
       target.getBoundingClientRect().top +
       window.scrollY -
       parseFloat(
-        getComputedStyle(document.documentElement).getPropertyValue("--header-h"),
+        getComputedStyle(document.documentElement).getPropertyValue(
+          "--header-h",
+        ),
       ) -
       8;
 
@@ -86,24 +101,46 @@ export function Hero() {
     ? {}
     : {
         hidden: { opacity: 0, y: "0.35em" },
-        show: {
-          opacity: 1,
-          y: 0,
-          transition: { duration: 0.38, ease: EASE },
-        },
+        show: { opacity: 1, y: 0, transition: { duration: 0.38, ease: EASE } },
       };
 
   return (
-    <section id="top" className="hero" aria-labelledby="hero-title" ref={heroRef}>
+    <section
+      id="top"
+      aria-labelledby="hero-title"
+      /* the wash: one blue pool under the chips + an ~84% dark cover */
+      className={cn(
+        "relative flex min-h-[calc(100svh-var(--header-h,3.75rem))] items-center overflow-hidden",
+        "after:pointer-events-none after:absolute after:inset-0 after:z-0 after:content-['']",
+        "after:bg-[radial-gradient(46%_42%_at_26%_66%,rgb(44_83_224/0.3)_0%,rgb(44_83_224/0)_72%),linear-gradient(180deg,rgb(10_8_32/0.8)_0%,rgb(10_8_32/0.84)_46%,rgb(10_8_32/0.88)_100%)]",
+      )}
+    >
+      {/* texture, not subject: blurred and dimmed so nothing sharp sits behind
+          the thing the visitor is meant to click */}
       <div
         aria-hidden="true"
-        className="hero-photo"
-        style={{ "--hero-photo": `url(${asset("hero-bg.webp")})` } as React.CSSProperties}
+        style={
+          {
+            "--hero-photo": `url(${asset("hero-bg.webp")})`,
+          } as React.CSSProperties
+        }
+        className="pointer-events-none absolute -inset-[4%] z-0 bg-[image:var(--hero-photo)] bg-cover bg-[position:70%_46%] bg-no-repeat opacity-[0.62] blur-[14px] saturate-[0.7] brightness-[0.82] contrast-[0.92] max-sm:bg-[position:64%_50%]"
       />
-      <div aria-hidden="true" className="hero-aurora" />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -inset-[20%] z-0 animate-[aurora-drift_26s_ease-in-out_infinite_alternate] bg-[radial-gradient(42%_52%_at_14%_30%,rgb(30_79_216/0.18)_0%,transparent_68%)] blur-[18px]"
+      />
 
-      <div className="shell hero-inner">
-        <h1 id="hero-title" className="t-display hero-title">
+      <div
+        className={cn(
+          SHELL,
+          "relative z-1 py-[clamp(2.5rem,6vh,5rem)] max-sm:pt-8 max-sm:pb-11",
+        )}
+      >
+        <h1
+          id="hero-title"
+          className="max-w-[22ch] text-[clamp(2.375rem,4.15vw,3.75rem)] leading-[1.05] font-bold tracking-[-0.035em] max-sm:text-[clamp(2rem,8.6vw,2.1875rem)]"
+        >
           {["Ready-made software.", null].map((text) =>
             text ? (
               <span key={text} className="block overflow-hidden">
@@ -125,7 +162,8 @@ export function Hero() {
                   animate="show"
                   transition={{ delay: 0.06 }}
                 >
-                  Live in <span className="t-accent">{DELIVERY_DAYS} days</span>.
+                  Live in{" "}
+                  <span className="text-brand">{DELIVERY_DAYS} days</span>.
                 </motion.span>
               </span>
             ),
@@ -133,7 +171,7 @@ export function Hero() {
         </h1>
 
         <motion.p
-          className="hero-sub"
+          className="mt-6 max-w-[46rem] text-[clamp(1.125rem,1.3vw,1.25rem)] leading-[1.5] text-on-dark-soft max-sm:mt-4 max-sm:text-[1.0625rem]"
           initial={reduceMotion ? false : { opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.34, delay: 0.1, ease: EASE }}
@@ -141,10 +179,10 @@ export function Hero() {
           Pick your industry and we will show you what is already built for it.
         </motion.p>
 
-        <div className="hero-picker">
+        <div className="mt-[clamp(2.25rem,5vh,3.25rem)] max-sm:mt-7">
           <motion.p
             id="industry-label"
-            className="hero-prompt"
+            className="mb-[1.125rem] text-[clamp(1.25rem,1.5vw,1.5rem)] leading-tight font-semibold tracking-[-0.015em] text-on-dark max-sm:mb-4 max-sm:text-[1.1875rem]"
             initial={reduceMotion ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.26, delay: 0.12 }}
@@ -155,7 +193,7 @@ export function Hero() {
           <div
             role="group"
             aria-labelledby="industry-label"
-            className="chip-group"
+            className="flex max-w-[48rem] flex-wrap gap-1.5 min-[1280px]:max-w-none max-sm:[&>*:last-child]:flex-[1_0_100%]"
           >
             {categories.map((category, index) => {
               const active = selected === category.id;
@@ -167,8 +205,11 @@ export function Hero() {
                   type="button"
                   onClick={() => choose(category.id)}
                   aria-pressed={active}
-                  data-cat={category.id}
-                  className="chip"
+                  className={cn(
+                    CHIP,
+                    categoryHue[category.id],
+                    "max-[379px]:gap-0",
+                  )}
                   initial={reduceMotion ? false : { opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{
@@ -179,7 +220,18 @@ export function Hero() {
                   whileHover={reduceMotion ? undefined : { y: -2 }}
                   whileTap={reduceMotion ? undefined : { scale: 0.985 }}
                 >
-                  <Icon className="chip__icon" aria-hidden="true" />
+                  <Icon
+                    aria-hidden="true"
+                    className={cn(
+                      "size-4 shrink-0 max-sm:size-[0.9375rem] max-[379px]:hidden",
+                      /* on the light selected pill the hue has to go darker to
+                         stay readable; the class cannot read the button's state,
+                         so the state chooses the class */
+                      active
+                        ? "text-[hsl(var(--chip,224)_78%_40%)]"
+                        : "text-[hsl(var(--chip,224)_92%_74%)]",
+                    )}
+                  />
                   {category.label}
                 </motion.button>
               );

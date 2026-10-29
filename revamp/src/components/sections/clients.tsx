@@ -1,6 +1,7 @@
 import { asset } from "@/config/variables";
 import { clientLogos, testimonials } from "@/data/site-content";
 import { Reveal } from "@/components/reveal";
+import { BAND, LIGHT_BAND, SHELL, T_BODY, T_HEADING, T_LABEL } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 
 /* ============================================================================
@@ -39,19 +40,27 @@ export function Clients() {
   return (
     <section
       id="clients"
-      className="light-band relative overflow-hidden bg-band-clients"
+      className={cn(LIGHT_BAND, "[--band:var(--band-clients)] overflow-hidden")}
       aria-labelledby="clients-title"
     >
-      <div className="shell band pb-0">
+      <div className={cn(SHELL, BAND, "pb-0")}>
         <div className="flex flex-wrap items-end justify-between gap-x-12 gap-y-6">
           <Reveal>
-            <p className="t-label">Clients</p>
-            <h2 id="clients-title" className="t-heading mt-4 max-w-[20ch]">
+            <p className={cn(T_LABEL, "text-on-light-faint")}>Clients</p>
+            <h2
+              id="clients-title"
+              className={cn(T_HEADING, "mt-4 max-w-[20ch]")}
+            >
               Judged after go-live, not at demo.
             </h2>
           </Reveal>
           <Reveal delay={0.1}>
-            <p className="t-body max-w-[40ch] pb-2 text-[1rem]">
+            <p
+              className={cn(
+                T_BODY,
+                "max-w-[40ch] pb-2 text-[1rem] text-on-light-soft",
+              )}
+            >
               {clientLogos.length} companies so far, and every one of them on
               the record.
             </p>
@@ -61,14 +70,16 @@ export function Clients() {
 
       {/* full-bleed: the marquee has to run past the container edge or the loop
           reads as a widget rather than a wall */}
-      <div className="marquee-wall relative z-[1] mt-12">
+      <div className="group/marquee relative z-1 mt-12">
         <MarqueeRow logos={ROW_ONE} />
         <div className="mt-6">
           <MarqueeRow logos={ROW_TWO} direction="reverse" />
         </div>
       </div>
 
-      <div className="shell relative z-[1] pb-[clamp(4.5rem,9vw,9rem)] pt-14">
+      <div
+        className={cn(SHELL, "relative z-1 pb-[clamp(4.5rem,9vw,9rem)] pt-14")}
+      >
         <div className="grid items-stretch gap-4 sm:grid-cols-2">
           {testimonials.map((item, index) => (
             <figure
@@ -98,7 +109,9 @@ export function Clients() {
                   <p className="text-[0.9375rem] font-semibold text-on-light">
                     {item.name}
                   </p>
-                  <p className="text-[0.875rem] text-on-light-soft">{item.role}</p>
+                  <p className="text-[0.875rem] text-on-light-soft">
+                    {item.role}
+                  </p>
                 </div>
               </figcaption>
             </figure>
@@ -122,7 +135,15 @@ function MarqueeRow({
      exactly one copy, so the loop has no visible seam. The duplicate is
      aria-hidden so a screen reader hears each client once. */
   const content = (
-    <div className="marquee-track" data-direction={direction}>
+    <div
+      className={cn(
+        "flex min-w-full shrink-0 items-center gap-12 pr-12",
+        "animate-[marquee-forward_46s_linear_infinite] motion-reduce:animate-none",
+        "group-hover/marquee:[animation-play-state:paused] group-focus-within/marquee:[animation-play-state:paused]",
+        direction === "reverse" &&
+          "animate-[marquee-reverse_54s_linear_infinite] motion-reduce:animate-none",
+      )}
+    >
       {logos.map((logo) => (
         <img
           key={logo.src}
@@ -139,7 +160,7 @@ function MarqueeRow({
   );
 
   return (
-    <div className="marquee">
+    <div className="flex overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
       {content}
       <div aria-hidden="true" className="contents">
         {content}

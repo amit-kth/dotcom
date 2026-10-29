@@ -36,12 +36,20 @@ export function CatalogueGrid() {
               className="aspect-[16/10] w-full rounded-xl border border-line object-cover"
             />
           ) : (
-            <div className="media-slot" aria-hidden="true">
+            <div
+              aria-hidden="true"
+              className="relative block aspect-[16/10] overflow-hidden rounded-xl border border-line bg-[#f3f6fb] bg-[radial-gradient(120%_90%_at_88%_0%,rgb(206_222_255/0.55),transparent_62%),repeating-linear-gradient(135deg,rgb(5_1_37/0.05)_0_1px,transparent_1px_10px)] transition-colors group-hover:border-[color-mix(in_oklch,var(--brand)_32%,var(--line))]"
+            >
               {/* the artwork slot, not an apology: it carries the group the
                   product belongs to, in the same corner every render will sit */}
-              <span className="media-slot__group">{item.group}</span>
-              <span className="media-slot__rule" />
-              <ImageIcon className="media-slot__mark" strokeWidth={1.25} />
+              <span className="absolute bottom-[0.8125rem] left-3.5 text-[0.6875rem] font-semibold tracking-[0.14em] text-on-light-faint uppercase">
+                {item.group}
+              </span>
+              <span className="absolute bottom-7 left-3.5 h-0.5 w-6 rounded-[2px] bg-brand opacity-85" />
+              <ImageIcon
+                strokeWidth={1.25}
+                className="absolute top-3.5 right-3.5 size-4 text-on-light-faint opacity-50"
+              />
             </div>
           )}
 

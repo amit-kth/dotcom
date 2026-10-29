@@ -2,7 +2,12 @@
 
 import { useRef } from "react";
 import Link from "next/link";
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+} from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useCategory } from "@/components/category-context";
 import { SolutionBanner } from "@/components/solution-banner";
@@ -16,6 +21,7 @@ import {
   SelectTrigger,
 } from "@/components/ui/select";
 import { contact } from "@/config/variables";
+import { LIGHT_BAND, SHELL, T_HEADING, T_LABEL } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 
 /* ============================================================================
@@ -72,8 +78,9 @@ export function Solutions() {
         section.getBoundingClientRect().top +
         window.scrollY -
         parseFloat(
-          getComputedStyle(document.documentElement).getPropertyValue("--header-h") ||
-            "72",
+          getComputedStyle(document.documentElement).getPropertyValue(
+            "--header-h",
+          ) || "72",
         ) -
         8,
       behavior: reduceMotion ? "auto" : "smooth",
@@ -83,14 +90,17 @@ export function Solutions() {
   return (
     <section
       id="solutions"
-      className="light-band relative bg-band-solutions pb-16 sm:pb-24"
+      className={cn(LIGHT_BAND, "pb-16 sm:pb-24")}
       aria-labelledby="solutions-title"
     >
-      <div className="shell pt-[clamp(4.5rem,9vw,10rem)]">
+      <div className={cn(SHELL, "pt-[clamp(4.5rem,9vw,10rem)]")}>
         <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-4">
           <div>
-            <p className="t-label">Solutions</p>
-            <h2 id="solutions-title" className="t-heading mt-4 max-w-[24ch]">
+            <p className={cn(T_LABEL, "text-on-light-faint")}>Solutions</p>
+            <h2
+              id="solutions-title"
+              className={cn(T_HEADING, "mt-4 max-w-[24ch]")}
+            >
               {selected
                 ? `${categoryLabel(selected)} solutions.`
                 : "Customised solutions for all of your needs."}
@@ -173,10 +183,11 @@ export function Solutions() {
         /* A category with nothing pre-built still gets a banner-sized answer,
            never an empty area. */
         <div className="mt-12 sm:mt-16">
-          <div className="banner" data-hue="violet">
-            <div aria-hidden="true" className="absolute inset-0 bg-[#0a0822]" />
-            <div className="banner-copy">
-              <p className="t-label">{selected ? categoryLabel(selected) : "Solutions"}</p>
+          <article className="relative mx-auto flex w-full max-w-[112rem] flex-col overflow-hidden border border-white/[0.06] bg-[#0a0822] text-on-dark shadow-[var(--shadow-lift)] [--hue:var(--hue-violet)] lg:aspect-[16/7] lg:max-h-[84svh] lg:flex-row lg:items-center">
+            <div className="relative z-2 w-full py-[clamp(1.75rem,4vw,3.5rem)] px-[max(clamp(1.5rem,4vw,3rem),calc((100%_-_80rem)/2_+_clamp(1.5rem,4vw,3rem)))] lg:w-[min(60%,44rem)]">
+              <p className={cn(T_LABEL, "text-on-dark-soft")}>
+                {selected ? categoryLabel(selected) : "Solutions"}
+              </p>
               <h3 className="mt-3 max-w-[20ch] text-[clamp(1.75rem,4vw,3rem)] font-bold leading-[1.04] tracking-[-0.035em]">
                 Nothing pre-built for this yet. Talk to us.
               </h3>
@@ -190,17 +201,25 @@ export function Solutions() {
                 </Link>
               </div>
             </div>
-          </div>
+          </article>
         </div>
       )}
 
-      <div className="shell relative z-[1] mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-8 sm:mt-16">
+      <div
+        className={cn(
+          SHELL,
+          "relative z-1 mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-8 sm:mt-16",
+        )}
+      >
         <p className="text-[1.0625rem] text-on-light-soft">
           Not sure which fits? Talk to us.
         </p>
         <Link
           href="/solutions"
-          className={cn(buttonVariants({ variant: "secondary", size: "md" }), "group")}
+          className={cn(
+            buttonVariants({ variant: "secondary", size: "md" }),
+            "group",
+          )}
         >
           View all solutions
           <ArrowRight
@@ -251,7 +270,7 @@ function StackItem({
 
   return (
     <div
-      className="stack-item sticky"
+      className="sticky mb-[clamp(14rem,38svh,26rem)] last:mb-0 max-lg:mb-[clamp(10rem,30svh,18rem)]"
       style={{
         top: `calc(${STICKY_TOP} + ${index * 0.625}rem)`,
         zIndex: index + 1,
@@ -262,7 +281,7 @@ function StackItem({
           {children}
           <motion.div
             aria-hidden="true"
-            className="stack-shade"
+            className="pointer-events-none absolute inset-0 z-3 bg-[#070512]"
             style={{ opacity: shade }}
           />
         </div>

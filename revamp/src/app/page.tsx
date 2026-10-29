@@ -20,11 +20,11 @@ import { SiteFooter } from "@/components/site-footer";
      5  clients     logos and reviews
      6  footer      the closing call to action
 
-   Enquiries are a modal, not a section, so there is no contact section and no
+   Enquiries have their own page, not a homepage section, so there is no contact section and no
    "get in touch" band competing with the footer.
 
    The chip choice lives in CategoryProvider because the hero, the solutions
-   list and the modal all read it, and it has to survive the scroll between them.
+   list and the header all read it, and it has to survive the scroll between them.
    ========================================================================== */
 
 export default function HomePage() {

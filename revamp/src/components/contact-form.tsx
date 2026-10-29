@@ -2,7 +2,6 @@
 
 import { useEffect, useId, useState } from "react";
 import { PhoneInput } from "react-international-phone";
-import "react-international-phone/style.css";
 import { Check, Loader2, Send } from "lucide-react";
 import { submitContact } from "@/lib/submit-contact";
 import { useRequestedSolution } from "@/lib/use-requested-solution";
@@ -27,7 +26,41 @@ import { buttonVariants } from "@/components/ui/button";
    States: idle · submitting · success · error.
    ========================================================================== */
 
-type Errors = Partial<Record<"name" | "email" | "phone" | "subject" | "message", string>>;
+type Errors = Partial<
+  Record<"name" | "email" | "phone" | "subject" | "message", string>
+>;
+
+/* A field is a visible fill with a visible border — a one-pixel hairline is not
+   a field on a dark surface. Written once because five controls share it. */
+const FIELD = cn(
+  "w-full min-h-12 rounded-xl border border-white/[0.22] bg-white/[0.07] px-3.5 py-3 text-base text-on-dark",
+  "transition-[border-color,background-color] duration-[160ms]",
+  "placeholder:text-on-dark-faint hover:border-white/[0.32]",
+  "focus:border-accent-bright focus:bg-white/[0.1] focus:shadow-[0_0_0_3px_oklch(49.03%_0.2158_264.38/0.35)] focus:outline-none",
+  "aria-invalid:border-destructive",
+);
+
+/* Tailwind descendant variants skin the phone library’s internal markup. */
+const PHONE = cn(
+  "flex min-h-12 w-full items-stretch rounded-xl border border-white/[0.22] bg-white/[0.07]",
+  "transition-colors duration-150 focus-within:border-accent-bright focus-within:bg-white/10 focus-within:ring-3 focus-within:ring-brand/35",
+  "[&_.react-international-phone-country-selector-button]:flex [&_.react-international-phone-country-selector-button]:h-full [&_.react-international-phone-country-selector-button]:items-center [&_.react-international-phone-country-selector-button]:gap-1.5",
+  "[&_.react-international-phone-country-selector-button]:rounded-none [&_.react-international-phone-country-selector-button]:border-0 [&_.react-international-phone-country-selector-button]:border-r [&_.react-international-phone-country-selector-button]:border-white/15 [&_.react-international-phone-country-selector-button]:bg-transparent [&_.react-international-phone-country-selector-button]:pr-2 [&_.react-international-phone-country-selector-button]:pl-3.5",
+  "[&_.react-international-phone-country-selector-button__dropdown-arrow]:border-t-on-dark-soft",
+  "[&_.react-international-phone-input]:h-auto [&_.react-international-phone-input]:min-w-0 [&_.react-international-phone-input]:flex-1 [&_.react-international-phone-input]:rounded-none [&_.react-international-phone-input]:border-0 [&_.react-international-phone-input]:bg-transparent [&_.react-international-phone-input]:px-3.5 [&_.react-international-phone-input]:py-3 [&_.react-international-phone-input]:text-base [&_.react-international-phone-input]:text-on-dark [&_.react-international-phone-input]:outline-none",
+  "[&_.react-international-phone-input::placeholder]:text-on-dark-faint",
+  "[&_.react-international-phone-country-selector-dropdown]:mt-2 [&_.react-international-phone-country-selector-dropdown]:rounded-xl [&_.react-international-phone-country-selector-dropdown]:border [&_.react-international-phone-country-selector-dropdown]:border-glass-border [&_.react-international-phone-country-selector-dropdown]:bg-band-about [&_.react-international-phone-country-selector-dropdown]:text-on-dark [&_.react-international-phone-country-selector-dropdown]:shadow-[var(--shadow-card)]",
+  "[&_.react-international-phone-country-selector-dropdown__list-item--focused]:bg-white/10 [&_.react-international-phone-country-selector-dropdown__list-item-dial-code]:text-on-dark-soft",
+);
+
+/* A select is a field too, but a native one needs its own arrow on dark. */
+const SELECT = cn(
+  FIELD,
+  "appearance-none pr-11 bg-no-repeat",
+  "[background-image:linear-gradient(45deg,transparent_50%,var(--color-on-dark-soft)_50%),linear-gradient(135deg,var(--color-on-dark-soft)_50%,transparent_50%)]",
+  "[background-position:calc(100%_-_1.375rem)_calc(50%_+_1px),calc(100%_-_1rem)_calc(50%_+_1px)]",
+  "[background-size:0.375rem_0.375rem]",
+);
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
@@ -50,7 +83,9 @@ export function ContactForm() {
   const [message, setMessage] = useState("");
 
   const [errors, setErrors] = useState<Errors>({});
-  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [status, setStatus] = useState<
+    "idle" | "submitting" | "success" | "error"
+  >("idle");
   const [serverError, setServerError] = useState("");
 
   const validate = (): Errors => {
@@ -61,8 +96,7 @@ export function ContactForm() {
     if (phone.replace(/\D/g, "").length < 6)
       found.phone = "Please enter a valid phone number.";
     if (subject.trim().length < 3) found.subject = "What is this about?";
-    if (message.trim().length < 10)
-      found.message = "A line or two is enough.";
+    if (message.trim().length < 10) found.message = "A line or two is enough.";
     return found;
   };
 
@@ -103,9 +137,7 @@ export function ContactForm() {
         </span>
         <div>
           <p className="text-lg font-semibold">That&apos;s with us.</p>
-          <p className="mt-1 text-on-dark-soft">
-            We will reply to {email}.
-          </p>
+          <p className="mt-1 text-on-dark-soft">We will reply to {email}.</p>
         </div>
       </div>
     );
@@ -122,7 +154,7 @@ export function ContactForm() {
           value={solution}
           disabled={busy}
           onChange={(event) => setSolution(event.target.value)}
-          className="field"
+          className={SELECT}
         >
           <option value="">Not sure yet</option>
           {products.map((product) => (
@@ -134,7 +166,12 @@ export function ContactForm() {
       </Field>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <Field id={`${uid}-name`} label="Your Name" required error={errors.name}>
+        <Field
+          id={`${uid}-name`}
+          label="Your Name"
+          required
+          error={errors.name}
+        >
           <input
             id={`${uid}-name`}
             name="name"
@@ -146,11 +183,16 @@ export function ContactForm() {
             onChange={(event) => setName(event.target.value)}
             aria-invalid={Boolean(errors.name)}
             aria-describedby={errors.name ? `${uid}-name-error` : undefined}
-            className="field"
+            className={FIELD}
           />
         </Field>
 
-        <Field id={`${uid}-email`} label="Your Email" required error={errors.email}>
+        <Field
+          id={`${uid}-email`}
+          label="Your Email"
+          required
+          error={errors.email}
+        >
           <input
             id={`${uid}-email`}
             name="email"
@@ -163,13 +205,18 @@ export function ContactForm() {
             onChange={(event) => setEmail(event.target.value)}
             aria-invalid={Boolean(errors.email)}
             aria-describedby={errors.email ? `${uid}-email-error` : undefined}
-            className="field"
+            className={FIELD}
           />
         </Field>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <Field id={`${uid}-phone`} label="Contact Number" required error={errors.phone}>
+        <Field
+          id={`${uid}-phone`}
+          label="Contact Number"
+          required
+          error={errors.phone}
+        >
           <PhoneInput
             defaultCountry="in"
             value={phone}
@@ -183,15 +230,22 @@ export function ContactForm() {
               id: `${uid}-phone`,
               name: "phone",
               "aria-invalid": Boolean(errors.phone),
-              "aria-describedby": errors.phone ? `${uid}-phone-error` : undefined,
+              "aria-describedby": errors.phone
+                ? `${uid}-phone-error`
+                : undefined,
             }}
-            className={cn("phone-field w-full", errors.phone && "field--error")}
+            className={cn(PHONE, errors.phone && "border-destructive")}
           />
           {/* what query.php used to receive from intl-tel-input */}
           <input type="hidden" name="country_name" value={country} />
         </Field>
 
-        <Field id={`${uid}-subject`} label="Your Subject" required error={errors.subject}>
+        <Field
+          id={`${uid}-subject`}
+          label="Your Subject"
+          required
+          error={errors.subject}
+        >
           <input
             id={`${uid}-subject`}
             name="subject"
@@ -201,13 +255,20 @@ export function ContactForm() {
             disabled={busy}
             onChange={(event) => setSubject(event.target.value)}
             aria-invalid={Boolean(errors.subject)}
-            aria-describedby={errors.subject ? `${uid}-subject-error` : undefined}
-            className="field"
+            aria-describedby={
+              errors.subject ? `${uid}-subject-error` : undefined
+            }
+            className={FIELD}
           />
         </Field>
       </div>
 
-      <Field id={`${uid}-message`} label="Message" required error={errors.message}>
+      <Field
+        id={`${uid}-message`}
+        label="Message"
+        required
+        error={errors.message}
+      >
         <textarea
           id={`${uid}-message`}
           name="message"
@@ -219,7 +280,7 @@ export function ContactForm() {
           onChange={(event) => setMessage(event.target.value)}
           aria-invalid={Boolean(errors.message)}
           aria-describedby={errors.message ? `${uid}-message-error` : undefined}
-          className="field"
+          className={cn(FIELD, "min-h-[6.5rem] resize-y")}
         />
       </Field>
 
@@ -236,7 +297,10 @@ export function ContactForm() {
         <button
           type="submit"
           disabled={busy}
-          className={cn(buttonVariants({ variant: "primary", size: "md" }), "min-w-[11rem]")}
+          className={cn(
+            buttonVariants({ variant: "primary", size: "md" }),
+            "min-w-[11rem]",
+          )}
         >
           {busy ? (
             <>
@@ -270,13 +334,19 @@ function Field({
 }) {
   return (
     <div className="space-y-2">
-      <label htmlFor={id} className="block text-[0.8125rem] font-semibold text-on-dark-soft">
+      <label
+        htmlFor={id}
+        className="block text-[0.8125rem] font-semibold text-on-dark-soft"
+      >
         {label}
         {required && <span className="ml-1 text-accent-bright">*</span>}
       </label>
       {children}
       {error && (
-        <p id={`${id}-error`} className="text-[0.8125rem] font-medium text-destructive-on-dark">
+        <p
+          id={`${id}-error`}
+          className="text-[0.8125rem] font-medium text-destructive-on-dark"
+        >
           {error}
         </p>
       )}

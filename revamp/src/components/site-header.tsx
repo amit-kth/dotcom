@@ -6,10 +6,11 @@ import { useRouter } from "next/navigation";
 import { ArrowRight, ArrowUpRight, ChevronDown, Menu, X } from "lucide-react";
 import { asset, site } from "@/config/variables";
 import { useCategory } from "@/components/category-context";
-import { categories } from "@/data/categories";
+import { categories, categoryHue } from "@/data/categories";
 import { featuredProducts } from "@/data/products";
 import { buttonVariants } from "@/components/ui/button";
 import { contact } from "@/config/variables";
+import { SHELL } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 
 /* ============================================================================
@@ -33,7 +34,7 @@ import { cn } from "@/lib/utils";
 
    THE ACTION
    "Contact us", not "Request a demo": at the top of the page nobody has picked
-   a solution yet, so there is nothing to demo. It opens the enquiry dialog.
+   a solution yet, so there is nothing to demo. It links to the contact page.
 
    ON A LIGHT PAGE
    The bar is dark glass at rest, so `solid` is passed on /solutions: white type
@@ -145,11 +146,22 @@ export function SiteHeader({ solid = false }: { solid?: boolean }) {
   return (
     <header
       className={cn(
-        "site-header sticky top-0 z-50 h-[var(--header-h)]",
-        (scrolled || open || panel || solid) && "is-solid",
+        "sticky top-0 z-50 h-[var(--header-h)]",
+        "before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:transition-opacity before:duration-[260ms]",
+        "before:bg-[linear-gradient(180deg,rgb(5_3_20/0.66)_0%,rgb(5_3_20/0)_100%)]",
+        "after:pointer-events-none after:absolute after:inset-0 after:-z-10 after:border-b after:border-transparent",
+        "after:bg-[rgb(10_8_32/0.72)] after:backdrop-blur-md after:backdrop-saturate-150 after:opacity-0",
+        "after:transition-opacity after:duration-[260ms] after:content-['']",
+        (scrolled || open || panel || solid) &&
+          "before:opacity-0 after:border-glass-border after:opacity-100",
       )}
     >
-      <div className="shell relative flex h-full items-center justify-between gap-6">
+      <div
+        className={cn(
+          SHELL,
+          "relative flex h-full items-center justify-between gap-6",
+        )}
+      >
         <Link href="/" aria-label={`${site.name} home`} className="shrink-0">
           <img
             src={asset("logo/logo.png")}
@@ -160,7 +172,10 @@ export function SiteHeader({ solid = false }: { solid?: boolean }) {
           />
         </Link>
 
-        <nav aria-label="Sections" className="hidden items-center gap-0.5 lg:flex">
+        <nav
+          aria-label="Sections"
+          className="hidden items-center gap-0.5 lg:flex"
+        >
           <div
             ref={panelRef}
             className="relative"
@@ -182,8 +197,9 @@ export function SiteHeader({ solid = false }: { solid?: boolean }) {
               aria-haspopup="true"
               onClick={() => setPanel((value) => !value)}
               className={cn(
-                "nav-item",
-                (panel || active === "solutions") && "nav-item--on",
+                "inline-flex h-9 items-center gap-1.5 rounded-[0.625rem] px-3 text-[0.9375rem] font-medium text-on-dark-soft transition-colors duration-200 hover:bg-white/[0.06] hover:text-on-dark",
+                (panel || active === "solutions") &&
+                  "bg-white/[0.09] text-on-dark shadow-[inset_0_0_0_1px_rgb(255_255_255/0.06)]",
               )}
             >
               Solutions
@@ -199,23 +215,28 @@ export function SiteHeader({ solid = false }: { solid?: boolean }) {
             <div
               id="solutions-panel"
               hidden={!panel}
-              className="nav-panel lg:left-1/2 lg:-translate-x-1/2"
+              className={cn(
+                "absolute top-[calc(100%+0.75rem)] left-0 z-60 w-[min(40rem,calc(100vw-3rem))] p-5 rounded-[1.25rem] border border-glass-border bg-[rgb(9_7_28/0.985)] backdrop-blur-xl backdrop-saturate-150 shadow-[0_30px_70px_-32px_rgb(0_0_0/0.85),inset_0_1px_0_rgb(255_255_255/0.06)] animate-[nav-panel-in_170ms_cubic-bezier(0.22,0.61,0.36,1)_both]",
+                "lg:left-1/2 lg:-translate-x-1/2",
+              )}
             >
               <div className="grid gap-6 lg:grid-cols-[1.25fr_1fr]">
                 <div>
-                  <p className="nav-panel__title">Products</p>
+                  <p className="text-xs font-semibold tracking-[0.14em] text-on-dark-faint uppercase">
+                    Products
+                  </p>
                   <ul className="mt-2 flex flex-col">
                     {featuredProducts.map((product) => (
                       <li key={product.id}>
                         <Link
                           href="/#solutions"
                           onClick={() => closePanel()}
-                          className="nav-product"
+                          className="flex flex-col gap-0.5 rounded-[0.625rem] px-2.5 py-2 transition-colors duration-150 hover:bg-white/[0.06]"
                         >
-                          <span className="nav-product__name">
+                          <span className="text-[0.9375rem] font-semibold text-on-dark">
                             {product.name}
                           </span>
-                          <span className="nav-product__line">
+                          <span className="line-clamp-1 text-[0.8125rem] leading-[1.45] text-on-dark-faint">
                             {product.problem}
                           </span>
                         </Link>
@@ -225,7 +246,9 @@ export function SiteHeader({ solid = false }: { solid?: boolean }) {
                 </div>
 
                 <div className="border-t border-glass-border pt-5 lg:border-l lg:border-t-0 lg:pl-6 lg:pt-0">
-                  <p className="nav-panel__title">By industry</p>
+                  <p className="text-xs font-semibold tracking-[0.14em] text-on-dark-faint uppercase">
+                    By industry
+                  </p>
                   <div className="mt-3 flex flex-wrap gap-2">
                     {categories.map((category) => (
                       <button
@@ -233,7 +256,12 @@ export function SiteHeader({ solid = false }: { solid?: boolean }) {
                         type="button"
                         data-cat={category.id}
                         onClick={() => chooseIndustry(category.id)}
-                        className="nav-chip"
+                        className={cn(
+                          "inline-flex h-8 items-center gap-1.5 rounded-full border border-glass-border px-[0.6875rem] text-[0.8125rem] font-medium text-on-dark-soft",
+                          "transition-colors duration-150 hover:border-glass-border-hover hover:bg-white/5 hover:text-on-dark",
+                          "before:size-1.5 before:rounded-full before:bg-[hsl(var(--chip,224)_72%_62%)] before:content-['']",
+                          categoryHue[category.id],
+                        )}
                       >
                         {category.label}
                       </button>
@@ -258,7 +286,11 @@ export function SiteHeader({ solid = false }: { solid?: boolean }) {
               key={item.id}
               href={item.href}
               aria-current={active === item.id ? "true" : undefined}
-              className={cn("nav-item", active === item.id && "nav-item--on")}
+              className={cn(
+                "inline-flex h-9 items-center gap-1.5 rounded-[0.625rem] px-3 text-[0.9375rem] font-medium text-on-dark-soft transition-colors duration-200 hover:bg-white/[0.06] hover:text-on-dark",
+                active === item.id &&
+                  "bg-white/[0.09] text-on-dark shadow-[inset_0_0_0_1px_rgb(255_255_255/0.06)]",
+              )}
             >
               {item.label}
             </Link>
@@ -298,8 +330,18 @@ export function SiteHeader({ solid = false }: { solid?: boolean }) {
         </div>
       </div>
 
-      <div id="mobile-nav" hidden={!open} className="site-header-sheet lg:hidden">
-        <nav aria-label="Sections" className="shell max-h-[calc(100svh-var(--header-h))] overflow-y-auto py-3">
+      <div
+        id="mobile-nav"
+        hidden={!open}
+        className="absolute inset-x-0 top-full border-t border-glass-border bg-[rgb(10_8_32/0.97)] backdrop-blur-lg lg:hidden"
+      >
+        <nav
+          aria-label="Sections"
+          className={cn(
+            SHELL,
+            "max-h-[calc(100svh-var(--header-h))] overflow-y-auto py-3",
+          )}
+        >
           {NAV.map((item) => (
             <Link
               key={item.id}
@@ -311,7 +353,9 @@ export function SiteHeader({ solid = false }: { solid?: boolean }) {
             </Link>
           ))}
 
-          <p className="nav-panel__title mt-5">Products</p>
+          <p className="mt-5 text-xs font-semibold tracking-[0.14em] text-on-dark-faint uppercase">
+            Products
+          </p>
           <ul className="mt-1 grid grid-cols-2 gap-x-4">
             {featuredProducts.map((product) => (
               <li key={product.id}>
@@ -326,7 +370,9 @@ export function SiteHeader({ solid = false }: { solid?: boolean }) {
             ))}
           </ul>
 
-          <p className="nav-panel__title mt-4">By industry</p>
+          <p className="mt-4 text-xs font-semibold tracking-[0.14em] text-on-dark-faint uppercase">
+            By industry
+          </p>
           <div className="mt-2 flex flex-wrap gap-2">
             {categories.map((category) => (
               <button
@@ -337,7 +383,12 @@ export function SiteHeader({ solid = false }: { solid?: boolean }) {
                   chooseIndustry(category.id);
                   setOpen(false);
                 }}
-                className="nav-chip"
+                className={cn(
+                  "inline-flex h-8 items-center gap-1.5 rounded-full border border-glass-border px-[0.6875rem] text-[0.8125rem] font-medium text-on-dark-soft",
+                  "transition-colors duration-150 hover:border-glass-border-hover hover:bg-white/5 hover:text-on-dark",
+                  "before:size-1.5 before:rounded-full before:bg-[hsl(var(--chip,224)_72%_62%)] before:content-['']",
+                  categoryHue[category.id],
+                )}
               >
                 {category.label}
               </button>

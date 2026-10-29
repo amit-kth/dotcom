@@ -1,17 +1,13 @@
 import Link from "next/link";
-import {
-  ArrowUpRight,
-  Mail,
-  MapPin,
-  MessageCircle,
-  Phone,
-} from "lucide-react";
+import { ArrowUpRight, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { contact, site } from "@/config/variables";
 import { asset } from "@/config/variables";
 import { SOCIAL_ICONS } from "@/components/social-icons";
 import { buttonVariants } from "@/components/ui/button";
 import { products, DELIVERY_DAYS } from "@/data/products";
 import { categories } from "@/data/categories";
+import { SHELL, T_DISPLAY, T_LABEL } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 
 /* ============================================================================
    Footer
@@ -54,15 +50,21 @@ const COMPANY_LINKS: FooterLink[] = [
   { label: "Contact us", href: contact.contactPath },
 ];
 
+/** One row of the footer: 44px tall, and the only motion is a 2px nudge. */
+const LINK =
+  "flex min-h-11 items-center text-[0.9375rem] text-on-dark-soft transition-[color,transform] duration-200 hover:translate-x-0.5 hover:text-on-dark";
+
 export function SiteFooter() {
   return (
     <footer id="contact" className="bg-band-footer">
-      <div className="shell">
+      <div className={SHELL}>
         {/* ---- the closing call ---- */}
         <div className="flex flex-col gap-8 border-b border-glass-border py-[clamp(3.5rem,7vw,6rem)] lg:flex-row lg:items-center lg:justify-between lg:gap-12">
           <div>
-            <p className="t-label">Contact</p>
-            <h2 className="t-display mt-4 max-w-[16ch]">Tell us what you run.</h2>
+            <p className={cn(T_LABEL, "text-on-dark-soft")}>Contact</p>
+            <h2 className={cn(T_DISPLAY, "mt-4 max-w-[16ch]")}>
+              Tell us what you run.
+            </h2>
           </div>
 
           <div className="flex shrink-0 flex-col items-start gap-4 sm:items-end">
@@ -106,7 +108,7 @@ export function SiteFooter() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`${site.name} on ${social.label}`}
-                      className="social-btn flex size-11 items-center justify-center rounded-full border border-glass-border text-on-dark-soft"
+                      className="flex size-11 items-center justify-center rounded-full border border-glass-border text-on-dark-soft transition-[background-color,border-color,color,transform] duration-200 hover:-translate-y-0.5 hover:border-glass-border-hover hover:bg-white/[0.07] hover:text-on-dark"
                     >
                       {Icon ? (
                         <Icon className="size-[1.05rem]" />
@@ -121,14 +123,11 @@ export function SiteFooter() {
           </div>
 
           <nav aria-label="Solutions">
-            <h2 className="t-label">Solutions</h2>
+            <h2 className={cn(T_LABEL, "text-on-dark-soft")}>Solutions</h2>
             <ul className="mt-2 flex flex-col">
               {products.map((product) => (
                 <li key={product.id}>
-                  <Link
-                    href="/#solutions"
-                    className="footer-link flex min-h-11 items-center text-[0.9375rem] text-on-dark-soft"
-                  >
+                  <Link href="/#solutions" className={LINK}>
                     {product.name}
                   </Link>
                 </li>
@@ -137,14 +136,11 @@ export function SiteFooter() {
           </nav>
 
           <nav aria-label="Industries">
-            <h2 className="t-label">Industries</h2>
+            <h2 className={cn(T_LABEL, "text-on-dark-soft")}>Industries</h2>
             <ul className="mt-2 flex flex-col">
               {categories.map((category) => (
                 <li key={category.id}>
-                  <Link
-                    href="/#solutions"
-                    className="footer-link flex min-h-11 items-center text-[0.9375rem] text-on-dark-soft"
-                  >
+                  <Link href="/#solutions" className={LINK}>
                     {category.label}
                   </Link>
                 </li>
@@ -153,7 +149,7 @@ export function SiteFooter() {
           </nav>
 
           <nav aria-label="Company">
-            <h2 className="t-label">Company</h2>
+            <h2 className={cn(T_LABEL, "text-on-dark-soft")}>Company</h2>
             <ul className="mt-2 flex flex-col">
               {COMPANY_LINKS.map((item) => (
                 <li key={item.label}>
@@ -162,7 +158,7 @@ export function SiteFooter() {
                       href={item.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="footer-link flex min-h-11 items-center gap-1.5 text-[0.9375rem] text-on-dark-soft"
+                      className={cn(LINK, "gap-1.5")}
                     >
                       {item.label}
                       <ArrowUpRight
@@ -171,10 +167,7 @@ export function SiteFooter() {
                       />
                     </a>
                   ) : (
-                    <Link
-                      href={item.href}
-                      className="footer-link flex min-h-11 items-center text-[0.9375rem] text-on-dark-soft"
-                    >
+                    <Link href={item.href} className={LINK}>
                       {item.label}
                     </Link>
                   )}
@@ -184,7 +177,7 @@ export function SiteFooter() {
           </nav>
 
           <div>
-            <h2 className="t-label">Get in touch</h2>
+            <h2 className={cn(T_LABEL, "text-on-dark-soft")}>Get in touch</h2>
             <ul className="mt-2 flex flex-col">
               {/* Five lines, one link: "+91-7240560001/2/3/4/5" dials the
                   first. Splitting them into five 44px rows made the column
@@ -194,7 +187,7 @@ export function SiteFooter() {
                   href={contact.phoneHref}
                   /* read as five lines, printed as one */
                   aria-label={`Call us on ${contact.phones[0]}, lines one to five`}
-                  className="footer-link flex min-h-11 items-center gap-2.5 whitespace-nowrap text-[0.9375rem] tabular-nums text-on-dark-soft"
+                  className={cn(LINK, "gap-2.5 whitespace-nowrap tabular-nums")}
                 >
                   <Phone className="size-4 shrink-0" aria-hidden="true" />
                   {contact.phoneLine}
@@ -203,10 +196,7 @@ export function SiteFooter() {
 
               {[contact.emails.sales, contact.emails.general].map((email) => (
                 <li key={email}>
-                  <a
-                    href={`mailto:${email}`}
-                    className="footer-link flex min-h-11 items-center gap-2.5 text-[0.9375rem] text-on-dark-soft"
-                  >
+                  <a href={`mailto:${email}`} className={cn(LINK, "gap-2.5")}>
                     <Mail className="size-4 shrink-0" aria-hidden="true" />
                     {email}
                   </a>
@@ -218,9 +208,15 @@ export function SiteFooter() {
                   href={contact.whatsapp}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="footer-link flex min-h-11 items-center gap-2.5 text-[0.9375rem] font-medium text-accent-bright"
+                  className={cn(
+                    LINK,
+                    "gap-2.5 font-medium text-accent-bright hover:text-accent-bright",
+                  )}
                 >
-                  <MessageCircle className="size-4 shrink-0" aria-hidden="true" />
+                  <MessageCircle
+                    className="size-4 shrink-0"
+                    aria-hidden="true"
+                  />
                   WhatsApp us
                 </a>
               </li>
@@ -235,7 +231,12 @@ export function SiteFooter() {
 
       {/* ---- legal bar ---- */}
       <div className="border-t border-glass-border">
-        <div className="shell flex flex-col gap-2 py-5 sm:flex-row sm:items-center sm:justify-between">
+        <div
+          className={cn(
+            SHELL,
+            "flex flex-col gap-2 py-5 sm:flex-row sm:items-center sm:justify-between",
+          )}
+        >
           <p className="text-[0.875rem] text-on-dark-faint">
             © {new Date().getFullYear()} {site.legalName}. All rights reserved.
           </p>

@@ -12,6 +12,8 @@ import {
 import { Reveal } from "@/components/reveal";
 import { deliverySteps } from "@/data/steps";
 import { DELIVERY_DAYS } from "@/data/products";
+import { BAND, LIGHT_BAND, SHELL, T_BODY, T_HEADING, T_LABEL } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 
 /* ============================================================================
    Delivery  —  how we deliver in 15 days
@@ -67,27 +69,38 @@ export function Delivery() {
   return (
     <section
       id="delivery"
-      className="light-band relative overflow-hidden bg-band-delivery"
+      className={cn(
+        LIGHT_BAND,
+        "[--band:var(--band-delivery)] overflow-hidden",
+      )}
       aria-labelledby="delivery-title"
     >
-      <div className="shell band">
+      <div className={cn(SHELL, BAND)}>
         <div className="grid gap-x-16 gap-y-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.85fr)] lg:items-end">
           <Reveal>
-            <p className="t-label">How it works</p>
-            <h2 id="delivery-title" className="t-heading mt-4 max-w-[18ch]">
+            <p className={cn(T_LABEL, "text-on-light-faint")}>How it works</p>
+            <h2
+              id="delivery-title"
+              className={cn(T_HEADING, "mt-4 max-w-[18ch]")}
+            >
               From enquiry to live in {DELIVERY_DAYS} days.
             </h2>
           </Reveal>
 
           <Reveal delay={0.1}>
-            <p className="t-body max-w-[40ch] lg:pb-2">
+            <p
+              className={cn(T_BODY, "max-w-[40ch] text-on-light-soft lg:pb-2")}
+            >
               Four stages, one team, and the date quoted before we start.
             </p>
           </Reveal>
         </div>
 
         <div ref={numberRef} className="mt-12 flex items-end gap-5 sm:mt-16">
-          <p className="figure-number tabular-nums" aria-hidden="true">
+          <p
+            className="text-[clamp(4.5rem,14vw,9rem)] font-bold leading-[0.82] tracking-[-0.05em] text-brand tabular-nums"
+            aria-hidden="true"
+          >
             {String(count).padStart(2, "0")}
           </p>
           <p className="pb-3 text-[1.0625rem] font-semibold leading-snug text-on-light-soft">
@@ -147,7 +160,7 @@ export function Delivery() {
           </div>
 
           {/* phones: the same rail, stood on its end */}
-          <ol className="rail-mobile relative flex flex-col gap-6 pl-8 sm:hidden">
+          <ol className="relative flex flex-col gap-6 pl-8 sm:hidden">
             <span
               aria-hidden="true"
               className="absolute bottom-2 left-[5px] top-2 w-[2px] rounded-full bg-line"
@@ -163,6 +176,7 @@ export function Delivery() {
                 index={index}
                 progress={scrollYProgress}
                 reduceMotion={Boolean(reduceMotion)}
+                marker
               >
                 <p className="text-[0.75rem] font-semibold uppercase tracking-[0.14em] text-on-light-faint">
                   {step.days}
@@ -227,11 +241,14 @@ function Stage({
   index,
   progress,
   reduceMotion,
+  marker = false,
 }: {
   children: React.ReactNode;
   index: number;
   progress: MotionValue<number>;
   reduceMotion: boolean;
+  /** the phone rail draws a ring beside each step, on the line itself */
+  marker?: boolean;
 }) {
   const at = index / deliverySteps.length;
   const opacity = useTransform(progress, [at - 0.12, at], [0.45, 1]);
@@ -239,7 +256,11 @@ function Stage({
 
   return (
     <motion.li
-      className="relative"
+      className={cn(
+        "relative",
+        marker &&
+          "before:absolute before:-left-8 before:top-[0.4375rem] before:-ml-[0.3125rem] before:size-3 before:rounded-full before:border-2 before:border-brand before:bg-paper before:content-['']",
+      )}
       style={reduceMotion ? undefined : { opacity, y }}
     >
       {children}

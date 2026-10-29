@@ -1,6 +1,7 @@
 import { asset } from "@/config/variables";
 import { clientLogos, testimonials } from "@/data/site-content";
 import { Reveal } from "@/components/reveal";
+import { cn } from "@/lib/utils";
 
 /* ============================================================================
    Clients
@@ -28,19 +29,12 @@ const ROW_ONE = clientLogos.slice(0, Math.ceil(clientLogos.length / 2));
 const ROW_TWO = clientLogos.slice(Math.ceil(clientLogos.length / 2));
 
 export function Clients() {
-  const [lead, ...rest] = testimonials;
-
-  /* Two independent columns, filled shortest-first. A CSS grid would leave a
-     hole under whichever column is shorter; this keeps the wall square however
-     many quotes are added, and needs no code change when one is. */
-  const stacks: (typeof rest)[] = [[], []];
-  const heights = [0, 0];
-  const weight = (quote: string) => Math.ceil(quote.length / 62);
-  rest.forEach((item) => {
-    const target = heights[0] <= heights[1] ? 0 : 1;
-    stacks[target].push(item);
-    heights[target] += weight(item.quote) + 3;
-  });
+  /* Every quote gets the same card, in a two-column grid, in reading order.
+     Rows are equal height and the attribution is pinned to the bottom of each
+     card, so no quote sits higher or lower than its neighbours. An odd number
+     of quotes ends with one card spanning both columns instead of leaving a
+     hole. Adding a quote needs no layout change. */
+  const odd = testimonials.length % 2 === 1;
 
   return (
     <section
@@ -74,67 +68,40 @@ export function Clients() {
         </div>
       </div>
 
-      <div className="shell relative z-[1] pb-[clamp(4.5rem,9vw,9rem)] pt-16">
-        <figure className="border-t-2 border-brand pt-8">
-          <blockquote>
-            <p className="text-[clamp(1.375rem,2.6vw,2.125rem)] font-medium leading-[1.45] tracking-[-0.02em] text-on-light">
-              {lead.quote}
-            </p>
-          </blockquote>
-          <figcaption className="mt-8 flex items-center gap-4">
-            <img
-              src={asset(lead.logo)}
-              alt=""
-              width={96}
-              height={48}
-              loading="lazy"
-              decoding="async"
-              className="h-8 w-auto max-w-[6rem] object-contain opacity-80"
-            />
-            <div className="border-l border-line pl-4">
-              <p className="text-[1rem] font-semibold text-on-light">{lead.name}</p>
-              <p className="text-[0.9375rem] text-on-light-soft">{lead.role}</p>
-            </div>
-          </figcaption>
-        </figure>
-
-        {/* the wall: two independent stacks, so adding a quote never leaves a
-            gap and never needs a layout change */}
-        <div className="mt-10 grid gap-x-12 gap-y-0 sm:grid-cols-2">
-          {stacks.map((stack, column) => (
-            <div key={column} className="flex flex-col">
-              {stack.map((item) => (
-                <figure
-                  key={item.id}
-                  className="border-t border-line py-7 transition-colors duration-300 hover:border-brand"
-                >
-                  <blockquote>
-                    <p className="text-[1.0625rem] leading-relaxed text-on-light-soft">
-                      {item.quote}
-                    </p>
-                  </blockquote>
-                  <figcaption className="mt-5 flex items-center gap-3">
-                    <img
-                      src={asset(item.logo)}
-                      alt=""
-                      width={96}
-                      height={48}
-                      loading="lazy"
-                      decoding="async"
-                      className="h-7 w-auto max-w-[5rem] object-contain opacity-70"
-                    />
-                    <div className="border-l border-line pl-3">
-                      <p className="text-[0.9375rem] font-semibold text-on-light">
-                        {item.name}
-                      </p>
-                      <p className="text-[0.875rem] text-on-light-soft">
-                        {item.role}
-                      </p>
-                    </div>
-                  </figcaption>
-                </figure>
-              ))}
-            </div>
+      <div className="shell relative z-[1] pb-[clamp(4.5rem,9vw,9rem)] pt-14">
+        <div className="grid items-stretch gap-4 sm:grid-cols-2">
+          {testimonials.map((item, index) => (
+            <figure
+              key={item.id}
+              className={cn(
+                "flex h-full flex-col justify-between rounded-md border border-line bg-card p-7 shadow-[var(--shadow-on-light)]",
+                "transition-transform duration-300 hover:-translate-y-1",
+                odd && index === testimonials.length - 1 && "sm:col-span-2",
+              )}
+            >
+              <blockquote>
+                <p className="text-[1.0625rem] leading-[1.7] text-on-light-soft">
+                  {item.quote}
+                </p>
+              </blockquote>
+              <figcaption className="mt-7 flex items-center gap-3 border-t border-line pt-5">
+                <img
+                  src={asset(item.logo)}
+                  alt=""
+                  width={96}
+                  height={48}
+                  loading="lazy"
+                  decoding="async"
+                  className="h-7 w-auto max-w-[5rem] object-contain"
+                />
+                <div className="border-l border-line pl-3">
+                  <p className="text-[0.9375rem] font-semibold text-on-light">
+                    {item.name}
+                  </p>
+                  <p className="text-[0.875rem] text-on-light-soft">{item.role}</p>
+                </div>
+              </figcaption>
+            </figure>
           ))}
         </div>
       </div>

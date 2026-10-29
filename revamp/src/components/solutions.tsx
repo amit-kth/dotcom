@@ -75,7 +75,7 @@ export function Solutions() {
   return (
     <section
       id="solutions"
-      className="bg-band-solutions pb-16 sm:pb-24"
+      className="light-band relative bg-band-solutions pb-16 sm:pb-24"
       aria-labelledby="solutions-title"
     >
       <div className="shell pt-[clamp(4.5rem,9vw,10rem)]">
@@ -92,9 +92,9 @@ export function Solutions() {
           {/* Fixed height in every state: the label never reflows the row, and
               the action only appears when there is something to clear. */}
           <div className="flex h-11 items-center gap-4">
-            <p className="text-[1rem] text-on-dark-soft">
+            <p className="text-[1rem] text-on-light-soft">
               Showing:{" "}
-              <span className="font-semibold text-on-dark">
+              <span className="font-semibold text-on-light">
                 {selected ? categoryLabel(selected) : "all solutions"}
               </span>
             </p>
@@ -102,7 +102,7 @@ export function Solutions() {
               <button
                 type="button"
                 onClick={clearFilter}
-                className="inline-flex min-h-11 items-center text-[1rem] font-semibold text-accent-bright underline-offset-4 hover:underline"
+                className="inline-flex min-h-11 items-center text-[1rem] font-semibold text-brand underline-offset-4 hover:underline"
               >
                 Show all
               </button>
@@ -138,7 +138,7 @@ export function Solutions() {
            never an empty area. */
         <div className="mt-12 sm:mt-16">
           <div className="banner" data-hue="violet">
-            <div aria-hidden="true" className="absolute inset-0 bg-band-about" />
+            <div aria-hidden="true" className="absolute inset-0 bg-[#0a0822]" />
             <div className="banner-copy">
               <p className="t-label">{selected ? categoryLabel(selected) : "Solutions"}</p>
               <h3 className="mt-3 max-w-[20ch] text-[clamp(1.75rem,4vw,3rem)] font-bold leading-[1.04] tracking-[-0.035em]">
@@ -152,13 +152,13 @@ export function Solutions() {
         </div>
       )}
 
-      <div className="shell mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-glass-border pt-8 sm:mt-16">
-        <p className="text-[1.0625rem] text-on-dark-soft">
+      <div className="shell relative z-[1] mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-8 sm:mt-16">
+        <p className="text-[1.0625rem] text-on-light-soft">
           Not sure which fits? Talk to us.
         </p>
         <Link
           href="/solutions"
-          className="group inline-flex min-h-11 items-center gap-2 text-[1.0625rem] font-semibold text-accent-bright"
+          className="group inline-flex min-h-11 items-center gap-2 text-[1.0625rem] font-semibold text-brand"
         >
           View all solutions
           <ArrowRight

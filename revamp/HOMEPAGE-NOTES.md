@@ -37,9 +37,14 @@ Banner spec: **16:7**, 1680 × 735 WebP, artwork right, left third calm.
 Files: `public/banners/*.webp`. To replace one, overwrite the file — the data
 file and the component do not change.
 
-The six banners currently in the repo are generated artwork in the same visual
-language as the AI Calling Agents reference (dark navy, electric-blue line art
-on the right). They are placeholders for art direction, not final brand assets.
+The art is photographic, not diagrammatic: dark-navy studio renders with the
+product as a physical object on the right. AI Calling Agents is the light-wave
+render; WhatsApp CRM is a phone running a chat thread; K-Exam is a tablet with a
+live test on a desk; K-LMS is a laptop with a course dashboard and headphones;
+K-Edusity is an isometric campus cutaway; Kastrofy is a cosmic chart. K-Edusity
+and Kastrofy still read more like illustration than photograph and are the two
+to redo if the art direction moves again. All six are placeholders for art
+direction, not final brand assets.
 
 ## Still placeholder or unconfirmed
 

@@ -18,6 +18,7 @@ import {
   Truck,
   type LucideIcon,
 } from "lucide-react";
+import { asset } from "@/config/variables";
 import { useCategory } from "@/components/category-context";
 import { counters } from "@/data/site-content";
 import { categories, type CategoryId } from "@/data/categories";
@@ -116,6 +117,12 @@ export function Hero() {
 
   return (
     <section id="top" className="hero" aria-labelledby="hero-title" ref={heroRef}>
+      {/* the photograph, at low opacity, under the aurora */}
+      <div
+        aria-hidden="true"
+        className="hero-photo"
+        style={{ "--hero-photo": `url(${asset("hero-bg.webp")})` } as React.CSSProperties}
+      />
       <div aria-hidden="true" className="hero-aurora" />
       <div aria-hidden="true" className="hero-grid" />
 
@@ -198,6 +205,7 @@ export function Hero() {
                   type="button"
                   onClick={() => choose(category.id)}
                   aria-pressed={active}
+                  data-cat={category.id}
                   className="chip"
                   initial={reduceMotion ? false : { opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}

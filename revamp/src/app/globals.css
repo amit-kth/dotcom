@@ -67,7 +67,7 @@
      navy scroll.
      ---------------------------------------------------------------------- */
   --band-base: #0a0820; /* the page itself */
-  --band-solutions: #0c0a26;
+  --band-solutions: var(--paper);
   --band-about: #08061b;
   --band-footer: #050314;
   --band-delivery: var(--paper);
@@ -278,16 +278,18 @@
   .t-display {
     /* Sized so "Ready-made software." holds on one line at every desktop
        width: 84px means ~940px of text inside a 1184px column. */
-    /* 7.4vw keeps "Ready-made software." inside a 342px column at 390, and
-       still lands on 88px at 1189+, where the clamp caps it */
-    font-size: clamp(1.5rem, 7.4vw, 5.5rem);
+    /* 6.2vw = 85px at 1366 and 78px at 1280: big enough to lead the page,
+       small enough to leave the chips room above the fold. Capped at 4.5rem. */
+    font-size: clamp(1.5rem, 6.2vw, 4.5rem);
     line-height: 1.04;
     letter-spacing: -0.04em;
     font-weight: 700;
   }
 
   .t-heading {
-    font-size: clamp(1.75rem, 3.4vw, 3.25rem);
+    /* 1.5rem floor keeps the longest section heading inside two lines on a
+       390px phone (41 characters at 24px inside 342px) */
+    font-size: clamp(1.5rem, 3.4vw, 3.25rem);
     line-height: 1.1;
     letter-spacing: -0.035em;
     font-weight: 700;
@@ -333,6 +335,32 @@
     align-items: center;
     min-height: calc(100svh - var(--header-h, 4.5rem));
     overflow: hidden;
+  }
+
+  /* The photograph. Very dark, very soft, and it never sits under the chips at
+     full strength: the mask keeps the light in the upper left and fades it out
+     by the time it reaches the type. */
+  .hero-photo {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-image: var(--hero-photo);
+    background-size: cover;
+    background-position: 40% 30%;
+    opacity: 0.55;
+    -webkit-mask-image: radial-gradient(
+      120% 90% at 30% 22%,
+      black 0%,
+      rgb(0 0 0 / 0.6) 45%,
+      transparent 78%
+    );
+    mask-image: radial-gradient(
+      120% 90% at 30% 22%,
+      black 0%,
+      rgb(0 0 0 / 0.6) 45%,
+      transparent 78%
+    );
+    pointer-events: none;
   }
 
   .hero-aurora {
@@ -444,7 +472,24 @@
     position: relative;
     z-index: 1;
     width: 100%;
-    padding-block: clamp(2.5rem, 7vh, 5rem);
+    /* a shorter bar and a smaller headline leave room to breathe at the top
+       without pushing the chips past the fold */
+    padding-block: clamp(2rem, 5.5vh, 4.25rem);
+  }
+
+  @media (max-width: 639px) {
+    .hero-inner {
+      padding-block: 2rem 2.5rem;
+    }
+
+    .hero-sub {
+      margin-top: 1rem;
+      font-size: 1rem;
+    }
+
+    .hero-picker {
+      margin-top: 1.5rem;
+    }
   }
 
   .hero-title {
@@ -567,6 +612,30 @@
     }
   }
 
+  /* Each category owns a hue. The hue is a data attribute on the button, so
+     the colours live in one place and the markup stays plain. */
+  .chip[data-cat="fintech"] {
+    --chip: 224;
+  }
+  .chip[data-cat="logistics"] {
+    --chip: 190;
+  }
+  .chip[data-cat="manufacturing"] {
+    --chip: 264;
+  }
+  .chip[data-cat="healthcare"] {
+    --chip: 4;
+  }
+  .chip[data-cat="astrology"] {
+    --chip: 282;
+  }
+  .chip[data-cat="edtech"] {
+    --chip: 34;
+  }
+  .chip[data-cat="real-estate"] {
+    --chip: 150;
+  }
+
   .chip {
     position: relative;
     display: inline-flex;
@@ -581,14 +650,27 @@
     letter-spacing: -0.005em;
     white-space: nowrap;
     color: var(--on-dark);
-    background: var(--glass-fill);
-    border: 1px solid var(--glass-border);
-    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.06);
+    background: hsl(var(--chip, 224) 82% 62% / 0.14);
+    border: 1px solid hsl(var(--chip, 224) 82% 62% / 0.42);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.08);
     transition:
       background-color 200ms ease,
       border-color 200ms ease,
       color 200ms ease,
       box-shadow 240ms ease;
+  }
+
+  .chip::before {
+    /* a soft halo of the chip's own colour, so the row reads as a spectrum */
+    content: "";
+    position: absolute;
+    inset: -1px;
+    z-index: -1;
+    border-radius: inherit;
+    background: hsl(var(--chip, 224) 82% 62% / 0.4);
+    filter: blur(14px);
+    opacity: 0.5;
+    transition: opacity 240ms ease;
   }
 
   .chip::after {
@@ -612,11 +694,15 @@
   }
 
   .chip:hover {
-    border-color: rgb(44 83 224 / 0.8);
-    background: rgb(44 83 224 / 0.16);
+    border-color: hsl(var(--chip, 224) 82% 68% / 0.9);
+    background: hsl(var(--chip, 224) 82% 62% / 0.26);
     box-shadow:
-      inset 0 1px 0 rgb(255 255 255 / 0.1),
-      0 14px 34px -18px var(--accent-glow);
+      inset 0 1px 0 rgb(255 255 255 / 0.14),
+      0 14px 34px -18px hsl(var(--chip, 224) 82% 62% / 0.9);
+  }
+
+  .chip:hover::before {
+    opacity: 0.9;
   }
 
   .chip:hover::after {
@@ -629,12 +715,16 @@
   }
 
   .chip[aria-pressed="true"] {
-    background: var(--brand);
-    border-color: var(--brand);
+    background: hsl(var(--chip, 224) 82% 60%);
+    border-color: hsl(var(--chip, 224) 82% 72%);
     color: #ffffff;
     box-shadow:
-      inset 0 1px 0 rgb(255 255 255 / 0.2),
-      0 18px 44px -16px var(--accent-glow);
+      inset 0 1px 0 rgb(255 255 255 / 0.28),
+      0 18px 44px -14px hsl(var(--chip, 224) 82% 62% / 0.95);
+  }
+
+  .chip[aria-pressed="true"]::before {
+    opacity: 1;
   }
 
   .chip[aria-pressed="true"] svg {
@@ -642,6 +732,7 @@
   }
 
   .chip svg {
+    color: hsl(var(--chip, 224) 85% 76%);
     width: 0.9375rem;
     height: 0.9375rem;
     transition: transform 240ms cubic-bezier(0.22, 0.61, 0.36, 1);
@@ -856,6 +947,72 @@
   color: var(--brand);
 }
 
+/* --- about: two cells are not glass ---------------------------------------
+   The years-of-experience cell is solid brand red; the certification cell is
+   gold. Both are painted surfaces with their own light, so they read as two
+   objects laid on the band rather than five identical boxes.
+   -------------------------------------------------------------------------- */
+.cell-red {
+  background:
+    radial-gradient(120% 120% at 12% 0%, #f4685f 0%, #e03127 46%, #b8160f 100%);
+  border-color: rgb(255 255 255 / 0.22);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.28),
+    0 30px 70px -34px rgb(224 49 39 / 0.65);
+}
+
+/* the gold: a slow textured gradient under a soft bloom */
+.cell-gold {
+  position: relative;
+  overflow: hidden;
+  border-color: rgb(255 214 122 / 0.45);
+  background:
+    linear-gradient(
+      118deg,
+      #fff6dc 0%,
+      #ffe6a8 26%,
+      #f7cf74 48%,
+      #ffeec4 68%,
+      #f3c65c 100%
+    );
+  background-size: 220% 220%;
+  animation: gold-drift 14s ease-in-out infinite alternate;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.9),
+    0 30px 80px -34px rgb(247 207 116 / 0.85);
+}
+
+.cell-gold::after {
+  /* the bloom + texture: a soft white highlight and a faint grain */
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(60% 60% at 78% 8%, rgb(255 255 255 / 0.85), transparent 62%),
+    repeating-linear-gradient(
+      118deg,
+      rgb(120 86 0 / 0.05) 0 2px,
+      transparent 2px 6px
+    );
+  mix-blend-mode: soft-light;
+}
+
+@keyframes gold-drift {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 100% 50%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cell-gold {
+    animation: none;
+  }
+}
+
 /* --- about: ambient light + the certification plate ----------------------- */
 .about-glow {
   position: absolute;
@@ -972,9 +1129,15 @@
   max-width: 112rem;
   margin-inline: auto;
   overflow: hidden;
-  background: var(--band-solutions);
-  border-block: 1px solid var(--glass-border);
-  box-shadow: var(--shadow-card);
+  /* The banner runs on the solutions band, which is paper, but a generated
+     render needs a dark frame or it looks pasted on. So the frame stays navy
+     and the band around it is the light one: the cards read as dark plates
+     laid on a sheet of paper. */
+  background: #0a0822;
+  box-shadow: var(--shadow-lift);
+  /* the band behind a banner is paper, so the banner has to claim its own
+     light text back rather than inherit the band's ink */
+  color: var(--on-dark);
 }
 
 .banner-art {
@@ -1021,8 +1184,8 @@
     align-items: stretch;
     background: linear-gradient(
       165deg,
-      color-mix(in oklch, var(--hue, var(--accent-bright)) 14%, var(--band-about)) 0%,
-      var(--band-about) 62%
+      color-mix(in oklch, var(--hue, var(--accent-bright)) 22%, #0a0822) 0%,
+      #0a0822 62%
     );
   }
 
@@ -1214,6 +1377,31 @@
   .marquee-track {
     animation: none;
   }
+}
+
+/* --- footer links --------------------------------------------------------- */
+.footer-link {
+  transition: color 160ms ease, transform 160ms ease;
+}
+
+.footer-link:hover {
+  color: var(--on-dark);
+  transform: translateX(2px);
+}
+
+.social-btn {
+  transition:
+    color 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease,
+    transform 180ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.social-btn:hover {
+  color: #ffffff;
+  border-color: var(--brand);
+  background: var(--brand);
+  transform: translateY(-2px);
 }
 
 /* --- the closing footer wordmark ------------------------------------------ */

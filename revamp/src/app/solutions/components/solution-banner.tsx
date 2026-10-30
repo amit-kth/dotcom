@@ -74,6 +74,20 @@ export function SolutionBanner({
       />
 
       <div className="relative z-2 w-full bg-slate-950 p-6 sm:p-8 lg:bg-transparent lg:py-[clamp(1.75rem,4vw,3.5rem)] lg:px-[clamp(1.5rem,4vw,6rem)] lg:w-[55%]">
+        {/* A stable logo slot keeps all cards aligned as brand assets arrive. */}
+        <div className="mb-5 h-12 w-full max-w-48 sm:h-14 sm:max-w-56">
+          {product.logo && (
+            <img
+              src={asset(product.logo)}
+              alt={`${product.name} logo`}
+              width={224}
+              height={56}
+              loading="lazy"
+              decoding="async"
+              className="size-full object-contain object-left"
+            />
+          )}
+        </div>
         {/* only the primary industry is shown; the rest are filter tags */}
         <p className={cn(T_LABEL, "text-slate-300")}>
           {categoryLabel(product.categories[0])}

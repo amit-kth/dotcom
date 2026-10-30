@@ -39,6 +39,8 @@ export type AccentHue = "blue" | "violet" | "coral" | "teal";
 export type Product = {
   id: string;
   name: string;
+  /** Product logo URL or local asset path; null reserves space until supplied. */
+  logo: string | null;
   /** one line: the problem it removes, not a feature list */
   problem: string;
   /** the first entry is the label shown on the banner; all of them filter */
@@ -60,6 +62,7 @@ export const products: Product[] = [
   {
     id: "ai-calling-agents",
     name: "AI Calling Agents",
+    logo: null,
     // The phrasing is the client's own reference banner: calls that did not
     // need a person.
     problem: "Your team loses hours to calls that never needed a person.",
@@ -82,6 +85,7 @@ export const products: Product[] = [
     id: "whatsapp-crm",
     // K-SMART on the old site; "one CRM instead of six tools" is its own line.
     name: "WhatsApp CRM",
+    logo: "https://www.kriscent.in/product/ksmart/assets/img/software/ksmart_logo.png",
     problem: "Leads live across six tools and three phones.",
     categories: ["manufacturing", "logistics", "real-estate"],
     outcomes: [
@@ -98,6 +102,7 @@ export const products: Product[] = [
   {
     id: "k-exam",
     name: "K-Exam",
+    logo: null,
     // Old site: "Exams that stay secure online".
     problem: "Exams take a week of marking and a folder of paperwork.",
     categories: ["edtech"],
@@ -115,6 +120,7 @@ export const products: Product[] = [
   {
     id: "k-edusity",
     name: "K-Edusity",
+    logo: null,
     /* School ERP. This is the merge of the old K-Edusity and K-LMS entries:
        admissions, fees, attendance, transport, exams and courses are one
        system, so they are one solution. */
@@ -134,6 +140,7 @@ export const products: Product[] = [
   {
     id: "kastrofy",
     name: "Kastrofy",
+    logo: "https://kriscent.in/product/kastrofy/assets/images/logo_white.png",
     // Old site: "Connect with expert astrologers, live … shop curated
     // remedies, and take consultations without leaving the portal."
     problem: "Consultations, chats and store orders run in separate tools.",

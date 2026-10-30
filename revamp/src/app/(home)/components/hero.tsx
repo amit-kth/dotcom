@@ -78,6 +78,20 @@ export function Hero() {
   const { selected, toggleCategory } = useCategory();
   const reduceMotion = useReducedMotion();
 
+  const chooseCategory = (id: CategoryId) => {
+    const adding = !selected.includes(id);
+    toggleCategory(id);
+    if (adding) {
+      // Wait for the matching solutions to render before scrolling to them.
+      requestAnimationFrame(() => {
+        document.getElementById("solutions")?.scrollIntoView({
+          block: "start",
+          behavior: reduceMotion ? "instant" : "smooth",
+        });
+      });
+    }
+  };
+
   const line: Variants = reduceMotion
     ? {}
     : {
@@ -187,7 +201,7 @@ export function Hero() {
                 <motion.button
                   key={category.id}
                   type="button"
-                  onClick={() => toggleCategory(category.id)}
+                  onClick={() => chooseCategory(category.id)}
                   aria-pressed={active}
                   className={cn(
                     CHIP,

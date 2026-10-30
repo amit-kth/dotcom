@@ -107,3 +107,7 @@ The entrance animation previously wrote the CSS `translate` property, overriding
 ### Restore md/laptop card stacking
 
 Sticky positioning, scale and shading now start at md (768px), without the short-viewport exclusion. Phones retain a normal list; reduced-motion users still get the existing non-animated list. Browser checks at 768x700, 1024x600, 1366x640 and 1536x864 confirm sticky cards holding near the 60px header offset after scrolling. 390x844 remains relative with no transform. Build, TypeScript and SEO export checks pass. This supersedes the earlier short-screen stacking exclusion.
+
+### Hero selection scroll restored
+
+Selecting an unselected hero industry now scrolls to Solutions after the filter renders. Returning to select another industry preserves existing selections and scrolls again; deselection does not scroll. Reduced motion uses instant scrolling. Chromium checks at 390px and 1366px confirm the section arrives at 68px below the viewport top and adding a second industry retains both selections. Build, TypeScript and SEO checks pass. This supersedes the earlier stay-in-hero selection behavior.

@@ -1,45 +1,7 @@
-/* ============================================================================
-   variables.ts ,  the one file to edit when something global changes
-   ----------------------------------------------------------------------------
-   Everything here is a single source of truth. Nothing in components/, app/ or
-   data/ may hard-code a URL, an image path, a phone number or a page title.
-   ========================================================================== */
+// Shared site settings, contact details and metadata.
 
-/* ---------------------------------------------------------------------------
-   1. ASSETS
-   ---------------------------------------------------------------------------
-   Every image in the project is referenced as:
-
-       `${ASSETS_BASE_URL}/${imagePath}`
-
-   where `imagePath` is the value stored in the data files, e.g.
-   "products/kastrofy.webp"  (no leading slash, no domain).
-
-   DEV      : ""            -> resolves to /products/kastrofy.webp from public/
-   PROD     : the ImageKit (or CDN) base URL, set once, nothing else changes.
-
-   TODO(ImageKit): replace the production value with our real base URL before
-   the first deploy. Keep the trailing slash OFF.
---------------------------------------------------------------------------- */
-const isProd = process.env.NODE_ENV === "production";
-
-export const ASSETS_BASE_URL = isProd
-  ? "" // TODO(ImageKit): e.g. "https://ik.imagekit.io/kriscent/tr:w-auto"
-  : "";
-
-/** Office photography shared with kriscent.in; other site assets stay local. */
+/** Office photography shared with kriscent.in. Local images use direct /paths. */
 export const OFFICE_ASSETS_BASE_URL = "https://ik.imagekit.io/qk2ww553c";
-
-/**
- * Build a full image URL.
- * - A full http(s) URL is returned untouched, so an ImageKit or CDN banner can
- *   be pasted straight into a data file.
- * - Anything else is resolved against ASSETS_BASE_URL.
- */
-export const asset = (path: string): string => {
-  if (/^https?:\/\//i.test(path)) return path;
-  return `${ASSETS_BASE_URL}/${path.replace(/^\/+/, "")}`;
-};
 
 /* ---------------------------------------------------------------------------
    2. API
@@ -115,8 +77,14 @@ export const contact = {
   /* The profiles the old site links to in its own footer. Nothing invented:
      these five are the ones that appear in index.php. */
   socials: [
-    { label: "LinkedIn", href: "https://www.linkedin.com/company/kriscenttechnohub/" },
-    { label: "Instagram", href: "https://www.instagram.com/kriscenttechnohub/" },
+    {
+      label: "LinkedIn",
+      href: "https://www.linkedin.com/company/kriscenttechnohub/",
+    },
+    {
+      label: "Instagram",
+      href: "https://www.instagram.com/kriscenttechnohub/",
+    },
     { label: "Facebook", href: "https://www.facebook.com/KriscentServices" },
     { label: "X", href: "https://twitter.com/Kriscent_KTH" },
     { label: "YouTube", href: "https://www.youtube.com/@kriscenttech" },
@@ -150,8 +118,7 @@ export type PageMeta = {
 export const pages: Record<PageKey, PageMeta> = {
   home: {
     path: "/",
-    title:
-      "Ready-Made Software Solutions, Live in 15 Days | Kriscent",
+    title: "Ready-Made Software Solutions, Live in 15 Days | Kriscent",
     description:
       "Ready-made solutions for schools, clinics, finance, logistics and more. Pick your industry, see what is already built, and go live in 15 days instead of six months.",
     ogImage: "logo/og.png",

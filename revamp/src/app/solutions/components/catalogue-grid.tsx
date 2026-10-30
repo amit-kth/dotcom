@@ -1,24 +1,5 @@
 import { ArrowUpRight, ImageIcon } from "lucide-react";
-import { asset } from "@/config/variables";
 import { catalogue } from "@/data/catalogue";
-
-/* ============================================================================
-   CatalogueGrid ,  everything else we have built
-   ----------------------------------------------------------------------------
-   PURPOSE: answer "do you have something for my business?" after the five
-   solutions we lead with, without pretending these are flagship products.
-
-   IMAGE SLOTS
-   Every card renders the same 16:10 artwork area. Until a render exists the area
-   is `.media-slot`: paper, a hairline, a fine hatch, the product group printed
-   in the corner and one small glyph. Drop a path into `image` in catalogue.ts
-   and the card switches to a real <img> with no layout change.
-
-   LINKS
-   Only rows that had a product page on the old site are links. Rows whose old
-   link was `coming-soon.php` are plain text, an arrow that goes nowhere is
-   worse than no arrow.
-   ========================================================================== */
 
 export function CatalogueGrid() {
   return (
@@ -27,7 +8,7 @@ export function CatalogueGrid() {
         <li key={item.id} id={`catalogue-${item.id}`} className="group">
           {item.image ? (
             <img
-              src={asset(item.image)}
+              src={item.image}
               alt=""
               width={640}
               height={400}

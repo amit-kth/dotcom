@@ -269,3 +269,7 @@ Page gutters are fluid instead of a centered 80rem shell. Never derive product-c
 ### Shared search dialog
 
 Use one search dialog in the root shell, opened by a compact header trigger, the prominent All Solutions trigger, or Ctrl/Cmd+K. Keep it light, keyboard-accessible, responsive and separate from the static page content. Product names, descriptions, industries and curated keyword arrays feed a small local index; avoid network search and heavyweight ranking libraries for this catalogue. Match any relevant product, require all query terms, rank names before keywords, and preserve existing destinations. Missing product pages resolve to their catalogue entry, not a made-up URL. Keywords live next to each product so aliases and business needs stay easy to maintain.
+
+### Keep fixed content straightforward
+
+Use direct markup for one-off certification/company copy, and explicit `/...` paths for local images. Client logos are a plain array of named objects with their complete paths, not tuples plus a filename builder. Avoid pass-through helpers, duplicate objects, speculative environment/CDN switches, and long comment essays. Keep shared datasets only where they have real consumers: products/search, repeated client logos/testimonials, and shared contact/metadata settings. Office photography retains its actual shared ImageKit host.

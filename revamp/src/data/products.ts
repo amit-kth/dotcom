@@ -1,33 +1,5 @@
 import { type CategoryId } from "./categories";
 
-/* ============================================================================
-   products.ts ,  the five solutions we show
-   ----------------------------------------------------------------------------
-   This list is the client's: AI Calling Agents, WhatsApp CRM, K-Exam,
-   K-Edusity (the school ERP, what used to be K-LMS and K-Edusity, merged:
-   they were the same product) and Kastrofy. Nothing else is added here; the
-   rest of the client's catalogue lives in catalogue.ts.
-
-   BANNER SPEC
-   -----------
-   One aspect ratio for every banner: **16:7** (1680 x 735, WebP).
-   Artwork on the right two thirds; the left third is kept calm because the
-   copy sits there. Files live in public/banners/.
-
-   IMAGES
-   ------
-   The six banners in public/banners are generated artwork in the same visual
-   language as the AI Calling Agents reference: dark navy, electric-blue line
-   art on the right, empty left. They are placeholders for art direction, not
-   final brand assets, swap the file, keep the name, no code change.
-
-   LANGUAGE
-   --------
-   "Solutions", never "products" or "systems" in visible copy. A solution has a
-   name, one line of problem, and three outcomes of five words or fewer.
-   Prices are never shown and demo credentials never exist.
-   ========================================================================== */
-
 /** Every solution is delivered in this many days. */
 export const DELIVERY_DAYS = 15;
 
@@ -50,7 +22,7 @@ export type Product = {
   /** exactly three, each five words or fewer */
   outcomes: [string, string, string];
   accentHue: AccentHue;
-  /** path under ASSETS_BASE_URL */
+  /** Local path from public/. */
   banner: string;
   /** the product's own page, taken from the old site, never invented.
       "Request a demo" always goes to /contact?solution=<id>. */
@@ -86,7 +58,7 @@ export const products: Product[] = [
       "Every call recorded and searchable",
     ],
     accentHue: "blue",
-    banner: "banners/ai-calling-agents.webp",
+    banner: "/banners/ai-calling-agents.webp",
     /* the client's own site for this product */
     href: "https://agents-website.kriscenttechnohub.com/",
     featured: true,
@@ -115,7 +87,7 @@ export const products: Product[] = [
       "WhatsApp automation built in",
     ],
     accentHue: "teal",
-    banner: "banners/k-smart.webp",
+    banner: "/banners/k-smart.webp",
     href: "https://www.kriscent.in/product/ksmart/",
     featured: true,
     order: 2,
@@ -142,7 +114,7 @@ export const products: Product[] = [
       "Results published without marking",
     ],
     accentHue: "coral",
-    banner: "banners/k-exam.webp",
+    banner: "/banners/k-exam.webp",
     href: "https://www.kriscent.in/product/kexam/",
     featured: true,
     order: 3,
@@ -173,7 +145,7 @@ export const products: Product[] = [
       "Courses, learners and certificates",
     ],
     accentHue: "blue",
-    banner: "banners/k-edusity.webp",
+    banner: "/banners/k-edusity.webp",
     href: "https://www.kriscent.com/product/kedusity/",
     featured: true,
     order: 4,
@@ -200,7 +172,7 @@ export const products: Product[] = [
       "Repeat clients handled automatically",
     ],
     accentHue: "violet",
-    banner: "banners/kastrofy.webp",
+    banner: "/banners/kastrofy.webp",
     href: "https://kriscent.in/product/kastrofy/",
     featured: true,
     order: 5,

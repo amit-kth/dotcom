@@ -4,8 +4,7 @@ import { useReducedMotion } from "@/lib/use-reduced-motion";
 
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import { asset } from "@/config/variables";
-import { certifications, company, counters } from "@/data/site-content";
+import { counters } from "@/data/site-content";
 import { BAND, SHELL, T_HEADING, T_LABEL } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 
@@ -26,24 +25,6 @@ const GOLD = [
   "after:pointer-events-none after:absolute after:inset-0 after:mix-blend-soft-light after:content-['']",
   "after:bg-[radial-gradient(60%_60%_at_78%_8%,rgb(255_255_255/0.85),transparent_62%),repeating-linear-gradient(118deg,rgb(120_86_0/0.05)_0_2px,transparent_2px_6px)]",
 ].join(" ");
-
-/* ============================================================================
-   About
-   ----------------------------------------------------------------------------
-   PURPOSE: reduce risk, who these people are, and what can be checked.
-
-   PRIMARILY A CERTIFICATION SECTION
-   The badges are the reason this band exists, so they are not a footnote: the
-   CMMI plate is 128px on a raised surface with a brand halo behind it, and the
-   two ISO badges sit under it at 56px. They read at a glance from across the
-   room, which is the only thing that makes a certification worth showing.
-
-   The numbers are the supporting cast: one big, two smaller, counting up once
-   as the band arrives. Stats and badges appear here and nowhere else.
-
-   Every cell is flat on the band, no cards inside cards, and each one lifts a
-   few pixels under the pointer so the band does not read as a dead sheet.
-   ========================================================================== */
 
 export function About() {
   return (
@@ -81,7 +62,8 @@ export function About() {
           <Cell from={{ x: -36, y: 16 }} className="lg:col-span-7">
             <Counter value={counters[0]} size="huge" />
             <p className="mt-6 max-w-[34ch] text-[1.0625rem] leading-relaxed text-slate-300">
-              {company.line}
+              Kriscent builds and supports its own software, the same team
+              installs it, trains your team and answers afterwards.
             </p>
           </Cell>
 
@@ -95,10 +77,10 @@ export function About() {
             <div className="mt-5 flex items-center gap-5">
               <span className="relative flex size-[7.5rem] shrink-0 items-center justify-center rounded-2xl bg-white p-3 shadow-[0_0_0_1px_rgb(255_255_255/0.3),0_24px_60px_-28px_rgb(44_83_224/0.75),0_0_70px_-10px_rgb(44_83_224/0.55)]">
                 <img
-                  src={asset(certifications[0].src)}
-                  alt={certifications[0].alt}
-                  width={certifications[0].width}
-                  height={certifications[0].height}
+                  src="/icons/cmmi.webp"
+                  alt="CMMI Level 3"
+                  width={200}
+                  height={200}
                   loading="lazy"
                   decoding="async"
                   className="size-full object-contain"
@@ -106,7 +88,7 @@ export function About() {
               </span>
               <div>
                 <p className="text-[1.375rem] font-semibold leading-tight tracking-[-0.02em] text-amber-950">
-                  {certifications[0].name}
+                  CMMI Level 3
                 </p>
                 <p className="mt-1 text-[0.9375rem] text-amber-800">
                   Appraised process maturity
@@ -115,24 +97,39 @@ export function About() {
             </div>
 
             <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3 border-t border-[rgb(120_86_0_/_0.28)] pt-5">
-              {certifications.slice(1).map((cert) => (
-                <div key={cert.name} className="flex items-center gap-2.5">
-                  <span className="flex size-10 shrink-0 items-center justify-center rounded-[0.625rem] bg-slate-50 p-1.5">
-                    <img
-                      src={asset(cert.src)}
-                      alt={cert.alt}
-                      width={cert.width}
-                      height={cert.height}
-                      loading="lazy"
-                      decoding="async"
-                      className="size-full object-contain"
-                    />
-                  </span>
-                  <p className="text-[0.9375rem] font-semibold text-amber-950">
-                    {cert.name}
-                  </p>
-                </div>
-              ))}
+              {/* Existing ISO artwork placeholders; replace when the real badges are supplied. */}
+              <div className="flex items-center gap-2.5">
+                <span className="flex size-10 shrink-0 items-center justify-center rounded-[0.625rem] bg-slate-50 p-1.5">
+                  <img
+                    src="/icons/cmmi.webp"
+                    alt="ISO 9001:2015"
+                    width={200}
+                    height={200}
+                    loading="lazy"
+                    decoding="async"
+                    className="size-full object-contain"
+                  />
+                </span>
+                <p className="text-[0.9375rem] font-semibold text-amber-950">
+                  ISO 9001:2015
+                </p>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <span className="flex size-10 shrink-0 items-center justify-center rounded-[0.625rem] bg-slate-50 p-1.5">
+                  <img
+                    src="/icons/cmmi.webp"
+                    alt="ISO 27001"
+                    width={200}
+                    height={200}
+                    loading="lazy"
+                    decoding="async"
+                    className="size-full object-contain"
+                  />
+                </span>
+                <p className="text-[0.9375rem] font-semibold text-amber-950">
+                  ISO 27001
+                </p>
+              </div>
             </div>
           </Cell>
 
@@ -153,10 +150,10 @@ export function About() {
           <Cell from={{ x: 24, y: 24 }} className="lg:col-span-6">
             <p className={cn(T_LABEL, "text-slate-300")}>Based in</p>
             <p className="mt-3 text-[1.0625rem] font-semibold leading-snug text-slate-50">
-              {company.location}
+              Kota, Rajasthan, India
               <br />
               <span className="font-normal text-slate-300">
-                building since {company.founded}
+                building since 2014
               </span>
             </p>
           </Cell>

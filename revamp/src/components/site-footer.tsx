@@ -2,44 +2,12 @@ import Link from "next/link";
 import { OfficeGallery } from "@/components/footer/office-gallery";
 import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
 import { contact, site } from "@/config/variables";
-import { asset } from "@/config/variables";
 import { SOCIAL_ICONS, WhatsAppIcon } from "@/components/social-icons";
 import { buttonVariants } from "@/components/ui/button";
 import { products, DELIVERY_DAYS } from "@/data/products";
 import { categories } from "@/data/categories";
 import { SHELL, T_LABEL } from "@/lib/ui";
 import { cn } from "@/lib/utils";
-
-/* ============================================================================
-   Footer
-   ----------------------------------------------------------------------------
-   PURPOSE: the decisive final step, then every way to reach us.
-
-   THE CLOSING BAND
-   Heading on the left, the action on the right, on one baseline. The helper
-   line sits above the button so the button is the last thing in the row, the
-   eye finishes on the thing you want clicked. Height is unchanged: the heading
-   still governs the band.
-
-   FIVE COLUMNS, ONE BASELINE
-   Brand · Solutions · Industries · Company · Contact. Every column starts on the
-   same rule and every list item is a 44px row, so the five columns line up with
-   each other and with the container edges. There is no oversized wordmark: the
-   wordmark is the logo at the top of column one, once.
-
-   WHAT LINKS WHERE
-   About and Clients are the client's own pages (kriscent.in/about,
-   kriscent.in/clients); Contact is kriscent.in/contact. All three open in a new
-   tab because they leave this site. "How we deliver" and "All solutions" stay
-   here.
-
-   PHONE NUMBERS
-   The five published lines, and only those. The WhatsApp number is a chat
-   initiator, not a call line, so it appears as "WhatsApp us" and never as a
-   number.
-
-   No stats and no CMMI badge down here, those live once, in About.
-   ========================================================================== */
 
 type FooterLink = { label: string; href: string; external?: boolean };
 
@@ -88,7 +56,7 @@ export function SiteFooter() {
         <div className="grid grid-cols-2 gap-x-6 gap-y-6 border-t border-white/15 py-8 lg:grid-cols-[minmax(15rem,1.2fr)_repeat(3,minmax(0,0.8fr))_minmax(14rem,1.3fr)]">
           <div className="col-span-2 lg:col-span-1">
             <img
-              src={asset("logo/logo.png")}
+              src="/logo/logo.png"
               alt={site.name}
               width={274}
               height={72}

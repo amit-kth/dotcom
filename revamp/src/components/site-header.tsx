@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { ArrowRight, Mail, ChevronDown, Menu, X } from "lucide-react";
-import { asset, site } from "@/config/variables";
+import { site } from "@/config/variables";
 import { useCategory } from "@/components/category-context";
 import { categories, categoryHue } from "@/data/categories";
 import { featuredProducts } from "@/data/products";
@@ -156,7 +156,7 @@ export function SiteHeader() {
       >
         <Link href="/" aria-label={`${site.name} home`} className="shrink-0">
           <img
-            src={asset("logo/kriscent-blue.png")}
+            src="/logo/kriscent-blue.png"
             alt={site.name}
             width={330}
             height={86}

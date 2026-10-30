@@ -1,21 +1,3 @@
-/* ============================================================================
-   catalogue.ts ,  the rest of what we have already built
-   ----------------------------------------------------------------------------
-   The five solutions on the homepage are the ones we lead with. This is
-   everything else the client lists on the old site (the product grid in
-   index.php), so /solutions can answer "do you have something for X?" without
-   turning the homepage into a catalogue.
-
-   NAMES, LINES AND LINKS ARE COPIED FROM THE OLD SITE. Nothing here is
-   invented: `line` is the old tagline, `href` is the old product URL. Where the
-   old site had `coming-soon.php` instead of a product page, there is no href
-   and the row is not a link.
-
-   IMAGES: intentionally absent. `image` is left undefined so the card renders
-   its artwork slot, which is where the new renders will go. Add a path under
-   public/ to fill one, no component change needed.
-   ========================================================================== */
-
 export type CatalogueItem = {
   id: string;
   name: string;
@@ -25,7 +7,7 @@ export type CatalogueItem = {
   line: string;
   /** the old site's product URL; absent when the old site had no page */
   href?: string;
-  /** path under ASSETS_BASE_URL once artwork exists */
+  /** Local path from public/ once artwork exists, or a complete image URL. */
   image?: string;
   /** which of our industries this belongs to, for grouping */
   group:

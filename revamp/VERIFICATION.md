@@ -121,3 +121,7 @@ Selecting an unselected hero industry now scrolls to Solutions after the filter 
 - `npx tsx --test scripts/search.test.ts`: five tests pass, covering normalization, aliases, keywords, multi-match searches, no results, index coverage and destinations.
 - Chromium checks at 320, 390, 768, 1366 and 2560px: no horizontal overflow, search autofocus and focus return pass, matching results and keyboard selection work. Ctrl+K, clear/no-results, cross-page entry, featured anchors and catalogue fallback anchors tested with no uncaught browser errors.
 - `npm run build`, `npx tsc --noEmit` and `python3 scripts/verify-export.py` pass. Build output marks /, /contact and /solutions as static (○); exported pages retain their original content and metadata.
+
+## Fixed-content simplification
+
+Removed unused CMMI data, certification/company indirection, logo filename mapping, the pass-through logoSrc helper and the empty dev/prod asset URL builder. Fixed certification/company copy now lives in About; images use explicit local paths or their supplied external URLs. Product/search data stays shared. Client names, testimonials and all exported image URLs are unchanged. Compared image sources across all three exported pages before/after and checked every local image path exists. Browser checks at 390px/1366px confirm the same hero background and loading local images. Static build, TypeScript, five search tests and SEO verification pass.

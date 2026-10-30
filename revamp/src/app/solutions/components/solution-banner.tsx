@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { ArrowUpRight, Presentation } from "lucide-react";
-import { asset, contact } from "@/config/variables";
+import { contact } from "@/config/variables";
 import { buttonVariants } from "@/components/ui/button";
 import { categoryLabel } from "@/data/categories";
 import { type Product } from "@/data/products";
@@ -16,20 +16,6 @@ const HUE_CLASS: Record<Product["accentHue"], string> = {
   coral: "[--hue:var(--color-red-500)]",
   teal: "[--hue:var(--color-cyan-600)]",
 };
-
-/* ============================================================================
-   SolutionBanner
-   ----------------------------------------------------------------------------
-   PURPOSE: show one solution as a full-width banner you cannot miss.
-
-   The banner image is ours: empty on the left, artwork on the right. So the
-   text always sits left, and never over the artwork. A token gradient scrim is
-   added on top of the left edge so the text holds contrast no matter what the
-   supplied artwork looks like, it is a token, not a hard-coded black.
-
-   This is a box because a box is doing a job here (6.3: a banner per solution).
-   Nothing is nested inside another box.
-   ========================================================================== */
 
 export function SolutionBanner({
   product,
@@ -53,7 +39,7 @@ export function SolutionBanner({
     >
       <div className="relative min-h-0 overflow-hidden lg:absolute lg:inset-0">
         <img
-          src={asset(product.banner)}
+          src={product.banner}
           alt=""
           width={1680}
           height={735}
@@ -78,7 +64,7 @@ export function SolutionBanner({
       {product.logo && (
         <div className="pointer-events-none absolute top-6 left-6 z-2 h-7 w-28 sm:top-8 sm:left-8 sm:h-8 sm:w-32 lg:left-[clamp(1.5rem,4vw,6rem)]">
           <img
-            src={asset(product.logo)}
+            src={product.logo}
             alt={`${product.name} logo`}
             width={128}
             height={32}

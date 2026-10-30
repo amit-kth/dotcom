@@ -1,30 +1,7 @@
-import { asset } from "@/config/variables";
 import { clientLogos, testimonials } from "@/data/site-content";
 import { Reveal } from "@/components/reveal";
 import { BAND, LIGHT_BAND, SHELL, T_BODY, T_HEADING, T_LABEL } from "@/lib/ui";
 import { cn } from "@/lib/utils";
-
-/* ============================================================================
-   Clients
-   ----------------------------------------------------------------------------
-   PURPOSE: prove delivery and support, logos for recognition, quotes for
-   substance.
-
-   Second light band on the page. Solutions and About are dark, the footer is
-   dark, and this sits between About and the footer as a second sheet of paper,
-   so the page alternates instead of running navy top to bottom.
-
-   LOGOS
-   Two marquee rows running opposite ways, paused on hover, masked at both
-   edges. Every logo is the same height and the same treatment, a wall of
-   differently sized, differently weighted logos reads as carelessness.
-
-   REVIEWS
-   Not a carousel: one lead quote at display size, the rest in a flowing
-   two-column wall. The layout is driven by the array length, so adding a fifth
-   or ninth quote needs no code change, `testimonials` in data/site-content.ts
-   is the only place to edit.
-   ========================================================================== */
 
 const ROW_ONE = clientLogos.slice(0, Math.ceil(clientLogos.length / 2));
 const ROW_TWO = clientLogos.slice(Math.ceil(clientLogos.length / 2));
@@ -100,7 +77,7 @@ export function Clients() {
               </blockquote>
               <figcaption className="mt-7 flex items-center gap-3 border-t border-slate-200 pt-5">
                 <img
-                  src={asset(item.logo)}
+                  src={item.logo}
                   alt=""
                   width={96}
                   height={48}
@@ -148,7 +125,7 @@ function MarqueeRow({
       {logos.map((logo) => (
         <img
           key={logo.src}
-          src={asset(logo.src)}
+          src={logo.src}
           alt={logo.name}
           width={160}
           height={48}

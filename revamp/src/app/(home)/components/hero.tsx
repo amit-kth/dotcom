@@ -14,32 +14,11 @@ import {
   Truck,
   type LucideIcon,
 } from "lucide-react";
-import { asset } from "@/config/variables";
 import { useCategory } from "@/components/category-context";
 import { categories, categoryHue, type CategoryId } from "@/data/categories";
 import { DELIVERY_DAYS } from "@/data/products";
 import { SHELL } from "@/lib/ui";
 import { cn } from "@/lib/utils";
-
-/* ============================================================================
-   Hero
-   ----------------------------------------------------------------------------
-   PURPOSE: the visitor picks the business they run. That is the only job of
-   this screen, and nothing here may compete with that one click.
-
-   PRIORITY: chips → headline → one line of subtext → nav and background.
-
-   ALL STYLING IS TAILWIND. The photograph, the wash over it and the chips are
-   utility strings below; there is no `.hero` or `.chip` rule in the stylesheet.
-   The two things that cannot be a utility, the token-driven background image
-   and the per-category hue, are set as CSS custom properties (`--hero-photo`,
-   `--chip`) and consumed through arbitrary values, which is how Tailwind wants
-   a value that comes from data.
-
-   MOTION: headline lands, chips follow 40ms apart, entrance under 700ms. Hover
-   lifts 2px, press is a 1.5% scale. Everything is transform/opacity and all of
-   it is off under reduced motion.
-   ========================================================================== */
 
 const ICONS: Record<CategoryId, LucideIcon> = {
   fintech: Landmark,
@@ -114,12 +93,7 @@ export function Hero() {
           The right-side panels stay visible on desktop, softer on phones. */}
       <div
         aria-hidden="true"
-        style={
-          {
-            "--hero-photo": `url(${asset("hero-software-bg.webp")})`,
-          } as React.CSSProperties
-        }
-        className="pointer-events-none absolute inset-0 z-0 bg-[image:var(--hero-photo)] bg-cover bg-center bg-no-repeat opacity-90 lg:bg-[position:center_calc(50%_-_3rem)] max-lg:opacity-50 max-sm:bg-[position:65%_top] max-sm:opacity-30"
+        className="pointer-events-none absolute inset-0 z-0 bg-[url(/hero-software-bg.webp)] bg-cover bg-center bg-no-repeat opacity-90 lg:bg-[position:center_calc(50%_-_3rem)] max-lg:opacity-50 max-sm:bg-[position:65%_top] max-sm:opacity-30"
       />
       <div
         aria-hidden="true"

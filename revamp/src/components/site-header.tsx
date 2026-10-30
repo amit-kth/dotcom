@@ -189,7 +189,7 @@ export function SiteHeader() {
               aria-haspopup="true"
               onClick={() => setPanel((value) => !value)}
               className={cn(
-                "inline-flex h-9 items-center gap-1.5 rounded-xl px-3 text-sm font-medium transition-colors",
+                "inline-flex h-9 items-center gap-1.5 rounded-xl px-3 text-sm font-medium transition-colors 2xl:text-base",
                 light
                   ? "text-slate-700 hover:bg-slate-100 hover:text-blue-700"
                   : "text-slate-100 hover:bg-white/10 hover:text-white",
@@ -287,7 +287,7 @@ export function SiteHeader() {
               href={item.href}
               aria-current={active === item.id ? "true" : undefined}
               className={cn(
-                "inline-flex h-9 items-center gap-1.5 rounded-xl px-3 text-sm font-medium transition-colors",
+                "inline-flex h-9 items-center gap-1.5 rounded-xl px-3 text-sm font-medium transition-colors 2xl:text-base",
                 light
                   ? "text-slate-700 hover:bg-slate-100 hover:text-blue-700"
                   : "text-slate-100 hover:bg-white/10 hover:text-white",
@@ -314,7 +314,7 @@ export function SiteHeader() {
                 variant: light ? "secondary" : "outline",
                 size: "sm",
               }),
-              "hidden sm:inline-flex",
+              "hidden sm:inline-flex 2xl:text-base",
             )}
           >
             Contact us

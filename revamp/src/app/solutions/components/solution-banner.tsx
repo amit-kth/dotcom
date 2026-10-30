@@ -75,7 +75,7 @@ export function SolutionBanner({
 
       {/* Compact branding stays in the card corner, separate from the copy. */}
       {product.logo && (
-        <div className="pointer-events-none absolute top-6 left-6 z-2 h-7 w-28 sm:top-8 sm:left-8 sm:h-8 sm:w-32">
+        <div className="pointer-events-none absolute top-6 left-6 z-2 h-7 w-28 sm:top-8 sm:left-8 sm:h-8 sm:w-32 lg:left-[clamp(1.5rem,4vw,6rem)]">
           <img
             src={asset(product.logo)}
             alt={`${product.name} logo`}

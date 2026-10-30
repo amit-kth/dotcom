@@ -23,7 +23,7 @@ import { cn } from "@/lib/utils";
 
    THE STACK
    Each banner is sticky with the same `top`, so as you scroll the next one
-   slides over the previous. The covered banner scales down and dims by a few
+   slides over the previous. The covered banner scales down by a few
    percent, which leaves its top edge visible above the one now on top. That
    edge is the whole trick: it says "there are more of these" without a
    carousel or a grid of cards.
@@ -42,7 +42,7 @@ import { cn } from "@/lib/utils";
    All solutions are in the HTML. A chip choice filters the rendered list at
    render time, not by fetching. Clearing the chip, or "Show all", restores
    everything. With motion off the stack becomes a plain list: no sticky, no
-   scale, no dimming.
+   scale.
    ========================================================================== */
 
 const STICKY_TOP = "calc(var(--header-h) + 0.5rem)";
@@ -231,19 +231,6 @@ function StackItem({
   const scale = useTransform(progress, [start, end], [1, isLast ? 1 : 0.94]);
   const y = useTransform(progress, [start, end], [0, isLast ? 0 : -12]);
 
-  /* The dim is a layer of paint on top of the card, not `opacity` on the card.
-     Animating opacity here would make a covered banner see-through, and the
-     banners stacked behind it would bleed their text through the one on top.
-
-     It also holds back for the first half of the window, so a banner is only
-     dimmed once the next one is actually over it, not while it is still the
-     banner you are reading. */
-  const shade = useTransform(
-    progress,
-    [start + (end - start) * 0.5, end],
-    [0, isLast ? 0 : 0.42],
-  );
-
   return (
     <div
       className={cn(
@@ -261,11 +248,6 @@ function StackItem({
       >
         <div className="relative isolate overflow-hidden rounded-3xl">
           {children}
-          <motion.div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0 z-3 hidden md:block rounded-3xl bg-slate-950"
-            style={{ opacity: shade }}
-          />
         </div>
       </motion.div>
     </div>

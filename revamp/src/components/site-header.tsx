@@ -145,7 +145,7 @@ export function SiteHeader() {
         "sticky top-0 z-50 h-[var(--header-h)] border-b transition-colors duration-200",
         light
           ? "border-slate-200 bg-white text-slate-950 shadow-sm"
-          : "border-transparent bg-transparent text-white",
+          : "border-transparent bg-transparent text-white backdrop-blur-sm",
       )}
     >
       <div

@@ -109,13 +109,19 @@ export function SiteFooter() {
           <nav aria-label="Industries">
             <h2 className={cn(T_LABEL, "text-slate-300")}>Industries</h2>
             <ul className="mt-2 flex flex-col">
-              {categories.map((category) => (
-                <li key={category.id}>
-                  <Link href="/#solutions" className={LINK}>
-                    {category.label}
-                  </Link>
-                </li>
-              ))}
+              {categories
+                .filter(
+                  (category) =>
+                    category.id !== "manufacturing" &&
+                    category.id !== "real-estate",
+                )
+                .map((category) => (
+                  <li key={category.id}>
+                    <Link href="/#solutions" className={LINK}>
+                      {category.label}
+                    </Link>
+                  </li>
+                ))}
             </ul>
           </nav>
 

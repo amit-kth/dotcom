@@ -117,7 +117,7 @@ export function Hero() {
         "after:bg-[linear-gradient(90deg,var(--color-slate-950)_0%,color-mix(in_srgb,var(--color-slate-950)_92%,transparent)_36%,transparent_72%),linear-gradient(180deg,transparent_30%,color-mix(in_srgb,var(--color-slate-950)_30%,transparent)_55%,var(--color-slate-950)_85%)]",
       )}
     >
-      {/* Background-only artwork: no baked-in headings, buttons or labels.
+      {/* Artwork retains its own panel lettering, but no left-side website copy.
           The right-side panels stay visible on desktop, softer on phones. */}
       <div
         aria-hidden="true"

@@ -169,7 +169,8 @@ export function SiteHeader() {
         >
           <div
             ref={panelRef}
-            className="relative"
+            /* Anchor the panel to the shared header container, not its trigger. */
+            className="static"
             onMouseEnter={openOnHover}
             onMouseLeave={closeOnHover}
             onBlur={(event) => {
@@ -212,8 +213,7 @@ export function SiteHeader() {
               id="solutions-panel"
               hidden={!panel}
               className={cn(
-                "absolute top-[calc(100%+0.75rem)] left-0 z-60 w-[min(40rem,calc(100vw-3rem))] p-5 rounded-[1.25rem] border border-slate-200 bg-white text-slate-950 shadow-xl animate-[nav-panel-in_170ms_cubic-bezier(0.22,0.61,0.36,1)_both]",
-                "lg:left-1/2 lg:-translate-x-1/2",
+                "absolute top-[calc(100%+0.75rem)] left-1/2 -translate-x-1/2 z-60 w-[min(40rem,calc(100vw-3rem))] p-5 rounded-[1.25rem] border border-slate-200 bg-white text-slate-950 shadow-xl animate-[nav-panel-in_170ms_cubic-bezier(0.22,0.61,0.36,1)_both]",
               )}
             >
               <div className="grid gap-6 lg:grid-cols-[1.25fr_1fr]">

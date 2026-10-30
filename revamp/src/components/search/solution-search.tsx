@@ -290,13 +290,13 @@ export function SearchTrigger({
       aria-haspopup="dialog"
       onClick={(event) => openSearch?.(event.currentTarget)}
       className={cn(
-        "inline-flex min-h-11 items-center gap-2 rounded-xl border text-sm transition-colors",
+        "inline-flex items-center gap-2 rounded-xl border text-sm transition-colors",
         light
           ? "border-slate-200 bg-white text-slate-600 hover:border-blue-300 hover:bg-blue-50"
           : "border-white/20 bg-white/5 text-slate-100 hover:bg-white/10",
         compact
-          ? "justify-center px-3 2xl:text-base"
-          : "mt-8 w-full justify-start px-4 py-3 sm:max-w-xl",
+          ? "h-9 justify-center rounded-[0.625rem] px-3 max-sm:h-11 2xl:text-base"
+          : "mt-8 min-h-11 w-full justify-start px-4 py-3 sm:max-w-xl",
       )}
     >
       <Search className="size-4 shrink-0" aria-hidden="true" />

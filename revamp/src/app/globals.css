@@ -129,30 +129,31 @@
   }
 }
 
-/* Native standard for Firefox/current engines; WebKit fallback for older Safari.
-   Keep native scrolling and forced-colour accessibility; no JS scrollbar. */
+/* Slim light scrollbars, with native accessibility in forced-colour mode. */
 @layer base {
-  @supports (scrollbar-color: auto) {
-    * {
-      scrollbar-width: thin;
-      scrollbar-color: var(--color-slate-400) var(--color-slate-950);
-    }
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-slate-400) var(--color-slate-100);
   }
-  @supports not (scrollbar-color: auto) {
+  @supports selector(::-webkit-scrollbar) {
+    * {
+      scrollbar-width: auto;
+      scrollbar-color: auto;
+    }
     ::-webkit-scrollbar {
-      width: 10px;
-      height: 10px;
+      width: 6px;
+      height: 6px;
     }
     ::-webkit-scrollbar-track {
-      background: var(--color-slate-950);
+      background: var(--color-slate-100);
     }
     ::-webkit-scrollbar-thumb {
-      border: 2px solid var(--color-slate-950);
+      border: 1px solid var(--color-slate-100);
       border-radius: 999px;
       background: var(--color-slate-400);
     }
     ::-webkit-scrollbar-thumb:hover {
-      background: var(--color-blue-500);
+      background: var(--color-slate-500);
     }
   }
   @media (forced-colors: active) {

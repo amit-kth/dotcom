@@ -5,7 +5,7 @@ import { useReducedMotion } from "@/lib/use-reduced-motion";
 import { useRef } from "react";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Mail, X } from "lucide-react";
+import { ArrowRight, Mail, X } from "lucide-react";
 import { useCategory } from "@/components/category-context";
 import { SolutionBanner } from "@/app/solutions/components/solution-banner";
 import { categoryLabel } from "@/data/categories";
@@ -187,21 +187,20 @@ export function Solutions() {
         <div
           className={cn(
             SHELL,
-            "flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between",
+            "flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between",
           )}
         >
           <h2 className="max-w-[24ch] text-2xl font-semibold leading-tight tracking-tight sm:text-3xl">
             Not sure which fits? Talk to us.
           </h2>
-          <Link
-            href={contact.contactPath}
-            className={cn(
-              buttonVariants({ variant: "inverse", size: "md" }),
-              "shrink-0 self-start sm:self-auto",
-            )}
-          >
-            Contact us <Mail className="size-4" aria-hidden="true" />
-          </Link>
+          <div className="flex shrink-0 flex-wrap gap-3">
+            <Link href="/solutions/" className={buttonVariants({ variant: "inverse", size: "md" })}>
+              Explore all solutions <ArrowRight className="size-4" aria-hidden="true" />
+            </Link>
+            <Link href={contact.contactPath} className={buttonVariants({ variant: "outline", size: "md" })}>
+              Contact us <Mail className="size-4" aria-hidden="true" />
+            </Link>
+          </div>
         </div>
       </div>
     </section>

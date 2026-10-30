@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowLeft, Mail } from "lucide-react";
 import { Seo } from "@/lib/seo";
+import { SearchTrigger } from "@/components/search/solution-search";
 import { SolutionBanner } from "@/app/solutions/components/solution-banner";
 import { CatalogueGrid } from "@/app/solutions/components/catalogue-grid";
 import { buttonVariants } from "@/components/ui/button";
@@ -64,6 +65,7 @@ export default function SolutionsPage() {
               />
             </Link>
           </div>
+          <SearchTrigger />
         </div>
 
         <div className={cn(SHELL, "flex flex-col gap-6 sm:gap-8 lg:gap-10")}>
@@ -101,8 +103,8 @@ export default function SolutionsPage() {
           )}
         >
           <p className="text-[1.0625rem] text-slate-600">
-            Something else in mind? That is a build rather than a solution,
-            tell us what you run and we will say which it is.
+            Something else in mind? That is a build rather than a solution, tell
+            us what you run and we will say which it is.
           </p>
           <Link
             href={contact.contactPath}

@@ -2,6 +2,7 @@ import "./globals.css";
 import { display } from "./fonts";
 import Script from "next/script";
 import { CategoryProvider } from "@/components/category-context";
+import { SolutionSearchProvider } from "@/components/search/solution-search";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { RouteTracker } from "@/components/route-tracker";
@@ -87,9 +88,11 @@ export default function RootLayout({
         />
         <RouteTracker />
         <CategoryProvider>
-          <SiteHeader />
-          {children}
-          <SiteFooter />
+          <SolutionSearchProvider>
+            <SiteHeader />
+            {children}
+            <SiteFooter />
+          </SolutionSearchProvider>
         </CategoryProvider>
       </body>
     </html>

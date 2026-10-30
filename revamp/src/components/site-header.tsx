@@ -10,6 +10,7 @@ import { categories, categoryHue } from "@/data/categories";
 import { featuredProducts } from "@/data/products";
 import { buttonVariants } from "@/components/ui/button";
 import { contact } from "@/config/variables";
+import { SearchTrigger } from "@/components/search/solution-search";
 import { SHELL } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 
@@ -303,6 +304,7 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <SearchTrigger compact light={light} />
           {/* "Contact us" is a general contact action, with no product
               attached: it opens the general contact form. It is
               outlined on purpose, the chips, not this button, are the main

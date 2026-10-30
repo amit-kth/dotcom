@@ -111,3 +111,13 @@ Sticky positioning, scale and shading now start at md (768px), without the short
 ### Hero selection scroll restored
 
 Selecting an unselected hero industry now scrolls to Solutions after the filter renders. Returning to select another industry preserves existing selections and scrolls again; deselection does not scroll. Reduced motion uses instant scrolling. Chromium checks at 390px and 1366px confirm the section arrives at 68px below the viewport top and adding a second industry retains both selections. Build, TypeScript and SEO checks pass. This supersedes the earlier stay-in-hero selection behavior.
+
+## Shared solution search dialog
+
+- One root-level client search provider wraps the existing statically rendered site. Header search controls and the All Solutions search-bar trigger open the same accessible Radix dialog. Ctrl+K / Cmd+K toggles it from any route.
+- Both product datasets have editable keyword arrays. A single normalized, precomputed local index covers all 40 entries. Search requires all typed terms and ranks product-name matches ahead of keyword/description matches. No API, dynamic route, database, search dependency or runtime server is required. Result calculations are memoized by query.
+- Input autofocus, up/down/Enter selection, Escape, focus trapping/return, suggested searches, highlighted matches, result counts, clear action and contact fallback are implemented. The dialog scrolls internally and remains within narrow viewports.
+- Featured results target stable product-card anchors on /solutions/. Catalogue results retain their existing product URLs; entries without a product page target their catalogue card instead. No URLs were invented for missing product pages.
+- `npx tsx --test scripts/search.test.ts`: five tests pass, covering normalization, aliases, keywords, multi-match searches, no results, index coverage and destinations.
+- Chromium checks at 320, 390, 768, 1366 and 2560px: no horizontal overflow, search autofocus and focus return pass, matching results and keyboard selection work. Ctrl+K, clear/no-results, cross-page entry, featured anchors and catalogue fallback anchors tested with no uncaught browser errors.
+- `npm run build`, `npx tsc --noEmit` and `python3 scripts/verify-export.py` pass. Build output marks /, /contact and /solutions as static (○); exported pages retain their original content and metadata.

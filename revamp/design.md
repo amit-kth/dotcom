@@ -265,3 +265,7 @@ Hero industries are independent toggles, not a single-choice redirect. Selected 
 Use two-column, compact, left-aligned hero chips on phones. Mobile navigation animates opacity and vertical position, remains keyboard-inert when closed, and respects reduced motion. Contact actions use a Mail icon; demos use Presentation.
 
 Page gutters are fluid instead of a centered 80rem shell. Never derive product-copy padding from viewport width while capping its containing block: that collapses readable width on larger displays. Use bounded local padding with a proportional text column. Cards must expand for their content; no max-height clipping. Keep the sticky stack on roomy desktop screens and use a plain list on mobile and short-height screens.
+
+### Shared search dialog
+
+Use one search dialog in the root shell, opened by a compact header trigger, the prominent All Solutions trigger, or Ctrl/Cmd+K. Keep it light, keyboard-accessible, responsive and separate from the static page content. Product names, descriptions, industries and curated keyword arrays feed a small local index; avoid network search and heavyweight ranking libraries for this catalogue. Match any relevant product, require all query terms, rank names before keywords, and preserve existing destinations. Missing product pages resolve to their catalogue entry, not a made-up URL. Keywords live next to each product so aliases and business needs stay easy to maintain.

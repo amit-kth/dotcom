@@ -39,6 +39,8 @@ export type AccentHue = "blue" | "violet" | "coral" | "teal";
 export type Product = {
   id: string;
   name: string;
+  /** Search aliases, business needs and relevant terms. */
+  keywords: string[];
   /** Product logo URL or local asset path; null reserves space until supplied. */
   logo: string | null;
   /** one line: the problem it removes, not a feature list */
@@ -61,6 +63,15 @@ export type Product = {
 export const products: Product[] = [
   {
     id: "ai-calling-agents",
+    keywords: [
+      "AI calls",
+      "voice agent",
+      "calling automation",
+      "customer support",
+      "sales calls",
+      "loan recovery",
+      "fintech",
+    ],
     name: "AI Calling Agents",
     logo: null,
     // The phrasing is the client's own reference banner: calls that did not
@@ -83,6 +94,16 @@ export const products: Product[] = [
   },
   {
     id: "whatsapp-crm",
+    keywords: [
+      "K-SMART",
+      "ksmart",
+      "lead management",
+      "sales CRM",
+      "customer relationship management",
+      "WhatsApp automation",
+      "quotations",
+      "invoices",
+    ],
     // K-SMART on the old site; "one CRM instead of six tools" is its own line.
     name: "WhatsApp CRM",
     logo: "https://www.kriscent.in/product/ksmart/assets/img/software/ksmart_logo.png",
@@ -101,6 +122,15 @@ export const products: Product[] = [
   },
   {
     id: "k-exam",
+    keywords: [
+      "online exams",
+      "exam software",
+      "question bank",
+      "online tests",
+      "assessment",
+      "anti cheating",
+      "education",
+    ],
     name: "K-Exam",
     logo: null,
     // Old site: "Exams that stay secure online".
@@ -119,6 +149,17 @@ export const products: Product[] = [
   },
   {
     id: "k-edusity",
+    keywords: [
+      "school ERP",
+      "school management",
+      "student attendance",
+      "attendence",
+      "school fees",
+      "LMS",
+      "K-LMS",
+      "learning management",
+      "education",
+    ],
     name: "K-Edusity",
     logo: null,
     /* School ERP. This is the merge of the old K-Edusity and K-LMS entries:
@@ -139,6 +180,14 @@ export const products: Product[] = [
   },
   {
     id: "kastrofy",
+    keywords: [
+      "astrology",
+      "astrologer",
+      "horoscope",
+      "consultation",
+      "kundli",
+      "jyotish",
+    ],
     name: "Kastrofy",
     logo: "https://kriscent.in/product/kastrofy/assets/images/logo_white.png",
     // Old site: "Connect with expert astrologers, live … shop curated

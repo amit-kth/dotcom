@@ -41,6 +41,7 @@ export function SolutionBanner({
 }) {
   return (
     <article
+      id={preview ? undefined : `solution-${product.id}`}
       className={cn(
         "relative mx-auto grid w-full max-w-none grid-rows-[minmax(11rem,3fr)_7fr] overflow-hidden rounded-3xl lg:flex lg:flex-row lg:items-center",
         "bg-slate-950 text-slate-50 shadow-[0_24px_60px_-32px_rgb(15_23_42/0.45)]",

@@ -24,7 +24,7 @@ export function CatalogueGrid() {
   return (
     <ul className="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {catalogue.map((item) => (
-        <li key={item.id} className="group">
+        <li key={item.id} id={`catalogue-${item.id}`} className="group">
           {item.image ? (
             <img
               src={asset(item.image)}

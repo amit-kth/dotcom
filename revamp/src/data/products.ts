@@ -3,9 +3,6 @@ import { type CategoryId } from "./categories";
 /** Every solution is delivered in this many days. */
 export const DELIVERY_DAYS = 15;
 
-/** The single banner ratio, so every export matches. */
-export const BANNER_RATIO = "16 / 7";
-
 export type AccentHue = "blue" | "violet" | "coral" | "teal";
 
 export type Product = {
@@ -184,11 +181,3 @@ export const products: Product[] = [
 export const featuredProducts = products
   .filter((product) => product.featured)
   .sort((a, b) => a.order - b.order);
-
-export const productsInCategory = (id: CategoryId) =>
-  products
-    .filter((product) => product.categories.includes(id))
-    .sort((a, b) => a.order - b.order);
-
-/** Never null: falls back to the whole list, which is the default view. */
-export const productById = (id: string) => products.find((p) => p.id === id);

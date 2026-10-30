@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowLeft, Mail } from "lucide-react";
 import { Seo } from "@/lib/seo";
+import { metadata, contact } from "@/config/variables";
 import { SearchTrigger } from "@/components/search/solution-search";
 import { SolutionBanner } from "@/app/solutions/components/solution-banner";
 import { CatalogueGrid } from "@/app/solutions/components/catalogue-grid";
@@ -8,30 +9,12 @@ import { buttonVariants } from "@/components/ui/button";
 import { LIGHT_BAND, SHELL, T_BODY, T_HEADING, T_LABEL } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import { products, DELIVERY_DAYS } from "@/data/products";
-import { contact } from "@/config/variables";
 import { catalogue } from "@/data/catalogue";
-
-/* ============================================================================
-   /solutions ,  the whole list
-   ----------------------------------------------------------------------------
-   PURPOSE: let someone who wants the whole picture see it, without turning the
-   homepage into a catalogue.
-
-   Two halves. The five solutions we lead with get the same banner as the
-   homepage, in one column and deliberately not sticky: here the visitor came to
-   read, so nothing should move under their pointer. Under them, every other
-   product the client lists on the old site, as a catalogue with artwork slots
-   waiting for renders.
-
-   This page sits on a LIGHT band (the `LIGHT_BAND` utility string), so every
-   text colour here is an `on-light` token; each banner brings its own dark
-   surface with it.
-   ========================================================================== */
 
 export default function SolutionsPage() {
   return (
     <>
-      <Seo page="solutions" />
+      <Seo {...metadata.solutions} />
 
       <main className={LIGHT_BAND}>
         <div className={cn(SHELL, "pt-[clamp(4rem,8vw,7rem)] pb-14")}>

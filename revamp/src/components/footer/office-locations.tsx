@@ -1,26 +1,13 @@
 "use client";
 
-import { useEffect, useId, useRef, useState, type ComponentProps } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
-import { locations, type LocationItem } from "@/data/locations";
+import { locations } from "@/data/locations";
 import { useReducedMotion } from "@/lib/use-reduced-motion";
 import { cn } from "@/lib/utils";
 
-type OfficeGalleryProps = ComponentProps<"section"> & {
-  list?: LocationItem[];
-  autoPlay?: boolean;
-};
-
-/** Adapted from the supplied Expandable gallery; vertical on narrow phones so
- * addresses remain legible. Native buttons and sibling map links avoid nested
- * interactive elements. Autoplay pauses for keyboard, pointer, hidden tabs,
- * offscreen galleries and reduced motion, without extra playback controls. */
-export function OfficeGallery({
-  list = locations,
-  autoPlay = true,
-  className,
-  ...props
-}: OfficeGalleryProps) {
+/** Expandable office addresses with map links. */
+export function OfficeLocations() {
   const [activeItem, setActiveItem] = useState(0);
   const [hovering, setHovering] = useState(false);
   const [focused, setFocused] = useState(false);
@@ -30,7 +17,6 @@ export function OfficeGallery({
   const ref = useRef<HTMLElement>(null);
   const buttons = useRef<(HTMLButtonElement | null)[]>([]);
   const id = useId();
-  const activeIndex = Math.min(activeItem, Math.max(0, list.length - 1));
 
   useEffect(() => {
     const element = ref.current;
@@ -50,45 +36,25 @@ export function OfficeGallery({
   }, []);
 
   useEffect(() => {
-    if (
-      !autoPlay ||
-      hovering ||
-      focused ||
-      !visible ||
-      !pageVisible ||
-      reduceMotion ||
-      list.length < 2
-    )
-      return;
+    if (hovering || focused || !visible || !pageVisible || reduceMotion) return;
     const timer = window.setInterval(
-      () => setActiveItem((previous) => (previous + 1) % list.length),
+      () => setActiveItem((previous) => (previous + 1) % locations.length),
       5000,
     );
     return () => window.clearInterval(timer);
-  }, [
-    autoPlay,
-    hovering,
-    focused,
-    visible,
-    pageVisible,
-    reduceMotion,
-    list.length,
-  ]);
+  }, [hovering, focused, visible, pageVisible, reduceMotion]);
 
   useEffect(() => {
-    if (!visible || list.length < 2) return;
+    if (!visible) return;
     const next = new Image();
-    next.src = list[(activeIndex + 1) % list.length].image;
-  }, [activeIndex, list, visible]);
-
-  if (!list.length) return null;
+    next.src = locations[(activeItem + 1) % locations.length].image;
+  }, [activeItem, visible]);
 
   return (
     <section
-      {...props}
       ref={ref}
-      aria-label="Office locations gallery"
-      className={cn("py-6 sm:py-8", className)}
+      aria-label="Office locations"
+      className="py-6 sm:py-8"
       onMouseEnter={() => setHovering(true)}
       onMouseLeave={() => setHovering(false)}
       onFocusCapture={() => setFocused(true)}
@@ -103,8 +69,8 @@ export function OfficeGallery({
         </h2>
       </div>
       <div className="flex h-[26rem] w-full min-w-0 flex-col gap-2 md:h-64 md:flex-row">
-        {list.map((item, index) => {
-          const active = index === activeIndex;
+        {locations.map((item, index) => {
+          const active = index === activeItem;
           return (
             <article
               key={item.city}
@@ -144,11 +110,11 @@ export function OfficeGallery({
                 onKeyDown={(event) => {
                   let next: number;
                   if (["ArrowRight", "ArrowDown"].includes(event.key))
-                    next = (index + 1) % list.length;
+                    next = (index + 1) % locations.length;
                   else if (["ArrowLeft", "ArrowUp"].includes(event.key))
-                    next = (index + list.length - 1) % list.length;
+                    next = (index + locations.length - 1) % locations.length;
                   else if (event.key === "Home") next = 0;
-                  else if (event.key === "End") next = list.length - 1;
+                  else if (event.key === "End") next = locations.length - 1;
                   else return;
                   event.preventDefault();
                   setActiveItem(next);

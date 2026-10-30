@@ -1,8 +1,8 @@
 import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { Seo } from "@/lib/seo";
+import { metadata, contact, site } from "@/config/variables";
 import { ContactForm } from "@/app/contact/components/contact-form";
 import { ContactHeading } from "@/app/contact/components/contact-heading";
-import { contact, site } from "@/config/variables";
 import { SHELL } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 
@@ -10,28 +10,10 @@ import { cn } from "@/lib/utils";
 const LINK =
   "flex min-h-11 items-center text-slate-600 transition-[color,transform] duration-200 hover:translate-x-0.5 hover:text-slate-950";
 
-/* ============================================================================
-   /contact ,  where both call-to-action labels land
-   ----------------------------------------------------------------------------
-   Left: the title and every way to reach us. Right: the old site's contact form,
-   field for field, so the enquiry arrives in the shape the backend already
-   knows, without additional fields.
-
-   The two entry points:
-     nav and footer  ->  "Contact us"                  /contact
-     product banner  ->  "Request a demo"               /contact?solution=<id>
-   Same page, same form, a context-specific title with the same original form fields.
-
-   The form is its own component (`components/contact-form.tsx`) and submits
-   through `lib/submit-contact.ts`; the endpoint is a TODO in
-   config/variables.ts, and nothing else has to change when it goes live.
-
-   ========================================================================== */
-
 export default function ContactPage() {
   return (
     <>
-      <Seo page="contact" />
+      <Seo {...metadata.contact} />
 
       <main className="bg-slate-50">
         <div

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { OfficeGallery } from "@/components/footer/office-gallery";
+import { OfficeLocations } from "@/components/footer/office-locations";
 import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
 import { contact, site } from "@/config/variables";
 import { SOCIAL_ICONS, WhatsAppIcon } from "@/components/social-icons";
@@ -50,7 +50,7 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <OfficeGallery />
+        <OfficeLocations />
 
         {/* ---- five columns, one baseline ---- */}
         <div className="grid grid-cols-2 gap-x-6 gap-y-6 border-t border-white/15 py-8 lg:grid-cols-[minmax(15rem,1.2fr)_repeat(3,minmax(0,0.8fr))_minmax(14rem,1.3fr)]">

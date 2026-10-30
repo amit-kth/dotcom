@@ -15,7 +15,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { useCategory } from "@/components/category-context";
-import { categories, categoryHue, type CategoryId } from "@/data/categories";
+import { categories, type CategoryId } from "@/data/categories";
 import { DELIVERY_DAYS } from "@/data/products";
 import { SHELL } from "@/lib/ui";
 import { cn } from "@/lib/utils";
@@ -179,7 +179,7 @@ export function Hero() {
                   aria-pressed={active}
                   className={cn(
                     CHIP,
-                    categoryHue[category.id],
+                    category.color,
                     "max-sm:justify-start max-sm:rounded-2xl max-sm:px-3 max-sm:text-sm max-sm:min-h-12 max-[22.5rem]:text-xs max-[22.5rem]:px-2 max-[22.5rem]:gap-1.5",
                   )}
                   initial={reduceMotion ? false : { opacity: 0, y: 12 }}

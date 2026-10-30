@@ -94,28 +94,8 @@ export const contact = {
   locality: "Kota, Rajasthan, India",
 } as const;
 
-/* ---------------------------------------------------------------------------
-   5. PAGE METADATA
-   ---------------------------------------------------------------------------
-   Every page's <title>, description, canonical path and social card live here.
-   Adding a page means adding an entry to this object, then wrapping the page
-   component in <Seo page="...">. See lib/seo.tsx for how it is applied.
-
-   `path` is the route with a leading slash and no trailing slash; the Seo
-   component combines it with site.url to build the canonical and og:url.
-   `noindex` should stay false unless a page genuinely must not be indexed.
---------------------------------------------------------------------------- */
-export type PageKey = "home" | "solutions" | "contact";
-
-export type PageMeta = {
-  path: string;
-  title: string;
-  description: string;
-  ogImage?: string;
-  noindex?: boolean;
-};
-
-export const pages: Record<PageKey, PageMeta> = {
+// Page SEO values. Pass the relevant object directly to <Seo />.
+export const metadata = {
   home: {
     path: "/",
     title: "Ready-Made Software Solutions, Live in 15 Days | Kriscent",

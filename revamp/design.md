@@ -273,3 +273,7 @@ Use one search dialog in the root shell, opened by a compact header trigger, the
 ### Keep fixed content straightforward
 
 Use direct markup for one-off certification/company copy, and explicit `/...` paths for local images. Client logos are a plain array of named objects with their complete paths, not tuples plus a filename builder. Avoid pass-through helpers, duplicate objects, speculative environment/CDN switches, and long comment essays. Keep shared datasets only where they have real consumers: products/search, repeated client logos/testimonials, and shared contact/metadata settings. Office photography retains its actual shared ImageKit host.
+
+### Direct configuration and meaningful names
+
+Pass page metadata objects directly to Seo, without a parallel union of page names or unused override options. Keep one category list with its label and colour; infer IDs from it instead of maintaining a duplicate list. The footer address component is OfficeLocations, not a generic gallery: it reads the actual locations directly and does not expose unused list/autoplay/custom-prop options. Retain real accessibility and reduced-motion behavior, not speculative configuration.

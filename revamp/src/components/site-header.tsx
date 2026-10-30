@@ -6,7 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { ArrowRight, Mail, ChevronDown, Menu, X } from "lucide-react";
 import { site } from "@/config/variables";
 import { useCategory } from "@/components/category-context";
-import { categories, categoryHue } from "@/data/categories";
+import { categories } from "@/data/categories";
 import { featuredProducts } from "@/data/products";
 import { buttonVariants } from "@/components/ui/button";
 import { contact } from "@/config/variables";
@@ -258,7 +258,7 @@ export function SiteHeader() {
                           "inline-flex h-8 items-center gap-1.5 rounded-full border border-slate-200 px-[0.6875rem] text-[0.8125rem] font-medium text-slate-700",
                           "transition-colors duration-150 hover:border-blue-300 hover:bg-slate-100 hover:text-slate-950 aria-pressed:border-blue-400 aria-pressed:bg-blue-50 aria-pressed:text-blue-700",
                           "before:size-1.5 before:rounded-full before:bg-[var(--chip,var(--color-blue-300))] before:content-['']",
-                          categoryHue[category.id],
+                          category.color,
                         )}
                       >
                         {category.label}
@@ -409,7 +409,7 @@ export function SiteHeader() {
                   "inline-flex min-h-11 items-center gap-1.5 rounded-full border border-slate-200 px-[0.6875rem] text-[0.8125rem] font-medium text-slate-700",
                   "transition-colors duration-150 hover:border-blue-300 hover:bg-slate-100 hover:text-slate-950 aria-pressed:border-blue-400 aria-pressed:bg-blue-50 aria-pressed:text-blue-700",
                   "before:size-1.5 before:rounded-full before:bg-[var(--chip,var(--color-blue-300))] before:content-['']",
-                  categoryHue[category.id],
+                  category.color,
                 )}
               >
                 {category.label}

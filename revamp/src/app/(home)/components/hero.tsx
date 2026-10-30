@@ -110,23 +110,23 @@ export function Hero() {
     <section
       id="top"
       aria-labelledby="hero-title"
-      /* the wash: one blue pool under the chips + an ~84% dark cover */
+      /* Directional scrims keep the artwork off the copy and chip row. */
       className={cn(
         "relative flex min-h-[calc(100svh-var(--header-h,3.75rem))] items-center overflow-hidden",
         "after:pointer-events-none after:absolute after:inset-0 after:z-0 after:content-['']",
-        "after:bg-[radial-gradient(46%_42%_at_26%_66%,rgb(44_83_224/0.3)_0%,rgb(44_83_224/0)_72%),linear-gradient(180deg,rgb(10_8_32/0.8)_0%,rgb(10_8_32/0.84)_46%,rgb(10_8_32/0.88)_100%)]",
+        "after:bg-[linear-gradient(90deg,var(--color-slate-950)_0%,color-mix(in_srgb,var(--color-slate-950)_92%,transparent)_36%,transparent_72%),linear-gradient(180deg,transparent_30%,color-mix(in_srgb,var(--color-slate-950)_30%,transparent)_55%,var(--color-slate-950)_85%)]",
       )}
     >
-      {/* texture, not subject: blurred and dimmed so nothing sharp sits behind
-          the thing the visitor is meant to click */}
+      {/* Background-only artwork: no baked-in headings, buttons or labels.
+          The right-side panels stay visible on desktop, softer on phones. */}
       <div
         aria-hidden="true"
         style={
           {
-            "--hero-photo": `url(${asset("hero-bg.webp")})`,
+            "--hero-photo": `url(${asset("hero-software-bg.webp")})`,
           } as React.CSSProperties
         }
-        className="pointer-events-none absolute -inset-[4%] z-0 bg-[image:var(--hero-photo)] bg-cover bg-[position:70%_46%] bg-no-repeat opacity-[0.62] blur-[14px] saturate-[0.7] brightness-[0.82] contrast-[0.92] max-sm:bg-[position:64%_50%]"
+        className="pointer-events-none absolute inset-0 z-0 bg-[image:var(--hero-photo)] bg-cover bg-center bg-no-repeat opacity-90 lg:bg-[position:center_calc(50%_-_3rem)] max-lg:opacity-50 max-sm:bg-[position:65%_top] max-sm:opacity-30"
       />
       <div
         aria-hidden="true"

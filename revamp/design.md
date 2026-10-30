@@ -237,3 +237,13 @@ use expanding rows to leave room for readable addresses. Selection uses native
 buttons, while map links are siblings (never nested inside buttons). Autoplay
 pauses during interaction, when offscreen or in a hidden tab, and under reduced
 motion. No visible playback controls are rendered. About cards use 32px corners.
+
+
+## Hero background update
+
+The hardware photograph is replaced by `public/hero-software-bg.webp`: blue-lit
+layered software panels on the right, empty navy on the left, no baked-in copy,
+buttons or nav. The art follows the user's supplied visual reference. Tailwind
+directional scrims protect the headline and fade the lower artwork before the
+chips; phones use a quieter 30% image layer. Hero copy, category behaviour and
+layout remain unchanged. The WebP is 1376 × 768 and about 19 KB.

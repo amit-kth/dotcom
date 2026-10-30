@@ -155,11 +155,11 @@ export function SiteHeader() {
       >
         <Link href="/" aria-label={`${site.name} home`} className="shrink-0">
           <img
-            src={asset("logo/logo.png")}
+            src={asset("logo/kriscent-blue.png")}
             alt={site.name}
-            width={274}
-            height={72}
-            className={cn("h-7 w-auto", !light && "brightness-0 invert")}
+            width={330}
+            height={86}
+            className={cn("h-7 w-auto", !light && "grayscale brightness-[10]")}
           />
         </Link>
 

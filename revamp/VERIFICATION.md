@@ -85,3 +85,7 @@ container. Build, TypeScript and exported SEO checks pass.
 - No em dash characters remain in revamp/src.
 - Build, TypeScript, static SEO export checks and git diff whitespace checks pass. Browser checks at 1440x900, 390x900 and 320x900: no horizontal overflow on home/contact, no uncaught page errors. Additional navigation/reduced-motion checks at 1366x768 and 390x650 pass.
 - Contact delivery remains the existing TODO endpoint/local simulation; this change does not configure a backend. External CDN image delivery was not verified from the network-restricted sandbox.
+
+### Single header logo (2026-10-30)
+
+Recoloured the supplied transparent 330x86 red logo to Tailwind blue-600, preserving every alpha value and the original artwork. Header uses only logo/kriscent-blue.png. The transparent state uses CSS grayscale and increased brightness to render it white; light headers show its native blue. Browser checks at 1440px and 390px confirm the same loaded source and identical 107.4375x28 rendered dimensions in both states. Build, TypeScript and static SEO export checks pass.

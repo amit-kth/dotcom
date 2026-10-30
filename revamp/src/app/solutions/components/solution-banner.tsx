@@ -73,21 +73,22 @@ export function SolutionBanner({
         className="absolute inset-0 z-1 hidden bg-[linear-gradient(to_right,oklch(11.5%_0.035_278/0.9)_0%,oklch(11.5%_0.035_278/0.82)_34%,oklch(11.5%_0.035_278/0.45)_54%,oklch(11.5%_0.035_278/0)_70%)] lg:block"
       />
 
-      <div className="relative z-2 w-full bg-slate-950 p-6 sm:p-8 lg:bg-transparent lg:py-[clamp(1.75rem,4vw,3.5rem)] lg:px-[clamp(1.5rem,4vw,6rem)] lg:w-[55%]">
-        {/* A stable logo slot keeps all cards aligned as brand assets arrive. */}
-        <div className="mb-5 h-12 w-full max-w-48 sm:h-14 sm:max-w-56">
-          {product.logo && (
-            <img
-              src={asset(product.logo)}
-              alt={`${product.name} logo`}
-              width={224}
-              height={56}
-              loading="lazy"
-              decoding="async"
-              className="size-full object-contain object-left"
-            />
-          )}
+      {/* Compact branding stays in the card corner, separate from the copy. */}
+      {product.logo && (
+        <div className="pointer-events-none absolute top-6 left-6 z-2 h-7 w-28 sm:top-8 sm:left-8 sm:h-8 sm:w-32">
+          <img
+            src={asset(product.logo)}
+            alt={`${product.name} logo`}
+            width={128}
+            height={32}
+            loading="lazy"
+            decoding="async"
+            className="size-full object-contain object-left brightness-[100] saturate-0"
+          />
         </div>
+      )}
+
+      <div className="relative z-2 w-full bg-slate-950 p-6 sm:p-8 lg:bg-transparent lg:pt-24 lg:pb-12 lg:px-[clamp(1.5rem,4vw,6rem)] lg:w-[55%]">
         {/* only the primary industry is shown; the rest are filter tags */}
         <p className={cn(T_LABEL, "text-slate-300")}>
           {categoryLabel(product.categories[0])}

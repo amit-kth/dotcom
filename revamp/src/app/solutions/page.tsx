@@ -66,7 +66,7 @@ export default function SolutionsPage() {
           </div>
         </div>
 
-        <div className="flex flex-col">
+        <div className={cn(SHELL, "flex flex-col gap-6 sm:gap-8 lg:gap-10")}>
           {products.map((product) => (
             <SolutionBanner key={product.id} product={product} />
           ))}

@@ -1,5 +1,5 @@
 /* ============================================================================
-   variables.ts  —  the one file to edit when something global changes
+   variables.ts ,  the one file to edit when something global changes
    ----------------------------------------------------------------------------
    Everything here is a single source of truth. Nothing in components/, app/ or
    data/ may hard-code a URL, an image path, a phone number or a page title.
@@ -77,7 +77,7 @@ export const site = {
    present in the old markup, only the phone numbers and inboxes are.
 --------------------------------------------------------------------------- */
 /* The five published lines on one exchange. The footer prints them as a single
-   link — "+91-7240560001/2/3/4/5" — and dials the first one, so the list stays
+   link, "+91-7240560001/2/3/4/5", and dials the first one, so the list stays
    the only place a number is written down. */
 const PHONES: string[] = [
   "+91-7240560001",
@@ -99,7 +99,7 @@ export const contact = {
     sales: "sales@kriscent.in",
   },
   phones: PHONES,
-  /** "+91-7240560001/2/3/4/5" — one line, one link. */
+  /** "+91-7240560001/2/3/4/5", one line, one link. */
   phoneLine: PHONE_LINE,
   /** The first line is the one that rings, so it is the one that is dialled. */
   phoneHref: PHONE_HREF,

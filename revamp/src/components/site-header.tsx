@@ -13,34 +13,8 @@ import { contact } from "@/config/variables";
 import { SHELL } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 
-/* ============================================================================
-   SiteHeader
-   ----------------------------------------------------------------------------
-   PURPOSE: the brand, the way into the five solutions, and one action.
-
-   HEIGHT
-   60px, fixed, at every scroll position. The bar fades its glass in after the
-   first scroll; it never changes height, so nothing on the page shifts.
-
-   THE MENU
-   "Solutions" is a menu, not a link, because the site only has five solutions and
-   a visitor should be able to see all of them without leaving the page they are
-   on. The panel holds both ways in: by product (name and the problem it
-   removes) and by industry (the same seven categories as the hero chips, which
-   set the filter and scroll to the stack).
-   It opens on hover for a mouse, on click for a keyboard or a touch, closes on
-   Escape, on an outside click, and when focus leaves it. No focus trap: this is
-   a menu, not a modal, so the page behind stays reachable.
-
-   THE ACTION
-   "Contact us", not "Request a demo": at the top of the page nobody has picked
-   a solution yet, so there is nothing to demo. It links to the contact page.
-
-   ON A LIGHT PAGE
-   The bar uses dark glass at rest on /solutions: white type
-   over a paper band would be invisible until the first scroll.
-   ========================================================================== */
-
+/** Shared 52px navigation. Transparent only over the homepage hero; white
+ * everywhere else. Menus always use a white surface. */
 const NAV = [
   { label: "How it works", href: "/#delivery", id: "delivery" },
   { label: "About", href: "/#about", id: "about" },
@@ -49,8 +23,8 @@ const NAV = [
 
 export function SiteHeader() {
   const pathname = usePathname();
-  const solid = pathname === "/solutions" || pathname === "/solutions/";
-  const [scrolled, setScrolled] = useState(false);
+  const [overHero, setOverHero] = useState(true);
+  const light = pathname !== "/" || !overHero;
   const [open, setOpen] = useState(false);
   const [panel, setPanel] = useState(false);
   const [active, setActive] = useState<string | null>(null);
@@ -62,11 +36,22 @@ export function SiteHeader() {
   const closeTimer = useRef<number | null>(null);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    const onScroll = () => {
+      const hero = document.getElementById("top");
+      const height =
+        document.querySelector("header")?.getBoundingClientRect().height ?? 52;
+      setOverHero(
+        Boolean(hero && hero.getBoundingClientRect().bottom > height),
+      );
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, [pathname]);
 
   // The shared header survives navigation: close menus and observe the new page.
   useEffect(() => {
@@ -156,14 +141,10 @@ export function SiteHeader() {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 h-[var(--header-h)]",
-        "before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:transition-opacity before:duration-[260ms]",
-        "before:bg-[linear-gradient(180deg,rgb(5_3_20/0.66)_0%,rgb(5_3_20/0)_100%)]",
-        "after:pointer-events-none after:absolute after:inset-0 after:-z-10 after:border-b after:border-transparent",
-        "after:bg-[rgb(10_8_32/0.72)] after:backdrop-blur-md after:backdrop-saturate-150 after:opacity-0",
-        "after:transition-opacity after:duration-[260ms] after:content-['']",
-        (scrolled || open || panel || solid) &&
-          "before:opacity-0 after:border-white/15 after:opacity-100",
+        "sticky top-0 z-50 h-[var(--header-h)] border-b transition-colors duration-200",
+        light
+          ? "border-slate-200 bg-white text-slate-950 shadow-sm"
+          : "border-transparent bg-transparent text-white",
       )}
     >
       <div
@@ -178,7 +159,7 @@ export function SiteHeader() {
             alt={site.name}
             width={274}
             height={72}
-            className="h-8 w-auto brightness-0 invert"
+            className={cn("h-7 w-auto", !light && "brightness-0 invert")}
           />
         </Link>
 
@@ -207,9 +188,14 @@ export function SiteHeader() {
               aria-haspopup="true"
               onClick={() => setPanel((value) => !value)}
               className={cn(
-                "inline-flex h-9 items-center gap-1.5 rounded-[0.625rem] px-3 text-[0.9375rem] font-medium text-slate-300 transition-colors duration-200 hover:bg-white/[0.06] hover:text-slate-50",
+                "inline-flex h-9 items-center gap-1.5 rounded-xl px-3 text-sm font-medium transition-colors",
+                light
+                  ? "text-slate-700 hover:bg-slate-100 hover:text-blue-700"
+                  : "text-slate-100 hover:bg-white/10 hover:text-white",
                 (panel || active === "solutions") &&
-                  "bg-white/[0.09] text-slate-50 shadow-[inset_0_0_0_1px_rgb(255_255_255/0.06)]",
+                  (light
+                    ? "bg-slate-100 text-blue-700"
+                    : "bg-white/10 text-white"),
               )}
             >
               Solutions
@@ -226,13 +212,13 @@ export function SiteHeader() {
               id="solutions-panel"
               hidden={!panel}
               className={cn(
-                "absolute top-[calc(100%+0.75rem)] left-0 z-60 w-[min(40rem,calc(100vw-3rem))] p-5 rounded-[1.25rem] border border-white/15 bg-[rgb(9_7_28/0.985)] backdrop-blur-xl backdrop-saturate-150 shadow-[0_30px_70px_-32px_rgb(0_0_0/0.85),inset_0_1px_0_rgb(255_255_255/0.06)] animate-[nav-panel-in_170ms_cubic-bezier(0.22,0.61,0.36,1)_both]",
+                "absolute top-[calc(100%+0.75rem)] left-0 z-60 w-[min(40rem,calc(100vw-3rem))] p-5 rounded-[1.25rem] border border-slate-200 bg-white text-slate-950 shadow-xl animate-[nav-panel-in_170ms_cubic-bezier(0.22,0.61,0.36,1)_both]",
                 "lg:left-1/2 lg:-translate-x-1/2",
               )}
             >
               <div className="grid gap-6 lg:grid-cols-[1.25fr_1fr]">
                 <div>
-                  <p className="text-xs font-semibold tracking-[0.14em] text-slate-400 uppercase">
+                  <p className="text-xs font-semibold tracking-[0.14em] text-slate-500 uppercase">
                     Products
                   </p>
                   <ul className="mt-2 flex flex-col">
@@ -241,12 +227,12 @@ export function SiteHeader() {
                         <Link
                           href="/#solutions"
                           onClick={() => closePanel()}
-                          className="flex flex-col gap-0.5 rounded-[0.625rem] px-2.5 py-2 transition-colors duration-150 hover:bg-white/[0.06]"
+                          className="flex flex-col gap-0.5 rounded-[0.625rem] px-2.5 py-2 transition-colors duration-150 hover:bg-slate-100"
                         >
-                          <span className="text-[0.9375rem] font-semibold text-slate-50">
+                          <span className="text-[0.9375rem] font-semibold text-slate-950">
                             {product.name}
                           </span>
-                          <span className="line-clamp-1 text-[0.8125rem] leading-[1.45] text-slate-400">
+                          <span className="line-clamp-1 text-[0.8125rem] leading-[1.45] text-slate-500">
                             {product.problem}
                           </span>
                         </Link>
@@ -255,8 +241,8 @@ export function SiteHeader() {
                   </ul>
                 </div>
 
-                <div className="border-t border-white/15 pt-5 lg:border-l lg:border-t-0 lg:pl-6 lg:pt-0">
-                  <p className="text-xs font-semibold tracking-[0.14em] text-slate-400 uppercase">
+                <div className="border-t border-slate-200 pt-5 lg:border-l lg:border-t-0 lg:pl-6 lg:pt-0">
+                  <p className="text-xs font-semibold tracking-[0.14em] text-slate-500 uppercase">
                     By industry
                   </p>
                   <div className="mt-3 flex flex-wrap gap-2">
@@ -267,8 +253,8 @@ export function SiteHeader() {
                         data-cat={category.id}
                         onClick={() => chooseIndustry(category.id)}
                         className={cn(
-                          "inline-flex h-8 items-center gap-1.5 rounded-full border border-white/15 px-[0.6875rem] text-[0.8125rem] font-medium text-slate-300",
-                          "transition-colors duration-150 hover:border-white/30 hover:bg-white/5 hover:text-slate-50",
+                          "inline-flex h-8 items-center gap-1.5 rounded-full border border-slate-200 px-[0.6875rem] text-[0.8125rem] font-medium text-slate-700",
+                          "transition-colors duration-150 hover:border-blue-300 hover:bg-slate-100 hover:text-slate-950",
                           "before:size-1.5 before:rounded-full before:bg-[var(--chip,var(--color-blue-300))] before:content-['']",
                           categoryHue[category.id],
                         )}
@@ -281,7 +267,7 @@ export function SiteHeader() {
                   <Link
                     href="/solutions"
                     onClick={() => closePanel()}
-                    className="mt-5 inline-flex items-center gap-1.5 text-[0.875rem] font-semibold text-blue-100 hover:underline hover:underline-offset-4"
+                    className="mt-5 inline-flex items-center gap-1.5 text-[0.875rem] font-semibold text-blue-700 hover:underline hover:underline-offset-4"
                   >
                     All solutions
                     <ArrowRight className="size-3.5" aria-hidden="true" />
@@ -297,9 +283,14 @@ export function SiteHeader() {
               href={item.href}
               aria-current={active === item.id ? "true" : undefined}
               className={cn(
-                "inline-flex h-9 items-center gap-1.5 rounded-[0.625rem] px-3 text-[0.9375rem] font-medium text-slate-300 transition-colors duration-200 hover:bg-white/[0.06] hover:text-slate-50",
+                "inline-flex h-9 items-center gap-1.5 rounded-xl px-3 text-sm font-medium transition-colors",
+                light
+                  ? "text-slate-700 hover:bg-slate-100 hover:text-blue-700"
+                  : "text-slate-100 hover:bg-white/10 hover:text-white",
                 active === item.id &&
-                  "bg-white/[0.09] text-slate-50 shadow-[inset_0_0_0_1px_rgb(255_255_255/0.06)]",
+                  (light
+                    ? "bg-slate-100 text-blue-700"
+                    : "bg-white/10 text-white"),
               )}
             >
               {item.label}
@@ -309,13 +300,16 @@ export function SiteHeader() {
 
         <div className="flex items-center gap-2">
           {/* "Contact us" is a general contact action, with no product
-              attached: it opens the form with the solution field empty. It is
-              outlined on purpose — the chips, not this button, are the main
+              attached: it opens the general contact form. It is
+              outlined on purpose, the chips, not this button, are the main
               action in the hero. */}
           <Link
             href={contact.contactPath}
             className={cn(
-              buttonVariants({ variant: "outline", size: "md" }),
+              buttonVariants({
+                variant: light ? "secondary" : "outline",
+                size: "sm",
+              }),
               "hidden sm:inline-flex",
             )}
           >
@@ -329,7 +323,12 @@ export function SiteHeader() {
             aria-expanded={open}
             aria-controls="mobile-nav"
             aria-label={open ? "Close menu" : "Open menu"}
-            className="flex size-10 items-center justify-center rounded-full border border-white/15 text-slate-50 transition-colors hover:border-white/30 hover:bg-white/5 lg:hidden"
+            className={cn(
+              "flex size-9 items-center justify-center rounded-full border transition-colors lg:hidden",
+              light
+                ? "border-slate-200 text-slate-800 hover:bg-slate-100"
+                : "border-white/20 text-white hover:bg-white/10",
+            )}
           >
             {open ? (
               <X className="size-5" aria-hidden="true" />
@@ -343,7 +342,7 @@ export function SiteHeader() {
       <div
         id="mobile-nav"
         hidden={!open}
-        className="absolute inset-x-0 top-full border-t border-white/15 bg-[rgb(10_8_32/0.97)] backdrop-blur-lg lg:hidden"
+        className="absolute inset-x-0 top-full border-t border-slate-200 bg-white text-slate-950 lg:hidden"
       >
         <nav
           aria-label="Sections"
@@ -357,13 +356,13 @@ export function SiteHeader() {
               key={item.id}
               href={item.href}
               onClick={() => setOpen(false)}
-              className="flex min-h-12 items-center border-b border-white/15 text-base font-medium text-slate-300 transition-colors hover:text-slate-50"
+              className="flex min-h-12 items-center border-b border-slate-200 text-base font-medium text-slate-700 transition-colors hover:text-slate-950"
             >
               {item.label}
             </Link>
           ))}
 
-          <p className="mt-5 text-xs font-semibold tracking-[0.14em] text-slate-400 uppercase">
+          <p className="mt-5 text-xs font-semibold tracking-[0.14em] text-slate-500 uppercase">
             Products
           </p>
           <ul className="mt-1 grid grid-cols-2 gap-x-4">
@@ -372,7 +371,7 @@ export function SiteHeader() {
                 <Link
                   href="/#solutions"
                   onClick={() => setOpen(false)}
-                  className="flex min-h-11 items-center text-[0.9375rem] font-medium text-slate-300 hover:text-slate-50"
+                  className="flex min-h-11 items-center text-[0.9375rem] font-medium text-slate-700 hover:text-slate-950"
                 >
                   {product.name}
                 </Link>
@@ -380,7 +379,7 @@ export function SiteHeader() {
             ))}
           </ul>
 
-          <p className="mt-4 text-xs font-semibold tracking-[0.14em] text-slate-400 uppercase">
+          <p className="mt-4 text-xs font-semibold tracking-[0.14em] text-slate-500 uppercase">
             By industry
           </p>
           <div className="mt-2 flex flex-wrap gap-2">
@@ -394,8 +393,8 @@ export function SiteHeader() {
                   setOpen(false);
                 }}
                 className={cn(
-                  "inline-flex h-8 items-center gap-1.5 rounded-full border border-white/15 px-[0.6875rem] text-[0.8125rem] font-medium text-slate-300",
-                  "transition-colors duration-150 hover:border-white/30 hover:bg-white/5 hover:text-slate-50",
+                  "inline-flex h-8 items-center gap-1.5 rounded-full border border-slate-200 px-[0.6875rem] text-[0.8125rem] font-medium text-slate-700",
+                  "transition-colors duration-150 hover:border-blue-300 hover:bg-slate-100 hover:text-slate-950",
                   "before:size-1.5 before:rounded-full before:bg-[var(--chip,var(--color-blue-300))] before:content-['']",
                   categoryHue[category.id],
                 )}
@@ -410,7 +409,7 @@ export function SiteHeader() {
               href={contact.contactPath}
               onClick={() => setOpen(false)}
               className={cn(
-                buttonVariants({ variant: "outline", size: "md" }),
+                buttonVariants({ variant: "secondary", size: "sm" }),
                 "w-full",
               )}
             >

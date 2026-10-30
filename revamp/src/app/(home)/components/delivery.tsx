@@ -17,12 +17,12 @@ import { BAND, LIGHT_BAND, SHELL, T_BODY, T_HEADING, T_LABEL } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 
 /* ============================================================================
-   Delivery  —  how we deliver in 15 days
+   Delivery ,  how we deliver in 15 days
    ----------------------------------------------------------------------------
    PURPOSE: make the 15-day promise believable.
 
    One idea per row: the number, then the rail. Each stage is two words and a
-   date range — the sentences that used to sit under them were explaining the
+   date range, the sentences that used to sit under them were explaining the
    rail rather than adding to it.
 
    MOTION (one scroll value, all of it transform/opacity)

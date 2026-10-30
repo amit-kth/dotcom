@@ -249,3 +249,11 @@ idea. Our ready solution.”, “Faster Time to Market”, “Proven & Reliable�
 directional scrims protect the headline and fade the lower artwork before the
 chips; phones use a quieter 30% image layer. Hero copy, category behaviour and
 layout remain unchanged. The WebP is 1376 × 768 and about 34 KB.
+
+### UI corrections: light navigation and original contact fields
+
+Use white as the default page surface. The shared 52px header is transparent only while overlapping the homepage hero, which extends beneath it. All navigation panels are white; the header action is compact. Contact is a light page with the exact original five visible fields and no Solution selection. Product context may change the contact heading, not the fields.
+
+Phone product cards use 30% image above 70% content, with an image-to-background blend. The last product is inset from the viewport; sticky shade layers are radius-clipped without changing the sticky ancestor. Remove the hover border. The solution-list closing CTA is a solid primary strip with heading left and action right on wider screens.
+
+About cards arrive once from different directions with a short blurred fade; reduced motion skips it. No em dash in website copy. Keep the approved hero illustration lettering and footer behavior unchanged.

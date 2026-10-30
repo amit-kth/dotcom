@@ -1,7 +1,7 @@
 import { CONTACT_ENDPOINT, contact } from "@/config/variables";
 
 /* ============================================================================
-   submitContact  —  the only place the contact page talks to the outside world
+   submitContact ,  the only place the contact page talks to the outside world
    ----------------------------------------------------------------------------
    The contact form on the old site posted to query.php with `T1=enquiry` and the
    fields name / email / phone / country_name / subject / message. The new form
@@ -23,12 +23,10 @@ export type ContactPayload = {
   email: string;
   /** full number including dial code, e.g. +917240560001 */
   phone: string;
-  /** country name, from the phone input — the old form's `country_name` */
+  /** country name, from the phone input, the old form's `country_name` */
   country: string;
   subject: string;
   message: string;
-  /** the product the visitor picked, or null on the general "Contact us" path */
-  solution: string | null;
 };
 
 export type ContactResult = { ok: true } | { ok: false; error: string };

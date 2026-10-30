@@ -1,10 +1,10 @@
 import { type CategoryId } from "./categories";
 
 /* ============================================================================
-   products.ts  —  the five solutions we show
+   products.ts ,  the five solutions we show
    ----------------------------------------------------------------------------
    This list is the client's: AI Calling Agents, WhatsApp CRM, K-Exam,
-   K-Edusity (the school ERP — what used to be K-LMS and K-Edusity, merged:
+   K-Edusity (the school ERP, what used to be K-LMS and K-Edusity, merged:
    they were the same product) and Kastrofy. Nothing else is added here; the
    rest of the client's catalogue lives in catalogue.ts.
 
@@ -19,7 +19,7 @@ import { type CategoryId } from "./categories";
    The six banners in public/banners are generated artwork in the same visual
    language as the AI Calling Agents reference: dark navy, electric-blue line
    art on the right, empty left. They are placeholders for art direction, not
-   final brand assets — swap the file, keep the name, no code change.
+   final brand assets, swap the file, keep the name, no code change.
 
    LANGUAGE
    --------
@@ -48,7 +48,7 @@ export type Product = {
   accentHue: AccentHue;
   /** path under ASSETS_BASE_URL */
   banner: string;
-  /** the product's own page, taken from the old site — never invented.
+  /** the product's own page, taken from the old site, never invented.
       "Request a demo" always goes to /contact?solution=<id>. */
   href?: string;
   /** shown in the homepage list; false = only on /solutions */

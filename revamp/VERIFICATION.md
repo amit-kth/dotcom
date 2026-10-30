@@ -72,3 +72,16 @@ together and renders on two deliberate lines.
 Chromium checks at 1440/1024/768/691/390/320px confirmed one social row, no
 horizontal overflow, no playback button, and the Clients heading fitting its
 container. Build, TypeScript and exported SEO checks pass.
+
+## UI/contact corrections (2026-10-30)
+
+- Header is 52px; Contact us is 36px high. Transparent over the homepage hero only, white after the hero and on other routes. Hero extends underneath the transparent header.
+- White desktop Solutions panel and mobile navigation. Checked direct routes and client-side navigation to Contact.
+- Removed product hover border. Phone banners use image-first 3:7 grid rows, with a gradient into the content background. Measured image ratios: 29.98% at 390px and 29.96% at 320px.
+- Sticky shading is clipped inside the card radius; the final product has 16px side margins on phones, including reduced-motion mode.
+- About cards use one-time, staggered directional transforms with a short blur/fade. All five settle at opacity 1, blur 0, no transform. Reduced motion bypasses the entrance. Removed the location suffix from the heading.
+- Bottom solution CTA is a solid blue strip with a heading and Contact us action, side-by-side above the small breakpoint.
+- Contact uses light surfaces and dark text. Compared against the legacy form in root index.php: Your Name, Your Email, Contact Number, Your Subject, Message, hidden country_name, Send Message. Removed the invented Solution control and payload property. Product links retain context in the heading only.
+- No em dash characters remain in revamp/src.
+- Build, TypeScript, static SEO export checks and git diff whitespace checks pass. Browser checks at 1440x900, 390x900 and 320x900: no horizontal overflow on home/contact, no uncaught page errors. Additional navigation/reduced-motion checks at 1366x768 and 390x650 pass.
+- Contact delivery remains the existing TODO endpoint/local simulation; this change does not configure a backend. External CDN image delivery was not verified from the network-restricted sandbox.

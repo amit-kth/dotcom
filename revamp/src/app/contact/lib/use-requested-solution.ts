@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { products, type Product } from "@/data/products";
 
 /* ============================================================================
-   useRequestedSolution  —  reads ?solution= on /contact
+   useRequestedSolution ,  reads ?solution= on /contact
    ----------------------------------------------------------------------------
    A product banner sends the visitor to `/contact?solution=k-exam`. That one
    parameter decides two things: the heading ("Request a demo of K-Exam") and the
@@ -14,7 +14,7 @@ import { products, type Product } from "@/data/products";
    From `window.location.search` in an effect, not with `useSearchParams`. The
    site is a static export, so there is no request to read at build time; a hook
    that only runs in the browser keeps the page prerenderable and the first paint
-   identical for everyone. An unknown or absent id is simply "no product" — the
+   identical for everyone. An unknown or absent id is simply "no product", the
    heading falls back to "Contact us" and the field stays empty.
 
    WHY IT NEVER FLASHES

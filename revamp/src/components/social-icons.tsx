@@ -1,5 +1,5 @@
 /* ============================================================================
-   SocialIcons  —  the four-plus-one brand marks
+   SocialIcons ,  the four-plus-one brand marks
    ----------------------------------------------------------------------------
    Hand-drawn paths rather than an icon package: `lucide-react` (the only icon
    set this project installs) does not ship brand logos, and a social row made

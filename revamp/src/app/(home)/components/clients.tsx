@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 /* ============================================================================
    Clients
    ----------------------------------------------------------------------------
-   PURPOSE: prove delivery and support — logos for recognition, quotes for
+   PURPOSE: prove delivery and support, logos for recognition, quotes for
    substance.
 
    Second light band on the page. Solutions and About are dark, the footer is
@@ -16,13 +16,13 @@ import { cn } from "@/lib/utils";
 
    LOGOS
    Two marquee rows running opposite ways, paused on hover, masked at both
-   edges. Every logo is the same height and the same treatment — a wall of
+   edges. Every logo is the same height and the same treatment, a wall of
    differently sized, differently weighted logos reads as carelessness.
 
    REVIEWS
    Not a carousel: one lead quote at display size, the rest in a flowing
    two-column wall. The layout is driven by the array length, so adding a fifth
-   or ninth quote needs no code change — `testimonials` in data/site-content.ts
+   or ninth quote needs no code change, `testimonials` in data/site-content.ts
    is the only place to edit.
    ========================================================================== */
 

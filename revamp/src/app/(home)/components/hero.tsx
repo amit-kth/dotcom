@@ -31,8 +31,8 @@ import { cn } from "@/lib/utils";
 
    ALL STYLING IS TAILWIND. The photograph, the wash over it and the chips are
    utility strings below; there is no `.hero` or `.chip` rule in the stylesheet.
-   The two things that cannot be a utility — the token-driven background image
-   and the per-category hue — are set as CSS custom properties (`--hero-photo`,
+   The two things that cannot be a utility, the token-driven background image
+   and the per-category hue, are set as CSS custom properties (`--hero-photo`,
    `--chip`) and consumed through arbitrary values, which is how Tailwind wants
    a value that comes from data.
 
@@ -112,7 +112,7 @@ export function Hero() {
       aria-labelledby="hero-title"
       /* Directional scrims keep the artwork off the copy and chip row. */
       className={cn(
-        "relative flex min-h-[calc(100svh-var(--header-h,3.75rem))] items-center overflow-hidden",
+        "relative flex bg-slate-950 text-slate-50 -mt-[var(--header-h)] min-h-svh pt-[var(--header-h)] items-center overflow-hidden",
         "after:pointer-events-none after:absolute after:inset-0 after:z-0 after:content-['']",
         "after:bg-[linear-gradient(90deg,var(--color-slate-950)_0%,color-mix(in_srgb,var(--color-slate-950)_92%,transparent)_36%,transparent_72%),linear-gradient(180deg,transparent_30%,color-mix(in_srgb,var(--color-slate-950)_30%,transparent)_55%,var(--color-slate-950)_85%)]",
       )}

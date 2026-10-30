@@ -17,7 +17,7 @@ import { cn } from "@/lib/utils";
 
    THE CLOSING BAND
    Heading on the left, the action on the right, on one baseline. The helper
-   line sits above the button so the button is the last thing in the row — the
+   line sits above the button so the button is the last thing in the row, the
    eye finishes on the thing you want clicked. Height is unchanged: the heading
    still governs the band.
 
@@ -38,7 +38,7 @@ import { cn } from "@/lib/utils";
    initiator, not a call line, so it appears as "WhatsApp us" and never as a
    number.
 
-   No stats and no CMMI badge down here — those live once, in About.
+   No stats and no CMMI badge down here, those live once, in About.
    ========================================================================== */
 
 type FooterLink = { label: string; href: string; external?: boolean };
@@ -57,7 +57,7 @@ const LINK =
 
 export function SiteFooter() {
   return (
-    <footer id="contact" className="bg-slate-950">
+    <footer id="contact" className="bg-slate-950 text-slate-50">
       <div className={SHELL}>
         {/* ---- the closing call ---- */}
         <div className="flex flex-row items-center gap-5 border-b border-white/15 py-8 sm:py-10 lg:flex-row lg:items-center lg:justify-between lg:gap-12">

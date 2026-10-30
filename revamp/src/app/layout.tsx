@@ -57,9 +57,9 @@ export default function RootLayout({
         </noscript>
       </head>
       <body
-        className={`${display.variable} min-h-screen bg-slate-950 text-slate-50 antialiased`}
+        className={`${display.variable} min-h-screen bg-white text-slate-950 antialiased`}
       >
-        {/* Google Tag Manager (noscript) — loads once with next/script below */}
+        {/* Google Tag Manager (noscript), loads once with next/script below */}
         <noscript>
           <iframe
             src={`https://www.googletagmanager.com/ns.html?id=${site.gtmId}`}

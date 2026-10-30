@@ -30,7 +30,7 @@ const GOLD = [
 /* ============================================================================
    About
    ----------------------------------------------------------------------------
-   PURPOSE: reduce risk — who these people are, and what can be checked.
+   PURPOSE: reduce risk, who these people are, and what can be checked.
 
    PRIMARILY A CERTIFICATION SECTION
    The badges are the reason this band exists, so they are not a footnote: the
@@ -41,7 +41,7 @@ const GOLD = [
    The numbers are the supporting cast: one big, two smaller, counting up once
    as the band arrives. Stats and badges appear here and nowhere else.
 
-   Every cell is flat on the band — no cards inside cards — and each one lifts a
+   Every cell is flat on the band, no cards inside cards, and each one lifts a
    few pixels under the pointer so the band does not read as a dead sheet.
    ========================================================================== */
 
@@ -49,7 +49,7 @@ export function About() {
   return (
     <section
       id="about"
-      className="relative overflow-hidden bg-slate-950"
+      className="relative overflow-hidden bg-slate-950 text-slate-50"
       aria-labelledby="about-title"
     >
       <div
@@ -62,7 +62,7 @@ export function About() {
           <p className={cn(T_LABEL, "text-slate-300")}>About Kriscent</p>
           <h2 id="about-title" className={cn(T_HEADING, "mt-4 max-w-[22ch]")}>
             <span className="text-blue-600">13</span> years of shipping
-            software, from Kota.
+            software.
           </h2>
         </div>
 
@@ -78,7 +78,7 @@ export function About() {
           }}
         >
           {/* the headline number */}
-          <Cell className="lg:col-span-7">
+          <Cell from={{ x: -36, y: 16 }} className="lg:col-span-7">
             <Counter value={counters[0]} size="huge" />
             <p className="mt-6 max-w-[34ch] text-[1.0625rem] leading-relaxed text-slate-300">
               {company.line}
@@ -86,7 +86,11 @@ export function About() {
           </Cell>
 
           {/* the certifications, at a size you can actually read */}
-          <Cell surface={GOLD} className="lg:col-span-5">
+          <Cell
+            from={{ x: 36, y: -16 }}
+            surface={GOLD}
+            className="lg:col-span-5"
+          >
             <p className={cn(T_LABEL, "text-amber-800")}>Certified</p>
             <div className="mt-5 flex items-center gap-5">
               <span className="relative flex size-[7.5rem] shrink-0 items-center justify-center rounded-2xl bg-white p-3 shadow-[0_0_0_1px_rgb(255_255_255/0.3),0_24px_60px_-28px_rgb(44_83_224/0.75),0_0_70px_-10px_rgb(44_83_224/0.55)]">
@@ -134,15 +138,19 @@ export function About() {
 
           {/* 13 years: the one solid-red surface on the page, so the eye
               lands on tenure before it lands on volume. */}
-          <Cell surface={RED} className="lg:col-span-3">
+          <Cell
+            from={{ x: -24, y: 24 }}
+            surface={RED}
+            className="lg:col-span-3"
+          >
             <Counter value={counters[1]} size="large" tone="light" />
           </Cell>
 
-          <Cell className="lg:col-span-3">
+          <Cell from={{ x: 0, y: 32 }} className="lg:col-span-3">
             <Counter value={counters[2]} size="large" />
           </Cell>
 
-          <Cell className="lg:col-span-6">
+          <Cell from={{ x: 24, y: 24 }} className="lg:col-span-6">
             <p className={cn(T_LABEL, "text-slate-300")}>Based in</p>
             <p className="mt-3 text-[1.0625rem] font-semibold leading-snug text-slate-50">
               {company.location}
@@ -163,11 +171,13 @@ export function About() {
 function Cell({
   children,
   surface,
+  from = { x: 0, y: 24 },
   className,
 }: {
   children: React.ReactNode;
   /** the cell's material; the default is the band's own glass */
   surface?: string;
+  from?: { x: number; y: number };
   className?: string;
 }) {
   const reduceMotion = useReducedMotion();
@@ -175,11 +185,18 @@ function Cell({
   return (
     <motion.div
       variants={{
-        hidden: reduceMotion ? {} : { opacity: 0, y: 18 },
+        hidden: reduceMotion
+          ? {}
+          : { opacity: 0, ...from, filter: "blur(6px)" },
         show: {
           opacity: 1,
+          x: 0,
           y: 0,
-          transition: { duration: 0.5, ease: [0.22, 0.61, 0.36, 1] },
+          filter: "blur(0px)",
+          transition: {
+            duration: reduceMotion ? 0 : 0.55,
+            ease: [0.22, 0.61, 0.36, 1],
+          },
         },
       }}
       whileHover={reduceMotion ? undefined : { y: -4 }}

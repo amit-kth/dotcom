@@ -6,7 +6,7 @@ export type DeliveryStep = {
 };
 
 /* ============================================================================
-   steps.ts  —  how a 15-day delivery runs
+   steps.ts ,  how a 15-day delivery runs
    ----------------------------------------------------------------------------
    Four stages, two words each. The rail under the number tells the story; the
    copy here only labels the stops, because a stage that needs a sentence to

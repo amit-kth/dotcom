@@ -6,7 +6,7 @@ import { Check, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /* ============================================================================
-   Select  —  shadcn shape, our tokens
+   Select ,  shadcn shape, our tokens
    ----------------------------------------------------------------------------
    Radix does the keyboard work (type-ahead, arrow keys, Escape, focus return),
    which is why this is a library primitive and not a styled <select>. Only the

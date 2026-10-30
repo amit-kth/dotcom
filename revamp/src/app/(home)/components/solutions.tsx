@@ -87,7 +87,7 @@ export function Solutions() {
   return (
     <section
       id="solutions"
-      className={cn(LIGHT_BAND, "pb-16 sm:pb-24")}
+      className={LIGHT_BAND}
       aria-labelledby="solutions-title"
     >
       <div className={cn(SHELL, "pt-[clamp(4.5rem,9vw,10rem)]")}>
@@ -159,7 +159,12 @@ export function Solutions() {
         reduceMotion ? (
           <div className="mt-12 flex flex-col gap-6 sm:mt-16">
             {items.map((product) => (
-              <SolutionBanner key={product.id} product={product} />
+              <div
+                key={product.id}
+                className="last:mx-4 sm:last:mx-6 lg:last:mx-8"
+              >
+                <SolutionBanner product={product} />
+              </div>
             ))}
           </div>
         ) : (
@@ -202,28 +207,26 @@ export function Solutions() {
         </div>
       )}
 
-      <div
-        className={cn(
-          SHELL,
-          "relative z-1 mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-slate-200 pt-8 sm:mt-16",
-        )}
-      >
-        <p className="text-[1.0625rem] text-slate-600">
-          Not sure which fits? Talk to us.
-        </p>
-        <Link
-          href="/solutions"
+      <div className="relative z-1 mt-12 bg-blue-600 py-8 text-white sm:mt-16 sm:py-10">
+        <div
           className={cn(
-            buttonVariants({ variant: "secondary", size: "md" }),
-            "group",
+            SHELL,
+            "flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between",
           )}
         >
-          View all solutions
-          <ArrowRight
-            className="size-4 transition-transform duration-200 group-hover:translate-x-0.5"
-            aria-hidden="true"
-          />
-        </Link>
+          <h2 className="max-w-[24ch] text-2xl font-semibold leading-tight tracking-tight sm:text-3xl">
+            Not sure which fits? Talk to us.
+          </h2>
+          <Link
+            href={contact.contactPath}
+            className={cn(
+              buttonVariants({ variant: "inverse", size: "md" }),
+              "shrink-0 self-start sm:self-auto",
+            )}
+          >
+            Contact us <ArrowRight className="size-4" aria-hidden="true" />
+          </Link>
+        </div>
       </div>
     </section>
   );
@@ -257,7 +260,7 @@ function StackItem({
      banners stacked behind it would bleed their text through the one on top.
 
      It also holds back for the first half of the window, so a banner is only
-     dimmed once the next one is actually over it — not while it is still the
+     dimmed once the next one is actually over it, not while it is still the
      banner you are reading. */
   const shade = useTransform(
     progress,
@@ -267,18 +270,21 @@ function StackItem({
 
   return (
     <div
-      className="sticky mb-[clamp(14rem,38svh,26rem)] last:mb-0 max-lg:mb-[clamp(10rem,30svh,18rem)]"
+      className={cn(
+        "sticky mb-[clamp(14rem,38svh,26rem)] last:mb-0 max-lg:mb-[clamp(10rem,30svh,18rem)]",
+        isLast && "mx-4 sm:mx-6 lg:mx-8",
+      )}
       style={{
         top: `calc(${STICKY_TOP} + ${index * 0.625}rem)`,
         zIndex: index + 1,
       }}
     >
       <motion.div style={{ scale, y }} className="origin-top">
-        <div className="relative">
+        <div className="relative isolate overflow-hidden rounded-3xl">
           {children}
           <motion.div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 z-3 bg-slate-950"
+            className="pointer-events-none absolute inset-0 z-3 rounded-3xl bg-slate-950"
             style={{ opacity: shade }}
           />
         </div>

@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { useRequestedSolution } from "@/app/contact/lib/use-requested-solution";
 
 /* ============================================================================
-   ContactHeading  —  the one line that changes with the query string
+   ContactHeading ,  the one line that changes with the query string
    ----------------------------------------------------------------------------
    Two entry points, two titles, and nothing else differs:
 
@@ -13,7 +13,7 @@ import { useRequestedSolution } from "@/app/contact/lib/use-requested-solution";
      /contact?solution=k-exam    -> "Request a demo of K-Exam"   (that product)
 
    These are the only two labels the site uses for the contact form. There is no
-   "Book a walkthrough", no "Get a quote" — one form, one name per context.
+   "Book a walkthrough", no "Get a quote", one form, one name per context.
    ========================================================================== */
 
 export function ContactHeading() {
@@ -21,7 +21,7 @@ export function ContactHeading() {
 
   return (
     <>
-      <p className={cn(T_LABEL, "text-slate-300")}>
+      <p className={cn(T_LABEL, "text-slate-600")}>
         {solution ? "Request a demo" : "Contact"}
       </p>
 
@@ -29,14 +29,14 @@ export function ContactHeading() {
         {solution ? (
           <>
             Request a demo of{" "}
-            <span className="text-blue-100">{solution.name}</span>
+            <span className="text-blue-700">{solution.name}</span>
           </>
         ) : (
           "Contact us"
         )}
       </h1>
 
-      <p className={cn(T_BODY, "mt-6 max-w-[44ch] text-slate-300")}>
+      <p className={cn(T_BODY, "mt-6 max-w-[44ch] text-slate-600")}>
         {solution
           ? solution.problem
           : "One call is usually enough to say which solution fits, and when it can be live."}

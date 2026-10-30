@@ -3,7 +3,7 @@ import { asset } from "@/config/variables";
 import { catalogue } from "@/data/catalogue";
 
 /* ============================================================================
-   CatalogueGrid  —  everything else we have built
+   CatalogueGrid ,  everything else we have built
    ----------------------------------------------------------------------------
    PURPOSE: answer "do you have something for my business?" after the five
    solutions we lead with, without pretending these are flagship products.
@@ -16,7 +16,7 @@ import { catalogue } from "@/data/catalogue";
 
    LINKS
    Only rows that had a product page on the old site are links. Rows whose old
-   link was `coming-soon.php` are plain text — an arrow that goes nowhere is
+   link was `coming-soon.php` are plain text, an arrow that goes nowhere is
    worse than no arrow.
    ========================================================================== */
 
@@ -68,7 +68,7 @@ export function CatalogueGrid() {
                 href={item.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={`${item.name} — open the product page`}
+                aria-label={`${item.name}, open the product page`}
                 className="mt-0.5 inline-flex size-9 shrink-0 items-center justify-center rounded-full border border-slate-200 text-slate-600 transition-colors hover:border-blue-600 hover:text-blue-600"
               >
                 <ArrowUpRight className="size-4" aria-hidden="true" />

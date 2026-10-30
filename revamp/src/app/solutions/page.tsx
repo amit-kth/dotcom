@@ -11,7 +11,7 @@ import { contact } from "@/config/variables";
 import { catalogue } from "@/data/catalogue";
 
 /* ============================================================================
-   /solutions  —  the whole list
+   /solutions ,  the whole list
    ----------------------------------------------------------------------------
    PURPOSE: let someone who wants the whole picture see it, without turning the
    homepage into a catalogue.
@@ -84,7 +84,7 @@ export default function SolutionsPage() {
             The rest of the catalogue.
           </h2>
           <p className={cn(T_BODY, "mt-4 max-w-[54ch] text-slate-600")}>
-            {catalogue.length} more we have already shipped — portals, POS,
+            {catalogue.length} more we have already shipped, portals, POS,
             billing, hospital and campus software. Ask about any of them and we
             will show it running.
           </p>
@@ -101,7 +101,7 @@ export default function SolutionsPage() {
           )}
         >
           <p className="text-[1.0625rem] text-slate-600">
-            Something else in mind? That is a build rather than a solution —
+            Something else in mind? That is a build rather than a solution,
             tell us what you run and we will say which it is.
           </p>
           <Link

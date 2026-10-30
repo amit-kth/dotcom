@@ -1,5 +1,5 @@
 /* ============================================================================
-   categories.ts  —  the seven fixed industries
+   categories.ts ,  the seven fixed industries
    ----------------------------------------------------------------------------
    These are the options in the homepage hero. The list is fixed by the brief;
    adding a category means adding an entry here and nothing else, because every

@@ -1,7 +1,7 @@
 import { asset } from "@/config/variables";
 
 /* ============================================================================
-   site-content.ts  —  real facts carried over from the old kriscent.com
+   site-content.ts ,  real facts carried over from the old kriscent.com
    ----------------------------------------------------------------------------
    Nothing in this file is dummy. Every value is taken from the existing site.
    Approved: counters, testimonials, client logos and company details stay as
@@ -11,7 +11,7 @@ import { asset } from "@/config/variables";
    ========================================================================== */
 
 /* ---------------------------------------------------------------------------
-   COUNTERS  —  approved. Do not change the figures.
+   COUNTERS ,  approved. Do not change the figures.
    Only the label wording changed: the old site read "Trusted By 1,245+ Clients",
    which repeated the number next to the number.
 --------------------------------------------------------------------------- */
@@ -29,13 +29,13 @@ export const counters: Counter[] = [
 ];
 
 /* ---------------------------------------------------------------------------
-   COMPANY  —  the one sentence about the company, taken from the old site.
+   COMPANY ,  the one sentence about the company, taken from the old site.
    "founded" and the location are the old site's own facts.
 --------------------------------------------------------------------------- */
 export const company = {
-  headline: "Thirteen years of shipping software, from Kota.",
+  headline: "Thirteen years of shipping software.",
   /* Taken from the old site's about copy, trimmed to one sentence. */
-  line: "Kriscent builds and supports its own software — the same team installs it, trains your team and answers afterwards.",
+  line: "Kriscent builds and supports its own software, the same team installs it, trains your team and answers afterwards.",
   location: "Kota, Rajasthan, India",
   founded: 2014,
 } as const;
@@ -80,7 +80,7 @@ export const cmmi = {
 } as const;
 
 /* ---------------------------------------------------------------------------
-   TESTIMONIALS  —  the three from the old site, verbatim.
+   TESTIMONIALS ,  the three from the old site, verbatim.
 
    Two notes for review, deliberately left as the client wrote them:
    - Sudha Agarwal: "sleeked" appears to be the original word. A testimonial is

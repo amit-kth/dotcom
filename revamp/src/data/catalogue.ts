@@ -1,5 +1,5 @@
 /* ============================================================================
-   catalogue.ts  —  the rest of what we have already built
+   catalogue.ts ,  the rest of what we have already built
    ----------------------------------------------------------------------------
    The five solutions on the homepage are the ones we lead with. This is
    everything else the client lists on the old site (the product grid in

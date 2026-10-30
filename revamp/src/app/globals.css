@@ -2,7 +2,7 @@
 @import "react-international-phone/style.css" layer(base);
 
 :root {
-  --header-h: 3.75rem;
+  --header-h: 3.25rem;
 }
 @theme inline {
   --font-sans: var(--font-display), ui-sans-serif, system-ui, sans-serif;
@@ -22,8 +22,8 @@
   }
 
   body {
-    background-color: var(--color-slate-950);
-    color: var(--color-slate-50);
+    background-color: var(--color-white);
+    color: var(--color-slate-950);
     font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
     font-size: 1.0625rem;
     line-height: 1.6;

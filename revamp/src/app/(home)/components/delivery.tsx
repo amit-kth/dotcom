@@ -11,10 +11,17 @@ import {
   type MotionValue,
 } from "framer-motion";
 import { Reveal } from "@/components/reveal";
-import { deliverySteps } from "@/data/steps";
+
 import { DELIVERY_DAYS } from "@/data/products";
 import { BAND, LIGHT_BAND, SHELL, T_BODY, T_HEADING, T_LABEL } from "@/lib/ui";
 import { cn } from "@/lib/utils";
+
+const deliverySteps = [
+  { id: "map", days: "Day 1–2", title: "Map what you run" },
+  { id: "configure", days: "Day 3–7", title: "Configure it" },
+  { id: "migrate", days: "Day 8–12", title: "Bring your data" },
+  { id: "live", days: "Day 13–15", title: "Go live" },
+];
 
 /* ============================================================================
    Delivery ,  how we deliver in 15 days

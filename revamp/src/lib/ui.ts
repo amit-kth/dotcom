@@ -1,4 +1,4 @@
-export const SHELL = "mx-auto w-full max-w-[80rem] px-[clamp(1.5rem,4vw,3rem)]";
+export const SHELL = "mx-auto w-full max-w-none px-[clamp(1.25rem,4vw,6rem)]";
 
 export const BAND = "py-[clamp(4.5rem,9vw,10rem)]";
 

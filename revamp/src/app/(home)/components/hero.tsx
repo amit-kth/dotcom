@@ -5,7 +5,7 @@ import { useReducedMotion } from "@/lib/use-reduced-motion";
 import { motion, type Variants } from "framer-motion";
 import {
   Building2,
-  Check,
+  X,
   Factory,
   GraduationCap,
   HeartPulse,
@@ -69,35 +69,14 @@ const CHIP = [
   "aria-pressed:hover:bg-white",
   /* tablet: one step down; phone: one more, and the row wraps instead */
   "max-lg:min-h-14 max-lg:text-base sm:max-lg:px-5",
-  "max-sm:min-h-14 max-sm:gap-2 max-sm:px-4 max-sm:text-base",
+  "max-sm:min-h-14 max-sm:gap-2 max-sm:px-3 max-sm:text-sm",
 ].join(" ");
 
 const EASE = [0.22, 0.61, 0.36, 1] as const;
 
 export function Hero() {
-  const { selected, setSelected } = useCategory();
+  const { selected, toggleCategory } = useCategory();
   const reduceMotion = useReducedMotion();
-
-  /* The click changes the chip's state and nothing else: no element in the hero
-     is added, removed or resized, so the page never shifts under the pointer. */
-  const choose = (id: CategoryId) => {
-    setSelected(selected === id ? null : id);
-
-    const target = document.getElementById("solutions");
-    if (!target) return;
-
-    const top =
-      target.getBoundingClientRect().top +
-      window.scrollY -
-      parseFloat(
-        getComputedStyle(document.documentElement).getPropertyValue(
-          "--header-h",
-        ),
-      ) -
-      8;
-
-    window.scrollTo({ top, behavior: reduceMotion ? "auto" : "smooth" });
-  };
 
   const line: Variants = reduceMotion
     ? {}
@@ -141,7 +120,7 @@ export function Hero() {
       >
         <h1
           id="hero-title"
-          className="max-w-[22ch] text-[clamp(2.375rem,4.15vw,3.75rem)] leading-[1.05] font-bold tracking-[-0.035em] max-sm:text-[clamp(2rem,8.6vw,2.1875rem)]"
+          className="max-w-[22ch] min-[120rem]:text-7xl min-[160rem]:text-[5rem] text-[clamp(2.375rem,4.15vw,3.75rem)] leading-[1.05] font-bold tracking-[-0.035em] max-sm:text-[clamp(2rem,8.6vw,2.1875rem)]"
         >
           {["Ready-made software.", null].map((text) =>
             text ? (
@@ -192,25 +171,28 @@ export function Hero() {
             What does your business do?
           </motion.p>
 
+          <p className="mb-4 text-sm text-slate-400">
+            Select one or more industries.
+          </p>
           <div
             role="group"
             aria-labelledby="industry-label"
-            className="flex max-w-[48rem] flex-wrap gap-1.5 min-[1280px]:max-w-none max-sm:[&>*:last-child]:flex-[1_0_100%]"
+            className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:gap-2.5"
           >
             {categories.map((category, index) => {
-              const active = selected === category.id;
-              const Icon = active ? Check : ICONS[category.id];
+              const active = selected.includes(category.id);
+              const Icon = active ? X : ICONS[category.id];
 
               return (
                 <motion.button
                   key={category.id}
                   type="button"
-                  onClick={() => choose(category.id)}
+                  onClick={() => toggleCategory(category.id)}
                   aria-pressed={active}
                   className={cn(
                     CHIP,
                     categoryHue[category.id],
-                    "max-[379px]:gap-0",
+                    "max-sm:justify-start max-sm:rounded-2xl max-sm:px-3 max-sm:text-sm max-sm:min-h-12 max-[22.5rem]:text-xs max-[22.5rem]:px-2 max-[22.5rem]:gap-1.5",
                   )}
                   initial={reduceMotion ? false : { opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -225,7 +207,7 @@ export function Hero() {
                   <Icon
                     aria-hidden="true"
                     className={cn(
-                      "size-4 shrink-0 max-sm:size-[0.9375rem] max-[379px]:hidden",
+                      "size-4 shrink-0 max-sm:size-[0.9375rem] ",
                       /* on the light selected pill the hue has to go darker to
                          stay readable; the class cannot read the button's state,
                          so the state chooses the class */

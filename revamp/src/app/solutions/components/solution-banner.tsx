@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowUpRight, CalendarCheck } from "lucide-react";
+import { ArrowUpRight, Presentation } from "lucide-react";
 import { asset, contact } from "@/config/variables";
 import { buttonVariants } from "@/components/ui/button";
 import { categoryLabel } from "@/data/categories";
@@ -42,10 +42,10 @@ export function SolutionBanner({
   return (
     <article
       className={cn(
-        "relative mx-auto grid w-full max-w-[112rem] grid-rows-[minmax(11rem,3fr)_7fr] overflow-hidden rounded-3xl lg:flex lg:flex-row lg:items-center",
+        "relative mx-auto grid w-full max-w-none grid-rows-[minmax(11rem,3fr)_7fr] overflow-hidden rounded-3xl lg:flex lg:flex-row lg:items-center",
         "bg-slate-950 text-slate-50 shadow-[0_24px_60px_-32px_rgb(15_23_42/0.45)]",
         "max-lg:bg-[linear-gradient(165deg,color-mix(in_oklch,var(--hue,var(--color-blue-100))_22%,var(--color-slate-950))_0%,var(--color-slate-950)_62%)]",
-        "lg:aspect-[16/7] lg:max-h-[84svh]",
+        "lg:min-h-[clamp(34rem,38vw,48rem)]",
         HUE_CLASS[product.accentHue],
         preview && "opacity-45 saturate-50",
       )}
@@ -73,7 +73,7 @@ export function SolutionBanner({
         className="absolute inset-0 z-1 hidden bg-[linear-gradient(to_right,oklch(11.5%_0.035_278/0.9)_0%,oklch(11.5%_0.035_278/0.82)_34%,oklch(11.5%_0.035_278/0.45)_54%,oklch(11.5%_0.035_278/0)_70%)] lg:block"
       />
 
-      <div className="relative z-2 w-full bg-slate-950 p-6 sm:p-8 lg:bg-transparent lg:py-[clamp(1.75rem,4vw,3.5rem)] lg:px-[max(clamp(1.5rem,4vw,3rem),calc((100%_-_80rem)/2_+_clamp(1.5rem,4vw,3rem)))] lg:w-[min(60%,44rem)]">
+      <div className="relative z-2 w-full bg-slate-950 p-6 sm:p-8 lg:bg-transparent lg:py-[clamp(1.75rem,4vw,3.5rem)] lg:px-[clamp(1.5rem,4vw,6rem)] lg:w-[55%]">
         {/* only the primary industry is shown; the rest are filter tags */}
         <p className={cn(T_LABEL, "text-slate-300")}>
           {categoryLabel(product.categories[0])}
@@ -114,7 +114,7 @@ export function SolutionBanner({
               "group max-sm:w-full max-sm:min-h-11 max-sm:h-auto max-sm:whitespace-normal max-sm:px-3 max-sm:py-3 max-sm:text-sm",
             )}
           >
-            <CalendarCheck className="size-4" aria-hidden="true" />
+            <Presentation className="size-4" aria-hidden="true" />
             Request a demo
           </Link>
 

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, Mail } from "lucide-react";
 import { Seo } from "@/lib/seo";
 import { SolutionBanner } from "@/app/solutions/components/solution-banner";
 import { CatalogueGrid } from "@/app/solutions/components/catalogue-grid";
@@ -58,7 +58,7 @@ export default function SolutionsPage() {
               )}
             >
               Contact us
-              <ArrowRight
+              <Mail
                 className="size-4 transition-transform duration-200 group-hover:translate-x-0.5"
                 aria-hidden="true"
               />
@@ -112,7 +112,7 @@ export default function SolutionsPage() {
             )}
           >
             Contact us
-            <ArrowRight
+            <Mail
               className="size-4 transition-transform duration-200 group-hover:translate-x-0.5"
               aria-hidden="true"
             />

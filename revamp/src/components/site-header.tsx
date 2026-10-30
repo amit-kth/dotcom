@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { ArrowRight, ArrowUpRight, ChevronDown, Menu, X } from "lucide-react";
+import { ArrowRight, Mail, ChevronDown, Menu, X } from "lucide-react";
 import { asset, site } from "@/config/variables";
 import { useCategory } from "@/components/category-context";
 import { categories, categoryHue } from "@/data/categories";
@@ -28,7 +28,7 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [panel, setPanel] = useState(false);
   const [active, setActive] = useState<string | null>(null);
-  const { setSelected } = useCategory();
+  const { selected, toggleCategory } = useCategory();
   const router = useRouter();
 
   const panelRef = useRef<HTMLDivElement | null>(null);
@@ -131,7 +131,7 @@ export function SiteHeader() {
   /* The chips filter the homepage stack. On /solutions there is no stack, so
      the choice is carried home instead of being silently applied off-screen. */
   const chooseIndustry = (id: (typeof categories)[number]["id"]) => {
-    setSelected(id);
+    toggleCategory(id);
     closePanel();
     const target = document.getElementById("solutions");
     if (target) target.scrollIntoView({ block: "start" });
@@ -251,15 +251,19 @@ export function SiteHeader() {
                         key={category.id}
                         type="button"
                         data-cat={category.id}
+                        aria-pressed={selected.includes(category.id)}
                         onClick={() => chooseIndustry(category.id)}
                         className={cn(
                           "inline-flex h-8 items-center gap-1.5 rounded-full border border-slate-200 px-[0.6875rem] text-[0.8125rem] font-medium text-slate-700",
-                          "transition-colors duration-150 hover:border-blue-300 hover:bg-slate-100 hover:text-slate-950",
+                          "transition-colors duration-150 hover:border-blue-300 hover:bg-slate-100 hover:text-slate-950 aria-pressed:border-blue-400 aria-pressed:bg-blue-50 aria-pressed:text-blue-700",
                           "before:size-1.5 before:rounded-full before:bg-[var(--chip,var(--color-blue-300))] before:content-['']",
                           categoryHue[category.id],
                         )}
                       >
                         {category.label}
+                        {selected.includes(category.id) && (
+                          <X className="size-3" aria-hidden="true" />
+                        )}
                       </button>
                     ))}
                   </div>
@@ -314,7 +318,7 @@ export function SiteHeader() {
             )}
           >
             Contact us
-            <ArrowUpRight className="size-4" aria-hidden="true" />
+            <Mail className="size-4" aria-hidden="true" />
           </Link>
 
           <button
@@ -324,7 +328,7 @@ export function SiteHeader() {
             aria-controls="mobile-nav"
             aria-label={open ? "Close menu" : "Open menu"}
             className={cn(
-              "flex size-9 items-center justify-center rounded-full border transition-colors lg:hidden",
+              "flex size-11 items-center justify-center rounded-full border transition-colors lg:hidden",
               light
                 ? "border-slate-200 text-slate-800 hover:bg-slate-100"
                 : "border-white/20 text-white hover:bg-white/10",
@@ -341,14 +345,20 @@ export function SiteHeader() {
 
       <div
         id="mobile-nav"
-        hidden={!open}
-        className="absolute inset-x-0 top-full border-t border-slate-200 bg-white text-slate-950 lg:hidden"
+        inert={!open}
+        aria-hidden={!open}
+        className={cn(
+          "absolute inset-x-0 top-full origin-top border-t border-slate-200 bg-white text-slate-950 shadow-xl transition-[opacity,transform,visibility] duration-200 motion-reduce:transition-none lg:hidden",
+          open
+            ? "visible translate-y-0 opacity-100"
+            : "invisible -translate-y-3 pointer-events-none opacity-0",
+        )}
       >
         <nav
           aria-label="Sections"
           className={cn(
             SHELL,
-            "max-h-[calc(100svh-var(--header-h))] overflow-y-auto py-3",
+            "max-h-[calc(100svh-var(--header-h))] overflow-y-auto overscroll-contain py-4",
           )}
         >
           {NAV.map((item) => (
@@ -388,18 +398,22 @@ export function SiteHeader() {
                 key={category.id}
                 type="button"
                 data-cat={category.id}
+                aria-pressed={selected.includes(category.id)}
                 onClick={() => {
                   chooseIndustry(category.id);
                   setOpen(false);
                 }}
                 className={cn(
-                  "inline-flex h-8 items-center gap-1.5 rounded-full border border-slate-200 px-[0.6875rem] text-[0.8125rem] font-medium text-slate-700",
-                  "transition-colors duration-150 hover:border-blue-300 hover:bg-slate-100 hover:text-slate-950",
+                  "inline-flex min-h-11 items-center gap-1.5 rounded-full border border-slate-200 px-[0.6875rem] text-[0.8125rem] font-medium text-slate-700",
+                  "transition-colors duration-150 hover:border-blue-300 hover:bg-slate-100 hover:text-slate-950 aria-pressed:border-blue-400 aria-pressed:bg-blue-50 aria-pressed:text-blue-700",
                   "before:size-1.5 before:rounded-full before:bg-[var(--chip,var(--color-blue-300))] before:content-['']",
                   categoryHue[category.id],
                 )}
               >
                 {category.label}
+                {selected.includes(category.id) && (
+                  <X className="size-3" aria-hidden="true" />
+                )}
               </button>
             ))}
           </div>
@@ -414,7 +428,7 @@ export function SiteHeader() {
               )}
             >
               Contact us
-              <ArrowUpRight className="size-4" aria-hidden="true" />
+              <Mail className="size-4" aria-hidden="true" />
             </Link>
           </div>
         </nav>

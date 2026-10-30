@@ -77,7 +77,7 @@ export function SiteFooter() {
               className={buttonVariants({ variant: "primary", size: "md" })}
             >
               Contact us
-              <ArrowUpRight className="size-4" aria-hidden="true" />
+              <Mail className="size-4" aria-hidden="true" />
             </Link>
           </div>
         </div>

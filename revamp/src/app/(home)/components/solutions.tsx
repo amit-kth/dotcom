@@ -5,18 +5,13 @@ import { useReducedMotion } from "@/lib/use-reduced-motion";
 import { useRef } from "react";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { Mail, X } from "lucide-react";
 import { useCategory } from "@/components/category-context";
 import { SolutionBanner } from "@/app/solutions/components/solution-banner";
-import { categories, categoryLabel, type CategoryId } from "@/data/categories";
-import { featuredProducts, productsInCategory } from "@/data/products";
+import { categoryLabel } from "@/data/categories";
+import { featuredProducts } from "@/data/products";
 import { buttonVariants } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-} from "@/components/ui/select";
+
 import { contact } from "@/config/variables";
 import { LIGHT_BAND, SHELL, T_HEADING, T_LABEL } from "@/lib/ui";
 import { cn } from "@/lib/utils";
@@ -53,10 +48,14 @@ import { cn } from "@/lib/utils";
 const STICKY_TOP = "calc(var(--header-h) + 0.5rem)";
 
 export function Solutions() {
-  const { selected, setSelected } = useCategory();
+  const { selected, toggleCategory, clearCategories } = useCategory();
   const reduceMotion = useReducedMotion();
 
-  const items = selected ? productsInCategory(selected) : featuredProducts;
+  const items = selected.length
+    ? featuredProducts.filter((product) =>
+        product.categories.some((id) => selected.includes(id)),
+      )
+    : featuredProducts;
   const stackRef = useRef<HTMLDivElement | null>(null);
 
   const { scrollYProgress } = useScroll({
@@ -67,19 +66,9 @@ export function Solutions() {
   /* Clearing the filter from down here would drop the visitor into the middle
      of a shorter list, so the section is brought back to the top first. */
   const clearFilter = () => {
-    setSelected(null);
-    const section = document.getElementById("solutions");
-    if (!section) return;
-    window.scrollTo({
-      top:
-        section.getBoundingClientRect().top +
-        window.scrollY -
-        parseFloat(
-          getComputedStyle(document.documentElement).getPropertyValue(
-            "--header-h",
-          ) || "72",
-        ) -
-        8,
+    clearCategories();
+    document.getElementById("solutions")?.scrollIntoView({
+      block: "start",
       behavior: reduceMotion ? "auto" : "smooth",
     });
   };
@@ -98,57 +87,42 @@ export function Solutions() {
               id="solutions-title"
               className={cn(T_HEADING, "mt-4 max-w-[24ch]")}
             >
-              {selected
-                ? `${categoryLabel(selected)} solutions.`
+              {selected.length
+                ? "Solutions for your industries."
                 : "Customised solutions for all of your needs."}
             </h2>
           </div>
 
-          {/* A real control instead of a line of text: it says the list is
-              filtered, it changes the list, and the row keeps its height in
-              every state. */}
-          <div className="flex h-11 items-center gap-3">
-            <label
-              htmlFor="solutions-filter"
-              className="text-[0.9375rem] text-slate-600"
-            >
-              Showing
-            </label>
-            <Select
-              value={selected ?? "all"}
-              onValueChange={(value) => {
-                const next = value === "all" ? null : (value as CategoryId);
-                setSelected(next);
-                document.getElementById("solutions")?.scrollIntoView({
-                  block: "start",
-                });
-              }}
-            >
-              <SelectTrigger id="solutions-filter">
-                {/* Radix resolves <SelectValue /> from mounted items, which on a
-                    static export it never has at first paint, so the trigger
-                    prints its own label instead. */}
-                <span className="truncate">
-                  {selected ? categoryLabel(selected) : "All solutions"}
-                </span>
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All solutions</SelectItem>
-                {categories.map((category) => (
-                  <SelectItem key={category.id} value={category.id}>
-                    {category.label}
-                  </SelectItem>
+          <div
+            className="flex max-w-full flex-wrap items-center gap-2"
+            aria-label="Industry filters"
+          >
+            {selected.length ? (
+              <>
+                {selected.map((id) => (
+                  <button
+                    key={id}
+                    type="button"
+                    onClick={() => toggleCategory(id)}
+                    aria-label={`Remove ${categoryLabel(id)} filter`}
+                    className="inline-flex min-h-11 items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 text-sm font-medium text-blue-700 hover:bg-blue-100"
+                  >
+                    {categoryLabel(id)}{" "}
+                    <X className="size-4" aria-hidden="true" />
+                  </button>
                 ))}
-              </SelectContent>
-            </Select>
-            {selected && (
-              <button
-                type="button"
-                onClick={clearFilter}
-                className="inline-flex min-h-11 items-center text-[0.9375rem] font-semibold text-blue-600 underline-offset-4 hover:underline"
-              >
-                Clear
-              </button>
+                <button
+                  type="button"
+                  onClick={clearFilter}
+                  className="min-h-11 px-3 text-sm font-semibold text-blue-700 hover:underline"
+                >
+                  Clear all
+                </button>
+              </>
+            ) : (
+              <span className="text-sm text-slate-500">
+                Showing all solutions
+              </span>
             )}
           </div>
         </div>
@@ -185,10 +159,12 @@ export function Solutions() {
         /* A category with nothing pre-built still gets a banner-sized answer,
            never an empty area. */
         <div className="mt-12 sm:mt-16">
-          <article className="relative mx-auto flex w-full max-w-[112rem] flex-col overflow-hidden border border-white/[0.06] bg-slate-950 text-slate-50 shadow-[0_24px_60px_-32px_rgb(15_23_42/0.45)] [--hue:var(--color-violet-500)] lg:aspect-[16/7] lg:max-h-[84svh] lg:flex-row lg:items-center">
-            <div className="relative z-2 w-full py-[clamp(1.75rem,4vw,3.5rem)] px-[max(clamp(1.5rem,4vw,3rem),calc((100%_-_80rem)/2_+_clamp(1.5rem,4vw,3rem)))] lg:w-[min(60%,44rem)]">
+          <article className="relative mx-auto flex w-full max-w-none flex-col overflow-hidden border border-white/[0.06] bg-slate-950 text-slate-50 shadow-[0_24px_60px_-32px_rgb(15_23_42/0.45)] [--hue:var(--color-violet-500)] lg:min-h-[clamp(34rem,38vw,48rem)] lg:flex-row lg:items-center">
+            <div className="relative z-2 w-full py-[clamp(1.75rem,4vw,3.5rem)] px-[clamp(1.5rem,4vw,6rem)] lg:w-[55%]">
               <p className={cn(T_LABEL, "text-slate-300")}>
-                {selected ? categoryLabel(selected) : "Solutions"}
+                {selected.length
+                  ? selected.map(categoryLabel).join(", ")
+                  : "Solutions"}
               </p>
               <h3 className="mt-3 max-w-[20ch] text-[clamp(1.75rem,4vw,3rem)] font-bold leading-[1.04] tracking-[-0.035em]">
                 Nothing pre-built for this yet. Talk to us.
@@ -199,7 +175,7 @@ export function Solutions() {
                   className={buttonVariants({ variant: "inverse", size: "md" })}
                 >
                   Contact us
-                  <ArrowRight className="size-4" aria-hidden="true" />
+                  <Mail className="size-4" aria-hidden="true" />
                 </Link>
               </div>
             </div>
@@ -224,7 +200,7 @@ export function Solutions() {
               "shrink-0 self-start sm:self-auto",
             )}
           >
-            Contact us <ArrowRight className="size-4" aria-hidden="true" />
+            Contact us <Mail className="size-4" aria-hidden="true" />
           </Link>
         </div>
       </div>
@@ -271,7 +247,7 @@ function StackItem({
   return (
     <div
       className={cn(
-        "sticky mb-[clamp(14rem,38svh,26rem)] last:mb-0 max-lg:mb-[clamp(10rem,30svh,18rem)]",
+        "relative mb-6 max-lg:top-auto! lg:sticky lg:mb-[clamp(14rem,38svh,26rem)] last:mb-0 [@media(max-height:740px)]:static [@media(max-height:740px)]:mb-6",
         isLast && "mx-4 sm:mx-6 lg:mx-8",
       )}
       style={{
@@ -279,12 +255,15 @@ function StackItem({
         zIndex: index + 1,
       }}
     >
-      <motion.div style={{ scale, y }} className="origin-top">
+      <motion.div
+        style={{ scale, y }}
+        className="origin-top max-lg:transform-none! [@media(max-height:740px)]:transform-none!"
+      >
         <div className="relative isolate overflow-hidden rounded-3xl">
           {children}
           <motion.div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 z-3 rounded-3xl bg-slate-950"
+            className="pointer-events-none absolute inset-0 z-3 hidden lg:block [@media(max-height:740px)]:hidden rounded-3xl bg-slate-950"
             style={{ opacity: shade }}
           />
         </div>

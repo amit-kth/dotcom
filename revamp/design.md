@@ -257,3 +257,11 @@ Use white as the default page surface. The shared 52px header is transparent onl
 Phone product cards use 30% image above 70% content, with an image-to-background blend. The last product is inset from the viewport; sticky shade layers are radius-clipped without changing the sticky ancestor. Remove the hover border. The solution-list closing CTA is a solid primary strip with heading left and action right on wider screens.
 
 About cards arrive once from different directions with a short blurred fade; reduced motion skips it. No em dash in website copy. Keep the approved hero illustration lettering and footer behavior unchanged.
+
+### Responsive multi-industry filtering
+
+Hero industries are independent toggles, not a single-choice redirect. Selected chips swap their industry icon for an X. Keep selections visible in the hero and mirror them as removable tags in Solutions; match any selected industry, never duplicate a product. No selection means all featured products.
+
+Use two-column, compact, left-aligned hero chips on phones. Mobile navigation animates opacity and vertical position, remains keyboard-inert when closed, and respects reduced motion. Contact actions use a Mail icon; demos use Presentation.
+
+Page gutters are fluid instead of a centered 80rem shell. Never derive product-copy padding from viewport width while capping its containing block: that collapses readable width on larger displays. Use bounded local padding with a proportional text column. Cards must expand for their content; no max-height clipping. Keep the sticky stack on roomy desktop screens and use a plain list on mobile and short-height screens.

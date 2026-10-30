@@ -93,3 +93,13 @@ Recoloured the supplied transparent 330x86 red logo to Tailwind blue-600, preser
 ### Submenu centering regression
 
 The entrance animation previously wrote the CSS `translate` property, overriding Tailwind's horizontal -50% translation. It now animates `transform: translateY(...)` separately. Chromium measurements during and after the entrance at 1024px, 1366px and 1440px confirm panel centers of 512px, 683px and 720px respectively, with equal left/right margins. Build and TypeScript checks pass.
+
+## Multi-industry selection and responsive layout
+
+- Industry state is an array with functional toggle updates. Hero chips support multiple independent selections, `aria-pressed`, X icons on selected chips, and keyboard activation. Selecting stays in the hero so users can choose more than one industry.
+- Matches use OR semantics across selected industries, deduplicated by filtering the original product list. Removable category tags replace the single-select box; Clear all restores all five featured products. Header industry selections share the same state.
+- Mobile hero uses a two-column chip grid with visible icons; all labels, including Manufacturing, fit at 320px. Mobile menu fades/slides in and out, is inert while closed, has scroll containment and larger touch targets, and skips transitions under reduced motion.
+- Contact actions use Mail icons across the header, solution strip, catalogue page and footer. Product demo actions use Presentation; external product/navigation arrows remain on their relevant links.
+- Replaced fixed shell width with fluid gutters (20px minimum, 96px maximum). Product copy uses container-relative width and bounded padding, eliminating the viewport-based padding calculation that squeezed copy on 2xl screens. Cards have content-safe minimum heights rather than clipped aspect-ratio/max-height combinations. Mobile/short-screen stacks become normal lists without scale/shading; larger screens retain sticky cards.
+- Chromium tested home/contact/catalogue at widths 320, 390, 768, 1024, 1536, 1920 and 2560: no horizontal overflow, no page errors. Additional checks at 320x640, 1024x600 and 2560x1440 confirm all product actions stay inside their cards and all hero chip labels fit. Submenu remains exactly horizontally centered at 2560px.
+- Multi-selection test: Edtech + Astrology yields K-Exam, K-Edusity and Kastrofy; removing Edtech leaves Kastrofy; clearing restores five products. Keyboard selection and reduced-motion mobile navigation verified. Build, TypeScript and static SEO checks pass.

@@ -247,7 +247,7 @@ function StackItem({
   return (
     <div
       className={cn(
-        "relative mb-6 max-lg:top-auto! lg:sticky lg:mb-[clamp(14rem,38svh,26rem)] last:mb-0 [@media(max-height:740px)]:static [@media(max-height:740px)]:mb-6",
+        "relative mb-6 max-md:top-auto! md:sticky md:mb-[clamp(14rem,38svh,26rem)] last:mb-0",
         isLast && "mx-4 sm:mx-6 lg:mx-8",
       )}
       style={{
@@ -257,13 +257,13 @@ function StackItem({
     >
       <motion.div
         style={{ scale, y }}
-        className="origin-top max-lg:transform-none! [@media(max-height:740px)]:transform-none!"
+        className="origin-top max-md:transform-none!"
       >
         <div className="relative isolate overflow-hidden rounded-3xl">
           {children}
           <motion.div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 z-3 hidden lg:block [@media(max-height:740px)]:hidden rounded-3xl bg-slate-950"
+            className="pointer-events-none absolute inset-0 z-3 hidden md:block rounded-3xl bg-slate-950"
             style={{ opacity: shade }}
           />
         </div>

@@ -151,10 +151,10 @@ export function SiteHeader() {
       <div
         className={cn(
           SHELL,
-          "relative flex h-full items-center justify-between gap-6",
+          "relative flex h-full items-center justify-between gap-6 lg:grid lg:grid-cols-[1fr_auto_1fr]",
         )}
       >
-        <Link href="/" aria-label={`${site.name} home`} className="shrink-0">
+        <Link href="/" aria-label={`${site.name} home`} className="shrink-0 justify-self-start">
           <img
             src="/logo/kriscent-blue.png"
             alt={site.name}
@@ -303,7 +303,7 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center justify-self-end gap-2">
           <SearchTrigger compact light={light} />
           {/* "Contact us" is a general contact action, with no product
               attached: it opens the general contact form. It is

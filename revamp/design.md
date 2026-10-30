@@ -248,4 +248,4 @@ idea. Our ready solution.”, “Faster Time to Market”, “Proven & Reliable�
 “Built for Your Industry”. The art follows the user's supplied visual reference. Tailwind
 directional scrims protect the headline and fade the lower artwork before the
 chips; phones use a quieter 30% image layer. Hero copy, category behaviour and
-layout remain unchanged. The WebP is 1376 × 768 and about 25 KB.
+layout remain unchanged. The WebP is 1376 × 768 and about 34 KB.

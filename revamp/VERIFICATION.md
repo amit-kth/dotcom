@@ -89,3 +89,7 @@ container. Build, TypeScript and exported SEO checks pass.
 ### Single header logo (2026-10-30)
 
 Recoloured the supplied transparent 330x86 red logo to Tailwind blue-600, preserving every alpha value and the original artwork. Header uses only logo/kriscent-blue.png. The transparent state uses CSS grayscale and increased brightness to render it white; light headers show its native blue. Browser checks at 1440px and 390px confirm the same loaded source and identical 107.4375x28 rendered dimensions in both states. Build, TypeScript and static SEO export checks pass.
+
+### Submenu centering regression
+
+The entrance animation previously wrote the CSS `translate` property, overriding Tailwind's horizontal -50% translation. It now animates `transform: translateY(...)` separately. Chromium measurements during and after the entrance at 1024px, 1366px and 1440px confirm panel centers of 512px, 683px and 720px respectively, with equal left/right margins. Build and TypeScript checks pass.

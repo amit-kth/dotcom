@@ -277,3 +277,7 @@ Use direct markup for one-off certification/company copy, and explicit `/...` pa
 ### Direct configuration and meaningful names
 
 Pass page metadata objects directly to Seo, without a parallel union of page names or unused override options. Keep one category list with its label and colour; infer IDs from it instead of maintaining a duplicate list. The footer address component is OfficeLocations, not a generic gallery: it reads the actual locations directly and does not expose unused list/autoplay/custom-prop options. Retain real accessibility and reduced-motion behavior, not speculative configuration.
+
+### Two product artwork types
+
+Before generating banners, establish whether the request is for a premium or general product. If only a product name is given, ask which type; never assume. Premium means the large featured-card artwork: 16:7 with a quiet left third for HTML copy. General means smaller catalogue artwork: 16:10, fully composed across the frame with no reserved text zone. Follow `BANNER-DIRECTION.md` for the updated prompt templates, delivery sizes and first three general-product trial prompts. The initial general-image trial was blocked by the image service's permissions error; no images were generated or wired into the site.

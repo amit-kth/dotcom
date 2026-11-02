@@ -53,14 +53,7 @@ export type Offer = {
 };
 
 // DEMO ONLY: enabled for review. Set this object to null before going live.
-export const offer: Offer | null = {
-  id: "demo-festive-preview",
-  tone: "festive",
-  heading: "Demo offer",
-  discount: "20% off",
-  products: ["k-exam", "k-edusity"],
-  cta: "Claim offer",
-};
+export const offer: Offer | null = null
 
 // Generated square artwork ships locally so every popup works immediately.
 // If moved to ImageKit later, replace these four URLs here after uploading.

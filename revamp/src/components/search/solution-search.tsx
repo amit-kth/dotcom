@@ -10,7 +10,7 @@ import {
   useRef,
   useState,
 } from "react";
-import * as Dialog from "@radix-ui/react-dialog";
+import { Dialog, DialogClose, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import Link from "next/link";
 import { ArrowUpRight, Search, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -95,181 +95,180 @@ export function SolutionSearchProvider({
   return (
     <SearchContext.Provider value={openSearch}>
       {children}
-      <Dialog.Root open={open} onOpenChange={changeOpen}>
-        <Dialog.Portal>
-          <Dialog.Overlay className="fixed inset-0 z-[100] bg-slate-950/50 backdrop-blur-sm" />
-          <Dialog.Content
-            data-solution-search
-            aria-describedby={`${id}-description`}
-            onOpenAutoFocus={(event) => {
-              event.preventDefault();
-              input.current?.focus();
-            }}
-            onCloseAutoFocus={(event) => {
-              event.preventDefault();
-              returnFocus.current?.focus();
-            }}
-            className="fixed inset-x-2 top-2 z-[101] flex max-h-[calc(100dvh-1rem)] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white text-slate-950 shadow-2xl sm:inset-x-auto sm:top-[10vh] sm:left-1/2 sm:w-[min(42rem,calc(100vw-2rem))] sm:max-h-[80dvh] sm:-translate-x-1/2"
-          >
-            <Dialog.Title className="sr-only">Search solutions</Dialog.Title>
-            <Dialog.Description id={`${id}-description`} className="sr-only">
-              Find products by name, industry or business need. Use arrow keys
-              to select a result and Enter to open it.
-            </Dialog.Description>
-            <div className="flex shrink-0 items-center gap-3 border-b border-slate-200 px-4 py-3">
-              <Search
-                className="size-5 shrink-0 text-blue-600"
-                aria-hidden="true"
-              />
-              <Input
-                ref={input}
-                value={query}
-                maxLength={160}
-                onChange={(event) => updateQuery(event.target.value)}
-                onKeyDown={(event) => {
-                  if (event.key === "ArrowDown" || event.key === "ArrowUp") {
-                    event.preventDefault();
-                    if (results.length)
-                      setActive(
-                        (activeIndex +
-                          (event.key === "ArrowDown" ? 1 : -1) +
-                          results.length) %
-                          results.length,
-                      );
-                  } else if (event.key === "Enter") {
-                    event.preventDefault();
-                    list.current
-                      ?.querySelector<HTMLAnchorElement>(
-                        `[data-result-index="${activeIndex}"]`,
-                      )
-                      ?.click();
-                  }
-                }}
-                role="combobox"
-                aria-label="Search solutions"
-                aria-autocomplete="list"
-                aria-expanded={true}
-                aria-controls={`${id}-results`}
-                aria-activedescendant={
-                  results.length ? `${id}-result-${activeIndex}` : undefined
+      <Dialog open={open} onOpenChange={changeOpen}>
+        <DialogContent
+          showCloseButton={false}
+          overlayClassName="backdrop-blur-sm"
+          data-solution-search
+          aria-describedby={`${id}-description`}
+          onOpenAutoFocus={(event) => {
+            event.preventDefault();
+            input.current?.focus();
+          }}
+          onCloseAutoFocus={(event) => {
+            event.preventDefault();
+            returnFocus.current?.focus();
+          }}
+          className="inset-x-2 top-2 w-auto max-w-none translate-x-0 translate-y-0 gap-0 p-0 z-[101] flex max-h-[calc(100dvh-1rem)] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white text-slate-950 shadow-2xl sm:inset-x-auto sm:top-[10vh] sm:left-1/2 sm:w-[min(42rem,calc(100vw-2rem))] sm:max-h-[80dvh] sm:-translate-x-1/2"
+        >
+          <DialogTitle className="sr-only">Search solutions</DialogTitle>
+          <DialogDescription id={`${id}-description`} className="sr-only">
+            Find products by name, industry or business need. Use arrow keys
+            to select a result and Enter to open it.
+          </DialogDescription>
+          <div className="flex shrink-0 items-center gap-3 border-b border-slate-200 px-4 py-3">
+            <Search
+              className="size-5 shrink-0 text-blue-600"
+              aria-hidden="true"
+            />
+            <Input
+              ref={input}
+              value={query}
+              maxLength={160}
+              onChange={(event) => updateQuery(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+                  event.preventDefault();
+                  if (results.length)
+                    setActive(
+                      (activeIndex +
+                        (event.key === "ArrowDown" ? 1 : -1) +
+                        results.length) %
+                        results.length,
+                    );
+                } else if (event.key === "Enter") {
+                  event.preventDefault();
+                  list.current
+                    ?.querySelector<HTMLAnchorElement>(
+                      `[data-result-index="${activeIndex}"]`,
+                    )
+                    ?.click();
                 }
-                autoComplete="off"
-                placeholder="Search solutions or business needs…"
-                className="min-w-0 flex-1 border-0 bg-transparent px-0 text-base shadow-none focus-visible:ring-0"
-              />
-              {query && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    updateQuery("");
-                    input.current?.focus();
-                  }}
-                  aria-label="Clear search"
-                  className="flex size-11 shrink-0 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100"
-                >
-                  <X className="size-4" />
-                </button>
-              )}
-              <Dialog.Close
-                className="flex size-11 shrink-0 items-center justify-center rounded-lg text-slate-600 hover:bg-slate-100"
-                aria-label="Close search"
+              }}
+              role="combobox"
+              aria-label="Search solutions"
+              aria-autocomplete="list"
+              aria-expanded={true}
+              aria-controls={`${id}-results`}
+              aria-activedescendant={
+                results.length ? `${id}-result-${activeIndex}` : undefined
+              }
+              autoComplete="off"
+              placeholder="Search solutions or business needs…"
+              className="min-w-0 flex-1 border-0 bg-transparent px-0 text-base shadow-none focus-visible:ring-0"
+            />
+            {query && (
+              <button
+                type="button"
+                onClick={() => {
+                  updateQuery("");
+                  input.current?.focus();
+                }}
+                aria-label="Clear search"
+                className="flex size-11 shrink-0 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100"
               >
-                <X className="size-5" />
-              </Dialog.Close>
-            </div>
-            <div className="min-h-0 overflow-y-auto overscroll-contain p-3">
-              {!query && (
-                <div className="mb-4 px-1">
-                  <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-500">
-                    Try a search
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {suggestedSearches.map((term) => (
-                      <button
-                        key={term}
-                        type="button"
-                        onClick={() => {
-                          updateQuery(term);
-                          input.current?.focus();
-                        }}
-                        className="min-h-11 rounded-full border border-slate-200 px-3 text-sm text-slate-700 hover:border-blue-300 hover:bg-blue-50"
-                      >
-                        {term}
-                      </button>
-                    ))}
-                  </div>
+                <X className="size-4" />
+              </button>
+            )}
+            <DialogClose
+              className="flex size-11 shrink-0 items-center justify-center rounded-lg text-slate-600 hover:bg-slate-100"
+              aria-label="Close search"
+            >
+              <X className="size-5" />
+            </DialogClose>
+          </div>
+          <div className="min-h-0 overflow-y-auto overscroll-contain p-3">
+            {!query && (
+              <div className="mb-4 px-1">
+                <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-500">
+                  Try a search
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {suggestedSearches.map((term) => (
+                    <button
+                      key={term}
+                      type="button"
+                      onClick={() => {
+                        updateQuery(term);
+                        input.current?.focus();
+                      }}
+                      className="min-h-11 rounded-full border border-slate-200 px-3 text-sm text-slate-700 hover:border-blue-300 hover:bg-blue-50"
+                    >
+                      {term}
+                    </button>
+                  ))}
                 </div>
-              )}
-              <p
-                role="status"
-                className="mb-2 px-2 text-xs font-medium text-slate-500"
-              >
-                {query
-                  ? `${results.length} matching solution${results.length === 1 ? "" : "s"}`
-                  : "Featured solutions"}
-              </p>
-              <div
-                ref={list}
-                id={`${id}-results`}
-                role="listbox"
-                aria-label="Matching solutions"
-              >
-                {results.map((result, index) => (
-                  <Link
-                    key={result.id}
-                    id={`${id}-result-${index}`}
-                    href={result.href}
-                    role="option"
-                    tabIndex={-1}
-                    aria-selected={activeIndex === index}
-                    data-result-index={index}
-                    onMouseMove={() => setActive(index)}
-                    onClick={() => changeOpen(false)}
-                    className="flex items-center justify-between gap-3 rounded-xl px-3 py-3 aria-selected:bg-blue-50 aria-selected:text-blue-900 hover:bg-blue-50"
-                  >
-                    <span className="min-w-0">
-                      <span className="block text-sm font-semibold">
-                        <Highlighted text={result.name} query={query} />
-                      </span>
-                      <span className="mt-1 block text-sm leading-relaxed text-slate-600">
-                        <Highlighted text={result.description} query={query} />
-                      </span>
-                      <span className="mt-1 block text-xs text-slate-500">
-                        {result.group}
-                      </span>
-                    </span>
-                    <ArrowUpRight
-                      className="size-4 shrink-0 text-slate-400"
-                      aria-hidden="true"
-                    />
-                  </Link>
-                ))}
               </div>
-              {!results.length && (
-                <div className="px-3 py-8 text-center">
-                  <p className="font-semibold">No matching solutions</p>
-                  <p className="mt-2 text-sm text-slate-600">
-                    Try another term, or tell us what you need.
-                  </p>
-                  <Link
-                    href={contact.contactPath}
-                    onClick={() => changeOpen(false)}
-                    className="mt-4 inline-flex min-h-11 items-center rounded-xl bg-blue-600 px-5 text-sm font-semibold text-white"
-                  >
-                    Contact us
-                  </Link>
-                </div>
-              )}
+            )}
+            <p
+              role="status"
+              className="mb-2 px-2 text-xs font-medium text-slate-500"
+            >
+              {query
+                ? `${results.length} matching solution${results.length === 1 ? "" : "s"}`
+                : "Featured solutions"}
+            </p>
+            <div
+              ref={list}
+              id={`${id}-results`}
+              role="listbox"
+              aria-label="Matching solutions"
+            >
+              {results.map((result, index) => (
+                <Link
+                  key={result.id}
+                  id={`${id}-result-${index}`}
+                  href={result.href}
+                  role="option"
+                  tabIndex={-1}
+                  aria-selected={activeIndex === index}
+                  data-result-index={index}
+                  onMouseMove={() => setActive(index)}
+                  onClick={() => changeOpen(false)}
+                  className="flex items-center justify-between gap-3 rounded-xl px-3 py-3 aria-selected:bg-blue-50 aria-selected:text-blue-900 hover:bg-blue-50"
+                >
+                  <span className="min-w-0">
+                    <span className="block text-sm font-semibold">
+                      <Highlighted text={result.name} query={query} />
+                    </span>
+                    <span className="mt-1 block text-sm leading-relaxed text-slate-600">
+                      <Highlighted text={result.description} query={query} />
+                    </span>
+                    <span className="mt-1 block text-xs text-slate-500">
+                      {result.group}
+                    </span>
+                  </span>
+                  <ArrowUpRight
+                    className="size-4 shrink-0 text-slate-400"
+                    aria-hidden="true"
+                  />
+                </Link>
+              ))}
             </div>
-            <div className="flex shrink-0 justify-between border-t border-slate-200 px-4 py-3 text-xs text-slate-500">
-              <span className="hidden sm:inline">
-                ↑ ↓ Navigate · Enter Open · Esc Close
-              </span>
-              <span>{shortcut} to toggle search</span>
-            </div>
-          </Dialog.Content>
-        </Dialog.Portal>
-      </Dialog.Root>
+            {!results.length && (
+              <div className="px-3 py-8 text-center">
+                <p className="font-semibold">No matching solutions</p>
+                <p className="mt-2 text-sm text-slate-600">
+                  Try another term, or tell us what you need.
+                </p>
+                <Link
+                  href={contact.contactPath}
+                  onClick={() => changeOpen(false)}
+                  className="mt-4 inline-flex min-h-11 items-center rounded-xl bg-blue-600 px-5 text-sm font-semibold text-white"
+                >
+                  Contact us
+                </Link>
+              </div>
+            )}
+          </div>
+          <div className="flex shrink-0 justify-between border-t border-slate-200 px-4 py-3 text-xs text-slate-500">
+            <span className="hidden sm:inline">
+              ↑ ↓ Navigate · Enter Open · Esc Close
+            </span>
+            <span>{shortcut} to toggle search</span>
+          </div>
+        </DialogContent>
+      </Dialog>
     </SearchContext.Provider>
   );
 }

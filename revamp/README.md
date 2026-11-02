@@ -147,6 +147,15 @@ labelled offer-colors block in `globals.css`. Strip CTAs are not underlined.
 After editing, build, test on staging, then zip `out/` contents and send to Kapil
 sir. No date scheduler, API, new provider or offer backend is involved.
 
+### Shared popup component
+
+All modal popups (Contact, Offer and Search) use the shadcn-style components
+in `src/components/ui/dialog.tsx`. This is the single owner of the Radix portal,
+overlay and accessible dialog primitives. Keep route-specific content and
+presentation in the caller; do not create another direct Radix dialog wrapper.
+Existing focus trapping, Escape handling and scroll lock come from the installed
+Radix dependency. No extra dialog package or context provider is needed.
+
 ## 9. Before handing off a change
 
 Run `npm run check`, inspect phone/tablet/laptop/large-monitor layouts and verify reduced-motion behavior. Recheck logo and certification URLs in a browser with external access. Confirm the form backend before claiming enquiries work. Keep changes confined to `/revamp`, and discuss SEO-driven visible design changes before making them.

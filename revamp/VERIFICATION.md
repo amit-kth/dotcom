@@ -202,3 +202,16 @@ discount sizes, expanded the product panel and CTA to fill the available width,
 and reduced excess body padding. Contact popup styling is unchanged. Rendered
 checks at 320×568, 390×844 and 1366×768 confirm square bounds with no content
 overlap or overflow. Build, nine tests and export audits pass; demo stays active.
+
+## Shared shadcn Dialog migration
+
+Contact/Offer and Search now import Dialog components from
+`src/components/ui/dialog.tsx`, not Radix directly. The shared shadcn-style
+wrapper owns Portal, Overlay, Content, Title, Description and optional Close.
+It reuses the existing Radix dependency for modal accessibility and scroll lock.
+No dependencies, offer configuration or visible-design changes were added.
+
+Chromium checks at 320×568, 390×844, 768×1024 and 1366×768 passed: both search
+and offer use the shared dialog slot, remain within viewport bounds, search
+results work, popup shape stays square, Tab remains trapped, Escape dismisses,
+and Ctrl+K does not open a second dialog over the popup. No runtime errors.

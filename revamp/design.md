@@ -3,6 +3,26 @@
 What is built, why it looks the way it does, what is still placeholder, and
 what needs a decision. Banners have their own brief: `BANNER-DIRECTION.md`.
 
+## Styling and ownership
+
+- Use Tailwind's standard slate/blue/red/amber/etc. palette classes directly.
+  No paper, line, on-dark, or band colour aliases and no second palette in CSS.
+- Shared primitives live in `src/components/ui`: shadcn-style Input, Textarea,
+  Label and Button (CVA + Radix Slot), and Select (Radix). `components.json`
+  configures shadcn for Tailwind v4 with `cssVariables: false`.
+- Route-owned components live beside their pages: `app/(home)/components`,
+  `app/solutions/components`, and `app/contact/components`. Contact submission
+  and query helpers are in `app/contact/lib`. Global navigation, footer,
+  providers, and cross-route primitives stay in `src/components`.
+- `app/layout.tsx` renders the header, footer and category provider once. Pages
+  contain only their metadata and route content.
+- `lib/seo.tsx` owns page metadata. GTM, Organization and WebSite schema load
+  once in `app/layout.tsx`; `components/route-tracker.tsx` reports later routes.
+- `globals.css` only contains Tailwind imports, font/header setup, base
+  accessibility defaults, animation keyframes and native scrollbar compatibility
+  rules. Scrollbars retain OS behaviour and reset in forced-colour mode.
+- Cards use larger `rounded-2xl` corners; solution banners use `rounded-3xl`.
+
 ## The page, in order, with the job of each block
 
 | # | Block | Surface | One job |
@@ -19,25 +39,20 @@ dark instead of one long navy scroll, and each light band is a divider between
 two dark ones. `/solutions` is a light page with the same dark banners laid on
 it, and `/contact` is dark because it carries a form.
 
-## Palette — the client's values, nothing else
+## Palette
 
-```
-paper  #F8FAFC   ink    #050125   card   #FFFFFF
-blue   #2C53E0   prim   #1E4FD8   accent #CEDEFF
-soft   #E5ECF6   line   #D8DEE8   muted  #4D5566
-danger #EF4444
-```
-
-Everything is a token in `app/globals.css`. The blue appears once per block, on
-the action or the one number that matters.
+Use Tailwind's built-in palette directly: `slate-950`/`slate-50` surfaces,
+`slate-300`/`slate-600` supporting text, `blue-600` actions, and standard
+red/amber/violet/cyan/emerald accents where the content calls for them.
+No custom semantic colour aliases. The app icon uses the same blue family.
 
 ## Type
 
 - Poppins 400/500/600/700, self-hosted in `src/fonts`, loaded with
   `next/font/local`.
-- Four levels: `.t-display`, `.t-heading`, `.t-body`, `.t-label`. `.t-heading`
+- Four utility presets: `T_DISPLAY`, `T_HEADING`, `T_BODY`, `T_LABEL`. `T_HEADING`
   floors at 1.5rem so the longest heading still holds two lines at 390px.
-- The hero headline is sized by `.hero-title` (`clamp(1.5rem, 4.6vw, 3.25rem)`)
+- The hero headline uses `text-[clamp(2.375rem,4.15vw,3.75rem)]`
   and is deliberately smaller than it used to be: the headline sets the tone,
   the chips do the work.
 
@@ -51,46 +66,61 @@ Escape, outside click or focus leaving. No focus trap — it is a menu.
 
 ## Buttons
 
-One system: `components/ui/button.tsx` plus `.btn` in the CSS. Variants
+One system: Tailwind utilities with CVA in `components/ui/button.tsx`. Variants
 primary / inverse / secondary / outline / ghost / link, sizes sm 36 · md 44 ·
-lg 52 · icon. Lucide icons are passed **by name** (`icon="arrow-up-right"` in
-`RequestDemoDialog`) because server components cannot pass a component across
-the boundary. On product banners the pair is always the same: *Book a demo*
-(outline, to `/contact`) and *Explore …* (primary, to the product page).
+lg 52 · icon. Every action is a `<Link>` or a `<button>` — there is no dialog
+component any more, so nothing needs an icon passed across a server/client
+boundary.
+
+On product banners the pair is always the same: *Request a demo* (outline, to
+`/contact?solution=<id>`) and *Explore …* (primary, to the product page). In the
+nav and the footer, *Contact us* is the outlined, quieter action, because the
+chips in the hero are the loudest thing on the page.
 
 ## Hero
 
-Two things and one decision: a headline, one sentence, then "What does your
-business do?" and seven category chips. The chips are the point, so the prompt
-carries a brand mark and a rule that runs to the edge of the column, and each
-chip is a solid pill in its own hue — deep enough for white type, with a
-hairline and an icon in the same colour. Each pill is exactly its label plus its
-icon — 32px tall, 13px label, 12px icon on desktop; 34px on a phone. Nothing
-stretches them: no `1fr` grid columns and no `flex: 1 1 auto`, so the row wraps
-instead of turning seven short words into seven long pills, which is what made
-them look wrong. Chip size lives in the base `.chip` rule and in the
-`min-width: 1024px` block, which repeats the same compact values. Never add a
-larger size further down the sheet: that is what silently overrode the smaller
-ones.
+**Purpose: the visitor picks the business they run.** Everything else on the
+screen supports that one click.
 
-A selected chip cannot be mistaken for an unselected one: the dark gradient
-flips to a bright solid in the same hue, the label and icon invert to near-black,
-a 2px white ring sits outside the pill, and the industry icon becomes a tick.
-Colour alone is not a state at 32px.
+Priority, highest first:
 
-The background is one macro photograph of real hardware: a dark circuit board
-with copper traces converging on a processor, raked by blue light. It is
-**dulled on purpose**
-(opacity 0.9, brightness 0.66, saturation 0.9) and then covered by
-`.hero::after` at `inset: 0`: 0.97 opaque at the left edge, 0.94 at 30%, 0.86 at
-55%, and still 0.76 at the right edge. The image is a backdrop everywhere — it
-is never left bright — so the type and the chip row own the surface. Plus a top
-vignette for the bar and a floor where the banner stack begins. The overlay is a
-separate layer because `.hero-aurora` is oversized (`inset: -20%`) for its
-drift, and a gradient painted on an oversized box lands its percentages
-somewhere else. No floating panels, no windows, no wireframe
-grid, no 3D ribbon, no neon rainbow — and nothing that could be mistaken for a
-small-business photo: this is a software company.
+1. the question and the seven chips — the focal point
+2. the headline ("ready-made, 15 days")
+3. one line of subtext
+4. the nav and the photograph, clearly quieter than all of the above
+
+**The chips** are 60px tall, 17px semibold, 28px of side padding, with a 16px
+icon — they read as buttons, not tags. All seven share one glass material
+(translucent fill, 1px light border, backdrop blur) because a different colour
+per chip made the row read as a spectrum instead of a set of choices; category
+identity is the icon's hue, and the hue only becomes a surface on hover and when
+selected. Selected flips to a solid light fill with dark text and a glow — the
+inverse of the unselected pill, so there is no ambiguity. The row measures
+~1177px, which fits the 1184px column from 1280px up; below that it is capped to
+a 4 + 3 break, and on a phone it wraps 2 + 2 + 2 + 1 with the last chip taking
+the full row.
+
+**The question** is 20-24px semibold, high contrast, directly above the chips.
+No mark, no rule: they pulled the eye off the words.
+
+**The headline** is one step quieter than the chips (38-60px desktop,
+32-35px phone). The subtext is one line at 18-20px, in a measure wide enough that
+it does not wrap on desktop.
+
+**Removed from the hero**: the stats strip (the figures live in About), badges,
+mockups, outlined numerals, and any second call to action.
+
+**The background** is the circuit-board photograph, blurred 14px, at 62% and
+behind a ~84% wash of the dark token, with one soft brand-blue pool under the
+chip row. Nothing sharp sits behind or beside the chips. The wash is on
+Tailwind `after:` utilities at `inset: 0` — `.hero-aurora` is oversized for its drift, and a
+gradient on an oversized box lands its percentages somewhere else.
+
+**No layout shift, ever.** Clicking a chip changes `aria-pressed` and swaps a
+16px icon for a 16px tick. Nothing is added, removed or resized, so the hero
+never moves under the pointer. The click then smooth-scrolls to the top of the
+solutions list, offset for the sticky bar; clicking the selected chip again
+clears the filter.
 
 ## Solutions and the catalogue
 
@@ -133,7 +163,7 @@ initiator only. The five published lines print as one link —
 
 ## Contact
 
-`/contact` is the page every *Book a demo* points at. Left: what we are and
+`/contact` is where "Contact us" and "Request a demo" both land. Left: what we are and
 every way to reach us. Right: `components/contact-form.tsx`, which keeps the old
 site's fields, labels, order and phone-with-country behaviour, and submits
 through `lib/submit-contact.ts`.
@@ -142,6 +172,19 @@ through `lib/submit-contact.ts`.
 While it is, the form simulates success so every state can be reviewed; setting
 a real URL switches it on with no component change. The payload keeps the old
 form's names (`name`, `email`, `phone`, `country_name`, `subject`, `message`).
+
+## Call-to-action labels
+
+Two, and only two — every other variant is banned:
+
+| Where | Label | Destination | Form title |
+|---|---|---|---|
+| Nav, footer, section ends | **Contact us** | `/contact` | "Contact us", solution field empty |
+| A product banner | **Request a demo** | `/contact?solution=<id>` | "Request a demo of <product>", solution pre-filled |
+
+One form serves both. `?solution=` sets the page title and the Solution field
+(`lib/use-requested-solution.ts`); the dialog and its separate enquiry form were
+deleted rather than left as a third way in.
 
 ## The banners
 
@@ -157,7 +200,7 @@ component do not change. The brief and the production steps are in
 
 | Item | State |
 |---|---|
-| `API_ENDPOINT`, `CONTACT_ENDPOINT` | `TODO_…`; both forms simulate success until they are real |
+| `CONTACT_ENDPOINT` | `TODO_…`; the form simulates success until it is real |
 | Product problem / outcome lines | DRAFT — written from the old site, need sign-off |
 | Industries per solution | DRAFT — decides which chip finds which solution |
 | Delivery day ranges (`src/data/steps.ts`) | DRAFT — the 15-day total is approved, the split is not |
@@ -184,3 +227,57 @@ There is no browser in the build sandbox, so verification is: `tsc --noEmit`,
 `npm run build` with `output: "export"`, a class audit over `out/*.html` (every
 class used exists in the emitted CSS), HTML content checks, and layout proofs
 rendered from the same tokens, type scale and spacing the build uses.
+
+## Footer office gallery
+
+`components/footer/office-gallery.tsx` adapts the supplied kriscent.in expandable
+gallery. Data is in `data/locations.ts`, with the office ImageKit base separately
+configured in `config/variables.ts`. Wide screens use expanding columns; phones
+use expanding rows to leave room for readable addresses. Selection uses native
+buttons, while map links are siblings (never nested inside buttons). Autoplay
+pauses during interaction, when offscreen or in a hidden tab, and under reduced
+motion. No visible playback controls are rendered. About cards use 32px corners.
+
+
+## Hero background update
+
+The hardware photograph is replaced by `public/hero-software-bg.webp`: blue-lit
+layered software panels on the right, empty navy on the left, no baked-in left-side website copy,
+buttons or nav. The right illustration retains its original panel text: “Your
+idea. Our ready solution.”, “Faster Time to Market”, “Proven & Reliable”, and
+“Built for Your Industry”. The art follows the user's supplied visual reference. Tailwind
+directional scrims protect the headline and fade the lower artwork before the
+chips; phones use a quieter 30% image layer. Hero copy, category behaviour and
+layout remain unchanged. The WebP is 1376 × 768 and about 34 KB.
+
+### UI corrections: light navigation and original contact fields
+
+Use white as the default page surface. The shared 52px header is transparent only while overlapping the homepage hero, which extends beneath it. All navigation panels are white; the header action is compact. Contact is a light page with the exact original five visible fields and no Solution selection. Product context may change the contact heading, not the fields.
+
+Phone product cards use 30% image above 70% content, with an image-to-background blend. The last product is inset from the viewport; sticky shade layers are radius-clipped without changing the sticky ancestor. Remove the hover border. The solution-list closing CTA is a solid primary strip with heading left and action right on wider screens.
+
+About cards arrive once from different directions with a short blurred fade; reduced motion skips it. No em dash in website copy. Keep the approved hero illustration lettering and footer behavior unchanged.
+
+### Responsive multi-industry filtering
+
+Hero industries are independent toggles, not a single-choice redirect. Selected chips swap their industry icon for an X. Keep selections visible in the hero and mirror them as removable tags in Solutions; match any selected industry, never duplicate a product. No selection means all featured products.
+
+Use two-column, compact, left-aligned hero chips on phones. Mobile navigation animates opacity and vertical position, remains keyboard-inert when closed, and respects reduced motion. Contact actions use a Mail icon; demos use Presentation.
+
+Page gutters are fluid instead of a centered 80rem shell. Never derive product-copy padding from viewport width while capping its containing block: that collapses readable width on larger displays. Use bounded local padding with a proportional text column. Cards must expand for their content; no max-height clipping. Keep the sticky stack on roomy desktop screens and use a plain list on mobile and short-height screens.
+
+### Shared search dialog
+
+Use one search dialog in the root shell, opened by a compact header trigger, the prominent All Solutions trigger, or Ctrl/Cmd+K. Keep it light, keyboard-accessible, responsive and separate from the static page content. Product names, descriptions, industries and curated keyword arrays feed a small local index; avoid network search and heavyweight ranking libraries for this catalogue. Match any relevant product, require all query terms, rank names before keywords, and preserve existing destinations. Missing product pages resolve to their catalogue entry, not a made-up URL. Keywords live next to each product so aliases and business needs stay easy to maintain.
+
+### Keep fixed content straightforward
+
+Use direct markup for one-off certification/company copy, and explicit `/...` paths for local images. Client logos are a plain array of named objects with their complete paths, not tuples plus a filename builder. Avoid pass-through helpers, duplicate objects, speculative environment/CDN switches, and long comment essays. Keep shared datasets only where they have real consumers: products/search, repeated client logos/testimonials, and shared contact/metadata settings. Office photography retains its actual shared ImageKit host.
+
+### Direct configuration and meaningful names
+
+Pass page metadata objects directly to Seo, without a parallel union of page names or unused override options. Keep one category list with its label and colour; infer IDs from it instead of maintaining a duplicate list. The footer address component is OfficeLocations, not a generic gallery: it reads the actual locations directly and does not expose unused list/autoplay/custom-prop options. Retain real accessibility and reduced-motion behavior, not speculative configuration.
+
+### Two product artwork types
+
+Before generating banners, establish whether the request is for a premium or general product. If only a product name is given, ask which type; never assume. Premium means the large featured-card artwork: 16:7 with a quiet left third for HTML copy. General means smaller catalogue artwork: 16:10, fully composed across the frame with no reserved text zone. Follow `BANNER-DIRECTION.md` for the updated prompt templates, delivery sizes and first three general-product trial prompts. The initial general-image trial was blocked by the image service's permissions error; no images were generated or wired into the site.

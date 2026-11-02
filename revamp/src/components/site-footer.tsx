@@ -1,48 +1,13 @@
 import Link from "next/link";
-import {
-  ArrowUpRight,
-  Mail,
-  MapPin,
-  MessageCircle,
-  Phone,
-} from "lucide-react";
+import { OfficeLocations } from "@/components/footer/office-locations";
+import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
 import { contact, site } from "@/config/variables";
-import { asset } from "@/config/variables";
-import { RequestDemoDialog } from "@/components/request-demo-dialog";
-import { SOCIAL_ICONS } from "@/components/social-icons";
+import { SOCIAL_ICONS, WhatsAppIcon } from "@/components/social-icons";
+import { buttonVariants } from "@/components/ui/button";
 import { products, DELIVERY_DAYS } from "@/data/products";
 import { categories } from "@/data/categories";
-
-/* ============================================================================
-   Footer
-   ----------------------------------------------------------------------------
-   PURPOSE: the decisive final step, then every way to reach us.
-
-   THE CLOSING BAND
-   Heading on the left, the action on the right, on one baseline. The helper
-   line sits above the button so the button is the last thing in the row — the
-   eye finishes on the thing you want clicked. Height is unchanged: the heading
-   still governs the band.
-
-   FIVE COLUMNS, ONE BASELINE
-   Brand · Solutions · Industries · Company · Contact. Every column starts on the
-   same rule and every list item is a 44px row, so the five columns line up with
-   each other and with the container edges. There is no oversized wordmark: the
-   wordmark is the logo at the top of column one, once.
-
-   WHAT LINKS WHERE
-   About and Clients are the client's own pages (kriscent.in/about,
-   kriscent.in/clients); Contact is kriscent.in/contact. All three open in a new
-   tab because they leave this site. "How we deliver" and "All solutions" stay
-   here.
-
-   PHONE NUMBERS
-   The five published lines, and only those. The WhatsApp number is a chat
-   initiator, not a call line, so it appears as "WhatsApp us" and never as a
-   number.
-
-   No stats and no CMMI badge down here — those live once, in About.
-   ========================================================================== */
+import { SHELL, T_LABEL } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 
 type FooterLink = { label: string; href: string; external?: boolean };
 
@@ -51,56 +16,70 @@ const COMPANY_LINKS: FooterLink[] = [
   { label: "Clients", href: contact.clientsPage, external: true },
   { label: "How we deliver", href: "/#delivery" },
   { label: "All solutions", href: "/solutions" },
-  { label: "Contact", href: "/contact" },
+  { label: "Contact us", href: contact.contactPath },
 ];
+
+/** One row of the footer: 44px tall, and the only motion is a 2px nudge. */
+const LINK =
+  "flex min-h-11 items-center text-[0.9375rem] text-slate-300 transition-[color,transform] duration-200 hover:translate-x-0.5 hover:text-slate-50";
 
 export function SiteFooter() {
   return (
-    <footer id="contact" className="bg-band-footer">
-      <div className="shell">
+    <footer id="contact" className="bg-slate-950 text-slate-50">
+      <div className={SHELL}>
         {/* ---- the closing call ---- */}
-        <div className="flex flex-col gap-8 border-b border-glass-border py-[clamp(3.5rem,7vw,6rem)] lg:flex-row lg:items-center lg:justify-between lg:gap-12">
+        <div className="flex flex-row items-center gap-5 border-b border-white/15 py-8 sm:py-10 lg:flex-row lg:items-center lg:justify-between lg:gap-12">
           <div>
-            <p className="t-label">Contact</p>
-            <h2 className="t-display mt-4 max-w-[16ch]">Tell us what you run.</h2>
+            <p className={cn(T_LABEL, "text-slate-300")}>Contact</p>
+            <h2 className="mt-3 max-w-[20ch] text-2xl font-bold leading-tight tracking-tight sm:text-4xl">
+              Tell us what you run.
+            </h2>
           </div>
 
           <div className="flex shrink-0 flex-col items-start gap-4 sm:items-end">
-            <p className="text-[1rem] leading-relaxed text-on-dark-soft">
+            <p className="hidden text-[1rem] leading-relaxed text-slate-300 sm:block">
               One call. We tell you what fits.
             </p>
-            <RequestDemoDialog label="Contact us" size="lg" icon="arrow-up-right" />
+            <Link
+              href={contact.contactPath}
+              className={buttonVariants({ variant: "primary", size: "md" })}
+            >
+              Contact us
+              <Mail className="size-4" aria-hidden="true" />
+            </Link>
           </div>
         </div>
 
+        <OfficeLocations />
+
         {/* ---- five columns, one baseline ---- */}
-        <div className="grid gap-x-8 gap-y-12 py-14 sm:grid-cols-2 lg:grid-cols-[1.25fr_0.9fr_0.9fr_0.9fr_1.45fr]">
-          <div>
+        <div className="grid grid-cols-2 gap-x-6 gap-y-6 border-t border-white/15 py-8 lg:grid-cols-[minmax(15rem,1.2fr)_repeat(3,minmax(0,0.8fr))_minmax(14rem,1.3fr)]">
+          <div className="col-span-2 lg:col-span-1">
             <img
-              src={asset("logo/logo.png")}
+              src="/logo/logo.png"
               alt={site.name}
               width={274}
               height={72}
               loading="lazy"
               className="h-8 w-auto brightness-0 invert"
             />
-            <p className="mt-5 max-w-[30ch] text-[1rem] leading-relaxed text-on-dark-soft">
+            <p className="mt-3 max-w-[34ch] text-[1rem] leading-relaxed text-slate-300">
               Ready-made software, installed and supported by the team that
               built it. Live in {DELIVERY_DAYS} days.
             </p>
 
-            <ul className="mt-6 flex flex-wrap items-center gap-2">
+            <ul className="mt-4 flex flex-nowrap items-center gap-1">
               {contact.socials.map((social) => {
                 const Icon =
                   SOCIAL_ICONS[social.label as keyof typeof SOCIAL_ICONS];
                 return (
-                  <li key={social.label}>
+                  <li key={social.label} className="shrink-0">
                     <a
                       href={social.href}
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`${site.name} on ${social.label}`}
-                      className="social-btn flex size-11 items-center justify-center rounded-full border border-glass-border text-on-dark-soft"
+                      className="flex size-11 items-center justify-center rounded-full border border-white/15 text-slate-300 transition-[background-color,border-color,color,transform] duration-200 hover:-translate-y-0.5 hover:border-white/30 hover:bg-white/[0.07] hover:text-slate-50"
                     >
                       {Icon ? (
                         <Icon className="size-[1.05rem]" />
@@ -115,14 +94,11 @@ export function SiteFooter() {
           </div>
 
           <nav aria-label="Solutions">
-            <h2 className="t-label">Solutions</h2>
+            <h2 className={cn(T_LABEL, "text-slate-300")}>Solutions</h2>
             <ul className="mt-2 flex flex-col">
               {products.map((product) => (
                 <li key={product.id}>
-                  <Link
-                    href="/#solutions"
-                    className="footer-link flex min-h-11 items-center text-[0.9375rem] text-on-dark-soft"
-                  >
+                  <Link href="/#solutions" className={LINK}>
                     {product.name}
                   </Link>
                 </li>
@@ -131,24 +107,27 @@ export function SiteFooter() {
           </nav>
 
           <nav aria-label="Industries">
-            <h2 className="t-label">Industries</h2>
+            <h2 className={cn(T_LABEL, "text-slate-300")}>Industries</h2>
             <ul className="mt-2 flex flex-col">
-              {categories.map((category) => (
-                <li key={category.id}>
-                  <Link
-                    href="/#solutions"
-                    className="footer-link flex min-h-11 items-center text-[0.9375rem] text-on-dark-soft"
-                  >
-                    {category.label}
-                  </Link>
-                </li>
-              ))}
+              {categories
+                .filter(
+                  (category) =>
+                    category.id !== "manufacturing" &&
+                    category.id !== "real-estate",
+                )
+                .map((category) => (
+                  <li key={category.id}>
+                    <Link href="/#solutions" className={LINK}>
+                      {category.label}
+                    </Link>
+                  </li>
+                ))}
             </ul>
           </nav>
 
-          <nav aria-label="Company">
-            <h2 className="t-label">Company</h2>
-            <ul className="mt-2 flex flex-col">
+          <nav aria-label="Company" className="col-span-2 sm:col-span-1">
+            <h2 className={cn(T_LABEL, "text-slate-300")}>Company</h2>
+            <ul className="mt-2 grid grid-cols-2 sm:flex sm:flex-col">
               {COMPANY_LINKS.map((item) => (
                 <li key={item.label}>
                   {item.external ? (
@@ -156,7 +135,7 @@ export function SiteFooter() {
                       href={item.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="footer-link flex min-h-11 items-center gap-1.5 text-[0.9375rem] text-on-dark-soft"
+                      className={cn(LINK, "gap-1.5")}
                     >
                       {item.label}
                       <ArrowUpRight
@@ -165,10 +144,7 @@ export function SiteFooter() {
                       />
                     </a>
                   ) : (
-                    <Link
-                      href={item.href}
-                      className="footer-link flex min-h-11 items-center text-[0.9375rem] text-on-dark-soft"
-                    >
+                    <Link href={item.href} className={LINK}>
                       {item.label}
                     </Link>
                   )}
@@ -177,8 +153,8 @@ export function SiteFooter() {
             </ul>
           </nav>
 
-          <div>
-            <h2 className="t-label">Get in touch</h2>
+          <div className="col-span-2 sm:col-span-1 lg:col-span-1">
+            <h2 className={cn(T_LABEL, "text-slate-300")}>Get in touch</h2>
             <ul className="mt-2 flex flex-col">
               {/* Five lines, one link: "+91-7240560001/2/3/4/5" dials the
                   first. Splitting them into five 44px rows made the column
@@ -188,7 +164,7 @@ export function SiteFooter() {
                   href={contact.phoneHref}
                   /* read as five lines, printed as one */
                   aria-label={`Call us on ${contact.phones[0]}, lines one to five`}
-                  className="footer-link flex min-h-11 items-center gap-2.5 whitespace-nowrap text-[0.9375rem] tabular-nums text-on-dark-soft"
+                  className={cn(LINK, "gap-2.5 whitespace-nowrap tabular-nums")}
                 >
                   <Phone className="size-4 shrink-0" aria-hidden="true" />
                   {contact.phoneLine}
@@ -197,10 +173,7 @@ export function SiteFooter() {
 
               {[contact.emails.sales, contact.emails.general].map((email) => (
                 <li key={email}>
-                  <a
-                    href={`mailto:${email}`}
-                    className="footer-link flex min-h-11 items-center gap-2.5 text-[0.9375rem] text-on-dark-soft"
-                  >
+                  <a href={`mailto:${email}`} className={cn(LINK, "gap-2.5")}>
                     <Mail className="size-4 shrink-0" aria-hidden="true" />
                     {email}
                   </a>
@@ -212,13 +185,16 @@ export function SiteFooter() {
                   href={contact.whatsapp}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="footer-link flex min-h-11 items-center gap-2.5 text-[0.9375rem] font-medium text-accent-bright"
+                  className={cn(
+                    LINK,
+                    "gap-2.5 font-medium text-green-400 hover:text-green-300",
+                  )}
                 >
-                  <MessageCircle className="size-4 shrink-0" aria-hidden="true" />
+                  <WhatsAppIcon className="size-4 shrink-0" />
                   WhatsApp us
                 </a>
               </li>
-              <li className="flex min-h-11 items-center gap-2.5 text-[0.9375rem] text-on-dark-soft">
+              <li className="flex min-h-11 items-center gap-2.5 text-[0.9375rem] text-slate-300">
                 <MapPin className="size-4 shrink-0" aria-hidden="true" />
                 {contact.locality}
               </li>
@@ -228,9 +204,14 @@ export function SiteFooter() {
       </div>
 
       {/* ---- legal bar ---- */}
-      <div className="border-t border-glass-border">
-        <div className="shell flex flex-col gap-2 py-5 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-[0.875rem] text-on-dark-faint">
+      <div className="border-t border-white/15">
+        <div
+          className={cn(
+            SHELL,
+            "flex flex-col gap-2 py-5 sm:flex-row sm:items-center sm:justify-between",
+          )}
+        >
+          <p className="text-[0.875rem] text-slate-400">
             © {new Date().getFullYear()} {site.legalName}. All rights reserved.
           </p>
           <div className="flex flex-wrap items-center gap-6">
@@ -240,7 +221,7 @@ export function SiteFooter() {
               href="https://kriscent.in/terms-conditions"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-h-11 items-center text-[0.875rem] text-on-dark-faint transition-colors hover:text-on-dark-soft"
+              className="inline-flex min-h-11 items-center text-[0.875rem] text-slate-400 transition-colors hover:text-slate-300"
             >
               Terms &amp; conditions
             </a>
@@ -248,7 +229,7 @@ export function SiteFooter() {
               href="https://kriscent.in"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-h-11 items-center gap-1.5 text-[0.875rem] text-on-dark-faint transition-colors hover:text-on-dark-soft"
+              className="inline-flex min-h-11 items-center gap-1.5 text-[0.875rem] text-slate-400 transition-colors hover:text-slate-300"
             >
               kriscent.in
               <ArrowUpRight className="size-3.5" aria-hidden="true" />

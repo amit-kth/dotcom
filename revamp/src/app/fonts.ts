@@ -1,7 +1,7 @@
 import localFont from "next/font/local";
 
 /* ============================================================================
-   fonts.ts  —  the one place the typeface is declared
+   fonts.ts ,  the one place the typeface is declared
    ----------------------------------------------------------------------------
    Poppins, self-hosted. Four static weights (400 / 500 / 600 / 700) are
    committed in src/fonts, so the static export makes no external font request

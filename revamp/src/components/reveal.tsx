@@ -1,10 +1,12 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { useReducedMotion } from "@/lib/use-reduced-motion";
+
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 /* ============================================================================
-   Reveal  —  the one entrance on the page
+   Reveal ,  the one entrance on the page
    ----------------------------------------------------------------------------
    20px up and a fade, once, when the block is a fifth of the way into the
    viewport. Nothing else moves, nothing loops, and `prefers-reduced-motion`

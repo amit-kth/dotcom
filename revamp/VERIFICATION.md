@@ -194,3 +194,11 @@ Chromium checks at 320×568 and 1366×768 passed for demo and temporary-null
 Contact variants: correct copy, names, square layout, CTA within the card,
 solid backgrounds, no strip underline and working strip dismissal. Demo was
 restored and rebuilt after tests. Build, types, nine tests and export audits pass.
+
+## Offer content spacing refinement
+
+Kept the approved square artwork and solid colors. Increased offer heading and
+discount sizes, expanded the product panel and CTA to fill the available width,
+and reduced excess body padding. Contact popup styling is unchanged. Rendered
+checks at 320×568, 390×844 and 1366×768 confirm square bounds with no content
+overlap or overflow. Build, nine tests and export audits pass; demo stays active.

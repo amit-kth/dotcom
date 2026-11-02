@@ -144,3 +144,19 @@ Ten more images generated individually using distinct, purpose-led full-frame sc
 All ten delivered as 1280 × 800 WebP, below 130 KB each. Existing artwork is unchanged.
 
 Current progress: **33 of 35 general-product images complete; two remaining: K-Realestate and K-Cinema.** This supersedes earlier batch counts.
+
+## Completion and requested recreations
+
+Finished the final two general images, and replaced three earlier device-led images with more relevant action scenes:
+
+| Product | Current scene direction |
+| --- | --- |
+| K-Realestate | Architectural apartment model on floor plans, unit-status markers and an agent identifying an available property. |
+| K-Cinema | Cinema entrance with ticket scanning, theater seats, popcorn and booking context. |
+| Kart-Grocery (recreated) | Overhead grocery fulfillment: hands pack fresh produce into a reusable bag beside an order checklist and delivery crate. |
+| K-Foodies (recreated) | Chef hands a packed takeaway order to a courier at a restaurant pickup hatch; food and delivery action are the subjects. |
+| K-Job (recreated) | Candidate and recruiter connect at a career event, with a role board and a secondary candidate-roster tablet. |
+
+All five use full-frame 16:10 composition with no reserved text zone and are delivered as 1280 × 800 WebP below 130 KB each. The recreations replace their existing filenames, so no duplicate catalogue entries are introduced. Premium banners are unchanged.
+
+**Current status: all 35 general catalogue products have images.** This supersedes previous progress counts and the initial trial descriptions for the three recreated images.

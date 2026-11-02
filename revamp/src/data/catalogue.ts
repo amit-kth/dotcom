@@ -332,6 +332,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "k-realestate",
+    image: "/banners/general/k-realestate.webp",
     keywords: ["property", "real estate", "housing", "property management"],
     name: "K-Realestate",
     line: "Real estate management system",
@@ -340,6 +341,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "k-cinema",
+    image: "/banners/general/k-cinema.webp",
     keywords: ["cinema", "movies", "ticket booking"],
     name: "K-Cinema",
     line: "Cinema ticket booking portal",

@@ -55,6 +55,11 @@ unconfigured-error state passed. Normal-motion and JavaScript-disabled checks
 also passed for the headline, centered desktop navigation, static Solutions
 content and refreshed K-Exam rendering. No browser runtime errors were found.
 
+Concurrent remote product updates were merged without overwriting them. Search
+tests now cover AI Employees, its calling-agents alias and the Sales Automation
+CRM ID. The rebuilt merged content passed six more mobile/laptop route checks
+and the functional menu/search/form checks.
+
 Browser tooling, screenshots and deployment archives are local artifacts, not
 runtime dependencies or committed source. External CDN images, country flags,
 analytics requests and external product pages cannot be verified from this

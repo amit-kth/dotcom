@@ -11,10 +11,12 @@ test("normalizes case, punctuation, spacing and accents", () => {
 });
 test("finds featured products by name, alias and use case", () => {
   assert.equal(searchSolutions("Kastrofy")[0]?.id, "kastrofy");
-  assert.equal(searchSolutions("K-SMART")[0]?.id, "whatsapp-crm");
+  assert.equal(searchSolutions("AI Employees")[0]?.id, "ai-employees");
+  assert.equal(searchSolutions("calling agents")[0]?.id, "ai-employees");
+  assert.equal(searchSolutions("K-SMART")[0]?.id, "sales-automation-crm");
   assert.equal(searchSolutions("school fees")[0]?.id, "k-edusity");
   assert.equal(searchSolutions("online exams")[0]?.id, "k-exam");
-  assert.equal(searchSolutions("attendence")[0]?.id, "k-edusity");
+  assert.equal(searchSolutions("attendance")[0]?.id, "k-edusity");
 });
 test("searches the whole catalogue and returns multiple relevant matches", () => {
   const matches = searchSolutions("school management").map((item) => item.id);

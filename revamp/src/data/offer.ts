@@ -77,9 +77,9 @@ export function getOfferProductNames(current: Offer | null) {
 
 export const offerProductNames = getOfferProductNames(offer);
 
-// Shared solid campaign palette, expressed as Tailwind utilities.
+// Shared Tailwind utilities; palette values live in globals.css :root tokens.
 export const offerColors = {
-  new: "bg-[#1d4ed8] text-white",
-  hot: "bg-[#b91c1c] text-white",
-  festive: "bg-[#9f1239] text-white",
+  new: "bg-offer-new text-offer-foreground",
+  hot: "bg-offer-hot text-offer-foreground",
+  festive: "bg-offer-festive text-offer-foreground",
 } as const;

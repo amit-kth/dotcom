@@ -151,6 +151,7 @@ after uploading, then update those four URLs in the same file. The original
 product-banner prompt has not been changed. Mobile square cards remain compact
 (at most half the viewport height); desktop cards are centered. The offer
 palette uses solid blue, red and crimson with white text, defined once in the
+`:root` offer tokens in `src/app/globals.css`, consumed through the
 `offerColors` Tailwind class map in `src/data/offer.ts`. Strip CTAs are not underlined.
 
 After editing, build, test on staging, then zip `out/` contents and send to Kapil
@@ -209,11 +210,18 @@ Run `npm run check`, inspect phone/tablet/laptop/large-monitor layouts and verif
 ### Styling rule
 
 Use Tailwind utility classes in components, including responsive, container,
-focus and reduced-motion variants. `src/app/globals.css` contains only Tailwind
-and phone-input stylesheet imports plus the Tailwind font mapping. Do not add
-component selectors, base-rule blocks, custom keyframes or `@apply` there.
-Site-wide defaults are low-specificity Tailwind variants on the root layout,
-so explicit component utilities still win. Campaign colors share one Tailwind
-class map in `src/data/offer.ts`. Existing Framer Motion handles decorative
-motion; `useMarquee` handles the two continuous loops with native animation,
-hover/focus pause, hidden-tab pause and reduced-motion cancellation.
+focus and reduced-motion variants. `src/app/globals.css` owns global theme
+configuration: stylesheet imports, `:root` design tokens, `.dark` token
+values, the dark variant and `@theme inline` mappings for shadcn-compatible
+colors, radius and fonts. These tokens belong here and must not be removed
+when cleaning component CSS. Use semantic utilities such as `bg-background`,
+`text-foreground`, `bg-primary`, `border-border` and `ring-ring` to consume them.
+Existing fixed-palette utilities remain supported; token definitions do not
+add a site-wide dark-mode toggle or automatically recolor every component.
+
+Do not add component selectors, handwritten layout rules, custom keyframes or
+`@apply` in globals.css. Site-wide style defaults use low-specificity Tailwind
+variants on the root layout so component utilities still win. Campaign values
+live in the root offer tokens; the shared class map is in `src/data/offer.ts`.
+Existing Framer Motion handles decorative motion; `useMarquee` handles the
+continuous loops with hover/focus pause and reduced-motion cancellation.

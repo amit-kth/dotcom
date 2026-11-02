@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { mock, test } from "node:test";
 import { getOfferProductNames, offerColors, type Offer } from "../src/data/offer";
 
@@ -31,9 +32,12 @@ test("wrong product IDs warn in development and do not become customer-facing te
 test("offer text exceeds 4.5:1 against each solid campaign color", () => {
   const color = (hex: string) => [1, 3, 5].map((start) => parseInt(hex.slice(start, start + 2), 16) / 255);
   const luminance = (rgb: number[]) => rgb.map((c) => c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4).reduce((sum, c, i) => sum + c * [0.2126, 0.7152, 0.0722][i], 0);
-  const ink = luminance(color("#ffffff"));
+  const css = readFileSync("src/app/globals.css", "utf8");
+  const token = (name: string) => css.match(new RegExp(`--offer-${name}:\\s*(#\\w{6})`))![1];
+  const ink = luminance(color(token("foreground")));
   for (const tone of ["new", "hot", "festive"] as const) {
-    const background = luminance(color(offerColors[tone].match(/bg-\[(#\w{6})\]/)![1]));
+    assert.ok(offerColors[tone].includes(`bg-offer-${tone}`));
+    const background = luminance(color(token(tone)));
     assert.ok((Math.max(background, ink) + 0.05) / (Math.min(background, ink) + 0.05) >= 4.5, tone);
   }
 });

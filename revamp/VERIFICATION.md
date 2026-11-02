@@ -338,3 +338,21 @@ reduced-motion duplicate hiding, video modal cleanup and no page overflow or
 runtime errors. Separate normal-motion checks verified running marquees,
 actual hover pause/resume and reduced-motion cancellation. Browser third-party
 requests were blocked; external media availability/playback was not tested.
+
+## Correction: preserve global shadcn/Tailwind theme tokens
+
+Supersedes the earlier six-line-only stylesheet restriction. Globals.css now
+contains root design tokens, dark token overrides and Tailwind semantic color/
+radius mappings alongside imports and font configuration. Global tokens are
+configuration, not component CSS, and must remain centralized here. Shared
+background/foreground/border/focus defaults consume semantic utilities. Header
+height is again a root variable. Offer values are root tokens consumed through
+named Tailwind utilities; the existing contrast test validates these values.
+No component selectors, layout rules, keyframes or @apply were reintroduced.
+No automatic dark theme or broad component redesign was added.
+
+After this correction, full build, types, four tests and export audits passed.
+Four-viewport popup/layout browser checks passed again. Browser probes verified
+all semantic light/dark tokens resolve, body utilities consume the current
+background token and existing rounded-xl corners remain 12px. The dark class
+was applied only in the browser test, not enabled in the application.

@@ -44,7 +44,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className="[--header-h:3.25rem] scroll-smooth motion-reduce:scroll-auto [scrollbar-width:thin] [scrollbar-color:var(--color-slate-400)_var(--color-slate-100)] forced-colors:[scrollbar-color:auto] forced-colors:[scrollbar-width:auto]">
+    <html lang="en" className="scroll-smooth motion-reduce:scroll-auto [scrollbar-width:thin] [scrollbar-color:var(--color-slate-400)_var(--color-slate-100)] forced-colors:[scrollbar-color:auto] forced-colors:[scrollbar-width:auto]">
       <head>
         <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png" />
@@ -69,10 +69,10 @@ export default function RootLayout({
         </noscript>
       </head>
       <body
-        className={`${display.variable} min-h-screen bg-white font-sans text-[1.0625rem] leading-[1.6] text-slate-950 antialiased [text-rendering:optimizeLegibility]
+        className={`${display.variable} min-h-screen bg-background font-sans text-[1.0625rem] leading-[1.6] text-foreground antialiased [text-rendering:optimizeLegibility]
           selection:bg-blue-100 selection:text-[oklch(16%_0.05_277.93)]
-          [:where(&_*)]:border-slate-200 [:where(&_[id])]:scroll-mt-[calc(var(--header-h)+1rem)]
-          [:where(&_*:focus-visible)]:outline-2 [:where(&_*:focus-visible)]:outline-blue-600 [:where(&_*:focus-visible)]:outline-offset-3 [:where(&_*:focus-visible)]:rounded-xl
+          [:where(&_*)]:border-border [:where(&_[id])]:scroll-mt-[calc(var(--header-h)+1rem)]
+          [:where(&_*:focus-visible)]:outline-2 [:where(&_*:focus-visible)]:outline-ring [:where(&_*:focus-visible)]:outline-offset-3 [:where(&_*:focus-visible)]:rounded-xl
           [:where(&_:is(h1,h2,h3,h4))]:font-bold [:where(&_:is(h1,h2,h3,h4))]:tracking-[-0.03em] [:where(&_:is(h1,h2,h3,h4))]:leading-[1.05] [:where(&_:is(h1,h2,h3,h4))]:text-balance [:where(&_p)]:text-pretty
           [&_*]:[scrollbar-width:thin] [&_*]:[scrollbar-color:var(--color-slate-400)_var(--color-slate-100)] forced-colors:[&_*]:[scrollbar-color:auto] forced-colors:[&_*]:[scrollbar-width:auto]
           motion-reduce:[&_*]:animate-none motion-reduce:[&_*]:duration-0 motion-reduce:[&_*::before]:animate-none motion-reduce:[&_*::after]:animate-none`}

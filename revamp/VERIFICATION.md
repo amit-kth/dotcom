@@ -298,3 +298,14 @@ iframe cleanup, focus return and modal stacking prevention. A separate normal-
 motion real-time browser check passed automatic advance, explicit pause/resume,
 hover pause and reduced-motion suppression. External-media availability and
 actual YouTube playback remain subject to the network limitation noted above.
+
+### Remove content-locking testimonial tests
+
+Removed `scripts/testimonials.test.ts`: it asserted exact reviewer names,
+wording, review counts, platform scores, source/video URLs and the experience
+suffix. Those are editable content, not functional invariants. Developers
+can now edit `src/data/site-content.ts` without updating a second copy of the
+content in tests. Historical 12-test results above describe earlier runs; the
+current suite has 9 tests. Functional contact, offer and search tests and
+static export audits remain. Testimonial layout, link destinations and video
+playback still need browser review when changing content.

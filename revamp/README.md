@@ -190,6 +190,11 @@ click and removed on close; focus returns to the clicked thumbnail. Thumbnails
 and supplied platform/reviewer logos use the shared ImageKit base.
 
 Edit `platformRatings`, `testimonials` and `videoTestimonials` in `site-content.ts`.
+Testimonial content is editable data, not a test fixture. Update it here only;
+there are no tests locking reviewer names, wording, review counts, scores or
+video URLs to their current values. Preview changes to verify layout, links
+and actual playback.
+
 Scores are manually supplied, not fetched live. Keep exact review/source URLs,
 use excerpts for compact cards and do not invent individual star ratings,
 review counts or aggregate-rating schema. Test actual external images and video

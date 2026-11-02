@@ -219,9 +219,14 @@ when cleaning component CSS. Use semantic utilities such as `bg-background`,
 Existing fixed-palette utilities remain supported; token definitions do not
 add a site-wide dark-mode toggle or automatically recolor every component.
 
-Do not add component selectors, handwritten layout rules, custom keyframes or
+Animation tokens and their shared keyframes also belong in the global Tailwind
+theme. Components consume them with `animate-*` utilities and reduced-motion
+variants. Keep these definitions when cleaning up component CSS.
+
+Do not add component selectors, handwritten layout rules or
 `@apply` in globals.css. Site-wide style defaults use low-specificity Tailwind
 variants on the root layout so component utilities still win. Campaign values
 live in the root offer tokens; the shared class map is in `src/data/offer.ts`.
-Existing Framer Motion handles decorative motion; `useMarquee` handles the
-continuous loops with hover/focus pause and reduced-motion cancellation.
+Shared keyframes handle the hero/gold drift, menu/popup entry and continuous
+marquees. Hover/focus pause and reduced motion use Tailwind variants. Existing
+Framer Motion remains responsible for interactive reveals and scroll effects.

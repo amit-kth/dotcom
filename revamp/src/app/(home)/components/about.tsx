@@ -21,6 +21,7 @@ const RED = [
 const GOLD = [
   "border-[rgb(255_214_122/0.45)]",
   "bg-[linear-gradient(118deg,var(--color-amber-50)_0%,var(--color-amber-200)_26%,var(--color-amber-300)_48%,var(--color-amber-100)_68%,var(--color-amber-400)_100%)] bg-[length:220%_220%]",
+  "animate-gold-drift motion-reduce:animate-none",
   "shadow-[inset_0_1px_0_rgb(255_255_255/0.9),0_30px_80px_-34px_rgb(247_207_116/0.85)]",
   /* the bloom + grain: a soft highlight over a faint diagonal tooth */
   "after:pointer-events-none after:absolute after:inset-0 after:mix-blend-soft-light after:content-['']",
@@ -190,9 +191,8 @@ function Cell({
           },
         },
       }}
-      animate={surface === GOLD && !reduceMotion ? { backgroundPosition: ["0% 50%", "100% 50%"] } : undefined}
       whileHover={reduceMotion ? undefined : { y: -4 }}
-      transition={{ type: "spring", stiffness: 260, damping: 26, backgroundPosition: { duration: 14, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" } }}
+      transition={{ type: "spring", stiffness: 260, damping: 26 }}
       className={cn(
         "relative flex flex-col justify-center overflow-hidden rounded-[2rem] border p-6 sm:p-8",
         surface ?? "border-white/15 bg-white/5",

@@ -1,25 +1,21 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { X } from "lucide-react";
 import { contact } from "@/config/variables";
 import { offer, offerProductNames, offerColors } from "@/data/offer";
 
-import { useMarquee } from "@/lib/use-marquee";
-
 export function OfferStrip() {
   const [dismissed, setDismissed] = useState(false);
-  const root = useRef<HTMLElement>(null);
-  useMarquee(root, 28000);
   if (!offer || dismissed) return null;
   const { cta } = offer;
   const text = `${offer.heading}: ${offer.discount} on ${offerProductNames}`;
   return (
-    <aside aria-label="Current offer" ref={root} className={`relative h-8 overflow-hidden pr-8 text-[0.8125rem] ${offerColors[offer.tone]}`} data-tone={offer.tone}>
+    <aside aria-label="Current offer" className={`group/offer-strip relative h-8 overflow-hidden pr-8 text-[0.8125rem] ${offerColors[offer.tone]}`} data-tone={offer.tone}>
       <div className="flex w-max min-w-full motion-reduce:w-full">
         {[0, 1].map((group) => (
-          <div key={group} data-marquee-copy className="flex h-8 min-w-max shrink-0 items-center justify-center gap-10 px-6 whitespace-nowrap motion-reduce:w-full motion-reduce:min-w-full motion-reduce:px-3 motion-reduce:aria-hidden:hidden" aria-hidden={group === 1 || undefined}>
+          <div key={group} data-marquee-copy className="animate-offer-marquee motion-reduce:animate-none group-hover/offer-strip:[animation-play-state:paused] group-focus-within/offer-strip:[animation-play-state:paused] flex h-8 min-w-max shrink-0 items-center justify-center gap-10 px-6 whitespace-nowrap motion-reduce:w-full motion-reduce:min-w-full motion-reduce:px-3 motion-reduce:aria-hidden:hidden" aria-hidden={group === 1 || undefined}>
             {[0, 1, 2].map((repeat) => (
               <span key={repeat} className="inline-flex items-center gap-3 motion-reduce:w-full motion-reduce:min-w-0 motion-reduce:aria-hidden:hidden" aria-hidden={repeat > 0 || undefined}>
                 <span title={text} className="motion-reduce:truncate">{text}</span>

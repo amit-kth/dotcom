@@ -134,3 +134,44 @@
   --radius-3xl: calc(var(--radius) + 16px);
   --radius-4xl: calc(var(--radius) + 24px);
 }
+
+/* Shared animation definitions; components opt in with Tailwind utilities. */
+@theme {
+  --animate-aurora-drift: aurora-drift 26s ease-in-out infinite alternate;
+  --animate-nav-panel-in: nav-panel-in 170ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  --animate-gold-drift: gold-drift 14s ease-in-out infinite alternate;
+  --animate-client-marquee: marquee-forward 100s linear infinite;
+  --animate-offer-marquee: marquee-forward 28s linear infinite;
+  --animate-marquee-reverse: marquee-reverse 54s linear infinite;
+  --animate-offer-popup-in: offer-popup-in 240ms ease-out;
+  --animate-offer-fade-in: offer-fade-in 240ms ease-out;
+
+  @keyframes aurora-drift {
+    from { transform: translate3d(-1.5%, -1%, 0) scale(1); }
+    to { transform: translate3d(2%, 1.5%, 0) scale(1.05); }
+  }
+  @keyframes nav-panel-in {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes gold-drift {
+    from { background-position: 0% 50%; }
+    to { background-position: 100% 50%; }
+  }
+  @keyframes marquee-forward {
+    from { transform: translate3d(0, 0, 0); }
+    to { transform: translate3d(-100%, 0, 0); }
+  }
+  @keyframes marquee-reverse {
+    from { transform: translate3d(-100%, 0, 0); }
+    to { transform: translate3d(0, 0, 0); }
+  }
+  @keyframes offer-popup-in {
+    from { opacity: 0; scale: 0.97; }
+    to { opacity: 1; scale: 1; }
+  }
+  @keyframes offer-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+}

@@ -214,7 +214,7 @@ export function SiteHeader() {
               id="solutions-panel"
               hidden={!panel}
               className={cn(
-                "absolute top-[calc(100%+0.75rem)] left-1/2 -translate-x-1/2 z-60 w-[min(40rem,calc(100vw-3rem))] p-5 rounded-[1.25rem] border border-slate-200 bg-white text-slate-950 shadow-xl transition-[opacity,translate] duration-170 ease-[cubic-bezier(0.22,0.61,0.36,1)] starting:opacity-0 starting:-translate-y-1.5 motion-reduce:transition-none",
+                "absolute top-[calc(100%+0.75rem)] left-1/2 -translate-x-1/2 z-60 w-[min(40rem,calc(100vw-3rem))] p-5 rounded-[1.25rem] border border-slate-200 bg-white text-slate-950 shadow-xl animate-nav-panel-in motion-reduce:animate-none",
               )}
             >
               <div className="grid gap-6 lg:grid-cols-[1.25fr_1fr]">

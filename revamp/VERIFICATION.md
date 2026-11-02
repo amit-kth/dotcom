@@ -356,3 +356,13 @@ Four-viewport popup/layout browser checks passed again. Browser probes verified
 all semantic light/dark tokens resolve, body utilities consume the current
 background token and existing rounded-xl corners remain 12px. The dark class
 was applied only in the browser test, not enabled in the application.
+
+## Correction: preserve global animation theme definitions
+
+Restored shared aurora, gold, nav entry, marquee forward/reverse, popup entry
+and fade keyframes in Tailwind's global @theme block, with named --animate-*
+tokens. Components consume animate-* utilities; marquee hover/focus pause and
+reduced-motion suppression remain Tailwind variants. Removed the temporary
+native-animation hook and duplicate Framer drift implementation. Global theme
+tokens and animation definitions are legitimate configuration; only component
+layout/style selectors were intended to be removed.

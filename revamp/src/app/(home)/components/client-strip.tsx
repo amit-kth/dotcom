@@ -1,15 +1,9 @@
-"use client";
-
-import { useRef } from "react";
-import { useMarquee } from "@/lib/use-marquee";
 import { clientLogos } from "@/data/site-content";
 import { cn } from "@/lib/utils";
 
 export function ClientStrip() {
-  const root = useRef<HTMLElement>(null);
-  useMarquee(root, 100000);
   return (
-    <section ref={root} aria-label="Our clients" data-client-strip className="group/marquee overflow-hidden border-b border-slate-200 bg-white py-6 sm:py-8">
+    <section aria-label="Our clients" data-client-strip className="group/marquee overflow-hidden border-b border-slate-200 bg-white py-6 sm:py-8">
       <MarqueeRow logos={clientLogos} />
     </section>
   );
@@ -24,9 +18,11 @@ function MarqueeRow({
      exactly one copy, so the loop has no visible seam. The duplicate is
      aria-hidden so a screen reader hears each client once. */
   const content = (
-    <div data-marquee-copy
+    <div
       className={cn(
         "flex min-w-full shrink-0 items-center gap-12 pr-12",
+        "animate-client-marquee motion-reduce:animate-none",
+        "group-hover/marquee:[animation-play-state:paused] group-focus-within/marquee:[animation-play-state:paused]",
       )}
     >
       {logos.map((logo) => (

@@ -98,12 +98,9 @@ export function Hero() {
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 z-0 bg-[url(/hero-software-bg.webp)] bg-cover bg-center bg-no-repeat opacity-90 lg:bg-[position:center_calc(50%_-_3rem)] max-lg:opacity-50 max-sm:bg-[position:65%_top] max-sm:opacity-30"
       />
-      <motion.div
+      <div
         aria-hidden="true"
-        initial={false}
-        animate={reduceMotion ? {} : { x: ["-1.5%", "2%"], y: ["-1%", "1.5%"], scale: [1, 1.05] }}
-        transition={{ duration: 26, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
-        className="pointer-events-none absolute -inset-[20%] z-0 bg-[radial-gradient(42%_52%_at_14%_30%,rgb(30_79_216/0.18)_0%,transparent_68%)] blur-[18px]"
+        className="pointer-events-none absolute -inset-[20%] z-0 animate-aurora-drift motion-reduce:animate-none bg-[radial-gradient(42%_52%_at_14%_30%,rgb(30_79_216/0.18)_0%,transparent_68%)] blur-[18px]"
       />
 
       <div

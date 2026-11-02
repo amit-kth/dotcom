@@ -242,6 +242,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "k-saksham",
+    image: "/banners/general/k-saksham.webp",
     keywords: ["accounting", "billing", "accounts", "invoices"],
     name: "K-Saksham",
     line: "Accounting and billing",
@@ -250,6 +251,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "k-franchisee",
+    image: "/banners/general/k-franchisee.webp",
     keywords: ["franchise", "franchise management", "branches"],
     name: "K-Franchisee",
     line: "Franchisee management system",
@@ -259,6 +261,7 @@ export const catalogue: CatalogueItem[] = [
 
   {
     id: "k-matrimonial",
+    image: "/banners/general/k-matrimonial.webp",
     keywords: ["matrimony", "marriage", "wedding", "matchmaking"],
     name: "K-Matrimonial",
     line: "Matrimonial portal",
@@ -267,6 +270,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "k-matchmaker",
+    image: "/banners/general/k-matchmaker.webp",
     keywords: ["dating", "matchmaking", "relationships"],
     name: "K-Matchmaker",
     line: "Dating portal",
@@ -275,6 +279,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "k-loan",
+    image: "/banners/general/k-loan.webp",
     keywords: ["loans", "lending", "finance", "fintech"],
     name: "K-Loan",
     line: "Loan management system",
@@ -283,6 +288,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "k-laundry",
+    image: "/banners/general/k-laundry.webp",
     keywords: ["laundry", "dry cleaning", "washing"],
     name: "K-Laundry",
     line: "Multi-store laundry portal",
@@ -291,6 +297,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "k-cab",
+    image: "/banners/general/k-cab.webp",
     keywords: ["cab", "taxi", "ride booking", "transport", "logistics"],
     name: "K-Cab",
     line: "Cab booking portal",
@@ -298,6 +305,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "car-wash",
+    image: "/banners/general/car-wash.webp",
     keywords: ["car cleaning", "car wash", "vehicle booking"],
     name: "Car Wash",
     line: "Car wash booking system",
@@ -306,6 +314,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "car-wash-multivendor",
+    image: "/banners/general/car-wash-multivendor.webp",
     keywords: ["car wash", "multiple vendors", "car cleaning"],
     name: "Car Wash Multivendor",
     line: "Car wash multivendor software",
@@ -314,6 +323,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "k-parking",
+    image: "/banners/general/k-parking.webp",
     keywords: ["parking", "vehicles", "parking booking"],
     name: "K-Parking",
     line: "Vehicle parking portal",

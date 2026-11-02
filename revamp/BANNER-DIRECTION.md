@@ -123,3 +123,24 @@ User correction: imagery must be more creative and purpose-specific, not the sam
 All ten are 1280 × 800 WebP, individually optimized below 130 KB. Completed artwork from earlier batches and premium banners is unchanged.
 
 Current progress: **23 of 35 complete; 12 remaining.** Continue next with **K-Saksham** and subsequent catalogue entries without an image. Maintain varied, business-specific compositions.
+
+## General catalogue expansion: third batch
+
+Ten more images generated individually using distinct, purpose-led full-frame scenes:
+
+| Product | Saved scene direction |
+| --- | --- |
+| K-Saksham | Overhead ledger reconciliation with invoices, calculator and a secondary finance-summary phone. |
+| K-Franchisee | Tactile miniature storefronts placed on a city map to visualize coordinated branch expansion. |
+| K-Matrimonial | Respectful adult family introduction over tea in an Indian courtyard, with a subtle matching-profile phone. |
+| K-Matchmaker | Adult first-date conversation at an urban cafe, with a secondary profile-matching phone. |
+| K-Loan | Shop owner and finance officer review repayment planning together in a real business setting. |
+| K-Laundry | Freshly folded clothes packed for pickup, with service progress and scheduling on a customer's phone. |
+| K-Cab | Curbside car pickup with traveler, suitcase and a subtle booking-map phone. |
+| Car Wash | Active wash-bay scene with water, foam and a secondary booking-selection phone. |
+| Car Wash Multivendor | Car owner compares providers on a phone, with several distinct local car-care bays behind. |
+| K-Parking | Geometric parking entrance, available bays, barrier and a secondary space-confirmation phone. |
+
+All ten delivered as 1280 × 800 WebP, below 130 KB each. Existing artwork is unchanged.
+
+Current progress: **33 of 35 general-product images complete; two remaining: K-Realestate and K-Cinema.** This supersedes earlier batch counts.

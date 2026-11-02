@@ -41,14 +41,14 @@ These are creative/layout categories, not pricing claims or new website labels.
 - **Use the full image. Do not reserve an empty left third or any blank area for text.**
 - Compose a balanced scene across the left, centre and right. Natural breathing room is fine; deliberately empty text zones are not.
 - Product names and descriptions stay in HTML below the image, not inside the artwork.
-- Explain the business use with recognizable devices and real-world context. It must work at thumbnail size.
+- Explain the business purpose through varied real-world actions, people, places, tactile metaphors and relevant objects. A device is optional, not the default hero. Do not repeat laptop-on-desk compositions across a batch. Each image must work at thumbnail size.
 - Prefer clear, naturally lit scenes with a restrained two-to-four-colour palette. General does not mean lower visual quality.
 - No large marketing text, logos, watermarks, pricing or CTA graphics. Tiny interface microtype is acceptable.
 - Keep important subjects inside a safe crop. Do not stretch an image to change its aspect ratio.
 
 ### General prompt template
 
-> Create one standalone photorealistic catalogue image for [PRODUCT], which helps users [PURPOSE]. Landscape 16:10. This is a GENERAL product image: fill the whole frame with one balanced, purposeful scene across left, centre and right. Do not reserve an empty left third, dark text zone or typography area. Show [REAL-WORLD BUSINESS SETTING] with [MAIN DEVICE / ACTION] and [SUPPORTING CONTEXT]. Make the software's purpose instantly clear at small thumbnail size. Use believable interface structure, realistic device geometry, authentic materials, polished natural lighting and a cohesive [PALETTE] palette. No floating abstract panels, headlines, logos, watermarks, prices or CTA graphics. Only small unobtrusive interface microtype is allowed. Keep key subjects comfortably inside the 16:10 crop.
+> Create one standalone photorealistic catalogue image for [PRODUCT], which helps users [PURPOSE]. Landscape 16:10. This is a GENERAL product image: fill the whole frame with one balanced, purposeful scene across left, centre and right. Do not reserve an empty left third, dark text zone or typography area. Show [REAL-WORLD ACTION, PEOPLE OR TACTILE VISUAL METAPHOR] with [SUPPORTING CONTEXT]. Choose a distinct composition for this product rather than defaulting to a laptop on a desk. Include a screen only when it helps explain the purpose. Make the software's purpose instantly clear at small thumbnail size. Use believable interface structure, realistic device geometry, authentic materials, polished natural lighting and a cohesive [PALETTE] palette. No floating abstract panels, headlines, logos, watermarks, prices or CTA graphics. Only small unobtrusive interface microtype is allowed. Keep key subjects comfortably inside the 16:10 crop.
 
 ## First general-product trial prompts
 
@@ -100,4 +100,26 @@ Ten additional general-product images were generated individually and added to t
 
 Delivery: 1280 × 800 WebP, each below 130 KB. The original three general images and all premium banners remain unchanged.
 
-Progress: **13 of 35 general-product images complete; 22 remaining.** Image generation stopped at the tool's limit of ten successful images per turn. Resume with **K-Community**, followed by the remaining catalogue entries without an `image` field; do not regenerate completed entries.
+Batch-one milestone: 13 of 35 complete. The next batch below supersedes this count.
+
+
+## General catalogue expansion: second batch
+
+User correction: imagery must be more creative and purpose-specific, not the same laptop scene repeated. Generated the following ten individually with varied camera angles, actions and settings. All use the full-frame general template, realistic commercial photography and restrained palettes, with no reserved copy area.
+
+| Product | Saved scene direction |
+| --- | --- |
+| K-Community | Residents collaborate over a physical neighborhood map, local profile cards and business markers; a member-directory phone is secondary. |
+| K-Samachar | Field reporter with a plain microphone, news-article phone and street reporting context. |
+| Kupon | Shopper presents a coupon/QR phone to a scanner at checkout, with bags, fabric and tactile vouchers. |
+| K-Affiliation | Physical people-shaped tokens joined by golden threads, referral reward coin stacks and a hand adding a connection. No screen. |
+| K-Academics | Teacher checks tablet attendance in a busy school corridor, with registers and arriving students. |
+| K-Hostel | Hostel arrival through a room doorway, key handover, luggage and a subtle booking-confirmation phone. |
+| Doctor Plus | Doctor-discovery phone in a person's hand, with an actual welcoming clinic entrance behind. |
+| Prabal Hospital ERP | Nurse and administrator coordinate hospital operations beside a mobile touchscreen cart in a ward corridor. |
+| HRM | Employee taps an ID at the office entrance while coworkers arrive and an HR coordinator carries a roster tablet. |
+| K-Billing | Overhead tactile arrangement of invoices, organized paid documents and a handheld invoice-list phone. |
+
+All ten are 1280 × 800 WebP, individually optimized below 130 KB. Completed artwork from earlier batches and premium banners is unchanged.
+
+Current progress: **23 of 35 complete; 12 remaining.** Continue next with **K-Saksham** and subsequent catalogue entries without an image. Maintain varied, business-specific compositions.

@@ -136,6 +136,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "k-community",
+    image: "/banners/general/k-community.webp",
     keywords: ["community directory", "members", "business directory"],
     name: "K-Community",
     line: "Community directory portal",
@@ -144,6 +145,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "k-samachar",
+    image: "/banners/general/k-samachar.webp",
     keywords: ["news", "publishing", "articles"],
     name: "K-Samachar",
     line: "News portal",
@@ -152,6 +154,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "kupon",
+    image: "/banners/general/kupon.webp",
     keywords: ["coupons", "discounts", "offers", "deals"],
     name: "Kupon",
     line: "Coupon and deals management",
@@ -160,6 +163,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "k-affiliation",
+    image: "/banners/general/k-affiliation.webp",
     keywords: ["affiliate", "referrals", "commissions"],
     name: "K-Affiliation",
     line: "Affiliation and referrals",
@@ -169,6 +173,7 @@ export const catalogue: CatalogueItem[] = [
 
   {
     id: "k-academics",
+    image: "/banners/general/k-academics.webp",
     keywords: [
       "school management",
       "college management",
@@ -182,6 +187,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "k-hostel",
+    image: "/banners/general/k-hostel.webp",
     keywords: ["hostel", "accommodation", "room booking", "education"],
     name: "K-Hostel",
     line: "Hostel booking system",
@@ -200,6 +206,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "doctor-plus",
+    image: "/banners/general/doctor-plus.webp",
     keywords: ["doctor", "clinic", "healthcare", "medical directory"],
     name: "Doctor Plus",
     line: "Doctor and clinic listing portal",
@@ -208,6 +215,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "prabal",
+    image: "/banners/general/prabal.webp",
     keywords: ["hospital ERP", "hospital management", "healthcare", "patients"],
     name: "Prabal Hospital ERP",
     line: "Hospital management system",
@@ -216,6 +224,7 @@ export const catalogue: CatalogueItem[] = [
 
   {
     id: "hrm",
+    image: "/banners/general/hrm.webp",
     keywords: ["human resources", "employee management", "staff", "HR"],
     name: "HRM",
     line: "HR management software",
@@ -224,6 +233,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "k-billing",
+    image: "/banners/general/k-billing.webp",
     keywords: ["billing", "invoices", "payments"],
     name: "K-Billing",
     line: "Billing automation",

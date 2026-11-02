@@ -17,7 +17,7 @@ export default function SolutionsPage() {
       <Seo {...metadata.solutions} />
 
       <main className={LIGHT_BAND}>
-        <div className={cn(SHELL, "pt-[clamp(4rem,8vw,7rem)] pb-14")}>
+        <div className={cn(SHELL, "pt-6 pb-14 sm:pt-8")}>
           <Link
             href="/"
             className="inline-flex min-h-11 items-center gap-2 text-[0.9375rem] font-medium text-slate-600 transition-colors hover:text-slate-950"

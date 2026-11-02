@@ -1,5 +1,6 @@
 "use client";
 
+import { OfferTag } from "@/components/offers/offer-tag";
 import Link from "next/link";
 import { ArrowUpRight, Presentation } from "lucide-react";
 import { contact } from "@/config/variables";
@@ -60,6 +61,8 @@ export function SolutionBanner({
         className="absolute inset-0 z-1 hidden bg-[linear-gradient(to_right,oklch(11.5%_0.035_278/0.9)_0%,oklch(11.5%_0.035_278/0.82)_34%,oklch(11.5%_0.035_278/0.45)_54%,oklch(11.5%_0.035_278/0)_70%)] lg:block"
       />
 
+      <OfferTag productId={product.id} />
+
       {/* Compact branding stays in the card corner, separate from the copy. */}
       {product.logo && (
         <div className="pointer-events-none absolute top-6 left-6 z-2 h-7 w-28 sm:top-8 sm:left-8 sm:h-8 sm:w-32 lg:left-[clamp(1.5rem,4vw,6rem)]">
@@ -76,9 +79,9 @@ export function SolutionBanner({
       )}
 
       <div className="relative z-2 w-full bg-slate-950 p-6 sm:p-8 lg:bg-transparent lg:pt-24 lg:pb-12 lg:px-[clamp(1.5rem,4vw,6rem)] lg:w-[55%]">
-        {/* only the primary industry is shown; the rest are filter tags */}
+        {/* Show every category, in the same order used by the filters. */}
         <p className={cn(T_LABEL, "text-slate-300")}>
-          {categoryLabel(product.categories[0])}
+          {product.categories.map(categoryLabel).join(" / ")}
         </p>
 
         <h3 className="mt-3 text-[clamp(1.75rem,4.2vw,3.25rem)] font-bold leading-[1.02] tracking-[-0.035em] text-slate-50">

@@ -71,12 +71,15 @@ export function Hero() {
     }
   };
 
-  const line: Variants = reduceMotion
-    ? {}
-    : {
-        hidden: { opacity: 0, y: "0.35em" },
-        show: { opacity: 1, y: 0, transition: { duration: 0.38, ease: EASE } },
-      };
+  // Keep the visible target during hydration, including reduced-motion mode.
+  const line: Variants = {
+    hidden: { opacity: 0, y: "0.35em" },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: reduceMotion ? 0 : 0.38, ease: EASE },
+    },
+  };
 
   return (
     <section

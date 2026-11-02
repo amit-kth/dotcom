@@ -118,17 +118,6 @@
   }
 }
 
-@keyframes select-in {
-  from {
-    opacity: 0;
-    translate: 0 -4px;
-  }
-  to {
-    opacity: 1;
-    translate: 0 0;
-  }
-}
-
 /* Slim light scrollbars, with native accessibility in forced-colour mode. */
 @layer base {
   * {
@@ -161,5 +150,88 @@
       scrollbar-color: auto;
       scrollbar-width: auto;
     }
+  }
+}
+
+/* OFFER COLORS: the one intentional hard-coded palette exception.
+   Dark ink against every gradient endpoint exceeds WCAG AA 4.5:1. */
+:root {
+  --offer-ink: #071526;
+  --offer-new-start: #06b6d4;
+  --offer-new-end: #4ade80;
+  --offer-hot-start: #fb7185;
+  --offer-hot-end: #fb923c;
+  --offer-festive-start: #e879f9;
+  --offer-festive-end: #facc15;
+}
+[data-tone="new"] {
+  --offer-from: var(--offer-new-start);
+  --offer-to: var(--offer-new-end);
+}
+[data-tone="hot"] {
+  --offer-from: var(--offer-hot-start);
+  --offer-to: var(--offer-hot-end);
+}
+[data-tone="festive"] {
+  --offer-from: var(--offer-festive-start);
+  --offer-to: var(--offer-festive-end);
+}
+.offer-colors {
+  color: var(--offer-ink);
+  background: linear-gradient(110deg, var(--offer-from), var(--offer-to));
+}
+.offer-strip {
+  height: 40px;
+  overflow: hidden;
+  font-size: 0.8125rem;
+}
+.offer-strip-track {
+  display: flex;
+  width: max-content;
+  min-width: 100%;
+}
+.offer-strip-copy {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  min-width: 100vw;
+  height: 40px;
+  padding: 0 1.5rem;
+  white-space: nowrap;
+  animation: marquee-forward 28s linear infinite;
+}
+.offer-strip:hover .offer-strip-copy,
+.offer-strip:focus-within .offer-strip-copy {
+  animation-play-state: paused;
+}
+.offer-popup {
+  animation: offer-popup-in 240ms ease-out;
+}
+.offer-popup-overlay {
+  animation: offer-fade-in 240ms ease-out;
+}
+@keyframes offer-popup-in {
+  from { opacity: 0; scale: 0.97; }
+  to { opacity: 1; scale: 1; }
+}
+@keyframes offer-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .offer-strip-track { width: 100%; }
+  .offer-strip-copy {
+    animation: none !important;
+    width: 100%;
+    min-width: 100%;
+    padding: 0 0.75rem;
+  }
+  .offer-strip-copy > span { overflow: hidden; text-overflow: ellipsis; }
+  .offer-strip-copy[aria-hidden="true"] { display: none; }
+  .offer-popup, .offer-popup-overlay {
+    animation: offer-fade-in 240ms ease-out !important;
+    animation-duration: 240ms !important;
   }
 }

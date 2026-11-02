@@ -4,6 +4,7 @@ import { useReducedMotion } from "@/lib/use-reduced-motion";
 
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
+import { Assetsbaseurl } from "@/config/variables";
 import { counters } from "@/data/site-content";
 import { BAND, SHELL, T_HEADING, T_LABEL } from "@/lib/ui";
 import { cn } from "@/lib/utils";
@@ -77,7 +78,7 @@ export function About() {
             <div className="mt-5 flex items-center gap-5">
               <span className="relative flex size-[7.5rem] shrink-0 items-center justify-center rounded-2xl bg-white p-3 shadow-[0_0_0_1px_rgb(255_255_255/0.3),0_24px_60px_-28px_rgb(44_83_224/0.75),0_0_70px_-10px_rgb(44_83_224/0.55)]">
                 <img
-                  src="/icons/cmmi.webp"
+                  src={`${Assetsbaseurl}/tempAssets/cmmi.png?updatedAt=1724492726579`}
                   alt="CMMI Level 3"
                   width={200}
                   height={200}
@@ -97,11 +98,10 @@ export function About() {
             </div>
 
             <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3 border-t border-[rgb(120_86_0_/_0.28)] pt-5">
-              {/* Existing ISO artwork placeholders; replace when the real badges are supplied. */}
               <div className="flex items-center gap-2.5">
                 <span className="flex size-10 shrink-0 items-center justify-center rounded-[0.625rem] bg-slate-50 p-1.5">
                   <img
-                    src="/icons/cmmi.webp"
+                    src={`${Assetsbaseurl}/tempAssets/awards/2015.webp`}
                     alt="ISO 9001:2015"
                     width={200}
                     height={200}
@@ -117,7 +117,7 @@ export function About() {
               <div className="flex items-center gap-2.5">
                 <span className="flex size-10 shrink-0 items-center justify-center rounded-[0.625rem] bg-slate-50 p-1.5">
                   <img
-                    src="/icons/cmmi.webp"
+                    src={`${Assetsbaseurl}/tempAssets/awards/27001.webp`}
                     alt="ISO 27001"
                     width={200}
                     height={200}

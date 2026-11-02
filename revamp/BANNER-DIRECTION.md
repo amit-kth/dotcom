@@ -41,14 +41,14 @@ These are creative/layout categories, not pricing claims or new website labels.
 - **Use the full image. Do not reserve an empty left third or any blank area for text.**
 - Compose a balanced scene across the left, centre and right. Natural breathing room is fine; deliberately empty text zones are not.
 - Product names and descriptions stay in HTML below the image, not inside the artwork.
-- Explain the business use with recognizable devices and real-world context. It must work at thumbnail size.
+- Explain the business purpose through varied real-world actions, people, places, tactile metaphors and relevant objects. A device is optional, not the default hero. Do not repeat laptop-on-desk compositions across a batch. Each image must work at thumbnail size.
 - Prefer clear, naturally lit scenes with a restrained two-to-four-colour palette. General does not mean lower visual quality.
 - No large marketing text, logos, watermarks, pricing or CTA graphics. Tiny interface microtype is acceptable.
 - Keep important subjects inside a safe crop. Do not stretch an image to change its aspect ratio.
 
 ### General prompt template
 
-> Create one standalone photorealistic catalogue image for [PRODUCT], which helps users [PURPOSE]. Landscape 16:10. This is a GENERAL product image: fill the whole frame with one balanced, purposeful scene across left, centre and right. Do not reserve an empty left third, dark text zone or typography area. Show [REAL-WORLD BUSINESS SETTING] with [MAIN DEVICE / ACTION] and [SUPPORTING CONTEXT]. Make the software's purpose instantly clear at small thumbnail size. Use believable interface structure, realistic device geometry, authentic materials, polished natural lighting and a cohesive [PALETTE] palette. No floating abstract panels, headlines, logos, watermarks, prices or CTA graphics. Only small unobtrusive interface microtype is allowed. Keep key subjects comfortably inside the 16:10 crop.
+> Create one standalone photorealistic catalogue image for [PRODUCT], which helps users [PURPOSE]. Landscape 16:10. This is a GENERAL product image: fill the whole frame with one balanced, purposeful scene across left, centre and right. Do not reserve an empty left third, dark text zone or typography area. Show [REAL-WORLD ACTION, PEOPLE OR TACTILE VISUAL METAPHOR] with [SUPPORTING CONTEXT]. Choose a distinct composition for this product rather than defaulting to a laptop on a desk. Include a screen only when it helps explain the purpose. Make the software's purpose instantly clear at small thumbnail size. Use believable interface structure, realistic device geometry, authentic materials, polished natural lighting and a cohesive [PALETTE] palette. No floating abstract panels, headlines, logos, watermarks, prices or CTA graphics. Only small unobtrusive interface microtype is allowed. Keep key subjects comfortably inside the 16:10 crop.
 
 ## First general-product trial prompts
 
@@ -79,4 +79,100 @@ Appointment management software. A welcoming clinic reception with a laptop near
 
 ### Trial status
 
-The three general-image generation requests failed with a service permissions error. No trial artwork was produced or added to the catalogue, and no existing artwork was changed. The prompts above are ready to run when image generation is available.
+Successfully generated the first three general-product images: K-Foodies, K-Bazaar POS and K-Appointment. Delivered as 1280 × 800 WebP in `public/banners/general/` and connected to their catalogue entries. Full-frame scenes, no reserved left text zone.
+
+## General catalogue expansion: first batch
+
+Ten additional general-product images were generated individually and added to the catalogue. All use the general prompt template above: full-frame 16:10 photographic scenes, no reserved text area, and no marketing headline. These scene instructions distinguish the products:
+
+| Product | Scene instruction |
+| --- | --- |
+| K-Services | Service counter with laptop directory/request rows, confirmation phone and document folders. |
+| Kart-Grocery | Grocery-ordering phone with fresh produce, shopping bags and delivery tote in a neighborhood grocer. |
+| K-Restro | Restaurant station with table-plan POS, receipt printer, menus and plated food. |
+| Kart Supermarket | Online grocery storefront laptop with groceries, shopping bags and supermarket aisle. |
+| Kart Multivendor | Marketplace laptop with several seller storefronts, varied merchandise and shipping parcels. |
+| Kart Multistore | Retail desk with multistore management laptop, storefront tablet, apparel and stock shelves. |
+| K-Shop | Ecommerce storefront laptop, green customer-chat phone, merchandise and parcels. |
+| K-Store | Shopping storefront laptop, product-detail phone, fabrics, home goods and dispatch box. |
+| K-Job | Recruitment desk with job-search laptop, application-confirmation phone and resumes. |
+| K-Klassified | Classified-listing laptop and phone, resale merchandise and a bicycle in context. |
+
+Delivery: 1280 × 800 WebP, each below 130 KB. The original three general images and all premium banners remain unchanged.
+
+Batch-one milestone: 13 of 35 complete. The next batch below supersedes this count.
+
+
+## General catalogue expansion: second batch
+
+User correction: imagery must be more creative and purpose-specific, not the same laptop scene repeated. Generated the following ten individually with varied camera angles, actions and settings. All use the full-frame general template, realistic commercial photography and restrained palettes, with no reserved copy area.
+
+| Product | Saved scene direction |
+| --- | --- |
+| K-Community | Residents collaborate over a physical neighborhood map, local profile cards and business markers; a member-directory phone is secondary. |
+| K-Samachar | Field reporter with a plain microphone, news-article phone and street reporting context. |
+| Kupon | Shopper presents a coupon/QR phone to a scanner at checkout, with bags, fabric and tactile vouchers. |
+| K-Affiliation | Physical people-shaped tokens joined by golden threads, referral reward coin stacks and a hand adding a connection. No screen. |
+| K-Academics | Teacher checks tablet attendance in a busy school corridor, with registers and arriving students. |
+| K-Hostel | Hostel arrival through a room doorway, key handover, luggage and a subtle booking-confirmation phone. |
+| Doctor Plus | Doctor-discovery phone in a person's hand, with an actual welcoming clinic entrance behind. |
+| Prabal Hospital ERP | Nurse and administrator coordinate hospital operations beside a mobile touchscreen cart in a ward corridor. |
+| HRM | Employee taps an ID at the office entrance while coworkers arrive and an HR coordinator carries a roster tablet. |
+| K-Billing | Overhead tactile arrangement of invoices, organized paid documents and a handheld invoice-list phone. |
+
+All ten are 1280 × 800 WebP, individually optimized below 130 KB. Completed artwork from earlier batches and premium banners is unchanged.
+
+Current progress: **23 of 35 complete; 12 remaining.** Continue next with **K-Saksham** and subsequent catalogue entries without an image. Maintain varied, business-specific compositions.
+
+## General catalogue expansion: third batch
+
+Ten more images generated individually using distinct, purpose-led full-frame scenes:
+
+| Product | Saved scene direction |
+| --- | --- |
+| K-Saksham | Overhead ledger reconciliation with invoices, calculator and a secondary finance-summary phone. |
+| K-Franchisee | Tactile miniature storefronts placed on a city map to visualize coordinated branch expansion. |
+| K-Matrimonial | Respectful adult family introduction over tea in an Indian courtyard, with a subtle matching-profile phone. |
+| K-Matchmaker | Adult first-date conversation at an urban cafe, with a secondary profile-matching phone. |
+| K-Loan | Shop owner and finance officer review repayment planning together in a real business setting. |
+| K-Laundry | Freshly folded clothes packed for pickup, with service progress and scheduling on a customer's phone. |
+| K-Cab | Curbside car pickup with traveler, suitcase and a subtle booking-map phone. |
+| Car Wash | Active wash-bay scene with water, foam and a secondary booking-selection phone. |
+| Car Wash Multivendor | Car owner compares providers on a phone, with several distinct local car-care bays behind. |
+| K-Parking | Geometric parking entrance, available bays, barrier and a secondary space-confirmation phone. |
+
+All ten delivered as 1280 × 800 WebP, below 130 KB each. Existing artwork is unchanged.
+
+Current progress: **33 of 35 general-product images complete; two remaining: K-Realestate and K-Cinema.** This supersedes earlier batch counts.
+
+## Completion and requested recreations
+
+Finished the final two general images, and replaced three earlier device-led images with more relevant action scenes:
+
+| Product | Current scene direction |
+| --- | --- |
+| K-Realestate | Architectural apartment model on floor plans, unit-status markers and an agent identifying an available property. |
+| K-Cinema | Cinema entrance with ticket scanning, theater seats, popcorn and booking context. |
+| Kart-Grocery (recreated) | Overhead grocery fulfillment: hands pack fresh produce into a reusable bag beside an order checklist and delivery crate. |
+| K-Foodies (recreated) | Chef hands a packed takeaway order to a courier at a restaurant pickup hatch; food and delivery action are the subjects. |
+| K-Job (recreated) | Candidate and recruiter connect at a career event, with a role board and a secondary candidate-roster tablet. |
+
+All five use full-frame 16:10 composition with no reserved text zone and are delivered as 1280 × 800 WebP below 130 KB each. The recreations replace their existing filenames, so no duplicate catalogue entries are introduced. Premium banners are unchanged.
+
+**Current status: all 35 general catalogue products have images.** This supersedes previous progress counts and the initial trial descriptions for the three recreated images.
+
+## K-Exam premium refresh (November 2026)
+
+Recreated `public/banners/k-exam.webp` at 1680×735 (16:7). The dark left
+text zone and existing overlay copy stay intact. Right-side artwork uses an
+online multiple-choice exam tablet, test papers and a security shield rather
+than a generic laptop scene. Optimized WebP: 47,932 bytes.
+
+## Website social-sharing banner
+
+`public/images/og-kriscent.jpg` is 1200×630 for OG/Twitter previews, not a
+product-card crop. It adapts the premium direction: calm dark left text zone,
+restrained blue/navy/silver palette and product-relevant automation/education
+modules on the right. The actual Kriscent logo and readable headline are
+composited after background generation; do not rely on AI-generated brand text.
+The SEO wrapper owns its absolute URL, alt text, dimensions and large-card tags.

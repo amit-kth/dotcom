@@ -235,32 +235,41 @@ restoration; Home-to-Solutions client navigation resets eligibility; no popup
 after Search closes; Solutions reload restoration; Contact excluded. No runtime
 errors. Earlier timed-trigger descriptions above are historical.
 
-## Compact testimonials, platform ratings and video dialogs
+## Client strip, About ratings and focused client stories (current layout)
 
-The client-logo marquee code and logo data are unchanged. The former tall quote
-grid is replaced with a compact ratings/reviews/video area in the same #clients
-section. Ratings retain the supplied Google 4.2, Ambition Box 4.6 and Clutch 5.0
-scores and source URLs; fractional stars use the supplied platform colors. White
-Clutch stars have a dark background. No review counts or rating schema added.
+Supersedes the previous all-in-one ratings/review/video section.
 
-The supplied Radhika, Noora and Khetpal quotes and individual Clutch links are
-preserved exactly. Existing Vikash, Sudha and Kratant feedback is retained,
-using existing excerpts in a single horizontal review row. Arrow buttons,
-touch/trackpad scrolling and reduced-motion navigation are supported.
+- `ClientStrip` is directly after `Hero` and before `Solutions`. All original
+  logos run in one horizontal row; the second rendered copy is only the
+  aria-hidden seamless-loop duplicate, not a second visual row. Slower 100s
+  traversal maintains a calm pace with all logos combined. Hover/focus pause
+  and reduced-motion handling are preserved.
+- About's former “Based in / Kota, Rajasthan, India / building since 2014” cell
+  is replaced with all three supplied platform ratings and links. Footer
+  locations and the remainder of About are unchanged. Rating cards retain
+  their logos, scores, fractional stars and platform colors, adapted to fit
+  this smaller cell, including 320px screens.
+- The #clients section now contains a single featured quote with author/logo,
+  supplied source link where available, previous/next buttons and a counter.
+  All six reviews are retained. No automatic rotation or review-card rail.
+  Inactive figures are visibility-hidden, aria-hidden and inert; their shared
+  grid sizing keeps the section height stable when selecting another quote.
+- Three compact video rows sit alongside the quote at 768px and above, then
+  below it on phones. No second heading band, rating bar or logo wall inside
+  testimonials. Existing shared Dialog, iframe-on-click, close cleanup and
+  focus restoration are retained. Search shortcut cannot stack another modal.
 
-All three supplied video thumbnails open one shared shadcn Dialog. Only the
-selected YouTube iframe mounts on click, and it unmounts on close. Each player
-has an accessible title; closing returns focus to its thumbnail. The global
-search shortcut now defers to any existing dialog, including the video player.
-
-Browser checks passed at 320×568, 390×844, 768×1024, 1366×900 and 2560×1440:
-no document overflow; three linked platform ratings; six written reviews; next/
-previous review scrolling; no initial YouTube iframe; each supplied video URL
-opens in the shared dialog; viewport fit; no stacked search dialog; Escape
-cleanup and focus return. Final thumbnail-width refinement was rechecked on
-phone and laptop. The added testimonial block is roughly 660–740px tall across
-these sizes (single review row and compact video thumbnails, not tall grids).
-No browser runtime errors. Build, types, twelve tests and export audits pass.
+`npm run check` passed: build, TypeScript, 12 tests, exported SEO/image-path/
+schema/discovery audits. Browser checks passed at 320×568, 390×844, 768×1024,
+1366×900 and 2560×1440: hero/strip ordering; one logo row; three rating links
+inside About and none in #clients; removed About location copy; exactly one
+visible written review; all six reachable forward/backward with wraparound;
+all three video Dialogs and correct URLs; viewport fit; no initial iframe;
+iframe unmount and trigger focus return; no stacked Search; no document
+horizontal overflow or runtime errors. Client-story section heights were
+approximately 784px on phones, 505px on tablet and 602–608px on desktops,
+including heading and outer padding. Local browser script/screenshots are
+in ignored `artifacts/browser-check/client-refresh.mjs` and related PNGs.
 
 External ImageKit and YouTube requests were blocked for sandbox browser checks.
 Actual CDN/logo/thumbnail availability, third-party scores and YouTube playback

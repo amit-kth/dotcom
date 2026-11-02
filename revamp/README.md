@@ -167,12 +167,24 @@ Radix dependency. No extra dialog package or context provider is needed.
 
 ### Client ratings and video testimonials
 
-The existing client-logo marquee stays in `app/(home)/components/clients.tsx`.
-The compact ratings/review/video area is `app/(home)/components/testimonials.tsx`.
-Written feedback uses a swipeable, keyboard-focusable row with arrow buttons;
-three video cards share one shadcn Dialog. YouTube iframes are created only on
-click and removed on close, so the homepage does not preload three players.
-Thumbnails and supplied platform/reviewer logos use the shared ImageKit base.
+The one-row client-logo strip is `app/(home)/components/client-strip.tsx`,
+rendered directly after the hero. It uses all existing client logos in one
+continuous loop, with hover/focus pause and reduced-motion support.
+
+`app/(home)/components/platform-ratings.tsx` renders all three rating links
+inside About, replacing the former “Based in” location cell. Locations remain
+in the footer. The ratings are no longer part of the review section.
+
+`app/(home)/components/clients.tsx` now contains only the client-stories heading
+and `testimonials.tsx`: one featured written review with previous/next controls,
+plus three compact video rows. They sit side by side from tablet widths and
+stack on phones. All six written reviews remain available, with no automatic
+rotation. Inactive reviews are inert and hidden from assistive technology;
+shared grid sizing prevents section jumps as reviews change.
+
+All three videos share one shadcn Dialog. YouTube iframes are created only on
+click and removed on close; focus returns to the clicked thumbnail. Thumbnails
+and supplied platform/reviewer logos use the shared ImageKit base.
 
 Edit `platformRatings`, `testimonials` and `videoTestimonials` in `site-content.ts`.
 Scores are manually supplied, not fetched live. Keep exact review/source URLs,

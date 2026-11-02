@@ -5,6 +5,7 @@ import { useReducedMotion } from "@/lib/use-reduced-motion";
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import { Assetsbaseurl } from "@/config/variables";
+import { PlatformRatings } from "./platform-ratings";
 import { counters } from "@/data/site-content";
 import { BAND, SHELL, T_HEADING, T_LABEL } from "@/lib/ui";
 import { cn } from "@/lib/utils";
@@ -147,15 +148,9 @@ export function About() {
             <Counter value={counters[2]} size="large" />
           </Cell>
 
-          <Cell from={{ x: 24, y: 24 }} className="lg:col-span-6">
-            <p className={cn(T_LABEL, "text-slate-300")}>Based in</p>
-            <p className="mt-3 text-[1.0625rem] font-semibold leading-snug text-slate-50">
-              Kota, Rajasthan, India
-              <br />
-              <span className="font-normal text-slate-300">
-                building since 2014
-              </span>
-            </p>
+          <Cell from={{ x: 24, y: 24 }} surface="border-slate-200 bg-white" className="px-3 lg:col-span-6 sm:px-8">
+            <p className={cn(T_LABEL, "mb-5 px-3 text-slate-500")}>Reviews &amp; ratings</p>
+            <PlatformRatings />
           </Cell>
         </motion.div>
       </div>

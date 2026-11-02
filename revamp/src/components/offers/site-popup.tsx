@@ -13,32 +13,40 @@ export function SitePopup() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const previousFocus = useRef<HTMLElement | null>(null);
-  const shown = useRef(false);
 
   useEffect(() => {
     setOpen(false);
-    if (pathname.replace(/\/$/, "") === contact.contactPath) return;
-    let ready = false;
+    const route = pathname.replace(/\/$/, "") || "/";
+    if (route !== "/" && route !== "/solutions") return;
+    let shown = false;
     const tryOpen = () => {
-      if (shown.current) return;
-      const hero = document.getElementById("top");
-      const headerHeight = document.querySelector("header")?.getBoundingClientRect().height ?? 0;
-      if (hero && hero.getBoundingClientRect().bottom <= headerHeight) ready = true;
-      if (!ready || document.hidden || document.querySelector('[role="dialog"], [role="alertdialog"]')) return;
-      shown.current = true;
+      if (shown || document.hidden) return;
+      const target = document.getElementById(route === "/" ? "top" : "solutions-product-list");
+      if (!target) return;
+      const edge = route === "/"
+        ? document.querySelector("header")?.getBoundingClientRect().height ?? 0
+        : window.innerHeight;
+      if (target.getBoundingClientRect().bottom > edge) return;
+      if (document.querySelector('[role="dialog"], [role="alertdialog"]')) return;
+      shown = true;
       previousFocus.current = document.activeElement as HTMLElement | null;
       setOpen(true);
     };
-    const timer = window.setTimeout(() => { ready = true; tryOpen(); }, 8000);
+    // A reload can restore scroll after hydration; recheck the real position.
+    const frame = requestAnimationFrame(tryOpen);
     const observer = new MutationObserver(tryOpen);
     observer.observe(document.body, { childList: true, subtree: true });
     window.addEventListener("scroll", tryOpen, { passive: true });
+    window.addEventListener("resize", tryOpen);
+    window.addEventListener("pageshow", tryOpen);
     document.addEventListener("visibilitychange", tryOpen);
-    tryOpen(); // A returning navigation may already be scrolled beyond the hero.
+    tryOpen();
     return () => {
-      window.clearTimeout(timer);
+      cancelAnimationFrame(frame);
       observer.disconnect();
       window.removeEventListener("scroll", tryOpen);
+      window.removeEventListener("resize", tryOpen);
+      window.removeEventListener("pageshow", tryOpen);
       document.removeEventListener("visibilitychange", tryOpen);
     };
   }, [pathname]);

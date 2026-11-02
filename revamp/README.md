@@ -117,11 +117,19 @@ object switches to the offer popup, the 32px strip and matching banner tags.
 Use a descriptive `id` for each offer; use discounts, never rupee prices.
 
 Product IDs come from `products.ts` and `catalogue.ts`. Incorrect IDs warn in
-development. The popup waits eight seconds or until the visitor scrolls past
-the homepage hero, whichever happens first, and waits for another dialog to
-close. It does not appear on `/contact`. Closing or clicking its button hides it for the current page visit. No popup
-localStorage/sessionStorage is used: reloading makes it eligible again, after
-the usual delay or scroll trigger.
+development. Popup triggers are positional, not timed:
+
+- Home (`/`): the bottom of `#top` has passed the sticky header.
+- Solutions (`/solutions`): the bottom of `#solutions-product-list` is visible,
+  meaning the visitor reached the end of all catalogue products.
+- Contact and other routes: no automatic popup.
+
+`SitePopup` checks those element positions after mount and on scroll, resize,
+`pageshow` (including restored scroll), visibility changes and relevant DOM
+changes. It defers while another dialog is open. There is no random delay or
+eight-second fallback. Closing hides it for that route visit; navigation resets
+the route's in-memory flag. No popup localStorage/sessionStorage is used, so
+reloads recheck the restored page position without requiring a return to the hero.
 
 Both variants link to the same `/contact` page as navigation; the enquiry form
 is not a modal, so there is no second modal or prefilled-message integration.

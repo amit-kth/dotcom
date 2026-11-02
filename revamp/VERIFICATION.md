@@ -215,3 +215,22 @@ Chromium checks at 320×568, 390×844, 768×1024 and 1366×768 passed: both sear
 and offer use the shared dialog slot, remain within viewport bounds, search
 results work, popup shape stays square, Tab remains trapped, Escape dismisses,
 and Ctrl+K does not open a second dialog over the popup. No runtime errors.
+
+## Route-specific position triggers
+
+Removed the eight-second timer. Home opens when the hero bottom passes the
+sticky header; Solutions opens only when the bottom of the complete catalogue
+list (#solutions-product-list) reaches the viewport. Contact/other routes skip
+automatic popups. A fresh route visit gets its own once-only flag.
+
+Checks run after mount, restored scroll/pageshow, scroll, resize, visibility
+changes and DOM changes (including another dialog closing). No timers, storage
+or scroll percentages are used. Reloading below the Home hero no longer needs
+another scroll from the top.
+
+Browser checks at 390×844 and 1366×768 passed: no popup after waiting nine
+seconds at the Home hero or Solutions top; Home past-hero trigger and reload
+restoration; Home-to-Solutions client navigation resets eligibility; no popup
+250px before the catalogue end; popup at list end; defer for Search and open
+after Search closes; Solutions reload restoration; Contact excluded. No runtime
+errors. Earlier timed-trigger descriptions above are historical.

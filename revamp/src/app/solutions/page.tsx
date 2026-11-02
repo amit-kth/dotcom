@@ -51,11 +51,12 @@ export default function SolutionsPage() {
           <SearchTrigger />
         </div>
 
-        <div className={cn(SHELL, "flex flex-col gap-6 sm:gap-8 lg:gap-10")}>
+        <section aria-labelledby="featured-solutions-title" className={cn(SHELL, "flex flex-col gap-6 sm:gap-8 lg:gap-10")}>
+          <h2 id="featured-solutions-title" className="sr-only">Featured solutions</h2>
           {products.map((product) => (
             <SolutionBanner key={product.id} product={product} />
           ))}
-        </div>
+        </section>
 
         <section
           className={cn(SHELL, "mt-20 sm:mt-28")}

@@ -160,3 +160,10 @@ Finished the final two general images, and replaced three earlier device-led ima
 All five use full-frame 16:10 composition with no reserved text zone and are delivered as 1280 × 800 WebP below 130 KB each. The recreations replace their existing filenames, so no duplicate catalogue entries are introduced. Premium banners are unchanged.
 
 **Current status: all 35 general catalogue products have images.** This supersedes previous progress counts and the initial trial descriptions for the three recreated images.
+
+## K-Exam premium refresh (November 2026)
+
+Recreated `public/banners/k-exam.webp` at 1680×735 (16:7). The dark left
+text zone and existing overlay copy stay intact. Right-side artwork uses an
+online multiple-choice exam tablet, test papers and a security shield rather
+than a generic laptop scene. Optimized WebP: 47,932 bytes.

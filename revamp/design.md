@@ -1,4 +1,4 @@
-# Kriscent — design and build notes
+# Kriscent design and build notes
 
 What is built, why it looks the way it does, what is still placeholder, and
 what needs a decision. Banners have their own brief: `BANNER-DIRECTION.md`.
@@ -8,7 +8,7 @@ what needs a decision. Banners have their own brief: `BANNER-DIRECTION.md`.
 - Use Tailwind's standard slate/blue/red/amber/etc. palette classes directly.
   No paper, line, on-dark, or band colour aliases and no second palette in CSS.
 - Shared primitives live in `src/components/ui`: shadcn-style Input, Textarea,
-  Label and Button (CVA + Radix Slot), and Select (Radix). `components.json`
+  Label and Button (CVA + Radix Slot). `components.json`
   configures shadcn for Tailwind v4 with `cssVariables: false`.
 - Route-owned components live beside their pages: `app/(home)/components`,
   `app/solutions/components`, and `app/contact/components`. Contact submission
@@ -30,14 +30,12 @@ what needs a decision. Banners have their own brief: `BANNER-DIRECTION.md`.
 | 1 | Hero + category chips | dark | the visitor names their business |
 | 2 | Solutions (full-width banners, sticky stack) | **paper** | show what already exists |
 | 3 | How we deliver in 15 days | **paper** | make the 15-day promise believable |
-| 4 | About (bento + certifications) | dark | reduce risk |
+| 4 | About (bento + certifications) | light | reduce risk |
 | 5 | Clients and reviews | **paper** | proof that it worked |
-| 6 | Footer + closing CTA | dark | the last decision |
+| 6 | Footer + closing CTA | light | the last decision |
 
-The light bands are deliberate: the page reads dark / light / dark / light /
-dark instead of one long navy scroll, and each light band is a divider between
-two dark ones. `/solutions` is a light page with the same dark banners laid on
-it, and `/contact` is dark because it carries a form.
+The hero and product artwork stay dark; the shared shell, About, footer,
+Solutions and Contact pages use the approved light surfaces.
 
 ## Palette
 
@@ -50,7 +48,7 @@ No custom semantic colour aliases. The app icon uses the same blue family.
 
 - Poppins 400/500/600/700, self-hosted in `src/fonts`, loaded with
   `next/font/local`.
-- Four utility presets: `T_DISPLAY`, `T_HEADING`, `T_BODY`, `T_LABEL`. `T_HEADING`
+- Three typography presets: `T_HEADING`, `T_BODY`, `T_LABEL`. `T_HEADING`
   floors at 1.5rem so the longest heading still holds two lines at 390px.
 - The hero headline uses `text-[clamp(2.375rem,4.15vw,3.75rem)]`
   and is deliberately smaller than it used to be: the headline sets the tone,
@@ -169,8 +167,8 @@ site's fields, labels, order and phone-with-country behaviour, and submits
 through `lib/submit-contact.ts`.
 
 **API:** `CONTACT_ENDPOINT` in `src/config/variables.ts` is a `TODO_…` string.
-While it is, the form simulates success so every state can be reviewed; setting
-a real URL switches it on with no component change. The payload keeps the old
+While it is, the form reports failure without sending or logging personal data.
+Configure and test a real URL before deployment. The payload keeps the old
 form's names (`name`, `email`, `phone`, `country_name`, `subject`, `message`).
 
 ## Call-to-action labels
@@ -200,12 +198,12 @@ component do not change. The brief and the production steps are in
 
 | Item | State |
 |---|---|
-| `CONTACT_ENDPOINT` | `TODO_…`; the form simulates success until it is real |
+| `CONTACT_ENDPOINT` | `TODO_…`; enquiries fail until a real backend is configured |
 | Product problem / outcome lines | DRAFT — written from the old site, need sign-off |
 | Industries per solution | DRAFT — decides which chip finds which solution |
-| Delivery day ranges (`src/data/steps.ts`) | DRAFT — the 15-day total is approved, the split is not |
+| Delivery day ranges (`app/(home)/components/delivery.tsx`) | DRAFT — the 15-day total is approved, the split is not |
 | ISO 9001:2015 / ISO 27001 wording + badges | DRAFT; both use the CMMI plate as a stand-in |
-| Catalogue artwork | empty `image` field on all 35 rows; slots render in place |
+| Catalogue artwork | all 35 general images are installed and referenced |
 | Product page links | taken from the old site; AI Calling Agents uses the client's own site |
 | Privacy policy | no page exists on the old site; the footer links Terms only |
 | Postal address | does not exist on the old site; the footer shows the city only |

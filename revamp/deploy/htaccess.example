@@ -1,0 +1,4 @@
+# Merge into the destination .htaccess; do not overwrite existing PHP/product rules.
+# Prefer the new static homepage when a legacy index.php is present.
+DirectoryIndex index.html index.php
+ErrorDocument 404 /404.html

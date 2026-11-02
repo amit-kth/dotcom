@@ -38,6 +38,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "k-foodies",
+    image: "/banners/general/k-foodies.webp",
     keywords: ["food delivery", "restaurant orders", "online ordering"],
     name: "K-Foodies",
     line: "Online food delivery portal",
@@ -59,6 +60,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "k-bazaar-pos",
+    image: "/banners/general/k-bazaar-pos.webp",
     keywords: ["point of sale", "POS", "inventory", "stock", "retail billing"],
     name: "K-Bazaar POS",
     line: "Billing and inventory management",
@@ -179,6 +181,7 @@ export const catalogue: CatalogueItem[] = [
 
   {
     id: "k-appointment",
+    image: "/banners/general/k-appointment.webp",
     keywords: ["appointments", "scheduling", "booking", "healthcare"],
     name: "K-Appointment",
     line: "Appointment management",

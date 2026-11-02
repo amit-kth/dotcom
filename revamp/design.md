@@ -281,3 +281,5 @@ Pass page metadata objects directly to Seo, without a parallel union of page nam
 ### Two product artwork types
 
 Before generating banners, establish whether the request is for a premium or general product. If only a product name is given, ask which type; never assume. Premium means the large featured-card artwork: 16:7 with a quiet left third for HTML copy. General means smaller catalogue artwork: 16:10, fully composed across the frame with no reserved text zone. Follow `BANNER-DIRECTION.md` for the updated prompt templates, delivery sizes and first three general-product trial prompts. The initial general-image trial was blocked by the image service's permissions error; no images were generated or wired into the site.
+
+The general-product trial has now succeeded: K-Foodies, K-Bazaar POS and K-Appointment images are generated, optimized to 1280 × 800 WebP and connected to their catalogue cards. This supersedes the earlier image-service failure note. No premium banners were changed.

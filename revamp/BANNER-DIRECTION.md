@@ -79,4 +79,4 @@ Appointment management software. A welcoming clinic reception with a laptop near
 
 ### Trial status
 
-The three general-image generation requests failed with a service permissions error. No trial artwork was produced or added to the catalogue, and no existing artwork was changed. The prompts above are ready to run when image generation is available.
+Successfully generated the first three general-product images: K-Foodies, K-Bazaar POS and K-Appointment. Delivered as 1280 × 800 WebP in `public/banners/general/` and connected to their catalogue entries. Full-frame scenes, no reserved left text zone.

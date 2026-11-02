@@ -10,7 +10,7 @@ export type Counter = {
 
 export const counters: Counter[] = [
   { value: "1,549", suffix: "+", label: "Projects Delivered" },
-  { value: "13", label: "Years of Experience" },
+  { value: "13", suffix: "+", label: "Years of Experience" },
   { value: "1,245", suffix: "+", label: "Clients Worldwide" },
 ];
 
@@ -65,16 +65,6 @@ export const testimonials: Testimonial[] = [
     name: "Vikash Kunta",
     role: "AIIMS subsidiary",
     logo: "/clients/aiims.webp",
-  },
-  {
-    id: "sudha-agarwal",
-    quote:
-      "We sleeked web services for our hospital and they delivered way better than we ever imagined. I am very much glad to met Mr. Kapil Gautam and his team",
-    excerpt:
-      "They delivered way better than we ever imagined… and I am glad to have met Mr. Kapil Gautam and his team.",
-    name: "Sudha Agarwal",
-    role: "Sudha Hospital",
-    logo: "/clients/sudha-hospital.webp",
   },
   {
     id: "kratant-sharma",

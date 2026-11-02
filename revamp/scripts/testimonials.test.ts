@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { platformRatings, testimonials, videoTestimonials } from "../src/data/site-content";
+import { counters, platformRatings, testimonials, videoTestimonials } from "../src/data/site-content";
 import { Assetsbaseurl } from "../src/config/variables";
 
 test("platform ratings retain the supplied scores and real review links", () => {
@@ -28,9 +28,12 @@ test("new Clutch reviews keep their supplied text and individual source links", 
     assert.ok(item.sourceLink?.endsWith(reviewId));
     assert.ok(item.logo.startsWith(`${Assetsbaseurl}/`));
   }
-  for (const name of ["Vikash Kunta", "Sudha Agarwal", "Kratant Sharma"]) {
+  for (const name of ["Vikash Kunta", "Kratant Sharma"]) {
     assert.ok(testimonials.some((item) => item.name === name), "Keep existing client feedback");
   }
+  assert.equal(testimonials.length, 5);
+  assert.ok(!testimonials.some((item) => item.id === "sudha-agarwal"));
+  assert.equal(counters.find((item) => item.label === "Years of Experience")?.suffix, "+");
   assert.equal(new Set(testimonials.map((item) => item.id)).size, testimonials.length);
 });
 

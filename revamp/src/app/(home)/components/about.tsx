@@ -44,7 +44,7 @@ export function About() {
         <div>
           <p className={cn(T_LABEL, "text-slate-300")}>About Kriscent</p>
           <h2 id="about-title" className={cn(T_HEADING, "mt-4 max-w-[22ch]")}>
-            <span className="text-blue-600">13</span> years of shipping
+            <span className="text-blue-600">13+</span> years of shipping
             software.
           </h2>
         </div>
@@ -148,8 +148,8 @@ export function About() {
             <Counter value={counters[2]} size="large" />
           </Cell>
 
-          <Cell from={{ x: 24, y: 24 }} surface="border-slate-200 bg-white" className="px-3 lg:col-span-6 sm:px-8">
-            <p className={cn(T_LABEL, "mb-5 px-3 text-slate-500")}>Reviews &amp; ratings</p>
+          <Cell from={{ x: 24, y: 24 }} className="px-3 lg:col-span-6 sm:px-8">
+            <p className={cn(T_LABEL, "mb-5 px-3 text-slate-300")}>Reviews &amp; ratings</p>
             <PlatformRatings />
           </Cell>
         </motion.div>

@@ -275,3 +275,26 @@ External ImageKit and YouTube requests were blocked for sandbox browser checks.
 Actual CDN/logo/thumbnail availability, third-party scores and YouTube playback
 were not independently verified. Scores and review text use the user's inputs;
 verify live embeds and source pages with external access before deployment.
+
+### Follow-up: square thumbnails, dark ratings and automatic reviews
+
+Supersedes the review count, manual-only rotation, thumbnail shape and light
+rating-card styling above. Removed Sudha Agarwal, retaining five reviews.
+Restored About's default dark-glass cell for ratings with light text/dividers
+and small white logo backings for contrast. Experience counter and heading
+now show 13+. Video thumbnails use 1:1 wrappers and object-contain, without
+zoom-on-hover cropping; the actual YouTube player remains 16:9.
+
+Reviews advance every six seconds while visible. Pause/resume is available;
+hover, focus within the section, hidden tabs and active video dialogs pause
+rotation. Reduced motion disables automatic rotation. Effect cleanup removes
+the timer; manual navigation remains available. Auto rotation does not send
+continuous live-region announcements.
+
+Build, TypeScript, all 12 tests and static export audits pass. Browser checks
+at 320, 390, 768, 1366 and 2560 widths passed five-review navigation, square
+thumbnail bounds/object-contain, no overflow, all three Dialogs, correct URLs,
+iframe cleanup, focus return and modal stacking prevention. A separate normal-
+motion real-time browser check passed automatic advance, explicit pause/resume,
+hover pause and reduced-motion suppression. External-media availability and
+actual YouTube playback remain subject to the network limitation noted above.

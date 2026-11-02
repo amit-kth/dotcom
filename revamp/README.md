@@ -172,14 +172,17 @@ rendered directly after the hero. It uses all existing client logos in one
 continuous loop, with hover/focus pause and reduced-motion support.
 
 `app/(home)/components/platform-ratings.tsx` renders all three rating links
-inside About, replacing the former “Based in” location cell. Locations remain
+inside About, replacing the former “Based in” location cell, with the original dark glass
+cell styling and light rating text. Locations remain
 in the footer. The ratings are no longer part of the review section.
 
 `app/(home)/components/clients.tsx` now contains only the client-stories heading
 and `testimonials.tsx`: one featured written review with previous/next controls,
-plus three compact video rows. They sit side by side from tablet widths and
-stack on phones. All six written reviews remain available, with no automatic
-rotation. Inactive reviews are inert and hidden from assistive technology;
+plus three compact video rows with square, uncropped thumbnails. They sit side by side from tablet widths and
+stack on phones. Five written reviews remain available (Sudha Agarwal removed). Reviews
+advance every six seconds while in view, with explicit pause/resume controls.
+Rotation pauses on hover/focus, while a video is open or the tab is hidden;
+reduced-motion preferences disable automatic rotation. Inactive reviews are inert and hidden from assistive technology;
 shared grid sizing prevents section jumps as reviews change.
 
 All three videos share one shadcn Dialog. YouTube iframes are created only on

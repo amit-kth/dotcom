@@ -128,10 +128,14 @@ it does not insert space later or change the header/stacking offsets. The popup
 is portalled and does not participate in hero layout. Reduced motion stops the
 marquee and uses a fade-only popup entrance.
 
-`docs/offer-image-prompts.md` contains the three year-round image prompts and
-reserved ImageKit paths. Until those images are uploaded, matching tone gradients
-are the intentional placeholders. The contact background reuses an office image.
-The palette is defined once in the labelled offer-colors block in `globals.css`.
+All four popups are square. Dedicated generated artwork is bundled in
+`public/popups/` for Contact, New, Hot and Festive, with no location photographs
+or gradient placeholders. `popupImages` in the offer data file selects them.
+The images ship locally so they work immediately; move them to ImageKit only
+after uploading, then update those four URLs in the same file. The original
+product-banner prompt has not been changed. Mobile square cards remain compact
+(at most half the viewport height); desktop cards are centered. The offer
+palette remains in the labelled offer-colors block in `globals.css`.
 
 After editing, build, test on staging, then zip `out/` contents and send to Kapil
 sir. No date scheduler, API, new provider or offer backend is involved.

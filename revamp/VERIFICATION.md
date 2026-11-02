@@ -134,3 +134,20 @@ three ImageKit files are uploaded. Contact reuses the existing office photo;
 external image availability is not asserted from this restricted network.
 Image prompts are in `docs/offer-image-prompts.md`. CTA links to `/contact`, not
 an enquiry modal; no message-prefill integration was needed or added.
+
+## Square popup redesign (supersedes the earlier placeholder design)
+
+Replaced the rejected location-photo Contact popup and split gradient Offer
+popup with a consistent 1:1 artwork-first layout. Four newly generated 960×960
+WebPs are bundled under public/popups; the location image and remote placeholder
+URLs are no longer used by popups. No heavy overlay obscures the artwork.
+The original BANNER-DIRECTION.md prompt is unchanged.
+
+The original modal timing, localStorage IDs, /contact exclusion, focus trapping,
+Escape behavior, offer strip and tags remain intact. Final offer stays null.
+All four variants passed rendered checks at 320×568, 390×844 and 1366×768:
+square bounds, locally loaded images, CTA inside the card, modal semantics,
+Tab trapping, Escape and dismissal storage. Mobile cards remain <=50dvh.
+No browser runtime errors occurred. Source artwork and browser screenshots are
+ignored local artifacts, not shipped source. Earlier placeholder/split-layout
+notes above describe the superseded implementation.

@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import * as Dialog from "@radix-ui/react-dialog";
-import { X } from "lucide-react";
+import { ArrowUpRight, X } from "lucide-react";
 import { contact } from "@/config/variables";
 import { offer, offerProductNames, popupImages } from "@/data/offer";
 import { buttonVariants } from "@/components/ui/button";
@@ -58,7 +58,7 @@ export function SitePopup() {
           data-site-popup
           aria-modal="true"
           data-tone={offer?.tone}
-          className={`offer-popup fixed inset-x-3 bottom-3 z-[111] max-h-[50dvh] overflow-y-auto rounded-2xl border border-slate-200 shadow-2xl sm:inset-x-auto sm:bottom-auto sm:top-1/2 sm:left-1/2 sm:max-h-[80dvh] sm:w-[min(44rem,calc(100vw-2rem))] sm:-translate-x-1/2 sm:-translate-y-1/2 ${offer ? "bg-white text-slate-950 sm:grid sm:grid-cols-2" : "bg-slate-950 text-white sm:max-w-lg"}`}
+          className="offer-popup fixed right-3 bottom-3 z-[111] overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white text-slate-950 shadow-2xl sm:right-auto sm:bottom-auto sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2"
           onKeyDown={(event) => {
             // Keep the global search shortcut from opening a second modal.
             if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") event.stopPropagation();
@@ -68,29 +68,31 @@ export function SitePopup() {
             if (previousFocus.current?.isConnected) previousFocus.current.focus({ preventScroll: true });
           }}
         >
-          <div className={offer ? "offer-popup-art offer-colors h-16 sm:h-full sm:min-h-72" : "absolute inset-0"} data-tone={offer?.tone}>
-            <img
-              src={offer ? popupImages[offer.tone] : popupImages.contact}
-              alt=""
-              className={offer ? "size-full object-contain" : "size-full object-cover"}
-              onError={(event) => { event.currentTarget.style.display = "none"; }}
-            />
-            {!offer && <div className="absolute inset-0 bg-slate-950/60" />}
-          </div>
-          <div className="relative p-4 sm:p-7">
-            <Dialog.Title className="pr-8 text-xl font-semibold leading-tight sm:text-2xl">
-              {offer?.heading ?? "Find the right solution."}
+          <img
+            src={offer ? popupImages[offer.tone] : popupImages.contact}
+            alt=""
+            width={960}
+            height={960}
+            className="absolute inset-0 size-full object-contain"
+          />
+          <div className="popup-copy absolute inset-x-0 bottom-0 flex flex-col items-center text-center">
+            <p className="popup-eyebrow font-semibold uppercase tracking-[0.2em] text-slate-500">
+              {offer ? "A little more, for less" : "Let’s talk software"}
+            </p>
+            <Dialog.Title className={`popup-heading mt-2 font-semibold tracking-tight ${offer ? "" : "max-w-[15ch]"}`}>
+              {offer?.heading ?? "Your next move, made simple."}
             </Dialog.Title>
-            {offer && <p className="offer-colors mt-2 inline-block rounded-lg px-2 py-1 text-3xl font-bold leading-tight sm:mt-4 sm:text-4xl" data-tone={offer.tone}>{offer.discount}</p>}
-            <Dialog.Description className={`mt-2 text-sm leading-relaxed sm:mt-4 ${offer ? "text-slate-600" : "text-slate-200"}`}>
-              {offer ? offerProductNames : "Tell us what you need. We will help you find what fits."}
+            {offer && <p className="popup-discount font-bold tracking-[-0.06em]">{offer.discount}</p>}
+            <Dialog.Description className="popup-description text-slate-500">
+              {offer ? offerProductNames : "Tell us what you need. We’ll help you find the right fit."}
             </Dialog.Description>
-            <Link href={contact.contactPath} onClick={close} className={`${buttonVariants()} mt-3 sm:mt-6 ${offer ? "offer-colors" : ""}`} data-tone={offer?.tone}>
+            <Link href={contact.contactPath} onClick={close} className={`${buttonVariants()} popup-cta ${offer ? "offer-colors" : ""}`} data-tone={offer?.tone}>
               {offer?.cta ?? "Contact us"}
+              <ArrowUpRight className="size-4" aria-hidden="true" />
             </Link>
           </div>
           <Dialog.Close asChild>
-            <button type="button" aria-label="Close popup" className="absolute top-2 right-2 flex size-10 cursor-pointer items-center justify-center rounded-full bg-white text-slate-950 shadow-sm hover:bg-slate-100">
+            <button type="button" aria-label="Close popup" className="popup-close absolute top-3 right-3 flex size-9 cursor-pointer items-center justify-center rounded-full border border-slate-200 bg-white/95 text-slate-600 shadow-sm hover:bg-slate-100 hover:text-slate-950 focus-visible:outline-2 focus-visible:outline-offset-2">
               <X className="size-5" aria-hidden="true" />
             </button>
           </Dialog.Close>

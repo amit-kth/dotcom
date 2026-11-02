@@ -40,7 +40,6 @@ AFTER EDITING
 Run npm run build, test on staging, then zip the contents of out/ and send
 it to Kapil sir. Do not send source files or node_modules as the hosting build.
 */
-import { Assetsbaseurl as ASSETS_BASE_URL } from "@/config/variables";
 import { products } from "./products";
 import { catalogue } from "./catalogue";
 
@@ -55,13 +54,13 @@ export type Offer = {
 
 export const offer: Offer | null = null;
 
-// TODO: Upload the three generic offer images to these ImageKit paths.
-// Until then, the popup shows the matching CSS gradient, not a broken image.
+// Generated square artwork ships locally so every popup works immediately.
+// If moved to ImageKit later, replace these four URLs here after uploading.
 export const popupImages = {
-  contact: `${ASSETS_BASE_URL}/tempAssets/dubai.webp`, // existing office image
-  new: `${ASSETS_BASE_URL}/tempAssets/popup-offer-new.webp`,
-  hot: `${ASSETS_BASE_URL}/tempAssets/popup-offer-hot.webp`,
-  festive: `${ASSETS_BASE_URL}/tempAssets/popup-offer-festive.webp`,
+  contact: "/popups/popup-contact.webp",
+  new: "/popups/popup-new.webp",
+  hot: "/popups/popup-hot.webp",
+  festive: "/popups/popup-festive.webp",
 };
 
 export function getOfferProductNames(current: Offer | null) {

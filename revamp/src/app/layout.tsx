@@ -3,6 +3,8 @@ import { display } from "./fonts";
 import Script from "next/script";
 import { CategoryProvider } from "@/components/category-context";
 import { SolutionSearchProvider } from "@/components/search/solution-search";
+import { OfferStrip } from "@/components/offers/offer-strip";
+import { SitePopup } from "@/components/offers/site-popup";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { RouteTracker } from "@/components/route-tracker";
@@ -44,6 +46,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="48x48" href="/icons/favicon-48x48.png" />
+        <link rel="apple-touch-icon" sizes="76x76" href="/icons/apple-touch-icon-76.png" />
+        <link rel="apple-touch-icon" sizes="120x120" href="/icons/apple-touch-icon-120.png" />
+        <link rel="apple-touch-icon" sizes="152x152" href="/icons/apple-touch-icon-152.png" />
+        <link rel="apple-touch-icon" sizes="167x167" href="/icons/apple-touch-icon-167.png" />
+        <link rel="manifest" href="/site.webmanifest" />
+        <meta name="theme-color" content="#2563eb" />
         {/* Framer Motion leaves its "before" state as an inline style
             (opacity: 0). Without JavaScript that style never gets replaced and
             the page would read as empty, so the no-JS case gets one rule that
@@ -89,9 +100,11 @@ export default function RootLayout({
         <RouteTracker />
         <CategoryProvider>
           <SolutionSearchProvider>
+            <OfferStrip />
             <SiteHeader />
             {children}
             <SiteFooter />
+            <SitePopup />
           </SolutionSearchProvider>
         </CategoryProvider>
       </body>

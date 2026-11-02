@@ -17,7 +17,7 @@ export default function SolutionsPage() {
       <Seo {...metadata.solutions} />
 
       <main className={LIGHT_BAND}>
-        <div className={cn(SHELL, "pt-[clamp(4rem,8vw,7rem)] pb-14")}>
+        <div className={cn(SHELL, "pt-6 pb-14 sm:pt-8")}>
           <Link
             href="/"
             className="inline-flex min-h-11 items-center gap-2 text-[0.9375rem] font-medium text-slate-600 transition-colors hover:text-slate-950"
@@ -51,11 +51,12 @@ export default function SolutionsPage() {
           <SearchTrigger />
         </div>
 
-        <div className={cn(SHELL, "flex flex-col gap-6 sm:gap-8 lg:gap-10")}>
+        <section aria-labelledby="featured-solutions-title" className={cn(SHELL, "flex flex-col gap-6 sm:gap-8 lg:gap-10")}>
+          <h2 id="featured-solutions-title" className="sr-only">Featured solutions</h2>
           {products.map((product) => (
             <SolutionBanner key={product.id} product={product} />
           ))}
-        </div>
+        </section>
 
         <section
           className={cn(SHELL, "mt-20 sm:mt-28")}

@@ -14,7 +14,7 @@ export type Product = {
   logo: string | null;
   /** one line: the problem it removes, not a feature list */
   problem: string;
-  /** the first entry is the label shown on the banner; all of them filter */
+  /** All categories appear on the banner and participate in filtering. */
   categories: CategoryId[];
   /** exactly three, each five words or fewer */
   outcomes: [string, string, string];
@@ -102,7 +102,7 @@ export const products: Product[] = [
       "education",
     ],
     name: "K-Exam",
-    logo: null,
+    logo: "https://www.kriscent.in/product/kexam/img/logo-2.png",
     // Old site: "Exams that stay secure online".
     problem: "Exams take a week of marking and a folder of paperwork.",
     categories: ["edtech"],
@@ -135,7 +135,7 @@ export const products: Product[] = [
       "e-learning",
     ],
     name: "K-Edusity",
-    logo: null,
+    logo: "https://www.kriscent.com/product/kedusity/public/uploads/dark_logo/darklogo-1781938584.png",
     /* Unified school management and learning platform. */
     problem: "Managing school operations and digital learning across disconnected systems.",
     categories: ["edtech"],

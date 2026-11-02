@@ -21,3 +21,6 @@ yarn-error.log*
 
 # typescript incremental build info
 *.tsbuildinfo
+
+# local deployment archives
+/artifacts/

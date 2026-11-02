@@ -11,7 +11,7 @@ import type { NextConfig } from "next";
  *
  * trailingSlash: true makes every route emit `route/index.html` instead of
  * `route.html`. Apache then serves /solutions/ from the folder with no
- * rewrite rules, which is what we want because we cannot touch .htaccess.
+ * rewrite rules. Hosting-only DirectoryIndex/404 guidance is in README.md.
  */
 const nextConfig: NextConfig = {
   output: "export",

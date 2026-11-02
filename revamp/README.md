@@ -106,6 +106,10 @@ To roll back, restore the backed-up files and hosting rules. Keep older `_next` 
 
 ## 8. Offer strip and popup
 
+**A dummy festive offer is currently enabled for review**, labelled "Demo offer"
+with 20% off K-Exam and K-Edusity. This is test content, not an approved live
+promotion. Set `offer` to `null` or replace it with an approved offer before launch.
+
 **Only edit `src/data/offer.ts` to add/remove an offer.** Its opening comment
 has filled all-product and two-product examples, field explanations and the
 handoff steps. Keep `offer = null` for the ordinary Contact popup. An offer
@@ -130,13 +134,15 @@ is portalled and does not participate in hero layout. Reduced motion stops the
 marquee and uses a fade-only popup entrance.
 
 All four popups are square. Dedicated generated artwork is bundled in
-`public/popups/` for Contact, New, Hot and Festive, with dedicated communication artwork for Contact and happy Indian business /
-festive family photography for offers, not gradient placeholders. `popupImages` in the offer data file selects them.
+`public/popups/` for Contact, New, Hot and Festive, with communication artwork for Contact and promotional campaign artwork for
+New, Hot and Festive. Gifts, coupons and celebration props signal an offer;
+Festive has no Diwali-specific or other occasion-specific symbols. `popupImages` in the offer data file selects them.
 The images ship locally so they work immediately; move them to ImageKit only
 after uploading, then update those four URLs in the same file. The original
 product-banner prompt has not been changed. Mobile square cards remain compact
 (at most half the viewport height); desktop cards are centered. The offer
-palette remains in the labelled offer-colors block in `globals.css`.
+palette uses solid blue, red and crimson with white text, defined once in the
+labelled offer-colors block in `globals.css`. Strip CTAs are not underlined.
 
 After editing, build, test on staging, then zip `out/` contents and send to Kapil
 sir. No date scheduler, API, new provider or offer backend is involved.

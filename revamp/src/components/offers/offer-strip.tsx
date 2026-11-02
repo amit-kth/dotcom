@@ -19,7 +19,7 @@ export function OfferStrip() {
             {[0, 1, 2].map((repeat) => (
               <span key={repeat} className="offer-strip-message" aria-hidden={repeat > 0 || undefined}>
                 <span title={text}>{text}</span>
-                <Link href={contact.contactPath} tabIndex={group || repeat ? -1 : undefined} className="shrink-0 font-bold underline underline-offset-4">{cta}</Link>
+                <Link href={contact.contactPath} tabIndex={group || repeat ? -1 : undefined} className="shrink-0 font-bold">{cta}</Link>
               </span>
             ))}
           </div>

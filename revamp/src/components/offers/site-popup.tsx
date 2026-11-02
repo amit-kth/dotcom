@@ -77,11 +77,11 @@ export function SitePopup() {
               {offer ? "A little more, for less" : "Let’s talk software"}
             </p>
             <Dialog.Title className={`popup-heading mt-2 font-semibold tracking-tight ${offer ? "" : "max-w-[15ch]"}`}>
-              {offer?.heading ?? "Your next move, made simple."}
+              {offer?.heading ?? "Can’t find the right product?"}
             </Dialog.Title>
             {offer && <p className="popup-discount font-bold tracking-[-0.06em]">{offer.discount}</p>}
             <Dialog.Description className={offer ? "popup-description popup-products" : "popup-description text-slate-600"}>
-              {offer ? offerProductNames : "Tell us what you need. We’ll help you find the right fit."}
+              {offer ? offerProductNames : "Contact our team. We’ll help you choose the right solution."}
             </Dialog.Description>
             <Link href={contact.contactPath} onClick={close} className={`${buttonVariants()} popup-cta ${offer ? "offer-colors" : ""}`} data-tone={offer?.tone}>
               {offer?.cta ?? "Contact us"}

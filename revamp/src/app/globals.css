@@ -153,32 +153,20 @@
   }
 }
 
-/* OFFER COLORS: the one intentional hard-coded palette exception.
-   White text against every gradient endpoint exceeds WCAG AA 4.5:1. */
+/* OFFER COLORS: one coordinated solid color per campaign, no gradients.
+   White text against every campaign color exceeds WCAG AA 4.5:1. */
 :root {
   --offer-ink: #ffffff;
-  --offer-new-start: #075985;
-  --offer-new-end: #065f46;
-  --offer-hot-start: #9f1239;
-  --offer-hot-end: #9a3412;
-  --offer-festive-start: #701a75;
-  --offer-festive-end: #92400e;
+  --offer-new: #1d4ed8;
+  --offer-hot: #b91c1c;
+  --offer-festive: #9f1239;
 }
-[data-tone="new"] {
-  --offer-from: var(--offer-new-start);
-  --offer-to: var(--offer-new-end);
-}
-[data-tone="hot"] {
-  --offer-from: var(--offer-hot-start);
-  --offer-to: var(--offer-hot-end);
-}
-[data-tone="festive"] {
-  --offer-from: var(--offer-festive-start);
-  --offer-to: var(--offer-festive-end);
-}
+[data-tone="new"] { --offer-background: var(--offer-new); }
+[data-tone="hot"] { --offer-background: var(--offer-hot); }
+[data-tone="festive"] { --offer-background: var(--offer-festive); }
 .offer-colors {
   color: var(--offer-ink);
-  background: linear-gradient(110deg, var(--offer-from), var(--offer-to));
+  background: var(--offer-background);
 }
 .offer-strip {
   position: relative;

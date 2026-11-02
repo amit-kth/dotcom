@@ -29,7 +29,7 @@ test("wrong product IDs warn in development and do not become customer-facing te
   }
 });
 
-test("offer text exceeds 4.5:1 across every tone gradient", () => {
+test("offer text exceeds 4.5:1 against each solid campaign color", () => {
   const css = readFileSync("src/app/globals.css", "utf8");
   const color = (name: string) => {
     const hex = css.match(new RegExp(`--offer-${name}: (#\\w{6})`))![1];
@@ -38,10 +38,7 @@ test("offer text exceeds 4.5:1 across every tone gradient", () => {
   const luminance = (rgb: number[]) => rgb.map((c) => c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4).reduce((sum, c, i) => sum + c * [0.2126, 0.7152, 0.0722][i], 0);
   const ink = luminance(color("ink"));
   for (const tone of ["new", "hot", "festive"]) {
-    const start = color(`${tone}-start`), end = color(`${tone}-end`);
-    for (let step = 0; step <= 100; step++) {
-      const background = luminance(start.map((c, i) => c + (end[i] - c) * step / 100));
-      assert.ok((Math.max(background, ink) + 0.05) / (Math.min(background, ink) + 0.05) >= 4.5, `${tone}: ${step}%`);
-    }
+    const background = luminance(color(tone));
+    assert.ok((Math.max(background, ink) + 0.05) / (Math.min(background, ink) + 0.05) >= 4.5, tone);
   }
 });

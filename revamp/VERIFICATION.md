@@ -174,3 +174,23 @@ square bounds, image decoding, borderless base, highlighted product names,
 no product/CTA overlap, repeated opening after reload despite old storage keys,
 and strip dismissal/reset. Final build/type checks, all nine tests and export
 SEO/icon audits pass. Final offer remains null.
+
+## Campaign artwork, solid colors and enabled demo
+
+Contact copy now says "Can’t find the right product?" and asks visitors to
+contact the team for help choosing a solution. All offer gradients were removed:
+New uses solid blue, Hot solid red, and Festive solid crimson. Contrast checks
+verify white text against each solid campaign color. Strip CTA underline removed.
+
+Three replacement images use promotional gift/coupon/confetti campaign designs,
+not ordinary business scenes. Festive is year-round without Diwali/religious
+symbols. The original banner prompt is unchanged. Generated images stay bundled
+locally and the popup remains square and borderless.
+
+A clearly labelled "Demo offer" is enabled intentionally for review, 20% off
+K-Exam and K-Edusity. Unlike earlier final-null states, this build has the dummy
+active at the user's explicit request; remove/replace it before production.
+Chromium checks at 320×568 and 1366×768 passed for demo and temporary-null
+Contact variants: correct copy, names, square layout, CTA within the card,
+solid backgrounds, no strip underline and working strip dismissal. Demo was
+restored and rebuilt after tests. Build, types, nine tests and export audits pass.

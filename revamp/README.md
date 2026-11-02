@@ -151,7 +151,7 @@ after uploading, then update those four URLs in the same file. The original
 product-banner prompt has not been changed. Mobile square cards remain compact
 (at most half the viewport height); desktop cards are centered. The offer
 palette uses solid blue, red and crimson with white text, defined once in the
-labelled offer-colors block in `globals.css`. Strip CTAs are not underlined.
+`offerColors` Tailwind class map in `src/data/offer.ts`. Strip CTAs are not underlined.
 
 After editing, build, test on staging, then zip `out/` contents and send to Kapil
 sir. No date scheduler, API, new provider or offer backend is involved.
@@ -205,3 +205,15 @@ playback on the final domain as well as the local dialog behavior.
 Run `npm run check`, inspect phone/tablet/laptop/large-monitor layouts and verify reduced-motion behavior. Recheck logo and certification URLs in a browser with external access. Confirm the form backend before claiming enquiries work. Keep changes confined to `/revamp`, and discuss SEO-driven visible design changes before making them.
 
 `VERIFICATION.md` records validation and deployment limitations. Generated `out/`, local browser checks and deployment archives are ignored build artifacts, not source files to commit.
+
+### Styling rule
+
+Use Tailwind utility classes in components, including responsive, container,
+focus and reduced-motion variants. `src/app/globals.css` contains only Tailwind
+and phone-input stylesheet imports plus the Tailwind font mapping. Do not add
+component selectors, base-rule blocks, custom keyframes or `@apply` there.
+Site-wide defaults are low-specificity Tailwind variants on the root layout,
+so explicit component utilities still win. Campaign colors share one Tailwind
+class map in `src/data/offer.ts`. Existing Framer Motion handles decorative
+motion; `useMarquee` handles the two continuous loops with native animation,
+hover/focus pause, hidden-tab pause and reduced-motion cancellation.

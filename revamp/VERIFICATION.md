@@ -309,3 +309,32 @@ content in tests. Historical 12-test results above describe earlier runs; the
 current suite has 9 tests. Functional contact, offer and search tests and
 static export audits remain. Testimonial layout, link destinations and video
 playback still need browser review when changing content.
+
+## Tailwind-only global stylesheet cleanup
+
+Removed all handwritten base rules, offer/popup selectors, theme-variable
+selectors, scrollbar rules and keyframes from globals.css. It now contains
+only two imports and the Tailwind font mapping. Sizing, spacing, colors,
+container queries, focus/selection defaults, anchor offsets, typography and
+reduced-motion behavior are Tailwind utilities on their owning components or
+root layout. Low-specificity :where variants preserve component overrides.
+No replacement custom stylesheet or dependencies added. Native thin/light
+scrollbar utilities replace the vendor-specific scrollbar CSS, with native
+forced-colors defaults.
+
+Continuous marquees use one shared native-animation hook, preserving seamless
+loops and hover/focus pause; reduced motion cancels the loops. Hero/gold drift
+uses existing Framer Motion. Menu and popup entry use Tailwind starting-style
+transition variants. Popup route triggers and production offer=null unchanged.
+Campaign palette is a shared Tailwind class map, and the existing contrast
+test now reads that map instead of parsing CSS variables.
+
+Full build, TypeScript, four remaining tests and static export audits pass.
+Browser checks passed at 320×568, 390×844, 768×1024 and 1366×900 in both
+production Contact mode and a temporary festive-offer build (restored to null):
+root typography, 68px anchor offset, square popup bounds, container type and
+small-container eyebrow hiding, heading cqi sizes, CTA fit, 32px offer strip,
+reduced-motion duplicate hiding, video modal cleanup and no page overflow or
+runtime errors. Separate normal-motion checks verified running marquees,
+actual hover pause/resume and reduced-motion cancellation. Browser third-party
+requests were blocked; external media availability/playback was not tested.

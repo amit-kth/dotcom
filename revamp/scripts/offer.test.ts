@@ -1,7 +1,6 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
 import { mock, test } from "node:test";
-import { getOfferProductNames, type Offer } from "../src/data/offer";
+import { getOfferProductNames, offerColors, type Offer } from "../src/data/offer";
 
 const sample: Offer = { id: "test", tone: "new", heading: "Special offer", discount: "20% off", products: "all", cta: "Claim offer" };
 
@@ -30,15 +29,11 @@ test("wrong product IDs warn in development and do not become customer-facing te
 });
 
 test("offer text exceeds 4.5:1 against each solid campaign color", () => {
-  const css = readFileSync("src/app/globals.css", "utf8");
-  const color = (name: string) => {
-    const hex = css.match(new RegExp(`--offer-${name}: (#\\w{6})`))![1];
-    return [1, 3, 5].map((start) => parseInt(hex.slice(start, start + 2), 16) / 255);
-  };
+  const color = (hex: string) => [1, 3, 5].map((start) => parseInt(hex.slice(start, start + 2), 16) / 255);
   const luminance = (rgb: number[]) => rgb.map((c) => c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4).reduce((sum, c, i) => sum + c * [0.2126, 0.7152, 0.0722][i], 0);
-  const ink = luminance(color("ink"));
-  for (const tone of ["new", "hot", "festive"]) {
-    const background = luminance(color(tone));
+  const ink = luminance(color("#ffffff"));
+  for (const tone of ["new", "hot", "festive"] as const) {
+    const background = luminance(color(offerColors[tone].match(/bg-\[(#\w{6})\]/)![1]));
     assert.ok((Math.max(background, ink) + 0.05) / (Math.min(background, ink) + 0.05) >= 4.5, tone);
   }
 });

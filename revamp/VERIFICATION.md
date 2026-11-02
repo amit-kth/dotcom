@@ -1,131 +1,311 @@
-# Verification — route structure, Tailwind palette, SEO and GTM
+# Revamp verification
 
-## Automated export checks
+## Scope and commands
 
-Run from `revamp/`:
+All tracked changes are inside `revamp/`. The legacy PHP site is read-only.
 
-```sh
-npm run build
-npx tsc --noEmit
-python3 scripts/verify-export.py
-```
+`npm run check` passes: static production build, strict TypeScript with unused
+locals/parameters enabled, six tests, and the exported-HTML audit. `npm audit
+--omit=dev` reports no known vulnerabilities in the installed dependency tree.
 
-All passed. Each exported page (home, contact, solutions) contains exactly one
-real title tag, canonical link, GTM loader bootstrap, Organization JSON-LD block,
-and WebSite JSON-LD block. Embedded React payloads are not counted as HTML tags.
-Metadata values in `config/variables.ts` are unchanged.
+## SEO and headings
 
-## Chromium checks
+- Homepage title, description, author, keywords, canonical and Open Graph/Twitter text
+  values are checked against the unchanged root `index.php`. The new branded
+  sharing image and large-image card are intentional exceptions.
+- Legacy WebPage name, URL and description are retained. Organization and
+  WebSite schemas remain; fabricated placeholder reviews/ratings and obsolete
+  fragment references are excluded.
+- Solutions and Contact keep their own relevant metadata because no equivalent
+  legacy route files were supplied.
+- Each route exports one title, canonical and H1, nonempty headings, unique IDs,
+  valid local image paths and one GTM loader. A screen-reader-only H2 groups the
+  featured Solutions cards before their H3 headings, without changing layout.
+- `robots.txt`, the three-route sitemap, branded social image and static
+  `404.html` are exported. Zoom remains accessible. The non-AMP page does not
+  inherit the legacy AMP script or obsolete browser-compatibility scripts.
+- Legacy social tags intentionally retain their existing mixed-host URLs and
+  URL-valued `twitter:site`; no unverified replacement account was invented.
+- Tawk configuration is retained but the widget is not enabled: adding a visible
+  chat widget requires approval, not a silent SEO change.
 
-Tested the production static export at 1440 × 900 and 390 × 844, including:
+## Cleanup and artwork
 
-- Direct loads of `/`, `/contact/`, `/solutions/`: one title and canonical,
-  two site-wide schema blocks, `window.dataLayer` is an array. No initial
-  `page_view` pushed by RouteTracker.
-- Next Link navigation home → contact → solutions → home: one GTM request for
-  the complete session; one `page_view` per changed pathname. No repeated loader.
-- No React script-rendering warning or page exception, on direct or Link visits.
-- Both normal and reduced-motion navigation tested. Fixed a hydration mismatch
-  by using a server-consistent reduced-motion snapshot before browser hydration.
-- Contact demo URL pre-fills K-Exam and the title. Radix Solution menu opens and
-  offers all five products plus the empty option; Escape dismisses it.
-- No horizontal overflow at either viewport. On mobile the last category chip
-  ends at about 687px in the 844px viewport.
-- New AI banner and blue icon visually inspected in actual browser screenshots.
+Removed the unreachable Select component and dependency, its keyframe, two
+unused utility exports, the unused hero background and superseded social image.
+Local-import reachability found no remaining orphaned source modules. Every
+remaining public image has a source reference, and all remaining keyframes
+have callers. Logos and artwork that appear via filters or marquees are kept.
 
-### Network limitation
+K-Exam premium is a 1680×735 WebP, 47,932 bytes, preserving the left text zone
+with exam-specific artwork on the right. All 35 general banners remain.
 
-Google Tag Manager is outside the sandbox's outbound allowlist. Browser tests
-recorded its actual requested URL and served a stub response. This verifies
-our loader executes once, initializes dataLayer, and does not re-request on
-navigation. It does **not** verify the live GTM container or downstream Google
-Analytics delivery. Those require a deployment with access to Google's host.
-The phone library's remote flag CDN is also blocked here.
+## Browser checks
 
-Scrollbar rules use standard scrollbar-color/width and an older WebKit fallback,
-with forced-colour resets. Chromium was tested; Safari and Firefox were not
-available for runtime checks. Native OS overlay-scrollbar preferences still apply.
+Chromium checked `/`, `/solutions/` and `/contact/` at 320×568, 375×667,
+390×844, 768×1024, 1024×768, 1366×768, 1440×900 and 2560×1440.
+The 24 route/viewport checks passed horizontal-overflow, local-image loading,
+search and runtime-error checks. Representative screenshots were inspected.
 
-## Office gallery update
+A reduced-motion hydration bug could leave the homepage headline invisible.
+Its visible animation target is now preserved, without changing the design.
+The post-fix run passed 12 more route/viewport checks at 390×844, 768×1024,
+1366×768 and 2560×1440, explicitly asserting visible H1 descendants. Mobile
+menu/Escape, Ctrl+K, multiple search matches, form validation and the real
+unconfigured-error state passed. Normal-motion and JavaScript-disabled checks
+also passed for the headline, centered desktop navigation, static Solutions
+content and refreshed K-Exam rendering. No browser runtime errors were found.
 
-About cells now use 32px corners. The shared footer's new office gallery uses
-only the supplied locations and map URLs, with a separate ImageKit base so
-existing local banners/logos are unaffected. Existing phone/contact links remain
-unchanged.
+Concurrent remote product updates were merged without overwriting them. Search
+tests now cover AI Employees, its calling-agents alias and the Sales Automation
+CRM ID. The rebuilt merged content passed six more mobile/laptop route checks
+and the functional menu/search/form checks.
 
-Chromium: click selection, arrow-key selection, UAE map URL, pause/resume control
-and reduced-motion playback suppression pass with no page exceptions. Layouts
-at 1440/768/390/320px have no horizontal overflow; the active address stays
-inside its panel. Phone panels stack vertically with 44px collapsed targets.
-Build, TypeScript and exported SEO checks pass. Remote ImageKit image responses
-cannot be verified here because that host is outside the outbound allowlist.
+Browser tooling, screenshots and deployment archives are local artifacts, not
+runtime dependencies or committed source. External CDN images, country flags,
+analytics requests and external product pages cannot be verified from this
+network-restricted environment; they were excluded from local-image checks.
 
+## Deployment requirements
 
-## Footer compactness follow-up
+- Upload the contents of `out/`; no Next.js/Node server is required on cPanel.
+- Configure hosting rules as described in README.md, preserving legacy PHP and
+  product directories. Prefer `index.html` over `index.php` and return actual
+  HTTP 404 responses. Verify redirects/HTTPS on the real host.
+- Configure and test `CONTACT_ENDPOINT`. Without it, submissions fail safely;
+  there is no fake success, request or personal-data logging. The form is not
+  email-ready until the backend exists. Existing HTTP-2xx acknowledgement
+  contract requires the backend to reject unsuccessful submissions correctly.
+- Supplied CMMI/ISO artwork replaces the old local stand-in. This change does
+  not independently verify the existing certification claims.
+- No cPanel upload or live-domain verification was performed.
 
-Removed the unrequested Play/Pause control and the address hover underline.
-Reduced CTA, gallery and column spacing; mobile uses a two-column link layout.
-WhatsApp now uses a green brand logo/link. Social icons use a non-wrapping row
-with enough width reserved in the desktop grid. The Clients title keeps go-live
-together and renders on two deliberate lines.
+## Certification, branding and onboarding update
 
-Chromium checks at 1440/1024/768/691/390/320px confirmed one social row, no
-horizontal overflow, no playback button, and the Clients heading fitting its
-container. Build, TypeScript and exported SEO checks pass.
+- All shared ImageKit URLs use `Assetsbaseurl`; supplied CMMI and ISO images are
+  remote. The local CMMI stand-in and superseded legacy social logo were deleted.
+- K-Edusity, Kastrofy and K-Exam use the supplied product-server logo URLs directly
+  in the shared large-card component. K-SMART's existing server URL is preserved.
+- Large cards display every category, retaining full multi-category filtering.
+- New 1200×630 OG artwork is shared across all routes and Twitter large cards.
+  Export verification checks the deliberate social-metadata exceptions.
+- ICO contains 16/32/48px images; PNG favicons, Apple touch artwork and 192/512px
+  manifest icons are exported. The audit verifies dimensions, links and files.
+- README now explains architecture, static rendering, content/data edits, all
+  three image sources, SEO ownership, integrations, deployment and rollback.
+- Current Chromium checks passed at 390, 768, 1366 and 2560px for supplied image
+  URLs, server-logo paths, all-category labels and horizontal overflow, without
+  runtime errors. External requests were blocked for this check; live CDN/logo
+  availability was not verified. No visible certification or logo load is claimed.
 
-## UI/contact corrections (2026-10-30)
+## Offer strip and popup verification
 
-- Header is 52px; Contact us is 36px high. Transparent over the homepage hero only, white after the hero and on other routes. Hero extends underneath the transparent header.
-- White desktop Solutions panel and mobile navigation. Checked direct routes and client-side navigation to Contact.
-- Removed product hover border. Phone banners use image-first 3:7 grid rows, with a gradient into the content background. Measured image ratios: 29.98% at 390px and 29.96% at 320px.
-- Sticky shading is clipped inside the card radius; the final product has 16px side margins on phones, including reduced-motion mode.
-- About cards use one-time, staggered directional transforms with a short blur/fade. All five settle at opacity 1, blur 0, no transform. Reduced motion bypasses the entrance. Removed the location suffix from the heading.
-- Bottom solution CTA is a solid blue strip with a heading and Contact us action, side-by-side above the small breakpoint.
-- Contact uses light surfaces and dark text. Compared against the legacy form in root index.php: Your Name, Your Email, Contact Number, Your Subject, Message, hidden country_name, Send Message. Removed the invented Solution control and payload property. Product links retain context in the heading only.
-- No em dash characters remain in revamp/src.
-- Build, TypeScript, static SEO export checks and git diff whitespace checks pass. Browser checks at 1440x900, 390x900 and 320x900: no horizontal overflow on home/contact, no uncaught page errors. Additional navigation/reduced-motion checks at 1366x768 and 390x650 pass.
-- Contact delivery remains the existing TODO endpoint/local simulation; this change does not configure a backend. External CDN image delivery was not verified from the network-restricted sandbox.
+Final `src/data/offer.ts` exports `offer = null`. No date/API/backend/provider
+or production dependency was added. The three components are `OfferStrip`,
+`SitePopup` and `OfferTag`; content, image paths and the active offer live in the
+single offer data file. Existing product data stays canonical.
 
-### Single header logo (2026-10-30)
+Temporary production builds tested null, all-products and two-products offers;
+each was restored and the final null version rebuilt. Chromium checks passed:
 
-Recoloured the supplied transparent 330x86 red logo to Tailwind blue-600, preserving every alpha value and the original artwork. Header uses only logo/kriscent-blue.png. The transparent state uses CSS grayscale and increased brightness to render it white; light headers show its native blue. Browser checks at 1440px and 390px confirm the same loaded source and identical 107.4375x28 rendered dimensions in both states. Build, TypeScript and static SEO export checks pass.
+- Null: no strip/tags, Contact popup on hero scroll or eight-second timer,
+  `/contact` exclusion, correct Contact destination, dismissal after refresh.
+- Existing search dialog defers the popup; after search closes it can appear.
+  Ctrl+K inside the popup does not open another dialog.
+- Dialog semantics/name/description, aria-modal, repeated Tab focus trapping,
+  Escape, obvious close button and CTA dismissal/storage were checked.
+- All: "All solutions", 40 tags on Solutions, correct strip/popup CTA and text.
+- Two: "K-Exam, K-Edusity", only those two tags. Changing the offer ID shows the
+  popup despite previously dismissed IDs in the same browser storage.
+- New/hot/festive styles were exercised; unit tests check contrast across every
+  gradient and development warnings for incorrect product IDs.
+- Strip height is 40px, is not sticky, pauses on hover and is static with reduced
+  motion. Header height/sticky top are unchanged after the strip scrolls away.
+- Hero width and horizontal position, and cumulative layout-shift readings,
+  stayed unchanged when the modal opened. An active strip naturally reserves
+  40px above the header from the initial HTML, not a later layout insertion.
+- Real-time checks at 320×568, 390×844 and 1366×768 confirmed compact bottom cards
+  (at most 50dvh on mobile), desktop split layout, readable content and close
+  persistence. Browser runtime errors: none in the successful final runs.
 
-### Submenu centering regression
+`npm run check` includes nine tests plus production export/type/SEO/icon checks.
+The offer images are intentionally TODOs: fallback gradients remain until the
+three ImageKit files are uploaded. Contact reuses the existing office photo;
+external image availability is not asserted from this restricted network.
+Image prompts are in `prompts/offer-image-prompts.md`. CTA links to `/contact`, not
+an enquiry modal; no message-prefill integration was needed or added.
 
-The entrance animation previously wrote the CSS `translate` property, overriding Tailwind's horizontal -50% translation. It now animates `transform: translateY(...)` separately. Chromium measurements during and after the entrance at 1024px, 1366px and 1440px confirm panel centers of 512px, 683px and 720px respectively, with equal left/right margins. Build and TypeScript checks pass.
+## Square popup redesign (supersedes the earlier placeholder design)
 
-## Multi-industry selection and responsive layout
+Replaced the rejected location-photo Contact popup and split gradient Offer
+popup with a consistent 1:1 artwork-first layout. Four newly generated 960×960
+WebPs are bundled under public/popups; the location image and remote placeholder
+URLs are no longer used by popups. No heavy overlay obscures the artwork.
+The original prompts/BANNER-DIRECTION.md prompt is unchanged.
 
-- Industry state is an array with functional toggle updates. Hero chips support multiple independent selections, `aria-pressed`, X icons on selected chips, and keyboard activation. Selecting stays in the hero so users can choose more than one industry.
-- Matches use OR semantics across selected industries, deduplicated by filtering the original product list. Removable category tags replace the single-select box; Clear all restores all five featured products. Header industry selections share the same state.
-- Mobile hero uses a two-column chip grid with visible icons; all labels, including Manufacturing, fit at 320px. Mobile menu fades/slides in and out, is inert while closed, has scroll containment and larger touch targets, and skips transitions under reduced motion.
-- Contact actions use Mail icons across the header, solution strip, catalogue page and footer. Product demo actions use Presentation; external product/navigation arrows remain on their relevant links.
-- Replaced fixed shell width with fluid gutters (20px minimum, 96px maximum). Product copy uses container-relative width and bounded padding, eliminating the viewport-based padding calculation that squeezed copy on 2xl screens. Cards have content-safe minimum heights rather than clipped aspect-ratio/max-height combinations. Mobile/short-screen stacks become normal lists without scale/shading; larger screens retain sticky cards.
-- Chromium tested home/contact/catalogue at widths 320, 390, 768, 1024, 1536, 1920 and 2560: no horizontal overflow, no page errors. Additional checks at 320x640, 1024x600 and 2560x1440 confirm all product actions stay inside their cards and all hero chip labels fit. Submenu remains exactly horizontally centered at 2560px.
-- Multi-selection test: Edtech + Astrology yields K-Exam, K-Edusity and Kastrofy; removing Edtech leaves Kastrofy; clearing restores five products. Keyboard selection and reduced-motion mobile navigation verified. Build, TypeScript and static SEO checks pass.
+The original modal timing, localStorage IDs, /contact exclusion, focus trapping,
+Escape behavior, offer strip and tags remain intact. Final offer stays null.
+All four variants passed rendered checks at 320×568, 390×844 and 1366×768:
+square bounds, locally loaded images, CTA inside the card, modal semantics,
+Tab trapping, Escape and dismissal storage. Mobile cards remain <=50dvh.
+No browser runtime errors occurred. Source artwork and browser screenshots are
+ignored local artifacts, not shipped source. Earlier placeholder/split-layout
+notes above describe the superseded implementation.
 
-### Restore md/laptop card stacking
+## Repeat-on-reload and people-photo update
 
-Sticky positioning, scale and shading now start at md (768px), without the short-viewport exclusion. Phones retain a normal list; reduced-motion users still get the existing non-animated list. Browser checks at 768x700, 1024x600, 1366x640 and 1536x864 confirm sticky cards holding near the 60px header offset after scrolling. 390x844 remains relative with no transform. Build, TypeScript and SEO export checks pass. This supersedes the earlier short-screen stacking exclusion.
+Popup localStorage reads/writes were removed. Dismissal applies to the current
+page visit only; reloading resets eligibility, including when old popup-seen
+keys exist. The eight-second / past-hero trigger and /contact exclusion remain.
+New, Hot and Festive now use generated Indian people photography: new-business
+owners, a happy business win and a family Diwali celebration respectively.
+Contact retains its dedicated communication illustration.
 
-### Hero selection scroll restored
+The square popup base has no border. Product names are larger, semibold and
+highlighted on a light panel. Offer buttons, strip and tags use white text on
+richer dark gradients, with automated >=4.5:1 contrast checks. The strip is now
+32px, repeats its message to avoid empty gaps, and has a labelled dismiss button.
+Removing it collapses its 32px space intentionally after the user's click;
+reload restores it. The original banner prompt is unchanged.
+Earlier persistence/color/40px-strip descriptions above are historical.
 
-Selecting an unselected hero industry now scrolls to Solutions after the filter renders. Returning to select another industry preserves existing selections and scrolls again; deselection does not scroll. Reduced motion uses instant scrolling. Chromium checks at 390px and 1366px confirm the section arrives at 68px below the viewport top and adding a second industry retains both selections. Build, TypeScript and SEO checks pass. This supersedes the earlier stay-in-hero selection behavior.
+Current browser checks passed for all four variants at 320×568 and 1366×768:
+square bounds, image decoding, borderless base, highlighted product names,
+no product/CTA overlap, repeated opening after reload despite old storage keys,
+and strip dismissal/reset. Final build/type checks, all nine tests and export
+SEO/icon audits pass. Final offer remains null.
 
-## Shared solution search dialog
+## Campaign artwork, solid colors and enabled demo
 
-- One root-level client search provider wraps the existing statically rendered site. Header search controls and the All Solutions search-bar trigger open the same accessible Radix dialog. Ctrl+K / Cmd+K toggles it from any route.
-- Both product datasets have editable keyword arrays. A single normalized, precomputed local index covers all 40 entries. Search requires all typed terms and ranks product-name matches ahead of keyword/description matches. No API, dynamic route, database, search dependency or runtime server is required. Result calculations are memoized by query.
-- Input autofocus, up/down/Enter selection, Escape, focus trapping/return, suggested searches, highlighted matches, result counts, clear action and contact fallback are implemented. The dialog scrolls internally and remains within narrow viewports.
-- Featured results target stable product-card anchors on /solutions/. Catalogue results retain their existing product URLs; entries without a product page target their catalogue card instead. No URLs were invented for missing product pages.
-- `npx tsx --test scripts/search.test.ts`: five tests pass, covering normalization, aliases, keywords, multi-match searches, no results, index coverage and destinations.
-- Chromium checks at 320, 390, 768, 1366 and 2560px: no horizontal overflow, search autofocus and focus return pass, matching results and keyboard selection work. Ctrl+K, clear/no-results, cross-page entry, featured anchors and catalogue fallback anchors tested with no uncaught browser errors.
-- `npm run build`, `npx tsc --noEmit` and `python3 scripts/verify-export.py` pass. Build output marks /, /contact and /solutions as static (○); exported pages retain their original content and metadata.
+Contact copy now says "Can’t find the right product?" and asks visitors to
+contact the team for help choosing a solution. All offer gradients were removed:
+New uses solid blue, Hot solid red, and Festive solid crimson. Contrast checks
+verify white text against each solid campaign color. Strip CTA underline removed.
 
-## Fixed-content simplification
+Three replacement images use promotional gift/coupon/confetti campaign designs,
+not ordinary business scenes. Festive is year-round without Diwali/religious
+symbols. The original banner prompt is unchanged. Generated images stay bundled
+locally and the popup remains square and borderless.
 
-Removed unused CMMI data, certification/company indirection, logo filename mapping, the pass-through logoSrc helper and the empty dev/prod asset URL builder. Fixed certification/company copy now lives in About; images use explicit local paths or their supplied external URLs. Product/search data stays shared. Client names, testimonials and all exported image URLs are unchanged. Compared image sources across all three exported pages before/after and checked every local image path exists. Browser checks at 390px/1366px confirm the same hero background and loading local images. Static build, TypeScript, five search tests and SEO verification pass.
+A clearly labelled "Demo offer" is enabled intentionally for review, 20% off
+K-Exam and K-Edusity. Unlike earlier final-null states, this build has the dummy
+active at the user's explicit request; remove/replace it before production.
+Chromium checks at 320×568 and 1366×768 passed for demo and temporary-null
+Contact variants: correct copy, names, square layout, CTA within the card,
+solid backgrounds, no strip underline and working strip dismissal. Demo was
+restored and rebuilt after tests. Build, types, nine tests and export audits pass.
 
-## Direct metadata and clearer component names
+## Offer content spacing refinement
 
-Pages now pass `<Seo {...metadata.home} />` (or solutions/contact) directly. Removed PageKey, the page-name lookup, unused SEO overrides/noindex option, duplicate category ID/colour lists, unused category blurbs and unused product lookup/ratio exports. Category IDs are inferred from the single category list; the small label lookup remains for product records that store IDs. Renamed OfficeGallery/file to OfficeLocations/office-locations.tsx and removed its unused generic configuration props. Location interaction, autoplay pause rules, keyboard controls, visuals and all metadata values are unchanged. Static build, TypeScript, search tests and SEO checks pass. Browser checks at 390px and 1366px confirm location selection/arrow-key navigation and category filtering, with no uncaught errors.
+Kept the approved square artwork and solid colors. Increased offer heading and
+discount sizes, expanded the product panel and CTA to fill the available width,
+and reduced excess body padding. Contact popup styling is unchanged. Rendered
+checks at 320×568, 390×844 and 1366×768 confirm square bounds with no content
+overlap or overflow. Build, nine tests and export audits pass; demo stays active.
+
+## Shared shadcn Dialog migration
+
+Contact/Offer and Search now import Dialog components from
+`src/components/ui/dialog.tsx`, not Radix directly. The shared shadcn-style
+wrapper owns Portal, Overlay, Content, Title, Description and optional Close.
+It reuses the existing Radix dependency for modal accessibility and scroll lock.
+No dependencies, offer configuration or visible-design changes were added.
+
+Chromium checks at 320×568, 390×844, 768×1024 and 1366×768 passed: both search
+and offer use the shared dialog slot, remain within viewport bounds, search
+results work, popup shape stays square, Tab remains trapped, Escape dismisses,
+and Ctrl+K does not open a second dialog over the popup. No runtime errors.
+
+## Route-specific position triggers
+
+Removed the eight-second timer. Home opens when the hero bottom passes the
+sticky header; Solutions opens only when the bottom of the complete catalogue
+list (#solutions-product-list) reaches the viewport. Contact/other routes skip
+automatic popups. A fresh route visit gets its own once-only flag.
+
+Checks run after mount, restored scroll/pageshow, scroll, resize, visibility
+changes and DOM changes (including another dialog closing). No timers, storage
+or scroll percentages are used. Reloading below the Home hero no longer needs
+another scroll from the top.
+
+Browser checks at 390×844 and 1366×768 passed: no popup after waiting nine
+seconds at the Home hero or Solutions top; Home past-hero trigger and reload
+restoration; Home-to-Solutions client navigation resets eligibility; no popup
+250px before the catalogue end; popup at list end; defer for Search and open
+after Search closes; Solutions reload restoration; Contact excluded. No runtime
+errors. Earlier timed-trigger descriptions above are historical.
+
+## Client strip, About ratings and focused client stories (current layout)
+
+Supersedes the previous all-in-one ratings/review/video section.
+
+- `ClientStrip` is directly after `Hero` and before `Solutions`. All original
+  logos run in one horizontal row; the second rendered copy is only the
+  aria-hidden seamless-loop duplicate, not a second visual row. Slower 100s
+  traversal maintains a calm pace with all logos combined. Hover/focus pause
+  and reduced-motion handling are preserved.
+- About's former “Based in / Kota, Rajasthan, India / building since 2014” cell
+  is replaced with all three supplied platform ratings and links. Footer
+  locations and the remainder of About are unchanged. Rating cards retain
+  their logos, scores, fractional stars and platform colors, adapted to fit
+  this smaller cell, including 320px screens.
+- The #clients section now contains a single featured quote with author/logo,
+  supplied source link where available, previous/next buttons and a counter.
+  All six reviews are retained. No automatic rotation or review-card rail.
+  Inactive figures are visibility-hidden, aria-hidden and inert; their shared
+  grid sizing keeps the section height stable when selecting another quote.
+- Three compact video rows sit alongside the quote at 768px and above, then
+  below it on phones. No second heading band, rating bar or logo wall inside
+  testimonials. Existing shared Dialog, iframe-on-click, close cleanup and
+  focus restoration are retained. Search shortcut cannot stack another modal.
+
+`npm run check` passed: build, TypeScript, 12 tests, exported SEO/image-path/
+schema/discovery audits. Browser checks passed at 320×568, 390×844, 768×1024,
+1366×900 and 2560×1440: hero/strip ordering; one logo row; three rating links
+inside About and none in #clients; removed About location copy; exactly one
+visible written review; all six reachable forward/backward with wraparound;
+all three video Dialogs and correct URLs; viewport fit; no initial iframe;
+iframe unmount and trigger focus return; no stacked Search; no document
+horizontal overflow or runtime errors. Client-story section heights were
+approximately 784px on phones, 505px on tablet and 602–608px on desktops,
+including heading and outer padding. Local browser script/screenshots are
+in ignored `artifacts/browser-check/client-refresh.mjs` and related PNGs.
+
+External ImageKit and YouTube requests were blocked for sandbox browser checks.
+Actual CDN/logo/thumbnail availability, third-party scores and YouTube playback
+were not independently verified. Scores and review text use the user's inputs;
+verify live embeds and source pages with external access before deployment.
+
+### Follow-up: square thumbnails, dark ratings and automatic reviews
+
+Supersedes the review count, manual-only rotation, thumbnail shape and light
+rating-card styling above. Removed Sudha Agarwal, retaining five reviews.
+Restored About's default dark-glass cell for ratings with light text/dividers
+and small white logo backings for contrast. Experience counter and heading
+now show 13+. Video thumbnails use 1:1 wrappers and object-contain, without
+zoom-on-hover cropping; the actual YouTube player remains 16:9.
+
+Reviews advance every six seconds while visible. Pause/resume is available;
+hover, focus within the section, hidden tabs and active video dialogs pause
+rotation. Reduced motion disables automatic rotation. Effect cleanup removes
+the timer; manual navigation remains available. Auto rotation does not send
+continuous live-region announcements.
+
+Build, TypeScript, all 12 tests and static export audits pass. Browser checks
+at 320, 390, 768, 1366 and 2560 widths passed five-review navigation, square
+thumbnail bounds/object-contain, no overflow, all three Dialogs, correct URLs,
+iframe cleanup, focus return and modal stacking prevention. A separate normal-
+motion real-time browser check passed automatic advance, explicit pause/resume,
+hover pause and reduced-motion suppression. External-media availability and
+actual YouTube playback remain subject to the network limitation noted above.
+
+### Remove content-locking testimonial tests
+
+Removed `scripts/testimonials.test.ts`: it asserted exact reviewer names,
+wording, review counts, platform scores, source/video URLs and the experience
+suffix. Those are editable content, not functional invariants. Developers
+can now edit `src/data/site-content.ts` without updating a second copy of the
+content in tests. Historical 12-test results above describe earlier runs; the
+current suite has 9 tests. Functional contact, offer and search tests and
+static export audits remain. Testimonial layout, link destinations and video
+playback still need browser review when changing content.

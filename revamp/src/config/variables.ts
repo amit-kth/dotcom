@@ -1,7 +1,7 @@
 // Shared site settings, contact details and metadata.
 
-/** Office photography shared with kriscent.in. Local images use direct /paths. */
-export const OFFICE_ASSETS_BASE_URL = "https://ik.imagekit.io/qk2ww553c";
+/** Shared ImageKit origin for office and certification images. Local images use /paths. */
+export const Assetsbaseurl = "https://ik.imagekit.io/qk2ww553c";
 
 /* ---------------------------------------------------------------------------
    2. API
@@ -11,9 +11,7 @@ export const OFFICE_ASSETS_BASE_URL = "https://ik.imagekit.io/qk2ww553c";
    misconfigured deploy fails loudly rather than silently posting nowhere.
 --------------------------------------------------------------------------- */
 
-/** The contact page form posts here. Same TODO rule: while this starts with
-    "TODO" the form simulates success so the states can be reviewed, and a real
-    URL switches it on with no component change. */
+/** Configure and test a real backend before accepting enquiries. */
 export const CONTACT_ENDPOINT = "TODO_LARAVEL_CONTACT_ENDPOINT"; // e.g. "https://api.kriscent.com/contact"
 
 /* ---------------------------------------------------------------------------
@@ -24,6 +22,8 @@ export const site = {
   legalName: "Kriscent Techno Hub Pvt Ltd",
   url: "https://www.kriscent.com",
   locale: "en_IN",
+  ogImage: "/images/og-kriscent.jpg",
+  ogImageAlt: "Kriscent ready-made software solutions for business, education and automation",
   founded: 2014,
   /** Google Tag Manager - carried over from the old site. */
   gtmId: "GTM-TDFV5SJ4",
@@ -98,23 +98,32 @@ export const contact = {
 export const metadata = {
   home: {
     path: "/",
-    title: "Ready-Made Software Solutions, Live in 15 Days | Kriscent",
+    title: "Kriscent: Top IT Solutions & Software Development Company",
     description:
-      "Ready-made solutions for schools, clinics, finance, logistics and more. Pick your industry, see what is already built, and go live in 15 days instead of six months.",
-    ogImage: "logo/og.png",
+      "Kriscent offers innovative IT solutions and software development services since 2014. Specializing in CRM, ERP, and custom software. Trusted by global clients.",
   },
   solutions: {
     path: "/solutions",
     title: "All Ready-Made Solutions | Kriscent",
     description:
       "The full catalogue of Kriscent ready-made solutions, themes and additional products. Every system can be live in 15 days.",
-    ogImage: "logo/og.png",
   },
   contact: {
     path: "/contact",
     title: "Contact Kriscent | Ready-Made Software, Live in 15 Days",
     description:
       "Tell us what you run and we will show you the closest thing we have already built. Enquiries are answered by the team that builds and installs the software.",
-    ogImage: "logo/og.png",
   },
+};
+
+// Verified against the legacy index.php. These tags do not change visible copy.
+export const legacySeo = {
+  author: "Er.Kapil Gautam",
+  keywords: "IT solutions, software development, Ready to use products, CRM software, ERP systems, mobile app development, custom software development, tech consulting, digital transformation",
+  ogTitle: "Kriscent - Leading Provider of IT Solutions & Custom Software Development",
+  ogDescription: "Kriscent offers innovative IT solutions and custom software development services worldwide. Our ready-to-use products like CRM, ERP systems, and mobile apps help businesses grow faster and smarter.",
+  ogUrl: "https://kriscent.com",
+  twitterTitle: "Kriscent | Best in Software Development, Design & IT services",
+  twitterDescription: "Kriscent Techno Hub Pvt. Ltd is the leading IT company. That provide software and web development services to Start-ups and small business owners.",
+  twitterSite: "https://www.kriscent.com/",
 };

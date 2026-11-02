@@ -1,11 +1,14 @@
 import { ArrowUpRight, ImageIcon } from "lucide-react";
+import { OfferTag } from "@/components/offers/offer-tag";
 import { catalogue } from "@/data/catalogue";
 
 export function CatalogueGrid() {
   return (
-    <ul className="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <ul id="solutions-product-list" className="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {catalogue.map((item) => (
         <li key={item.id} id={`catalogue-${item.id}`} className="group">
+          <div className="relative">
+          <OfferTag productId={item.id} />
           {item.image ? (
             <img
               src={item.image}
@@ -33,6 +36,8 @@ export function CatalogueGrid() {
               />
             </div>
           )}
+
+          </div>
 
           <div className="mt-4 flex items-start justify-between gap-3">
             <div>

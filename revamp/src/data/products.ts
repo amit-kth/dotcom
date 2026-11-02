@@ -14,7 +14,7 @@ export type Product = {
   logo: string | null;
   /** one line: the problem it removes, not a feature list */
   problem: string;
-  /** the first entry is the label shown on the banner; all of them filter */
+  /** All categories appear on the banner and participate in filtering. */
   categories: CategoryId[];
   /** exactly three, each five words or fewer */
   outcomes: [string, string, string];
@@ -31,7 +31,7 @@ export type Product = {
 
 export const products: Product[] = [
   {
-    id: "ai-calling-agents",
+    id: "ai-employees",
     keywords: [
       "AI calls",
       "voice agent",
@@ -40,8 +40,9 @@ export const products: Product[] = [
       "sales calls",
       "loan recovery",
       "fintech",
+      "calling agents"
     ],
-    name: "AI Calling Agents",
+    name: "AI Employees",
     logo: null,
     // The phrasing is the client's own reference banner: calls that did not
     // need a person.
@@ -62,7 +63,7 @@ export const products: Product[] = [
     order: 1,
   },
   {
-    id: "whatsapp-crm",
+    id: "sales-automation-crm",
     keywords: [
       "K-SMART",
       "ksmart",
@@ -74,7 +75,7 @@ export const products: Product[] = [
       "invoices",
     ],
     // K-SMART on the old site; "one CRM instead of six tools" is its own line.
-    name: "WhatsApp CRM",
+    name: "Sales Automation CRM",
     logo: "https://www.kriscent.in/product/ksmart/assets/img/software/ksmart_logo.png",
     problem: "Leads live across six tools and three phones.",
     categories: ["manufacturing", "logistics", "real-estate"],
@@ -101,7 +102,7 @@ export const products: Product[] = [
       "education",
     ],
     name: "K-Exam",
-    logo: null,
+    logo: "https://www.kriscent.in/product/kexam/img/logo-2.png",
     // Old site: "Exams that stay secure online".
     problem: "Exams take a week of marking and a folder of paperwork.",
     categories: ["edtech"],
@@ -121,25 +122,27 @@ export const products: Product[] = [
     keywords: [
       "school ERP",
       "school management",
+      "student management",
       "student attendance",
-      "attendence",
+      "attendance",
       "school fees",
+      "admission management",
       "LMS",
       "K-LMS",
+      "online learning",
       "learning management",
       "education",
+      "e-learning",
     ],
     name: "K-Edusity",
-    logo: null,
-    /* School ERP. This is the merge of the old K-Edusity and K-LMS entries:
-       admissions, fees, attendance, transport, exams and courses are one
-       system, so they are one solution. */
-    problem: "A school runs on registers, WhatsApp groups and memory.",
-    categories: ["edtech", "manufacturing"],
+    logo: "https://www.kriscent.com/product/kedusity/public/uploads/dark_logo/darklogo-1781938584.png",
+    /* Unified school management and learning platform. */
+    problem: "Managing school operations and digital learning across disconnected systems.",
+    categories: ["edtech"],
     outcomes: [
-      "Admissions, fees and attendance",
-      "Timetables, transport and exams",
-      "Courses, learners and certificates",
+      "Admissions, student records and fees",
+      "Attendance, timetables, transport and exams",
+      "Online courses, learning and assessments",
     ],
     accentHue: "blue",
     banner: "/banners/k-edusity.webp",

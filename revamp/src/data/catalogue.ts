@@ -22,6 +22,7 @@ export type CatalogueItem = {
 export const catalogue: CatalogueItem[] = [
   {
     id: "k-services",
+    image: "/banners/general/k-services.webp",
     keywords: ["multi services", "service portal", "business services"],
     name: "K-Services",
     line: "Multi-services portal",
@@ -31,6 +32,7 @@ export const catalogue: CatalogueItem[] = [
 
   {
     id: "kart-grocery",
+    image: "/banners/general/kart-grocery.webp",
     keywords: ["grocery delivery", "vegetables", "food shopping"],
     name: "Kart-Grocery",
     line: "Fast delivery, fresh products",
@@ -47,6 +49,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "k-restro",
+    image: "/banners/general/k-restro.webp",
     keywords: [
       "restaurant POS",
       "restaurant management",
@@ -69,6 +72,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "kart-supermarket",
+    image: "/banners/general/kart-supermarket.webp",
     keywords: ["supermarket", "grocery store", "online shopping"],
     name: "Kart Supermarket",
     line: "Online grocery store",
@@ -77,6 +81,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "kart-multivendor",
+    image: "/banners/general/kart-multivendor.webp",
     keywords: ["marketplace", "multiple sellers", "ecommerce", "e commerce"],
     name: "Kart Multivendor",
     line: "Multivendor ecommerce portal",
@@ -85,6 +90,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "kart-multistore",
+    image: "/banners/general/kart-multistore.webp",
     keywords: ["multiple stores", "ecommerce", "retail"],
     name: "Kart Multistore",
     line: "Multistore ecommerce portal",
@@ -93,6 +99,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "k-shop",
+    image: "/banners/general/k-shop.webp",
     keywords: ["online shop", "ecommerce", "WhatsApp store", "CRM"],
     name: "K-Shop",
     line: "Ecommerce with WhatsApp CRM",
@@ -101,6 +108,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "k-store",
+    image: "/banners/general/k-store.webp",
     keywords: ["online store", "ecommerce", "shopping cart"],
     name: "K-Store",
     line: "Online shopping portal",
@@ -110,6 +118,7 @@ export const catalogue: CatalogueItem[] = [
 
   {
     id: "k-job",
+    image: "/banners/general/k-job.webp",
     keywords: ["jobs", "recruitment", "hiring", "careers"],
     name: "K-Job",
     line: "Online job portal",
@@ -118,6 +127,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "k-klassified",
+    image: "/banners/general/k-klassified.webp",
     keywords: ["classifieds", "listings", "buy and sell"],
     name: "K-Klassified",
     line: "Online listing portal",

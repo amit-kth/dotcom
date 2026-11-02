@@ -80,3 +80,24 @@ Appointment management software. A welcoming clinic reception with a laptop near
 ### Trial status
 
 Successfully generated the first three general-product images: K-Foodies, K-Bazaar POS and K-Appointment. Delivered as 1280 × 800 WebP in `public/banners/general/` and connected to their catalogue entries. Full-frame scenes, no reserved left text zone.
+
+## General catalogue expansion: first batch
+
+Ten additional general-product images were generated individually and added to the catalogue. All use the general prompt template above: full-frame 16:10 photographic scenes, no reserved text area, and no marketing headline. These scene instructions distinguish the products:
+
+| Product | Scene instruction |
+| --- | --- |
+| K-Services | Service counter with laptop directory/request rows, confirmation phone and document folders. |
+| Kart-Grocery | Grocery-ordering phone with fresh produce, shopping bags and delivery tote in a neighborhood grocer. |
+| K-Restro | Restaurant station with table-plan POS, receipt printer, menus and plated food. |
+| Kart Supermarket | Online grocery storefront laptop with groceries, shopping bags and supermarket aisle. |
+| Kart Multivendor | Marketplace laptop with several seller storefronts, varied merchandise and shipping parcels. |
+| Kart Multistore | Retail desk with multistore management laptop, storefront tablet, apparel and stock shelves. |
+| K-Shop | Ecommerce storefront laptop, green customer-chat phone, merchandise and parcels. |
+| K-Store | Shopping storefront laptop, product-detail phone, fabrics, home goods and dispatch box. |
+| K-Job | Recruitment desk with job-search laptop, application-confirmation phone and resumes. |
+| K-Klassified | Classified-listing laptop and phone, resale merchandise and a bicycle in context. |
+
+Delivery: 1280 × 800 WebP, each below 130 KB. The original three general images and all premium banners remain unchanged.
+
+Progress: **13 of 35 general-product images complete; 22 remaining.** Image generation stopped at the tool's limit of ten successful images per turn. Resume with **K-Community**, followed by the remaining catalogue entries without an `image` field; do not regenerate completed entries.

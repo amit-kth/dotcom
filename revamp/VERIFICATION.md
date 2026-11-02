@@ -234,3 +234,35 @@ restoration; Home-to-Solutions client navigation resets eligibility; no popup
 250px before the catalogue end; popup at list end; defer for Search and open
 after Search closes; Solutions reload restoration; Contact excluded. No runtime
 errors. Earlier timed-trigger descriptions above are historical.
+
+## Compact testimonials, platform ratings and video dialogs
+
+The client-logo marquee code and logo data are unchanged. The former tall quote
+grid is replaced with a compact ratings/reviews/video area in the same #clients
+section. Ratings retain the supplied Google 4.2, Ambition Box 4.6 and Clutch 5.0
+scores and source URLs; fractional stars use the supplied platform colors. White
+Clutch stars have a dark background. No review counts or rating schema added.
+
+The supplied Radhika, Noora and Khetpal quotes and individual Clutch links are
+preserved exactly. Existing Vikash, Sudha and Kratant feedback is retained,
+using existing excerpts in a single horizontal review row. Arrow buttons,
+touch/trackpad scrolling and reduced-motion navigation are supported.
+
+All three supplied video thumbnails open one shared shadcn Dialog. Only the
+selected YouTube iframe mounts on click, and it unmounts on close. Each player
+has an accessible title; closing returns focus to its thumbnail. The global
+search shortcut now defers to any existing dialog, including the video player.
+
+Browser checks passed at 320×568, 390×844, 768×1024, 1366×900 and 2560×1440:
+no document overflow; three linked platform ratings; six written reviews; next/
+previous review scrolling; no initial YouTube iframe; each supplied video URL
+opens in the shared dialog; viewport fit; no stacked search dialog; Escape
+cleanup and focus return. Final thumbnail-width refinement was rechecked on
+phone and laptop. The added testimonial block is roughly 660–740px tall across
+these sizes (single review row and compact video thumbnails, not tall grids).
+No browser runtime errors. Build, types, twelve tests and export audits pass.
+
+External ImageKit and YouTube requests were blocked for sandbox browser checks.
+Actual CDN/logo/thumbnail availability, third-party scores and YouTube playback
+were not independently verified. Scores and review text use the user's inputs;
+verify live embeds and source pages with external access before deployment.

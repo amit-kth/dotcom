@@ -1,3 +1,5 @@
+import { Assetsbaseurl as ASSETS_BASE_URL } from "@/config/variables";
+
 // Company figures, testimonials and client logos carried over from the old site.
 
 export type Counter = {
@@ -19,18 +21,40 @@ export type Testimonial = {
   name: string;
   role: string;
   logo: string;
+  source?: string;
+  sourceLink?: string;
 };
 
 export const testimonials: Testimonial[] = [
   {
     id: "radhika-aggarwal",
-    quote:
-      "Kriscent Techno Hub Pvt. Ltd. has completed the project goals, leaving the client pleased with the collaboration. The team manifests their professionalism through timely deliverables and excellent problem-solving. They're also proactive in coming up with unique ideas to improve the client's vision.",
-    excerpt:
-      "The team manifests their professionalism through timely deliverables and excellent problem-solving.",
+    quote: "I'm impressed by their support and hard work.",
+    excerpt: "I'm impressed by their support and hard work.",
     name: "Radhika Aggarwal",
     role: "Founder, Ishvaa Life Spirituality",
-    logo: "/clients/ishvaa.webp",
+    logo: `${ASSETS_BASE_URL}/tempAssets/clientsImages/ishvaa.png`,
+    source: "Clutch",
+    sourceLink: "https://clutch.co/go-to-review/34244e69-969c-4a5a-867f-0b1ee010e638/346445",
+  },
+  {
+    id: "noora-fateh",
+    quote: "I was impressed by their conduct and collaborations during the entire project.",
+    excerpt: "I was impressed by their conduct and collaborations during the entire project.",
+    name: "Noora Fateh",
+    role: "Founder, Flixmates.com",
+    logo: `${ASSETS_BASE_URL}/tempAssets/clientsImages/flixmates.png`,
+    source: "Clutch",
+    sourceLink: "https://clutch.co/go-to-review/34244e69-969c-4a5a-867f-0b1ee010e638/400553",
+  },
+  {
+    id: "khetpal-singh",
+    quote: "What truly stands out is the way their team works.",
+    excerpt: "What truly stands out is the way their team works.",
+    name: "Mr. Khetpal Singh",
+    role: "Founder, HR Walla & SMIB",
+    logo: `${ASSETS_BASE_URL}/tempAssets/clientsImages/hr.png`,
+    source: "Clutch",
+    sourceLink: "https://clutch.co/go-to-review/34244e69-969c-4a5a-867f-0b1ee010e638/404675",
   },
   {
     id: "vikash-kunta",
@@ -61,6 +85,52 @@ export const testimonials: Testimonial[] = [
     name: "Kratant Sharma",
     role: "Shrinath Travels",
     logo: "/clients/shrinath-travels.webp",
+  },
+];
+
+// Supplied platform scores, maintained manually rather than fetched live.
+export const platformRatings = [
+  {
+    title: "Google",
+    href: "https://g.co/kgs/rFi9C6c",
+    platformLogo: `${ASSETS_BASE_URL}/tempAssets/Google_Icons-09-512%202.png?updatedAt=1724757228086`,
+    starColor: "#F6AD01",
+    starCount: 4.2,
+  },
+  {
+    title: "Ambition Box",
+    href: "https://www.ambitionbox.com/overview/kriscent-techno-hub-overview",
+    platformLogo: `${ASSETS_BASE_URL}/tempAssets/ab-brand%202.png?updatedAt=1724757228073`,
+    starColor: "#5670FB",
+    starCount: 4.6,
+  },
+  {
+    title: "Clutch",
+    href: "https://clutch.co/profile/kriscent-techno-hub#highlights",
+    platformLogo: `${ASSETS_BASE_URL}/tempAssets/clutch.png?updatedAt=1724492726508`,
+    starColor: "#fff",
+    starCount: 5,
+  },
+];
+
+export const videoTestimonials = [
+  {
+    name: "Mnandi Retail Solutions",
+    role: "Marketing Manager",
+    videoLink: "https://www.youtube.com/embed/mS6w6YDqrrM",
+    thumbnail: `${ASSETS_BASE_URL}/tempAssets/clientsImages/t1.webp`,
+  },
+  {
+    name: "Andreas Kounnaris",
+    role: "CEO (Elkithron)",
+    videoLink: "https://www.youtube.com/embed/LA6eE_KCKO0",
+    thumbnail: `${ASSETS_BASE_URL}/tempAssets/clientsImages/t2.webp`,
+  },
+  {
+    name: "Mr. Mudit Agarwal",
+    role: "CEO (Agarwal Stones)",
+    videoLink: "https://www.youtube.com/embed/1kITFCOS8LU",
+    thumbnail: `${ASSETS_BASE_URL}/tempAssets/clientsImages/t3.webp`,
   },
 ];
 

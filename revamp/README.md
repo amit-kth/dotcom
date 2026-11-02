@@ -44,7 +44,8 @@ Content is maintained in version-controlled TypeScript files, not a CMS or datab
 - `src/data/products.ts`: the five large products, including IDs, names, search keywords, all categories, outcomes, banner paths, logos and external product links. Both the homepage and Solutions page use `SolutionBanner`.
 - `src/data/catalogue.ts`: the 35 smaller general-product cards and their artwork.
 - `src/data/categories.ts`: industry IDs and labels. A product can belong to several categories; **all its categories are displayed**, and the homepage filters use the full array.
-- Other files in `src/data/`: clients, testimonials, office locations and shared content. The fixed delivery steps remain in the homepage delivery component.
+- `src/data/site-content.ts`: client logos, written testimonials, manually maintained platform ratings and video testimonial URLs/thumbnails.
+- Other files in `src/data/`: office locations and shared content. The fixed delivery steps remain in the homepage delivery component.
 - `src/lib/solution-search.ts`: builds the shared search index from products/catalogue. Update keywords in the data, not separate hand-written search results.
 
 For a product change, edit its existing object. Keep IDs stable where possible because they form card anchors, contact query values and search links. Use only category IDs declared in `categories.ts`. If a name/ID changes intentionally, update search tests and check incoming links. Do not invent external product URLs, certification claims or reviews.
@@ -163,6 +164,21 @@ overlay and accessible dialog primitives. Keep route-specific content and
 presentation in the caller; do not create another direct Radix dialog wrapper.
 Existing focus trapping, Escape handling and scroll lock come from the installed
 Radix dependency. No extra dialog package or context provider is needed.
+
+### Client ratings and video testimonials
+
+The existing client-logo marquee stays in `app/(home)/components/clients.tsx`.
+The compact ratings/review/video area is `app/(home)/components/testimonials.tsx`.
+Written feedback uses a swipeable, keyboard-focusable row with arrow buttons;
+three video cards share one shadcn Dialog. YouTube iframes are created only on
+click and removed on close, so the homepage does not preload three players.
+Thumbnails and supplied platform/reviewer logos use the shared ImageKit base.
+
+Edit `platformRatings`, `testimonials` and `videoTestimonials` in `site-content.ts`.
+Scores are manually supplied, not fetched live. Keep exact review/source URLs,
+use excerpts for compact cards and do not invent individual star ratings,
+review counts or aggregate-rating schema. Test actual external images and video
+playback on the final domain as well as the local dialog behavior.
 
 ## 9. Before handing off a change
 

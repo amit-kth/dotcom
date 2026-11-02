@@ -1,4 +1,5 @@
-import { clientLogos, testimonials } from "@/data/site-content";
+import { Testimonials } from "./testimonials";
+import { clientLogos } from "@/data/site-content";
 import { Reveal } from "@/components/reveal";
 import { BAND, LIGHT_BAND, SHELL, T_BODY, T_HEADING, T_LABEL } from "@/lib/ui";
 import { cn } from "@/lib/utils";
@@ -7,13 +8,6 @@ const ROW_ONE = clientLogos.slice(0, Math.ceil(clientLogos.length / 2));
 const ROW_TWO = clientLogos.slice(Math.ceil(clientLogos.length / 2));
 
 export function Clients() {
-  /* Every quote gets the same card, in a two-column grid, in reading order.
-     Rows are equal height and the attribution is pinned to the bottom of each
-     card, so no quote sits higher or lower than its neighbours. An odd number
-     of quotes ends with one card spanning both columns instead of leaving a
-     hole. Adding a quote needs no layout change. */
-  const odd = testimonials.length % 2 === 1;
-
   return (
     <section
       id="clients"
@@ -57,44 +51,8 @@ export function Clients() {
         </div>
       </div>
 
-      <div
-        className={cn(SHELL, "relative z-1 pb-[clamp(4.5rem,9vw,9rem)] pt-14")}
-      >
-        <div className="grid items-stretch gap-4 sm:grid-cols-2">
-          {testimonials.map((item, index) => (
-            <figure
-              key={item.id}
-              className={cn(
-                "flex h-full flex-col justify-between rounded-2xl border border-slate-200 bg-white p-7 shadow-[0_24px_60px_-36px_rgb(15_23_42/0.28)]",
-                "transition-transform duration-300 hover:-translate-y-1",
-                odd && index === testimonials.length - 1 && "sm:col-span-2",
-              )}
-            >
-              <blockquote>
-                <p className="text-[1.0625rem] leading-[1.7] text-slate-600">
-                  {item.quote}
-                </p>
-              </blockquote>
-              <figcaption className="mt-7 flex items-center gap-3 border-t border-slate-200 pt-5">
-                <img
-                  src={item.logo}
-                  alt=""
-                  width={96}
-                  height={48}
-                  loading="lazy"
-                  decoding="async"
-                  className="h-7 w-auto max-w-[5rem] object-contain"
-                />
-                <div className="border-l border-slate-200 pl-3">
-                  <p className="text-[0.9375rem] font-semibold text-slate-950">
-                    {item.name}
-                  </p>
-                  <p className="text-[0.875rem] text-slate-600">{item.role}</p>
-                </div>
-              </figcaption>
-            </figure>
-          ))}
-        </div>
+      <div className={cn(SHELL, "relative z-1 pt-10 pb-16 sm:pb-20")}>
+        <Testimonials />
       </div>
     </section>
   );

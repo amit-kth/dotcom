@@ -64,6 +64,7 @@ export function SolutionSearchProvider({
         event.key.toLowerCase() === "k"
       ) {
         event.preventDefault();
+        if (document.querySelector('[role="dialog"]:not([data-solution-search]), [role="alertdialog"]')) return;
         if (
           document.activeElement instanceof HTMLElement &&
           !document

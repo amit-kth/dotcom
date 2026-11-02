@@ -22,7 +22,7 @@ export const offer: Offer | null = {
   cta: "Claim offer",
 };
 
-id: Change it EVERY time. A new id shows the popup again to people who closed the old one.
+id: Use a new, descriptive identifier for each offer. Popups can show again on every reload.
 tone: Choose "new", "hot" or "festive"; tone chooses the colors and image.
 heading: The short name of your offer.
 discount: A discount such as "20% off". Never write rupee prices.

@@ -151,3 +151,26 @@ Tab trapping, Escape and dismissal storage. Mobile cards remain <=50dvh.
 No browser runtime errors occurred. Source artwork and browser screenshots are
 ignored local artifacts, not shipped source. Earlier placeholder/split-layout
 notes above describe the superseded implementation.
+
+## Repeat-on-reload and people-photo update
+
+Popup localStorage reads/writes were removed. Dismissal applies to the current
+page visit only; reloading resets eligibility, including when old popup-seen
+keys exist. The eight-second / past-hero trigger and /contact exclusion remain.
+New, Hot and Festive now use generated Indian people photography: new-business
+owners, a happy business win and a family Diwali celebration respectively.
+Contact retains its dedicated communication illustration.
+
+The square popup base has no border. Product names are larger, semibold and
+highlighted on a light panel. Offer buttons, strip and tags use white text on
+richer dark gradients, with automated >=4.5:1 contrast checks. The strip is now
+32px, repeats its message to avoid empty gaps, and has a labelled dismiss button.
+Removing it collapses its 32px space intentionally after the user's click;
+reload restores it. The original banner prompt is unchanged.
+Earlier persistence/color/40px-strip descriptions above are historical.
+
+Current browser checks passed for all four variants at 320×568 and 1366×768:
+square bounds, image decoding, borderless base, highlighted product names,
+no product/CTA overlap, repeated opening after reload despite old storage keys,
+and strip dismissal/reset. Final build/type checks, all nine tests and export
+SEO/icon audits pass. Final offer remains null.

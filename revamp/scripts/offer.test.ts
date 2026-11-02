@@ -41,7 +41,7 @@ test("offer text exceeds 4.5:1 across every tone gradient", () => {
     const start = color(`${tone}-start`), end = color(`${tone}-end`);
     for (let step = 0; step <= 100; step++) {
       const background = luminance(start.map((c, i) => c + (end[i] - c) * step / 100));
-      assert.ok((background + 0.05) / (ink + 0.05) >= 4.5, `${tone}: ${step}%`);
+      assert.ok((Math.max(background, ink) + 0.05) / (Math.min(background, ink) + 0.05) >= 4.5, `${tone}: ${step}%`);
     }
   }
 });

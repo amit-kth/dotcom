@@ -109,28 +109,29 @@ To roll back, restore the backed-up files and hosting rules. Keep older `_next` 
 **Only edit `src/data/offer.ts` to add/remove an offer.** Its opening comment
 has filled all-product and two-product examples, field explanations and the
 handoff steps. Keep `offer = null` for the ordinary Contact popup. An offer
-object switches to the offer popup, the 40px strip and matching banner tags.
-Change its `id` for every new offer; use discounts, never rupee prices.
+object switches to the offer popup, the 32px strip and matching banner tags.
+Use a descriptive `id` for each offer; use discounts, never rupee prices.
 
 Product IDs come from `products.ts` and `catalogue.ts`. Incorrect IDs warn in
 development. The popup waits eight seconds or until the visitor scrolls past
 the homepage hero, whichever happens first, and waits for another dialog to
-close. It does not appear on `/contact`. Closing or clicking its button saves
-`popup-seen-<id>` in localStorage (`contact` for the ordinary popup).
+close. It does not appear on `/contact`. Closing or clicking its button hides it for the current page visit. No popup
+localStorage/sessionStorage is used: reloading makes it eligible again, after
+the usual delay or scroll trigger.
 
 Both variants link to the same `/contact` page as navigation; the enquiry form
 is not a modal, so there is no second modal or prefilled-message integration.
 The existing backend requirement still applies.
 
-The strip renders with the static HTML above the header, scrolls away normally
-and has no dismiss button. An enabled strip occupies 40px from the first paint;
+The strip renders above the header, scrolls away normally and has a dismiss
+button. Dismissal lasts until reload. An enabled strip occupies 32px from the first paint;
 it does not insert space later or change the header/stacking offsets. The popup
 is portalled and does not participate in hero layout. Reduced motion stops the
 marquee and uses a fade-only popup entrance.
 
 All four popups are square. Dedicated generated artwork is bundled in
-`public/popups/` for Contact, New, Hot and Festive, with no location photographs
-or gradient placeholders. `popupImages` in the offer data file selects them.
+`public/popups/` for Contact, New, Hot and Festive, with dedicated communication artwork for Contact and happy Indian business /
+festive family photography for offers, not gradient placeholders. `popupImages` in the offer data file selects them.
 The images ship locally so they work immediately; move them to ImageKit only
 after uploading, then update those four URLs in the same file. The original
 product-banner prompt has not been changed. Mobile square cards remain compact

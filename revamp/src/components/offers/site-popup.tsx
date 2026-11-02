@@ -13,21 +13,19 @@ export function SitePopup() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const previousFocus = useRef<HTMLElement | null>(null);
-  const key = `popup-seen-${offer?.id ?? "contact"}`;
+  const shown = useRef(false);
 
   useEffect(() => {
     setOpen(false);
     if (pathname.replace(/\/$/, "") === contact.contactPath) return;
-    try { if (localStorage.getItem(key)) return; } catch { /* Storage may be blocked. */ }
     let ready = false;
-    let shown = false;
     const tryOpen = () => {
-      if (shown) return;
+      if (shown.current) return;
       const hero = document.getElementById("top");
       const headerHeight = document.querySelector("header")?.getBoundingClientRect().height ?? 0;
       if (hero && hero.getBoundingClientRect().bottom <= headerHeight) ready = true;
       if (!ready || document.hidden || document.querySelector('[role="dialog"], [role="alertdialog"]')) return;
-      shown = true;
+      shown.current = true;
       previousFocus.current = document.activeElement as HTMLElement | null;
       setOpen(true);
     };
@@ -43,10 +41,9 @@ export function SitePopup() {
       window.removeEventListener("scroll", tryOpen);
       document.removeEventListener("visibilitychange", tryOpen);
     };
-  }, [key, pathname]);
+  }, [pathname]);
 
   const close = () => {
-    try { localStorage.setItem(key, "true"); } catch { /* Still close without storage. */ }
     setOpen(false);
   };
 
@@ -58,7 +55,7 @@ export function SitePopup() {
           data-site-popup
           aria-modal="true"
           data-tone={offer?.tone}
-          className="offer-popup fixed right-3 bottom-3 z-[111] overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white text-slate-950 shadow-2xl sm:right-auto sm:bottom-auto sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2"
+          className="offer-popup fixed right-3 bottom-3 z-[111] overflow-hidden rounded-[1.75rem] border-0 bg-white text-slate-950 shadow-2xl sm:right-auto sm:bottom-auto sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2"
           onKeyDown={(event) => {
             // Keep the global search shortcut from opening a second modal.
             if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") event.stopPropagation();
@@ -83,7 +80,7 @@ export function SitePopup() {
               {offer?.heading ?? "Your next move, made simple."}
             </Dialog.Title>
             {offer && <p className="popup-discount font-bold tracking-[-0.06em]">{offer.discount}</p>}
-            <Dialog.Description className="popup-description text-slate-500">
+            <Dialog.Description className={offer ? "popup-description popup-products" : "popup-description text-slate-600"}>
               {offer ? offerProductNames : "Tell us what you need. We’ll help you find the right fit."}
             </Dialog.Description>
             <Link href={contact.contactPath} onClick={close} className={`${buttonVariants()} popup-cta ${offer ? "offer-colors" : ""}`} data-tone={offer?.tone}>

@@ -81,7 +81,7 @@ export function OfficeLocations() {
           Our locations
         </h2>
       </div>
-      <div ref={cards} className="max-md:relative flex h-[26rem] w-full min-w-0 flex-col gap-2 md:h-64 md:flex-row max-md:h-64 max-md:flex-row max-md:overflow-x-auto max-md:[scrollbar-width:none] max-md:[&::-webkit-scrollbar]:hidden max-md:snap-x max-md:snap-mandatory">
+      <div ref={cards} className="max-md:relative flex h-[26rem] w-full min-w-0 flex-col gap-2 md:h-64 md:flex-row max-md:h-64 max-md:flex-row max-md:overflow-x-auto max-md:[scrollbar-width:none]! max-md:[&::-webkit-scrollbar]:hidden! max-md:snap-x max-md:snap-mandatory">
         {locations.map((item, index) => {
           const active = index === activeItem;
           return (

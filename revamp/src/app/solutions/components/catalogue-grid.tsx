@@ -41,10 +41,10 @@ export function CatalogueGrid() {
 
           <div className="mt-4 flex items-start justify-between gap-3">
             <div>
-              <h3 className="text-[1.0625rem] font-semibold leading-snug tracking-[-0.015em] text-slate-950">
+              <h3 className="text-[1.0625rem] max-md:text-sm font-semibold leading-snug tracking-[-0.015em] text-slate-950">
                 {item.name}
               </h3>
-              <p className="mt-1 text-[0.9375rem] leading-snug text-slate-600">
+              <p className="mt-1 text-[0.9375rem] max-md:text-[0.8125rem] leading-snug text-slate-600">
                 {item.line}
               </p>
             </div>

@@ -1,14 +1,14 @@
 export const SHELL = "mx-auto w-full max-w-none px-[clamp(1.25rem,4vw,6rem)]";
 
-export const BAND = "py-[clamp(4.5rem,9vw,10rem)]";
+export const BAND = "py-[clamp(4.5rem,9vw,10rem)] max-md:py-12";
 
 export const T_HEADING =
-  "text-[clamp(1.5rem,3.4vw,3.25rem)] font-bold leading-[1.1] tracking-[-0.035em]";
+  "text-[clamp(1.5rem,3.4vw,3.25rem)] max-md:text-[clamp(1.375rem,5.5vw,1.625rem)] font-bold leading-[1.1] tracking-[-0.035em]";
 
-export const T_BODY = "max-w-[65ch] text-[1.125rem] leading-[1.6]";
+export const T_BODY = "max-w-[65ch] text-[1.125rem] leading-[1.6] max-md:text-[0.9375rem]";
 
 export const T_LABEL =
-  "text-[0.8125rem] leading-[1.4] font-semibold uppercase tracking-[0.16em]";
+  "text-[0.8125rem] max-md:text-[0.6875rem] leading-[1.4] font-semibold uppercase tracking-[0.16em]";
 
 export const LIGHT_BAND = [
   "relative isolate bg-slate-50 text-slate-950",

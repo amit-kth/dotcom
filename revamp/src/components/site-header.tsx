@@ -363,21 +363,23 @@ export function SiteHeader() {
             "max-h-[calc(100svh-var(--header-h))] overflow-y-auto overscroll-contain py-4",
           )}
         >
+          <Link href="/" onClick={() => setOpen(false)} className="flex min-h-12 items-center border-b border-slate-200 text-sm font-medium text-slate-700 md:hidden">Home</Link>
+          <Link href="/solutions/" onClick={() => setOpen(false)} className="flex min-h-12 items-center border-b border-slate-200 text-sm font-medium text-slate-700 md:hidden">All solutions</Link>
           {NAV.map((item) => (
             <Link
               key={item.id}
               href={item.href}
               onClick={() => setOpen(false)}
-              className="flex min-h-12 items-center border-b border-slate-200 text-base font-medium text-slate-700 transition-colors hover:text-slate-950"
+              className="flex min-h-12 items-center border-b border-slate-200 text-base max-md:text-sm font-medium text-slate-700 transition-colors hover:text-slate-950"
             >
               {item.label}
             </Link>
           ))}
 
-          <p className="mt-5 text-xs font-semibold tracking-[0.14em] text-slate-500 uppercase">
+          <p className="max-md:hidden mt-5 text-xs font-semibold tracking-[0.14em] text-slate-500 uppercase">
             Products
           </p>
-          <ul className="mt-1 grid grid-cols-2 gap-x-4">
+          <ul className="max-md:hidden mt-1 grid grid-cols-2 gap-x-4">
             {featuredProducts.map((product) => (
               <li key={product.id}>
                 <Link
@@ -391,10 +393,10 @@ export function SiteHeader() {
             ))}
           </ul>
 
-          <p className="mt-4 text-xs font-semibold tracking-[0.14em] text-slate-500 uppercase">
+          <p className="max-md:hidden mt-4 text-xs font-semibold tracking-[0.14em] text-slate-500 uppercase">
             By industry
           </p>
-          <div className="mt-2 flex flex-wrap gap-2">
+          <div className="max-md:hidden mt-2 flex flex-wrap gap-2">
             {categories.map((category) => (
               <button
                 key={category.id}
@@ -420,19 +422,8 @@ export function SiteHeader() {
             ))}
           </div>
 
-          <div className="py-4 sm:hidden">
-            <Link
-              href={contact.contactPath}
-              onClick={() => setOpen(false)}
-              className={cn(
-                buttonVariants({ variant: "secondary", size: "sm" }),
-                "w-full",
-              )}
-            >
-              Contact us
-              <Mail className="size-4" aria-hidden="true" />
-            </Link>
-          </div>
+          <Link href={contact.contactPath} onClick={() => setOpen(false)} className="flex min-h-12 items-center text-sm font-medium text-slate-700 md:hidden">Contact us</Link>
+
         </nav>
       </div>
     </header>

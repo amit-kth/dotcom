@@ -32,7 +32,7 @@ export function Testimonials() {
         <div id="client-reviews" className="grid" aria-live={paused || reduceMotion ? "polite" : "off"} aria-atomic="true">
           {testimonials.map((item, index) => (
             <figure key={item.id} aria-hidden={index !== review} inert={index !== review} className={`col-start-1 row-start-1 flex flex-col ${index !== review ? "invisible" : ""}`}>
-              <blockquote className="flex-1 text-[clamp(1.25rem,2.2vw,2rem)] font-medium leading-snug tracking-[-0.025em] text-slate-900">“{item.excerpt}”</blockquote>
+              <blockquote className="flex-1 text-[clamp(1.25rem,2.2vw,2rem)] max-md:text-lg font-medium leading-snug tracking-[-0.025em] text-slate-900">“{item.excerpt}”</blockquote>
               <figcaption className="mt-5 flex items-center gap-4">
                 <span className="flex h-14 w-16 shrink-0 items-center justify-center rounded-lg border border-slate-200 bg-white p-2">
                   <img src={item.logo} alt="" width={48} height={40} loading="lazy" className="size-full object-contain" />

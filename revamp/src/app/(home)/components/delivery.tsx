@@ -101,12 +101,12 @@ export function Delivery() {
 
         <div ref={numberRef} className="mt-12 flex items-end gap-5 sm:mt-16">
           <p
-            className="text-[clamp(4.5rem,14vw,9rem)] font-bold leading-[0.82] tracking-[-0.05em] text-blue-600 tabular-nums"
+            className="text-[clamp(4.5rem,14vw,9rem)] max-md:text-[3.5rem] font-bold leading-[0.82] tracking-[-0.05em] text-blue-600 tabular-nums"
             aria-hidden="true"
           >
             {String(count).padStart(2, "0")}
           </p>
-          <p className="pb-3 text-[1.0625rem] font-semibold leading-snug text-slate-600">
+          <p className="pb-3 text-[1.0625rem] max-md:text-sm font-semibold leading-snug text-slate-600">
             days
             <br />
             to go live
@@ -154,7 +154,7 @@ export function Delivery() {
                   <p className="text-[0.75rem] font-semibold uppercase tracking-[0.14em] text-slate-500">
                     {step.days}
                   </p>
-                  <h3 className="mt-2 text-[1.125rem] font-semibold leading-snug tracking-[-0.02em] text-slate-950">
+                  <h3 className="mt-2 text-[1.125rem] max-md:text-sm font-semibold leading-snug tracking-[-0.02em] text-slate-950">
                     {step.title}
                   </h3>
                 </Stage>
@@ -184,7 +184,7 @@ export function Delivery() {
                 <p className="text-[0.75rem] font-semibold uppercase tracking-[0.14em] text-slate-500">
                   {step.days}
                 </p>
-                <h3 className="mt-1.5 text-[1.0625rem] font-semibold tracking-[-0.02em] text-slate-950">
+                <h3 className="mt-1.5 text-[1.0625rem] max-md:text-sm font-semibold tracking-[-0.02em] text-slate-950">
                   {step.title}
                 </h3>
               </Stage>
@@ -262,7 +262,7 @@ function Stage({
       className={cn(
         "relative",
         marker &&
-          "before:absolute before:-left-8 before:top-[0.4375rem] before:-ml-[0.3125rem] before:size-3 before:rounded-full before:border-2 before:border-blue-600 before:bg-slate-50 before:content-['']",
+          "before:absolute before:-left-8 before:top-[0.4375rem] before:size-3 before:rounded-full before:border-2 before:border-blue-600 before:bg-slate-50 before:content-['']",
       )}
       style={reduceMotion ? undefined : { opacity, y }}
     >

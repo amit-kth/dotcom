@@ -69,7 +69,7 @@ export default function RootLayout({
         </noscript>
       </head>
       <body
-        className={`${display.variable} min-h-screen bg-background font-sans text-[1.0625rem] leading-[1.6] text-foreground antialiased [text-rendering:optimizeLegibility]
+        className={`${display.variable} min-h-screen bg-background font-sans text-[1.0625rem] max-md:text-[0.9375rem] leading-[1.6] text-foreground antialiased [text-rendering:optimizeLegibility]
           selection:bg-blue-100 selection:text-[oklch(16%_0.05_277.93)]
           [:where(&_*)]:border-border [:where(&_[id])]:scroll-mt-[calc(var(--header-h)+1rem)]
           [:where(&_*:focus-visible)]:outline-2 [:where(&_*:focus-visible)]:outline-ring [:where(&_*:focus-visible)]:outline-offset-3 [:where(&_*:focus-visible)]:rounded-xl

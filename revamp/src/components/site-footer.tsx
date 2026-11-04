@@ -21,7 +21,7 @@ const COMPANY_LINKS: FooterLink[] = [
 
 /** One row of the footer: 44px tall, and the only motion is a 2px nudge. */
 const LINK =
-  "flex min-h-11 items-center text-[0.9375rem] text-slate-300 transition-[color,transform] duration-200 hover:translate-x-0.5 hover:text-slate-50";
+  "flex min-h-11 items-center text-[0.9375rem] max-md:text-[0.8125rem] text-slate-300 transition-[color,transform] duration-200 hover:translate-x-0.5 hover:text-slate-50";
 
 export function SiteFooter() {
   return (
@@ -31,13 +31,13 @@ export function SiteFooter() {
         <div className="flex flex-row items-center gap-5 border-b border-white/15 py-8 sm:py-10 lg:flex-row lg:items-center lg:justify-between lg:gap-12">
           <div>
             <p className={cn(T_LABEL, "text-slate-300")}>Contact</p>
-            <h2 className="mt-3 max-w-[20ch] text-2xl font-bold leading-tight tracking-tight sm:text-4xl">
+            <h2 className="mt-3 max-w-[20ch] text-2xl max-md:text-xl font-bold leading-tight tracking-tight md:text-4xl max-md:text-xl">
               Tell us what you run.
             </h2>
           </div>
 
           <div className="flex shrink-0 flex-col items-start gap-4 sm:items-end">
-            <p className="hidden text-[1rem] leading-relaxed text-slate-300 sm:block">
+            <p className="hidden text-[1rem] max-md:text-sm leading-relaxed text-slate-300 sm:block">
               One call. We tell you what fits.
             </p>
             <Link
@@ -63,7 +63,7 @@ export function SiteFooter() {
               loading="lazy"
               className="h-8 w-auto brightness-0 invert"
             />
-            <p className="mt-3 max-w-[34ch] text-[1rem] leading-relaxed text-slate-300">
+            <p className="mt-3 max-w-[34ch] text-[1rem] max-md:text-sm leading-relaxed text-slate-300">
               Ready-made software, installed and supported by the team that
               built it. Live in {DELIVERY_DAYS} days.
             </p>
@@ -194,7 +194,7 @@ export function SiteFooter() {
                   WhatsApp us
                 </a>
               </li>
-              <li className="flex min-h-11 items-center gap-2.5 text-[0.9375rem] text-slate-300">
+              <li className="flex min-h-11 items-center gap-2.5 text-[0.9375rem] max-md:text-[0.8125rem] text-slate-300">
                 <MapPin className="size-4 shrink-0" aria-hidden="true" />
                 {contact.locality}
               </li>

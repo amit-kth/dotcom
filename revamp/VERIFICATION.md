@@ -366,3 +366,37 @@ reduced-motion suppression remain Tailwind variants. Removed the temporary
 native-animation hook and duplicate Framer drift implementation. Global theme
 tokens and animation definitions are legitimate configuration; only component
 layout/style selectors were intended to be removed.
+
+## Mobile-only layout fixes, laptop/desktop preserved
+
+- Scope: max-md utilities, below 768px. No CSS rules, theme edits or keyframe
+  changes. Existing >=768px sizes, spacing, stacks and navigation preserved.
+- SitePopup is centered horizontally/vertically on phones, both Contact and
+  active-offer modes, with existing viewport-bounded square sizing.
+- Every homepage product, including the last card, has 20px outer gutters in
+  normal-motion and reduced-motion paths. Product copy and CTAs are compact.
+- Reduced mobile hero/copy/section/product/counter/footer/catalogue type sizes;
+  mobile hero has two-column 44px chips, simpler spacing and quieter artwork.
+  Inputs remain >=16px for iOS and no global rem scaling was used.
+- Mobile timeline marker centers now match the line center (removed the old
+  negative marker margin). Tablet/desktop rail is untouched.
+- Footer office cards expand horizontally in a scrollable row on phones.
+  Selected cards follow into the row viewport, never scrolling the page.
+- Phone nav has only six main links, including All solutions; no product or
+  industry submenu items. Tablet/laptop navigation is preserved.
+
+Checks: npm run check passes build, TypeScript, four functional tests and export
+audits. Browser checks passed at 320×568, 360×640, 390×844, 430×932, 640×960 and
+767×1024 in Contact and temporary festive-offer builds; offer restored to null.
+Verified viewport-centered square popup, all-card gutters, mobile font sizes,
+main-only nav, two-column chips, timeline geometry, horizontal location layout
+and no horizontal document overflow on Home, Solutions and Contact. Normal-
+motion and reduced-motion checks additionally confirmed popup centering, card
+gutters, expanded last-office visibility and form input font size.
+
+Recorded pre-change element rectangles, typography, spacing and display styles
+on all three routes at 768, 1024, 1366 and 1920px. Post-change comparison passed
+for all 12 cases, with 0.25px tolerance for Framer subpixel animation timing.
+No meaningful laptop/desktop geometry or typography changes. Browser fixtures
+and screenshots live in ignored artifacts/browser-check. External ImageKit and
+YouTube requests were blocked; this does not validate external-media loading.

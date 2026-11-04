@@ -30,7 +30,7 @@ export function SolutionBanner({
     <article
       id={preview ? undefined : `solution-${product.id}`}
       className={cn(
-        "relative mx-auto grid w-full max-w-none grid-rows-[minmax(11rem,3fr)_7fr] overflow-hidden rounded-3xl lg:flex lg:flex-row lg:items-center",
+        "relative mx-auto grid w-full max-w-none grid-rows-[minmax(11rem,3fr)_7fr] max-md:grid-rows-[9rem_auto] overflow-hidden rounded-3xl lg:flex lg:flex-row lg:items-center",
         "bg-slate-950 text-slate-50 shadow-[0_24px_60px_-32px_rgb(15_23_42/0.45)]",
         "max-lg:bg-[linear-gradient(165deg,color-mix(in_oklch,var(--hue,var(--color-blue-100))_22%,var(--color-slate-950))_0%,var(--color-slate-950)_62%)]",
         "lg:min-h-[clamp(34rem,38vw,48rem)]",
@@ -78,25 +78,25 @@ export function SolutionBanner({
         </div>
       )}
 
-      <div className="relative z-2 w-full bg-slate-950 p-6 sm:p-8 lg:bg-transparent lg:pt-24 lg:pb-12 lg:px-[clamp(1.5rem,4vw,6rem)] lg:w-[55%]">
+      <div className="relative z-2 w-full bg-slate-950 p-6 md:p-8 max-md:p-5 lg:bg-transparent lg:pt-24 lg:pb-12 lg:px-[clamp(1.5rem,4vw,6rem)] lg:w-[55%]">
         {/* Show every category, in the same order used by the filters. */}
         <p className={cn(T_LABEL, "text-slate-300")}>
           {product.categories.map(categoryLabel).join(" / ")}
         </p>
 
-        <h3 className="mt-3 text-[clamp(1.75rem,4.2vw,3.25rem)] font-bold leading-[1.02] tracking-[-0.035em] text-slate-50">
+        <h3 className="mt-3 text-[clamp(1.75rem,4.2vw,3.25rem)] max-md:text-[1.5rem] font-bold leading-[1.02] tracking-[-0.035em] text-slate-50">
           {product.name}
         </h3>
 
-        <p className="mt-3 max-w-[34ch] text-[1.0625rem] leading-relaxed text-slate-300">
+        <p className="mt-3 max-w-[34ch] text-[1.0625rem] max-md:text-sm leading-relaxed text-slate-300">
           {product.problem}
         </p>
 
-        <ul className="mt-6 flex flex-col gap-2">
+        <ul className="mt-6 max-md:mt-4 flex flex-col gap-2">
           {product.outcomes.map((outcome) => (
             <li
               key={outcome}
-              className="flex items-start gap-2.5 text-[1rem] leading-snug text-slate-300"
+              className="flex items-start gap-2.5 text-[1rem] max-md:text-[0.8125rem] leading-snug text-slate-300"
             >
               <span
                 aria-hidden="true"

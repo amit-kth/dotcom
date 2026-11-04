@@ -148,8 +148,8 @@ New, Hot and Festive. Gifts, coupons and celebration props signal an offer;
 Festive has no Diwali-specific or other occasion-specific symbols. `popupImages` in the offer data file selects them.
 The images ship locally so they work immediately; move them to ImageKit only
 after uploading, then update those four URLs in the same file. The original
-product-banner prompt has not been changed. Mobile square cards remain compact
-(at most half the viewport height); desktop cards are centered. The offer
+product-banner prompt has not been changed. Mobile square cards are centered with viewport-bounded sizing; laptop and
+desktop popup positioning is unchanged. The offer
 palette uses solid blue, red and crimson with white text, defined once in the
 `:root` offer tokens in `src/app/globals.css`, consumed through the
 `offerColors` Tailwind class map in `src/data/offer.ts`. Strip CTAs are not underlined.
@@ -230,3 +230,15 @@ live in the root offer tokens; the shared class map is in `src/data/offer.ts`.
 Shared keyframes handle the hero/gold drift, menu/popup entry and continuous
 marquees. Hover/focus pause and reduced motion use Tailwind variants. Existing
 Framer Motion remains responsible for interactive reveals and scroll effects.
+
+### Mobile-only layout scope
+
+Phone refinements use `max-md:` (below 768px). Do not change the laptop/desktop
+layouts while adjusting these utilities. Hero chips remain a compact two-column
+grid; homepage product cards have 20px outer gutters in normal and reduced-motion
+modes. Body/copy/headings/counters have explicit phone sizes; form inputs stay
+16px to avoid iOS focus zoom and interactive controls retain practical tap areas.
+The mobile menu contains Home, All solutions, How it works, About, Clients and
+Contact us; no product or industry submenus below 768px. Footer locations expand
+horizontally in a swipeable row and follow the selected card without scrolling
+the page. Global theme tokens and shared keyframes are unchanged.

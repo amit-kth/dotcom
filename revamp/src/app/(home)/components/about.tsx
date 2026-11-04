@@ -63,7 +63,7 @@ export function About() {
           {/* the headline number */}
           <Cell from={{ x: -36, y: 16 }} className="lg:col-span-7">
             <Counter value={counters[0]} size="huge" />
-            <p className="mt-6 max-w-[34ch] text-[1.0625rem] leading-relaxed text-slate-300">
+            <p className="mt-6 max-w-[34ch] text-[1.0625rem] max-md:text-sm leading-relaxed text-slate-300">
               Kriscent builds and supports its own software, the same team
               installs it, trains your team and answers afterwards.
             </p>
@@ -89,10 +89,10 @@ export function About() {
                 />
               </span>
               <div>
-                <p className="text-[1.375rem] font-semibold leading-tight tracking-[-0.02em] text-amber-950">
+                <p className="text-[1.375rem] max-md:text-lg font-semibold leading-tight tracking-[-0.02em] text-amber-950">
                   CMMI Level 3
                 </p>
-                <p className="mt-1 text-[0.9375rem] text-amber-800">
+                <p className="mt-1 text-[0.9375rem] max-md:text-[0.8125rem] text-amber-800">
                   Appraised process maturity
                 </p>
               </div>
@@ -111,7 +111,7 @@ export function About() {
                     className="size-full object-contain"
                   />
                 </span>
-                <p className="text-[0.9375rem] font-semibold text-amber-950">
+                <p className="text-[0.9375rem] max-md:text-[0.8125rem] font-semibold text-amber-950">
                   ISO 9001:2015
                 </p>
               </div>
@@ -127,7 +127,7 @@ export function About() {
                     className="size-full object-contain"
                   />
                 </span>
-                <p className="text-[0.9375rem] font-semibold text-amber-950">
+                <p className="text-[0.9375rem] max-md:text-[0.8125rem] font-semibold text-amber-950">
                   ISO 27001
                 </p>
               </div>
@@ -245,8 +245,8 @@ function Counter({
           tone === "light" && "text-white",
           tone === "ink" && "text-amber-950",
           size === "huge"
-            ? "text-[clamp(3.25rem,7.4vw,5.75rem)]"
-            : "text-[clamp(2.25rem,4vw,3.25rem)]",
+            ? "text-[clamp(3.25rem,7.4vw,5.75rem)] max-md:text-[2.5rem]"
+            : "text-[clamp(2.25rem,4vw,3.25rem)] max-md:text-[1.875rem]",
         )}
       >
         <span ref={ref}>{shown.toLocaleString("en-IN")}</span>

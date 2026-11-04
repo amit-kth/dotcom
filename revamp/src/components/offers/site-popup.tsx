@@ -65,7 +65,7 @@ export function SitePopup() {
         data-site-popup
         aria-modal="true"
         data-tone={offer?.tone}
-        className="@container/popup aspect-square animate-offer-popup-in motion-reduce:animate-none block top-auto left-auto right-3 bottom-3 w-[min(30rem,calc(100vw-1.5rem),50dvh)] sm:w-[min(30rem,calc(100vw-2rem),80dvh)] max-w-none translate-x-0 translate-y-0 gap-0 p-0 z-[111] overflow-hidden rounded-[1.75rem] border-0 bg-white text-slate-950 shadow-2xl sm:right-auto sm:bottom-auto sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2"
+        className="@container/popup aspect-square animate-offer-popup-in motion-reduce:animate-none block top-auto left-auto right-3 bottom-3 max-md:top-1/2 max-md:left-1/2 max-md:right-auto max-md:bottom-auto max-md:-translate-x-1/2 max-md:-translate-y-1/2 w-[min(30rem,calc(100vw-1.5rem),50dvh)] sm:w-[min(30rem,calc(100vw-2rem),80dvh)] max-w-none translate-x-0 translate-y-0 gap-0 p-0 z-[111] overflow-hidden rounded-[1.75rem] border-0 bg-white text-slate-950 shadow-2xl sm:right-auto sm:bottom-auto sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2"
         onKeyDown={(event) => {
           // Keep the global search shortcut from opening a second modal.
           if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") event.stopPropagation();

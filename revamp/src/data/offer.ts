@@ -76,3 +76,10 @@ export function getOfferProductNames(current: Offer | null) {
 }
 
 export const offerProductNames = getOfferProductNames(offer);
+
+// Shared Tailwind utilities; palette values live in globals.css :root tokens.
+export const offerColors = {
+  new: "bg-offer-new text-offer-foreground",
+  hot: "bg-offer-hot text-offer-foreground",
+  festive: "bg-offer-festive text-offer-foreground",
+} as const;

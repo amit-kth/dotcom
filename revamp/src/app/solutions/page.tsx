@@ -86,7 +86,7 @@ export default function SolutionsPage() {
             "mt-16 flex flex-wrap items-center justify-between gap-4 border-t border-slate-200 py-14 sm:mt-20",
           )}
         >
-          <p className="text-[1.0625rem] text-slate-600">
+          <p className="text-[1.0625rem] max-md:text-sm text-slate-600">
             Something else in mind? That is a build rather than a solution, tell
             us what you run and we will say which it is.
           </p>

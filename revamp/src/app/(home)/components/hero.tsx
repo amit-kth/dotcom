@@ -47,8 +47,7 @@ const CHIP = [
   "aria-pressed:shadow-[inset_0_1px_0_#fff,0_0_0_1px_rgb(255_255_255/0.55),0_14px_34px_-14px_rgb(0_0_0/0.9),0_0_34px_-6px_color-mix(in_srgb,var(--chip,var(--color-blue-300))_55%,transparent)]",
   "aria-pressed:hover:bg-white",
   /* tablet: one step down; phone: one more, and the row wraps instead */
-  "max-lg:min-h-14 max-lg:text-base sm:max-lg:px-5",
-  "max-sm:min-h-14 max-sm:gap-2 max-sm:px-3 max-sm:text-sm",
+  "md:max-lg:min-h-14 md:max-lg:text-base md:max-lg:px-5",
 ].join(" ");
 
 const EASE = [0.22, 0.61, 0.36, 1] as const;
@@ -87,7 +86,7 @@ export function Hero() {
       aria-labelledby="hero-title"
       /* Directional scrims keep the artwork off the copy and chip row. */
       className={cn(
-        "relative flex bg-slate-950 text-slate-50 -mt-[var(--header-h)] min-h-svh pt-[var(--header-h)] items-center overflow-hidden",
+        "relative flex bg-slate-950 text-slate-50 -mt-[var(--header-h)] min-h-svh max-md:min-h-0 pt-[var(--header-h)] items-center overflow-hidden",
         "after:pointer-events-none after:absolute after:inset-0 after:z-0 after:content-['']",
         "after:bg-[linear-gradient(90deg,var(--color-slate-950)_0%,color-mix(in_srgb,var(--color-slate-950)_92%,transparent)_36%,transparent_72%),linear-gradient(180deg,transparent_30%,color-mix(in_srgb,var(--color-slate-950)_30%,transparent)_55%,var(--color-slate-950)_85%)]",
       )}
@@ -96,22 +95,22 @@ export function Hero() {
           The right-side panels stay visible on desktop, softer on phones. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 z-0 bg-[url(/hero-software-bg.webp)] bg-cover bg-center bg-no-repeat opacity-90 lg:bg-[position:center_calc(50%_-_3rem)] max-lg:opacity-50 max-sm:bg-[position:65%_top] max-sm:opacity-30"
+        className="pointer-events-none absolute inset-0 z-0 bg-[url(/hero-software-bg.webp)] bg-cover bg-center bg-no-repeat opacity-90 lg:bg-[position:center_calc(50%_-_3rem)] max-lg:opacity-50 max-sm:bg-[position:65%_top] max-md:opacity-15"
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -inset-[20%] z-0 animate-[aurora-drift_26s_ease-in-out_infinite_alternate] bg-[radial-gradient(42%_52%_at_14%_30%,rgb(30_79_216/0.18)_0%,transparent_68%)] blur-[18px]"
+        className="pointer-events-none absolute -inset-[20%] z-0 animate-aurora-drift motion-reduce:animate-none bg-[radial-gradient(42%_52%_at_14%_30%,rgb(30_79_216/0.18)_0%,transparent_68%)] blur-[18px]"
       />
 
       <div
         className={cn(
           SHELL,
-          "relative z-1 py-[clamp(2.5rem,6vh,5rem)] max-sm:pt-8 max-sm:pb-11",
+          "relative z-1 py-[clamp(2.5rem,6vh,5rem)] max-md:pt-10 max-md:pb-10",
         )}
       >
         <h1
           id="hero-title"
-          className="max-w-[22ch] min-[120rem]:text-7xl min-[160rem]:text-[5rem] text-[clamp(2.375rem,4.15vw,3.75rem)] leading-[1.05] font-bold tracking-[-0.035em] max-sm:text-[clamp(2rem,8.6vw,2.1875rem)]"
+          className="max-w-[22ch] min-[120rem]:text-7xl min-[160rem]:text-[5rem] text-[clamp(2.375rem,4.15vw,3.75rem)] leading-[1.05] font-bold tracking-[-0.035em] max-md:text-[clamp(1.5rem,6.5vw,1.875rem)]"
         >
           {["Ready-made software.", null].map((text) =>
             text ? (
@@ -143,7 +142,7 @@ export function Hero() {
         </h1>
 
         <motion.p
-          className="mt-6 max-w-[46rem] text-[clamp(1.125rem,1.3vw,1.25rem)] leading-[1.5] text-slate-300 max-sm:mt-4 max-sm:text-[1.0625rem]"
+          className="mt-6 max-w-[46rem] text-[clamp(1.125rem,1.3vw,1.25rem)] leading-[1.5] text-slate-300 max-md:mt-4 max-md:text-[0.9375rem]"
           initial={reduceMotion ? false : { opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.34, delay: 0.1, ease: EASE }}
@@ -151,10 +150,10 @@ export function Hero() {
           Pick your industry and we will show you what is already built for it.
         </motion.p>
 
-        <div className="mt-[clamp(2.25rem,5vh,3.25rem)] max-sm:mt-7">
+        <div className="mt-[clamp(2.25rem,5vh,3.25rem)] max-md:mt-6">
           <motion.p
             id="industry-label"
-            className="mb-[1.125rem] text-[clamp(1.25rem,1.5vw,1.5rem)] leading-tight font-semibold tracking-[-0.015em] text-slate-50 max-sm:mb-4 max-sm:text-[1.1875rem]"
+            className="mb-[1.125rem] text-[clamp(1.25rem,1.5vw,1.5rem)] leading-tight font-semibold tracking-[-0.015em] text-slate-50 max-md:mb-2 max-md:text-base"
             initial={reduceMotion ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.26, delay: 0.12 }}
@@ -162,13 +161,13 @@ export function Hero() {
             What does your business do?
           </motion.p>
 
-          <p className="mb-4 text-sm text-slate-400">
+          <p className="mb-4 text-sm max-md:text-xs text-slate-400">
             Select one or more industries.
           </p>
           <div
             role="group"
             aria-labelledby="industry-label"
-            className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:gap-2.5"
+            className="grid grid-cols-2 gap-2 md:flex md:flex-wrap md:gap-2.5 max-md:grid max-md:grid-cols-2 max-md:gap-2"
           >
             {categories.map((category, index) => {
               const active = selected.includes(category.id);
@@ -183,7 +182,7 @@ export function Hero() {
                   className={cn(
                     CHIP,
                     category.color,
-                    "max-sm:justify-start max-sm:rounded-2xl max-sm:px-3 max-sm:text-sm max-sm:min-h-12 max-[22.5rem]:text-xs max-[22.5rem]:px-2 max-[22.5rem]:gap-1.5",
+                    "max-md:justify-start max-md:rounded-xl max-md:px-3 max-md:text-[0.8125rem] max-md:min-h-11 max-md:gap-2 max-[22.5rem]:text-xs max-[22.5rem]:px-2 max-[22.5rem]:gap-1.5",
                   )}
                   initial={reduceMotion ? false : { opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -198,7 +197,7 @@ export function Hero() {
                   <Icon
                     aria-hidden="true"
                     className={cn(
-                      "size-4 shrink-0 max-sm:size-[0.9375rem] ",
+                      "size-4 shrink-0 max-md:size-[0.9375rem] ",
                       /* on the light selected pill the hue has to go darker to
                          stay readable; the class cannot read the button's state,
                          so the state chooses the class */

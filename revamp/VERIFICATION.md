@@ -309,3 +309,94 @@ content in tests. Historical 12-test results above describe earlier runs; the
 current suite has 9 tests. Functional contact, offer and search tests and
 static export audits remain. Testimonial layout, link destinations and video
 playback still need browser review when changing content.
+
+## Tailwind-only global stylesheet cleanup
+
+Removed all handwritten base rules, offer/popup selectors, theme-variable
+selectors, scrollbar rules and keyframes from globals.css. It now contains
+only two imports and the Tailwind font mapping. Sizing, spacing, colors,
+container queries, focus/selection defaults, anchor offsets, typography and
+reduced-motion behavior are Tailwind utilities on their owning components or
+root layout. Low-specificity :where variants preserve component overrides.
+No replacement custom stylesheet or dependencies added. Native thin/light
+scrollbar utilities replace the vendor-specific scrollbar CSS, with native
+forced-colors defaults.
+
+Continuous marquees use one shared native-animation hook, preserving seamless
+loops and hover/focus pause; reduced motion cancels the loops. Hero/gold drift
+uses existing Framer Motion. Menu and popup entry use Tailwind starting-style
+transition variants. Popup route triggers and production offer=null unchanged.
+Campaign palette is a shared Tailwind class map, and the existing contrast
+test now reads that map instead of parsing CSS variables.
+
+Full build, TypeScript, four remaining tests and static export audits pass.
+Browser checks passed at 320×568, 390×844, 768×1024 and 1366×900 in both
+production Contact mode and a temporary festive-offer build (restored to null):
+root typography, 68px anchor offset, square popup bounds, container type and
+small-container eyebrow hiding, heading cqi sizes, CTA fit, 32px offer strip,
+reduced-motion duplicate hiding, video modal cleanup and no page overflow or
+runtime errors. Separate normal-motion checks verified running marquees,
+actual hover pause/resume and reduced-motion cancellation. Browser third-party
+requests were blocked; external media availability/playback was not tested.
+
+## Correction: preserve global shadcn/Tailwind theme tokens
+
+Supersedes the earlier six-line-only stylesheet restriction. Globals.css now
+contains root design tokens, dark token overrides and Tailwind semantic color/
+radius mappings alongside imports and font configuration. Global tokens are
+configuration, not component CSS, and must remain centralized here. Shared
+background/foreground/border/focus defaults consume semantic utilities. Header
+height is again a root variable. Offer values are root tokens consumed through
+named Tailwind utilities; the existing contrast test validates these values.
+No component selectors, layout rules, keyframes or @apply were reintroduced.
+No automatic dark theme or broad component redesign was added.
+
+After this correction, full build, types, four tests and export audits passed.
+Four-viewport popup/layout browser checks passed again. Browser probes verified
+all semantic light/dark tokens resolve, body utilities consume the current
+background token and existing rounded-xl corners remain 12px. The dark class
+was applied only in the browser test, not enabled in the application.
+
+## Correction: preserve global animation theme definitions
+
+Restored shared aurora, gold, nav entry, marquee forward/reverse, popup entry
+and fade keyframes in Tailwind's global @theme block, with named --animate-*
+tokens. Components consume animate-* utilities; marquee hover/focus pause and
+reduced-motion suppression remain Tailwind variants. Removed the temporary
+native-animation hook and duplicate Framer drift implementation. Global theme
+tokens and animation definitions are legitimate configuration; only component
+layout/style selectors were intended to be removed.
+
+## Mobile-only layout fixes, laptop/desktop preserved
+
+- Scope: max-md utilities, below 768px. No CSS rules, theme edits or keyframe
+  changes. Existing >=768px sizes, spacing, stacks and navigation preserved.
+- SitePopup is centered horizontally/vertically on phones, both Contact and
+  active-offer modes, with existing viewport-bounded square sizing.
+- Every homepage product, including the last card, has 20px outer gutters in
+  normal-motion and reduced-motion paths. Product copy and CTAs are compact.
+- Reduced mobile hero/copy/section/product/counter/footer/catalogue type sizes;
+  mobile hero has two-column 44px chips, simpler spacing and quieter artwork.
+  Inputs remain >=16px for iOS and no global rem scaling was used.
+- Mobile timeline marker centers now match the line center (removed the old
+  negative marker margin). Tablet/desktop rail is untouched.
+- Footer office cards expand horizontally in a scrollable row on phones.
+  Selected cards follow into the row viewport, never scrolling the page.
+- Phone nav has only six main links, including All solutions; no product or
+  industry submenu items. Tablet/laptop navigation is preserved.
+
+Checks: npm run check passes build, TypeScript, four functional tests and export
+audits. Browser checks passed at 320×568, 360×640, 390×844, 430×932, 640×960 and
+767×1024 in Contact and temporary festive-offer builds; offer restored to null.
+Verified viewport-centered square popup, all-card gutters, mobile font sizes,
+main-only nav, two-column chips, timeline geometry, horizontal location layout
+and no horizontal document overflow on Home, Solutions and Contact. Normal-
+motion and reduced-motion checks additionally confirmed popup centering, card
+gutters, expanded last-office visibility and form input font size.
+
+Recorded pre-change element rectangles, typography, spacing and display styles
+on all three routes at 768, 1024, 1366 and 1920px. Post-change comparison passed
+for all 12 cases, with 0.25px tolerance for Framer subpixel animation timing.
+No meaningful laptop/desktop geometry or typography changes. Browser fixtures
+and screenshots live in ignored artifacts/browser-check. External ImageKit and
+YouTube requests were blocked; this does not validate external-media loading.

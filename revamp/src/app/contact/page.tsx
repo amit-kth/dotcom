@@ -33,7 +33,7 @@ export default function ContactPage() {
                 <li>
                   <a
                     href={`mailto:${contact.emails.sales}`}
-                    className={cn(LINK, "gap-3 text-[1rem] text-slate-950")}
+                    className={cn(LINK, "gap-3 text-[1rem] max-md:text-sm text-slate-950")}
                   >
                     <Mail
                       className="size-4 shrink-0 text-blue-700"
@@ -45,7 +45,7 @@ export default function ContactPage() {
                 <li>
                   <a
                     href={`mailto:${contact.emails.general}`}
-                    className={cn(LINK, "gap-3 text-[1rem] text-slate-950")}
+                    className={cn(LINK, "gap-3 text-[1rem] max-md:text-sm text-slate-950")}
                   >
                     <Mail
                       className="size-4 shrink-0 text-blue-700"
@@ -59,7 +59,7 @@ export default function ContactPage() {
                     href={contact.phoneHref}
                     className={cn(
                       LINK,
-                      "gap-3 text-[1rem] tabular-nums text-slate-950",
+                      "gap-3 text-[1rem] max-md:text-sm tabular-nums text-slate-950",
                     )}
                   >
                     <Phone
@@ -76,7 +76,7 @@ export default function ContactPage() {
                     rel="noopener noreferrer"
                     className={cn(
                       LINK,
-                      "gap-3 text-[1rem] font-medium text-blue-700 hover:text-blue-700",
+                      "gap-3 text-[1rem] max-md:text-sm font-medium text-blue-700 hover:text-blue-700",
                     )}
                   >
                     <MessageCircle
@@ -86,7 +86,7 @@ export default function ContactPage() {
                     WhatsApp us
                   </a>
                 </li>
-                <li className="flex min-h-11 items-center gap-3 text-[1rem] text-slate-600">
+                <li className="flex min-h-11 items-center gap-3 text-[1rem] max-md:text-sm text-slate-600">
                   <MapPin
                     className="size-4 shrink-0 text-blue-700"
                     aria-hidden="true"
@@ -95,7 +95,7 @@ export default function ContactPage() {
                 </li>
               </ul>
 
-              <p className="mt-8 max-w-[40ch] border-t border-slate-200 pt-6 text-[0.9375rem] leading-relaxed text-slate-500">
+              <p className="mt-8 max-w-[40ch] border-t border-slate-200 pt-6 text-[0.9375rem] max-md:text-sm leading-relaxed text-slate-500">
                 {site.legalName}. We build the software, install it and support
                 it, the enquiry goes to that same team.
               </p>

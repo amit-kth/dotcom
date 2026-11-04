@@ -148,10 +148,11 @@ New, Hot and Festive. Gifts, coupons and celebration props signal an offer;
 Festive has no Diwali-specific or other occasion-specific symbols. `popupImages` in the offer data file selects them.
 The images ship locally so they work immediately; move them to ImageKit only
 after uploading, then update those four URLs in the same file. The original
-product-banner prompt has not been changed. Mobile square cards remain compact
-(at most half the viewport height); desktop cards are centered. The offer
+product-banner prompt has not been changed. Mobile square cards are centered with viewport-bounded sizing; laptop and
+desktop popup positioning is unchanged. The offer
 palette uses solid blue, red and crimson with white text, defined once in the
-labelled offer-colors block in `globals.css`. Strip CTAs are not underlined.
+`:root` offer tokens in `src/app/globals.css`, consumed through the
+`offerColors` Tailwind class map in `src/data/offer.ts`. Strip CTAs are not underlined.
 
 After editing, build, test on staging, then zip `out/` contents and send to Kapil
 sir. No date scheduler, API, new provider or offer backend is involved.
@@ -205,3 +206,39 @@ playback on the final domain as well as the local dialog behavior.
 Run `npm run check`, inspect phone/tablet/laptop/large-monitor layouts and verify reduced-motion behavior. Recheck logo and certification URLs in a browser with external access. Confirm the form backend before claiming enquiries work. Keep changes confined to `/revamp`, and discuss SEO-driven visible design changes before making them.
 
 `VERIFICATION.md` records validation and deployment limitations. Generated `out/`, local browser checks and deployment archives are ignored build artifacts, not source files to commit.
+
+### Styling rule
+
+Use Tailwind utility classes in components, including responsive, container,
+focus and reduced-motion variants. `src/app/globals.css` owns global theme
+configuration: stylesheet imports, `:root` design tokens, `.dark` token
+values, the dark variant and `@theme inline` mappings for shadcn-compatible
+colors, radius and fonts. These tokens belong here and must not be removed
+when cleaning component CSS. Use semantic utilities such as `bg-background`,
+`text-foreground`, `bg-primary`, `border-border` and `ring-ring` to consume them.
+Existing fixed-palette utilities remain supported; token definitions do not
+add a site-wide dark-mode toggle or automatically recolor every component.
+
+Animation tokens and their shared keyframes also belong in the global Tailwind
+theme. Components consume them with `animate-*` utilities and reduced-motion
+variants. Keep these definitions when cleaning up component CSS.
+
+Do not add component selectors, handwritten layout rules or
+`@apply` in globals.css. Site-wide style defaults use low-specificity Tailwind
+variants on the root layout so component utilities still win. Campaign values
+live in the root offer tokens; the shared class map is in `src/data/offer.ts`.
+Shared keyframes handle the hero/gold drift, menu/popup entry and continuous
+marquees. Hover/focus pause and reduced motion use Tailwind variants. Existing
+Framer Motion remains responsible for interactive reveals and scroll effects.
+
+### Mobile-only layout scope
+
+Phone refinements use `max-md:` (below 768px). Do not change the laptop/desktop
+layouts while adjusting these utilities. Hero chips remain a compact two-column
+grid; homepage product cards have 20px outer gutters in normal and reduced-motion
+modes. Body/copy/headings/counters have explicit phone sizes; form inputs stay
+16px to avoid iOS focus zoom and interactive controls retain practical tap areas.
+The mobile menu contains Home, All solutions, How it works, About, Clients and
+Contact us; no product or industry submenus below 768px. Footer locations expand
+horizontally in a swipeable row and follow the selected card without scrolling
+the page. Global theme tokens and shared keyframes are unchanged.

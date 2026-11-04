@@ -34,7 +34,8 @@ import { cn } from "@/lib/utils";
    - Every banner needs scroll distance after it, or they all land at once. The
      margin under each one is that distance.
 
-   The banners run edge to edge and the copy inside them stays on the shell's
+   On desktop the banners run edge to edge; phones use 20px outer gutters.
+   The copy inside them stays on the shell's
    left edge, so the section reads as full width without breaking the page's
    single vertical line.
 
@@ -79,7 +80,7 @@ export function Solutions() {
       className={LIGHT_BAND}
       aria-labelledby="solutions-title"
     >
-      <div className={cn(SHELL, "pt-[clamp(4.5rem,9vw,10rem)]")}>
+      <div className={cn(SHELL, "pt-[clamp(4.5rem,9vw,10rem)] max-md:pt-12")}>
         <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-4">
           <div>
             <p className={cn(T_LABEL, "text-slate-500")}>Solutions</p>
@@ -131,18 +132,18 @@ export function Solutions() {
       {/* ---------------- the stack ---------------- */}
       {items.length > 0 ? (
         reduceMotion ? (
-          <div className="mt-12 flex flex-col gap-6 sm:mt-16">
+          <div className="mt-12 flex flex-col gap-6 sm:mt-16 max-md:mt-8 max-md:gap-5 max-md:px-5">
             {items.map((product) => (
               <div
                 key={product.id}
-                className="last:mx-4 sm:last:mx-6 lg:last:mx-8"
+                className="md:last:mx-6 lg:last:mx-8"
               >
                 <SolutionBanner product={product} />
               </div>
             ))}
           </div>
         ) : (
-          <div ref={stackRef} className="mt-12 sm:mt-16">
+          <div ref={stackRef} className="mt-12 sm:mt-16 max-md:mt-8 max-md:px-5">
             {items.map((product, index) => (
               <StackItem
                 key={product.id}
@@ -158,7 +159,7 @@ export function Solutions() {
       ) : (
         /* A category with nothing pre-built still gets a banner-sized answer,
            never an empty area. */
-        <div className="mt-12 sm:mt-16">
+        <div className="mt-12 sm:mt-16 max-md:px-5">
           <article className="relative mx-auto flex w-full max-w-none flex-col overflow-hidden border border-white/[0.06] bg-slate-950 text-slate-50 shadow-[0_24px_60px_-32px_rgb(15_23_42/0.45)] [--hue:var(--color-violet-500)] lg:min-h-[clamp(34rem,38vw,48rem)] lg:flex-row lg:items-center">
             <div className="relative z-2 w-full py-[clamp(1.75rem,4vw,3.5rem)] px-[clamp(1.5rem,4vw,6rem)] lg:w-[55%]">
               <p className={cn(T_LABEL, "text-slate-300")}>
@@ -166,7 +167,7 @@ export function Solutions() {
                   ? selected.map(categoryLabel).join(", ")
                   : "Solutions"}
               </p>
-              <h3 className="mt-3 max-w-[20ch] text-[clamp(1.75rem,4vw,3rem)] font-bold leading-[1.04] tracking-[-0.035em]">
+              <h3 className="mt-3 max-w-[20ch] text-[clamp(1.75rem,4vw,3rem)] max-md:text-2xl font-bold leading-[1.04] tracking-[-0.035em]">
                 Nothing pre-built for this yet. Talk to us.
               </h3>
               <div className="mt-8">
@@ -190,7 +191,7 @@ export function Solutions() {
             "flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between",
           )}
         >
-          <h2 className="max-w-[24ch] text-2xl font-semibold leading-tight tracking-tight sm:text-3xl">
+          <h2 className="max-w-[24ch] text-2xl max-md:text-xl font-semibold leading-tight tracking-tight sm:text-3xl">
             Not sure which fits? Talk to us.
           </h2>
           <div className="flex shrink-0 flex-wrap gap-3">
@@ -234,7 +235,7 @@ function StackItem({
     <div
       className={cn(
         "relative mb-6 max-md:top-auto! md:sticky md:mb-[clamp(14rem,38svh,26rem)] last:mb-0",
-        isLast && "mx-4 sm:mx-6 lg:mx-8",
+        isLast && "md:mx-6 lg:mx-8",
       )}
       style={{
         top: `calc(${STICKY_TOP} + ${index * 0.625}rem)`,

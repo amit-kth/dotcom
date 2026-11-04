@@ -1,257 +1,177 @@
 @import "tailwindcss";
 @import "react-international-phone/style.css" layer(base);
 
+@custom-variant dark (&:is(.dark *));
+
+/* Global design tokens belong here; component styling stays in Tailwind utilities. */
 :root {
   --header-h: 3.25rem;
-}
-@theme inline {
-  --font-sans: var(--font-display), ui-sans-serif, system-ui, sans-serif;
-}
+  --radius: 0.5rem;
 
-@layer base {
-  * {
-    border-color: var(--color-slate-200);
-  }
+  --background: var(--color-white);
+  --foreground: var(--color-slate-950);
+  --card: var(--color-white);
+  --card-foreground: var(--color-slate-950);
+  --popover: var(--color-white);
+  --popover-foreground: var(--color-slate-950);
+  --primary: var(--color-blue-600);
+  --primary-foreground: var(--color-white);
+  --secondary: var(--color-slate-100);
+  --secondary-foreground: var(--color-slate-950);
+  --muted: var(--color-slate-100);
+  --muted-foreground: var(--color-slate-500);
+  --accent: var(--color-blue-50);
+  --accent-foreground: var(--color-blue-700);
+  --destructive: var(--color-red-600);
+  --destructive-foreground: var(--color-white);
+  --border: var(--color-slate-200);
+  --input: var(--color-slate-200);
+  --ring: var(--color-blue-600);
 
-  html {
-    scroll-behavior: smooth;
-  }
+  --chart-1: var(--color-blue-600);
+  --chart-2: var(--color-teal-600);
+  --chart-3: var(--color-sky-600);
+  --chart-4: var(--color-amber-500);
+  --chart-5: var(--color-rose-600);
 
-  [id] {
-    scroll-margin-top: calc(var(--header-h) + 1rem);
-  }
+  --sidebar: var(--color-slate-50);
+  --sidebar-foreground: var(--color-slate-950);
+  --sidebar-primary: var(--color-blue-600);
+  --sidebar-primary-foreground: var(--color-white);
+  --sidebar-accent: var(--color-slate-100);
+  --sidebar-accent-foreground: var(--color-slate-950);
+  --sidebar-border: var(--color-slate-200);
+  --sidebar-ring: var(--color-blue-600);
 
-  body {
-    background-color: var(--color-white);
-    color: var(--color-slate-950);
-    font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
-    font-size: 1.0625rem;
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-  }
-
-  ::selection {
-    background: var(--color-blue-100);
-    color: oklch(16% 0.05 277.93);
-  }
-
-  :focus-visible {
-    outline: 2px solid var(--color-blue-600);
-    outline-offset: 3px;
-    border-radius: 0.75rem;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4 {
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    line-height: 1.05;
-    text-wrap: balance;
-  }
-
-  p {
-    text-wrap: pretty;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
-
-    *,
-    *::before,
-    *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-    }
-  }
-}
-
-@keyframes aurora-drift {
-  from {
-    transform: translate3d(-1.5%, -1%, 0) scale(1);
-  }
-  to {
-    transform: translate3d(2%, 1.5%, 0) scale(1.05);
-  }
-}
-
-@keyframes nav-panel-in {
-  from {
-    opacity: 0;
-    transform: translateY(-6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes gold-drift {
-  from {
-    background-position: 0% 50%;
-  }
-  to {
-    background-position: 100% 50%;
-  }
-}
-
-@keyframes marquee-forward {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    transform: translate3d(-100%, 0, 0);
-  }
-}
-
-@keyframes marquee-reverse {
-  from {
-    transform: translate3d(-100%, 0, 0);
-  }
-  to {
-    transform: translate3d(0, 0, 0);
-  }
-}
-
-/* Slim light scrollbars, with native accessibility in forced-colour mode. */
-@layer base {
-  * {
-    scrollbar-width: thin;
-    scrollbar-color: var(--color-slate-400) var(--color-slate-100);
-  }
-  @supports selector(::-webkit-scrollbar) {
-    * {
-      scrollbar-width: auto;
-      scrollbar-color: auto;
-    }
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: var(--color-slate-100);
-    }
-    ::-webkit-scrollbar-thumb {
-      border: 1px solid var(--color-slate-100);
-      border-radius: 999px;
-      background: var(--color-slate-400);
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: var(--color-slate-500);
-    }
-  }
-  @media (forced-colors: active) {
-    * {
-      scrollbar-color: auto;
-      scrollbar-width: auto;
-    }
-  }
-}
-
-/* OFFER COLORS: one coordinated solid color per campaign, no gradients.
-   White text against every campaign color exceeds WCAG AA 4.5:1. */
-:root {
-  --offer-ink: #ffffff;
+  --offer-foreground: #ffffff;
   --offer-new: #1d4ed8;
   --offer-hot: #b91c1c;
   --offer-festive: #9f1239;
 }
-[data-tone="new"] { --offer-background: var(--offer-new); }
-[data-tone="hot"] { --offer-background: var(--offer-hot); }
-[data-tone="festive"] { --offer-background: var(--offer-festive); }
-.offer-colors {
-  color: var(--offer-ink);
-  background: var(--offer-background);
+
+/* Available for semantic dark utilities; no automatic theme switching is added. */
+.dark {
+  --background: var(--color-slate-950);
+  --foreground: var(--color-slate-50);
+  --card: var(--color-slate-900);
+  --card-foreground: var(--color-slate-50);
+  --popover: var(--color-slate-900);
+  --popover-foreground: var(--color-slate-50);
+  --primary: var(--color-blue-400);
+  --primary-foreground: var(--color-slate-950);
+  --secondary: var(--color-slate-800);
+  --secondary-foreground: var(--color-slate-50);
+  --muted: var(--color-slate-800);
+  --muted-foreground: var(--color-slate-400);
+  --accent: var(--color-slate-800);
+  --accent-foreground: var(--color-blue-200);
+  --destructive: var(--color-red-400);
+  --destructive-foreground: var(--color-slate-950);
+  --border: var(--color-slate-800);
+  --input: var(--color-slate-700);
+  --ring: var(--color-blue-400);
+
+  --chart-1: var(--color-blue-400);
+  --chart-2: var(--color-teal-400);
+  --chart-3: var(--color-sky-400);
+  --chart-4: var(--color-amber-400);
+  --chart-5: var(--color-rose-400);
+
+  --sidebar: var(--color-slate-900);
+  --sidebar-foreground: var(--color-slate-50);
+  --sidebar-primary: var(--color-blue-400);
+  --sidebar-primary-foreground: var(--color-slate-950);
+  --sidebar-accent: var(--color-slate-800);
+  --sidebar-accent-foreground: var(--color-slate-50);
+  --sidebar-border: var(--color-slate-800);
+  --sidebar-ring: var(--color-blue-400);
 }
-.offer-strip {
-  position: relative;
-  height: 32px;
-  padding-right: 32px;
-  overflow: hidden;
-  font-size: 0.8125rem;
+
+@theme inline {
+  --font-sans: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-offer-foreground: var(--offer-foreground);
+  --color-offer-new: var(--offer-new);
+  --color-offer-hot: var(--offer-hot);
+  --color-offer-festive: var(--offer-festive);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 16px);
+  --radius-4xl: calc(var(--radius) + 24px);
 }
-.offer-strip-track {
-  display: flex;
-  width: max-content;
-  min-width: 100%;
-}
-.offer-strip-copy {
-  display: flex;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  gap: 2.5rem;
-  min-width: max-content;
-  height: 32px;
-  padding: 0 1.5rem;
-  white-space: nowrap;
-  animation: marquee-forward 28s linear infinite;
-}
-.offer-strip-message { display: inline-flex; align-items: center; gap: 0.75rem; }
-.offer-strip-close { position: absolute; inset: 0 0 0 auto; width: 32px; display: grid; place-items: center; cursor: pointer; }
-.offer-strip-close:hover { filter: brightness(1.15); }
-.offer-strip:hover .offer-strip-copy,
-.offer-strip:focus-within .offer-strip-copy {
-  animation-play-state: paused;
-}
-.offer-popup {
-  width: min(30rem, calc(100vw - 1.5rem), 50dvh);
-  aspect-ratio: 1;
-  container-type: inline-size;
-  animation: offer-popup-in 240ms ease-out;
-}
-.popup-copy { height: 51%; padding: 0 7% 5%; }
-.popup-eyebrow { font-size: 2.1cqi; line-height: 1.3; }
-.popup-heading { font-size: 6cqi; line-height: 1.08; }
-.popup-discount { font-size: 11cqi; line-height: 1.05; margin-top: 1cqi; }
-.popup-description { font-size: clamp(11px, 3cqi, 15px); line-height: 1.45; margin-top: 2cqi; max-width: 32ch; }
-.popup-products { color: var(--color-slate-950); background: var(--color-slate-100); font-size: clamp(13px, 3.8cqi, 19px); font-weight: 600; line-height: 1.25; padding: 1.5cqi 3cqi; border-radius: 2cqi; max-height: 13cqi; overflow-y: auto; }
-.popup-cta { margin-top: auto; height: 10cqi; min-height: 32px; border-radius: 3cqi; padding-inline: 5cqi; font-size: clamp(12px, 3cqi, 15px); }
-/* Let the offer content fill the square instead of floating in its center. */
-.offer-popup[data-tone] .popup-copy { height: 54%; padding: 1.5% 6% 4%; }
-.offer-popup[data-tone] .popup-heading { margin-top: 1cqi; font-size: 7cqi; }
-.offer-popup[data-tone] .popup-discount { font-size: 13cqi; line-height: 1; }
-.offer-popup[data-tone] .popup-products { width: 100%; font-size: clamp(13px, 4cqi, 20px); }
-.offer-popup[data-tone] .popup-cta { width: 100%; height: 11cqi; font-size: clamp(13px, 3.4cqi, 17px); }
-@container (max-width: 320px) {
-  .popup-eyebrow { display: none; }
-  .popup-heading { margin-top: 0; }
-  .popup-cta { min-height: 36px; }
-}
-.popup-close:focus-visible { outline-color: var(--color-slate-400); }
-@media (min-width: 640px) {
-  .offer-popup { width: min(30rem, calc(100vw - 2rem), 80dvh); }
-}
-.offer-popup-overlay {
-  animation: offer-fade-in 240ms ease-out;
-}
-@keyframes offer-popup-in {
-  from { opacity: 0; scale: 0.97; }
-  to { opacity: 1; scale: 1; }
-}
-@keyframes offer-fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .offer-strip-track { width: 100%; }
-  .offer-strip-copy {
-    animation: none !important;
-    width: 100%;
-    min-width: 100%;
-    padding: 0 0.75rem;
+
+/* Shared animation definitions; components opt in with Tailwind utilities. */
+@theme {
+  --animate-aurora-drift: aurora-drift 26s ease-in-out infinite alternate;
+  --animate-nav-panel-in: nav-panel-in 170ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  --animate-gold-drift: gold-drift 14s ease-in-out infinite alternate;
+  --animate-client-marquee: marquee-forward 100s linear infinite;
+  --animate-offer-marquee: marquee-forward 28s linear infinite;
+  --animate-marquee-reverse: marquee-reverse 54s linear infinite;
+  --animate-offer-popup-in: offer-popup-in 240ms ease-out;
+  --animate-offer-fade-in: offer-fade-in 240ms ease-out;
+
+  @keyframes aurora-drift {
+    from { transform: translate3d(-1.5%, -1%, 0) scale(1); }
+    to { transform: translate3d(2%, 1.5%, 0) scale(1.05); }
   }
-  .offer-strip-message { width: 100%; min-width: 0; }
-  .offer-strip-message > span { overflow: hidden; text-overflow: ellipsis; }
-  .offer-strip-message[aria-hidden="true"] { display: none; }
-  .offer-strip-copy[aria-hidden="true"] { display: none; }
-  .offer-popup, .offer-popup-overlay {
-    animation: offer-fade-in 240ms ease-out !important;
-    animation-duration: 240ms !important;
+  @keyframes nav-panel-in {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes gold-drift {
+    from { background-position: 0% 50%; }
+    to { background-position: 100% 50%; }
+  }
+  @keyframes marquee-forward {
+    from { transform: translate3d(0, 0, 0); }
+    to { transform: translate3d(-100%, 0, 0); }
+  }
+  @keyframes marquee-reverse {
+    from { transform: translate3d(-100%, 0, 0); }
+    to { transform: translate3d(0, 0, 0); }
+  }
+  @keyframes offer-popup-in {
+    from { opacity: 0; scale: 0.97; }
+    to { opacity: 1; scale: 1; }
+  }
+  @keyframes offer-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
 }

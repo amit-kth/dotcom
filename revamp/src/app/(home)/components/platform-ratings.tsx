@@ -7,9 +7,9 @@ export function PlatformRatings() {
         {platformRatings.map((rating) => (
           <a key={rating.title} href={rating.href} target="_blank" rel="noopener noreferrer" aria-label={`${rating.title}: ${rating.starCount} out of 5. View ratings (opens in a new tab)`} className="flex flex-col items-center justify-center gap-2 px-2 2xl:flex-row 2xl:gap-3 2xl:px-3">
             <img src={rating.platformLogo} alt="" width={36} height={36} loading="lazy" className="size-7 rounded-md bg-white object-contain p-1 xl:size-9" />
-            <div className="text-center sm:text-left">
-              <p className="text-[0.6875rem] font-medium text-slate-300 sm:text-sm">{rating.title}</p>
-              <p className="text-xl font-semibold leading-tight text-slate-50 sm:text-2xl">{rating.starCount.toFixed(1)}<span className="ml-1 text-xs font-normal text-slate-400">/ 5</span></p>
+            <div className="text-center md:text-left">
+              <p className="text-[0.6875rem] font-medium text-slate-300 md:text-sm max-md:text-[0.6875rem]">{rating.title}</p>
+              <p className="text-xl font-semibold leading-tight text-slate-50 md:text-2xl max-md:text-xl">{rating.starCount.toFixed(1)}<span className="ml-1 text-xs font-normal text-slate-400">/ 5</span></p>
               <span aria-hidden="true" className="mt-1 inline-flex gap-0.5 rounded bg-slate-950 px-1 py-1">
                 {[0, 1, 2, 3, 4].map((index) => (
                   <span key={index} className="relative size-3">

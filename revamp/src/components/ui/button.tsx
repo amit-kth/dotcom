@@ -9,7 +9,7 @@ const buttonVariants = cva(
   [
     "relative isolate inline-flex h-11 cursor-pointer items-center justify-center gap-2",
     "rounded-xl border border-transparent px-5",
-    "text-[0.9375rem] leading-none font-semibold tracking-[-0.006em] whitespace-nowrap no-underline",
+    "text-[0.9375rem] max-md:text-sm leading-none font-semibold tracking-[-0.006em] whitespace-nowrap no-underline",
     "transition-[background-color,border-color,color,box-shadow,transform,filter] duration-[180ms] ease-out",
     "hover:-translate-y-px active:translate-y-px",
     "focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-blue-600/40 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-red-500 aria-invalid:ring-red-500/20",
@@ -39,7 +39,7 @@ const buttonVariants = cva(
       size: {
         sm: "h-9 rounded-[0.625rem] px-3.5 text-sm",
         md: "h-11",
-        lg: "h-[3.25rem] rounded-[0.8125rem] px-7 text-base",
+        lg: "h-[3.25rem] rounded-[0.8125rem] px-7 text-base max-md:text-sm",
         icon: "w-11 px-0",
       },
     },

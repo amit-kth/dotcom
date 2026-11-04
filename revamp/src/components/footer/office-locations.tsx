@@ -15,6 +15,7 @@ export function OfficeLocations() {
   const [pageVisible, setPageVisible] = useState(true);
   const reduceMotion = useReducedMotion();
   const ref = useRef<HTMLElement>(null);
+  const cards = useRef<HTMLDivElement>(null);
   const buttons = useRef<(HTMLButtonElement | null)[]>([]);
   const id = useId();
 
@@ -50,6 +51,18 @@ export function OfficeLocations() {
     next.src = locations[(activeItem + 1) % locations.length].image;
   }, [activeItem, visible]);
 
+  // Keep the selected horizontal card visible on phones, without moving the page.
+  useEffect(() => {
+    if (window.matchMedia("(min-width: 768px)").matches) return;
+    const row = cards.current;
+    const card = row?.children[activeItem] as HTMLElement | undefined;
+    if (!row || !card) return;
+    const follow = () => row.scrollTo({ left: card.offsetLeft, behavior: reduceMotion ? "instant" : "smooth" });
+    if (reduceMotion) follow();
+    card.addEventListener("transitionend", follow);
+    return () => card.removeEventListener("transitionend", follow);
+  }, [activeItem, reduceMotion]);
+
   return (
     <section
       ref={ref}
@@ -64,11 +77,11 @@ export function OfficeLocations() {
       }}
     >
       <div className="mb-5 flex items-center justify-between gap-4">
-        <h2 className="text-xl font-semibold tracking-tight text-slate-50 sm:text-2xl">
+        <h2 className="text-xl font-semibold tracking-tight text-slate-50 md:text-2xl">
           Our locations
         </h2>
       </div>
-      <div className="flex h-[26rem] w-full min-w-0 flex-col gap-2 md:h-64 md:flex-row">
+      <div ref={cards} className="max-md:relative flex h-[26rem] w-full min-w-0 flex-col gap-2 md:h-64 md:flex-row max-md:h-64 max-md:flex-row max-md:overflow-x-auto max-md:[scrollbar-width:none]! max-md:[&::-webkit-scrollbar]:hidden! max-md:snap-x max-md:snap-mandatory">
         {locations.map((item, index) => {
           const active = index === activeItem;
           return (
@@ -77,8 +90,8 @@ export function OfficeLocations() {
               className={cn(
                 "relative isolate min-h-11 min-w-0 overflow-hidden rounded-[2rem] bg-slate-900 transition-[flex-grow,flex-basis] duration-500 ease-out motion-reduce:transition-none md:min-h-0 md:min-w-11",
                 active
-                  ? "flex-[1_1_0%]"
-                  : "flex-[0_0_2.75rem] md:flex-[0_0_5rem] lg:flex-[0_0_8rem]",
+                  ? "flex-[1_1_0%] max-md:flex-[1_0_70%] max-md:snap-start"
+                  : "flex-[0_0_2.75rem] md:flex-[0_0_5rem] lg:flex-[0_0_8rem] max-md:snap-start",
               )}
             >
               <img
@@ -122,7 +135,7 @@ export function OfficeLocations() {
                 }}
               >
                 {!active && (
-                  <span className="absolute inset-0 flex items-center justify-center text-sm font-bold tracking-wide text-white md:[writing-mode:vertical-rl] lg:[writing-mode:horizontal-tb]">
+                  <span className="absolute inset-0 flex items-center justify-center text-sm font-bold tracking-wide text-white max-md:[writing-mode:vertical-rl] md:[writing-mode:vertical-rl] lg:[writing-mode:horizontal-tb]">
                     {item.city}
                   </span>
                 )}
@@ -130,16 +143,16 @@ export function OfficeLocations() {
               <div
                 id={`${id}-${index}`}
                 hidden={!active}
-                className="pointer-events-none absolute inset-x-6 bottom-6 z-20 text-white sm:inset-x-8 sm:bottom-8"
+                className="pointer-events-none absolute inset-x-6 bottom-6 z-20 text-white md:inset-x-8 md:bottom-8 max-md:inset-x-4 max-md:bottom-4"
               >
-                <h3 className="text-2xl font-bold tracking-tight sm:text-3xl">
+                <h3 className="text-2xl max-md:text-xl font-bold tracking-tight md:text-3xl">
                   {item.city}
                 </h3>
                 <a
                   href={item.mapLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="pointer-events-auto mt-3 inline-flex min-h-11 max-w-[38ch] items-start gap-2 rounded-lg text-sm leading-relaxed text-white no-underline hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-300 sm:text-base"
+                  className="pointer-events-auto mt-3 inline-flex min-h-11 max-w-[38ch] items-start gap-2 rounded-lg text-sm leading-relaxed text-white no-underline hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-300 md:text-base max-md:text-xs"
                   aria-label={`Open ${item.city} office in Google Maps: ${item.address}`}
                 >
                   {item.address}

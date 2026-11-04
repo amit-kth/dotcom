@@ -21,7 +21,7 @@ function MarqueeRow({
     <div
       className={cn(
         "flex min-w-full shrink-0 items-center gap-12 pr-12",
-        "animate-[marquee-forward_100s_linear_infinite] motion-reduce:animate-none",
+        "animate-client-marquee motion-reduce:animate-none",
         "group-hover/marquee:[animation-play-state:paused] group-focus-within/marquee:[animation-play-state:paused]",
       )}
     >

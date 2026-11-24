@@ -492,3 +492,23 @@ Manufacturing 1 featured-only, Astrology 1 featured-only, Other+Fintech 29,
 plus both empty-state messages and the Home Other selection/reset flow. The
 deferred offer dialog was closed before accessibility assertions because it
 correctly hides page content while open.
+
+## Responsive audit of the newest items (phone through 2xl)
+
+No design, content or behavior changes were requested or made; this pass only
+verified responsiveness. `artifacts/browser-check/responsive-audit.mjs` scanned
+four pages (/, /solutions/, /faq/, /contact/) at 16 viewport sizes — 320, 360,
+375, 390, 414, 480, 640, 768, 834, 1024, 1280, 1366, 1440, 1536, 1728 and 1920
+pixels wide — measuring the footer closing CTA, WhatsApp icon, brand-color
+social badges, Company links, the sticky industry bar with its solid chips, and
+the eight hero chips.
+
+All 64 page scans pass: no horizontal page overflow, no out-of-bounds or
+overlapping header/footer controls, hero chip grid fits with 44px+ touch
+targets and no internal scrolling, footer badges and buttons stay in bounds
+without overlapping the heading, and the sticky bar sits exactly under the
+navbar at under 45% of every viewport with the chip row scrolling on phones
+(no visible scrollbar, single row) and wrapping on tablets and above. Visual
+spot-checks at 320, 768 and 1536 (screenshots in the same folder) confirm the
+solid selected chips, compact phone bar, balanced footer columns and one-row
+2xl hero chips render as intended.

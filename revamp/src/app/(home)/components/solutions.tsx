@@ -5,9 +5,10 @@ import { useReducedMotion } from "@/lib/use-reduced-motion";
 import { useRef } from "react";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, Mail, X } from "lucide-react";
+import { ArrowRight, Mail } from "lucide-react";
 import { useCategory } from "@/components/category-context";
 import { SolutionBanner } from "@/app/solutions/components/solution-banner";
+import { IndustryFilters } from "@/components/industry-filters";
 import { categoryLabel } from "@/data/categories";
 import { featuredProducts } from "@/data/products";
 import { buttonVariants } from "@/components/ui/button";
@@ -81,51 +82,14 @@ export function Solutions() {
       aria-labelledby="solutions-title"
     >
       <div className={cn(SHELL, "pt-[clamp(4.5rem,9vw,10rem)] max-md:pt-12")}>
-        <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-4">
-          <div>
-            <p className={cn(T_LABEL, "text-slate-500")}>Solutions</p>
-            <h2
-              id="solutions-title"
-              className={cn(T_HEADING, "mt-4 max-w-[24ch]")}
-            >
-              {selected.length
-                ? "Solutions for your industries."
-                : "Customised solutions for all of your needs."}
-            </h2>
-          </div>
-
-          <div
-            className="flex max-w-full flex-wrap items-center gap-2"
-            aria-label="Industry filters"
-          >
-            {selected.length ? (
-              <>
-                {selected.map((id) => (
-                  <button
-                    key={id}
-                    type="button"
-                    onClick={() => toggleCategory(id)}
-                    aria-label={`Remove ${categoryLabel(id)} filter`}
-                    className="inline-flex min-h-11 items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 text-sm font-medium text-blue-700 hover:bg-blue-100"
-                  >
-                    {categoryLabel(id)}{" "}
-                    <X className="size-4" aria-hidden="true" />
-                  </button>
-                ))}
-                <button
-                  type="button"
-                  onClick={clearFilter}
-                  className="min-h-11 px-3 text-sm font-semibold text-blue-700 hover:underline"
-                >
-                  Clear all
-                </button>
-              </>
-            ) : (
-              <span className="text-sm text-slate-500">
-                Showing all solutions
-              </span>
-            )}
-          </div>
+        <p className={cn(T_LABEL, "text-slate-500")}>Solutions</p>
+        <h2 id="solutions-title" className={cn(T_HEADING, "mt-4 max-w-[24ch]")}>
+          {selected.length ? "Solutions for selected industries." : "Customised solutions for all of your needs."}
+        </h2>
+        <div className="mt-5">
+          {selected.length ? (
+            <IndustryFilters selected={selected} onToggle={toggleCategory} onClear={clearFilter} selectedOnly />
+          ) : <p className="text-sm text-slate-500">Showing all solutions</p>}
         </div>
       </div>
 

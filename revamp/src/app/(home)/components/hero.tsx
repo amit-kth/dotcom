@@ -10,6 +10,7 @@ import {
   GraduationCap,
   HeartPulse,
   Landmark,
+  Shapes,
   Sparkles,
   Truck,
   type LucideIcon,
@@ -28,9 +29,10 @@ const ICONS: Record<CategoryId, LucideIcon> = {
   astrology: Sparkles,
   edtech: GraduationCap,
   "real-estate": Building2,
+  other: Shapes,
 };
 
-/** One glass material for all seven chips; the hue only reaches the icon. */
+/** One glass material for every hero chip; the hue only reaches the icon. */
 const CHIP = [
   "relative inline-flex flex-none items-center justify-center gap-2.5 rounded-full",
   "min-h-[3.75rem] px-[1.4375rem] text-[1.0625rem] font-semibold tracking-[-0.01em] whitespace-nowrap",
@@ -147,7 +149,7 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.34, delay: 0.1, ease: EASE }}
         >
-          Pick your industry and we will show you what is already built for it.
+          Choose your industry to find ready-made software we can configure for your business.
         </motion.p>
 
         <div className="mt-[clamp(2.25rem,5vh,3.25rem)] max-md:mt-6">
@@ -169,7 +171,11 @@ export function Hero() {
             aria-labelledby="industry-label"
             className="grid grid-cols-2 gap-2 md:flex md:flex-wrap md:gap-2.5 max-md:grid max-md:grid-cols-2 max-md:gap-2"
           >
-            {categories.map((category, index) => {
+            {/* "Other" is a catch-all for catalogue filtering, not a business
+                industry, so it stays off the hero picker. */}
+            {categories
+              .filter((category) => category.id !== "other")
+              .map((category, index) => {
               const active = selected.includes(category.id);
               const Icon = active ? X : ICONS[category.id];
 

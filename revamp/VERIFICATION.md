@@ -400,3 +400,125 @@ for all 12 cases, with 0.25px tolerance for Framer subpixel animation timing.
 No meaningful laptop/desktop geometry or typography changes. Browser fixtures
 and screenshots live in ignored artifacts/browser-check. External ImageKit and
 YouTube requests were blocked; this does not validate external-media loading.
+
+## Approved discovery, WhatsApp and FAQ scope
+
+Home selected-industry chips sit beneath the agreed heading, with matching
+industry colors and remove/clear controls. Existing Hero/nav context retained.
+All Solutions has independent client-side multi-select filters for featured
+and additional products; no query strings, dynamic routes or shared selection.
+Static HTML initially contains all five large products and 35 catalogue items.
+Only existing Education/Health catalogue assignments are mapped; other groups
+remain under All industries and are listed for review in README.
+
+Five large cards use short descriptive headings with brand identities beneath.
+Small catalogue names, product IDs, existing external URLs and new-tab behavior
+are unchanged. Hero headline unchanged; its description and the existing four
+implementation steps explain the process more clearly. Existing timeline layout
+and mobile alignment retained.
+
+New compact homepage FAQ and static /faq/ route share nine editorial questions
+and conservative initial answers from data/faqs.ts. Homepage uses six. Native
+keyboard-accessible details/summary, footer/home links, route SEO and sitemap
+entry added. No FAQ schema or commercial guarantees invented. FAQ answers are
+editable pending final wording from the user.
+
+Header has a green WhatsApp enquiry icon; the Contact option is a green button.
+All enquiry links use the existing +91 8947027625 WhatsApp configuration; calling
+links remain +91 7240560001. No backend changes or live contact submissions.
+
+Full check passes build, TypeScript, four existing functional tests and static
+export audits, including FAQ metadata and sitemap. Browser checks at 320×568,
+390×844, 768×1024, 1024×768, 1366×900 and 1920×1080 covered Home hero selection,
+chip placement/removal state, Home-to-Solutions independence, all/OR multi-filter
+matches and reset/empty states, unchanged URLs, FAQ keyboard expansion,
+WhatsApp/calling destinations, no horizontal overflow and non-overlapping header
+actions. Static catalogue and all FAQ content also checked with JS disabled.
+Sandbox third-party requests were blocked; external media playback not tested.
+Global stylesheet, tokens/keyframes, popup logic, form backend and unrelated
+sections are unchanged.
+
+## Next.js security patch: 16.4.3 → 16.4.6
+
+Ran `next upgrade --agent=security` and followed its same-major patch guidance.
+Checked available local/remote history and open GitHub PRs; no equivalent upgrade
+was in progress. Upgraded only Next.js and its lockfile-resolved packages, and
+set supported `experimental.agentUpgrade: "security"`. Existing static-export,
+image and allowed-origin settings retained. No codemods or UI changes needed.
+
+Clean npm ci, exact installed-version check, full npm run check (build, types,
+four tests, export audits) and six-viewport discovery/FAQ/WhatsApp browser checks
+passed. JavaScript-disabled checks still find the full catalogue and FAQ HTML.
+Work stays on the active Arena branch and updates existing PR #7 rather than
+creating a separate worktree/branch or duplicate PR.
+
+## Footer refinements and sticky selected industries
+
+Added a WhatsApp icon alongside the footer closing Contact button; kept the
+chat number and call links unchanged. Removed How we deliver from Company,
+leaving five links. Footer social marks use default brand hues on white badges
+so black X remains visible. Mobile CTA wrapping avoids overflow.
+
+All Solutions moves the existing industry controls outside the intro wrapper
+so sticky can span the product list. It sticks below the navbar only while
+filters are active and returns to normal flow on reset. Mobile chips scroll
+horizontally without a scrollbar to avoid a tall sticky panel. Selection count
+remains visible; each selected chip has a solid industry fill, contrasting text
+and its existing pressed/removal state. No URL, filter logic or Home styling
+changes; Tailwind utilities only, no global CSS/theme/keyframe changes.
+
+Build, TypeScript, four tests and export audits pass. Browser checks at 320,
+390, 768, 1024, 1366 and 1920 widths verified conditional sticky positioning
+against header height, compact bar bounds, selected-state fill, reset, catalogue
+restoration, hidden mobile scrollbar, correct WhatsApp/new-tab link, five Company
+links, five distinct social brand colors and no document overflow/runtime errors.
+External image/video requests were blocked as in earlier sandbox checks.
+
+## Catalogue categories and Other catch-all
+
+Every catalogue item now has required explicit `categories` in
+`src/data/catalogue.ts`; the old group-based `catalogueIndustries` helper is
+gone. Assignments use only explicit signals (Education/Health groups, or the
+item's own keywords naming fintech, logistics or real estate); all remaining
+items are tagged `other`. Other joins the category list as a neutral slate chip
+with a solid selected fill; the existing Home empty-state banner covers
+selections with no featured products. The footer
+Industries column excludes Other to keep the three five-link groups.
+
+Build, TypeScript, four tests and export audits pass. Browser checks at 390 and
+1024 verified eight filter chips and exact OR-filtered counts: Other 27
+catalogue-only, EdTech 4, Healthcare 4, Fintech 2, Logistics 3, Real Estate 3,
+Manufacturing 1 featured-only, Astrology 1 featured-only, Other+Fintech 29,
+plus both empty-state messages and the Home Other selection/reset flow. The
+deferred offer dialog was closed before accessibility assertions because it
+correctly hides page content while open.
+
+## Responsive audit of the newest items (phone through 2xl)
+
+No design, content or behavior changes were requested or made; this pass only
+verified responsiveness. `artifacts/browser-check/responsive-audit.mjs` scanned
+four pages (/, /solutions/, /faq/, /contact/) at 16 viewport sizes — 320, 360,
+375, 390, 414, 480, 640, 768, 834, 1024, 1280, 1366, 1440, 1536, 1728 and 1920
+pixels wide — measuring the footer closing CTA, WhatsApp icon, brand-color
+social badges, Company links, the sticky industry bar with its solid chips, and
+the eight hero chips.
+
+All 64 page scans pass: no horizontal page overflow, no out-of-bounds or
+overlapping header/footer controls, hero chip grid fits with 44px+ touch
+targets and no internal scrolling, footer badges and buttons stay in bounds
+without overlapping the heading, and the sticky bar sits exactly under the
+navbar at under 45% of every viewport with the chip row scrolling on phones
+(no visible scrollbar, single row) and wrapping on tablets and above. Visual
+spot-checks at 320, 768 and 1536 (screenshots in the same folder) confirm the
+solid selected chips, compact phone bar, balanced footer columns and one-row
+2xl hero chips render as intended.
+
+## Other removed from the hero picker
+
+Per instruction, the hero "What does your business do?" chip row now shows the
+seven real industries only; the `other` catch-all is filtered out there while
+staying available in the All Solutions filter bar and the header industry
+picker. No styles, spacing or selection behaviour changed. TypeScript, build,
+tests and export audits pass; the browser suites confirm seven hero chips with
+no Other chip, unchanged eight-chip All Solutions filtering (including Other),
+and unchanged header-picker Other selection with the Home empty banner.

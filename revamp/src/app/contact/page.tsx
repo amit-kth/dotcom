@@ -1,7 +1,8 @@
-import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
 import { Seo } from "@/lib/seo";
 import { metadata, contact, site } from "@/config/variables";
 import { ContactForm } from "@/app/contact/components/contact-form";
+import { WhatsAppIcon } from "@/components/social-icons";
 import { ContactHeading } from "@/app/contact/components/contact-heading";
 import { SHELL } from "@/lib/ui";
 import { cn } from "@/lib/utils";
@@ -76,14 +77,14 @@ export default function ContactPage() {
                     rel="noopener noreferrer"
                     className={cn(
                       LINK,
-                      "gap-3 text-[1rem] max-md:text-sm font-medium text-blue-700 hover:text-blue-700",
+                      "my-2 inline-flex gap-3 rounded-xl border border-green-600/30 bg-green-50 px-4 text-[1rem] max-md:text-sm font-medium text-green-700 hover:bg-green-100 hover:text-green-800",
                     )}
                   >
-                    <MessageCircle
+                    <WhatsAppIcon
                       className="size-4 shrink-0"
                       aria-hidden="true"
                     />
-                    WhatsApp us
+                    WhatsApp enquiry
                   </a>
                 </li>
                 <li className="flex min-h-11 items-center gap-3 text-[1rem] max-md:text-sm text-slate-600">

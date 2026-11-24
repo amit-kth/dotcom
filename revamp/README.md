@@ -242,3 +242,70 @@ The mobile menu contains Home, All solutions, How it works, About, Clients and
 Contact us; no product or industry submenus below 768px. Footer locations expand
 horizontally in a swipeable row and follow the selected card without scrolling
 the page. Global theme tokens and shared keyframes are unchanged.
+
+## Approved discovery and FAQ improvements
+
+- Large-card display headings are `heading` in `src/data/products.ts`. Names,
+  IDs, logos, product links, demo-query behavior and small catalogue headings
+  are unchanged. Brand names appear beneath the descriptive large-card title.
+- Home keeps its existing hero/nav selection context. Its selected chips now
+  sit immediately under "Solutions for selected industries" and share the
+  industry hues. Clear and individual removal are retained.
+- `/solutions/` is still statically exported. Its `SolutionsContent` uses local
+  React state for multi-industry filtering of featured and catalogue products.
+  It starts at All industries, independent of Home. No query parameters,
+  dynamic routes, network requests or filter persistence were added. Multiple
+  industries use OR matching. `IndustryFilters` shares only the visual control,
+  not selection state between pages.
+- Catalogue industry tags: every catalogue item carries explicit `categories`
+  in `src/data/catalogue.ts`. An item is tagged with an industry only when the
+  signal is explicit (its group or its own keywords name the industry); every
+  item outside the industry list is tagged `other`. `Other` is a selectable
+  catch-all chip on All Solutions and in the header industry picker; it is
+  deliberately omitted from the hero chip row. An empty
+  filtered catalogue provides a reset action rather than hiding items
+  permanently. Edit an item's `categories` array to reassign it.
+- WhatsApp header/contact/footer destinations use `contact.whatsapp`, currently
+  https://wa.me/918947027625. Calling links stay on +91-7240560001; no enquiry
+  is submitted by the website when the WhatsApp link opens in a new tab.
+- Initial FAQ questions and conservative editorial answers are in
+  `src/data/faqs.ts`. Replace with final approved answers when supplied. The
+  homepage uses the first six; `/faq/` groups all nine from the same source.
+  Native details/summary controls work by keyboard and without JavaScript.
+  Footer and homepage link to `/faq/`; it is not added to the main navigation.
+  No FAQ rich-result eligibility or FAQ schema claim is made.
+- Hero headline unchanged; supporting description and existing implementation
+  steps clarified. No extra benefits/trust/demo/integration/form sections.
+
+### Catalogue industry assignments
+
+All 35 catalogue items have explicit `categories`. The mapping is deliberately
+conservative: only clear signals count (the Education/Health groups, or the
+item's own keywords naming fintech, logistics or real estate). Everything else
+is `other` and can be retagged in `src/data/catalogue.ts` after internal review.
+
+- `edtech`: K-Academics, K-Hostel
+- `healthcare`: K-Appointment, Doctor Plus, Prabal Hospital ERP
+- `fintech`: K-Loan
+- `logistics`: K-Cab (its keywords name transport/logistics)
+- `real-estate`: K-Realestate
+- `other`: the remaining 27 items (Commerce retail/ecommerce, generic Portals,
+  and Operations/Lifestyle products such as HR, accounting, matrimony, laundry,
+  car wash, parking and cinema booking)
+
+The hero industry picker shows the seven real industries only; `other` is a
+catalogue catch-all, not a business industry, so it is filtered out there.
+
+The footer Industries column stays a curated five-link list (it omits
+Manufacturing, Real Estate and Other) so the three link groups stay balanced.
+
+### Footer and active industry reminder
+
+The footer's closing Contact action includes a WhatsApp icon using the same
+chat-only number. Company links omit How we deliver. Social icons use their
+brand colors on white badges (including black X for contrast).
+On All Solutions, selecting an industry makes the existing chip bar sticky
+below the 52px navbar. Clearing all selections returns it to normal flow.
+Selected chips use solid industry colors; amber uses dark text for contrast.
+On phones, the bar uses a compact swipeable chip row with no visible scrollbar
+and a selection count. The Home selected-chip presentation is unchanged.

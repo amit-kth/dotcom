@@ -83,7 +83,7 @@ def read(path, check_images=True):
 
 
 legacy = read(ROOT / "index.php", check_images=False)
-for name, route in [("index.html", "/"), ("contact/index.html", "/contact/"), ("solutions/index.html", "/solutions/")]:
+for name, route in [("index.html", "/"), ("contact/index.html", "/contact/"), ("solutions/index.html", "/solutions/"), ("faq/index.html", "/faq/")]:
     page = read(PROJECT / "out" / name)
     assert page.titles == 1 and page.title, (name, "title")
     assert page.canonicals == [f"https://www.kriscent.com{route}"], page.canonicals
@@ -130,7 +130,7 @@ for name, route in [("index.html", "/"), ("contact/index.html", "/contact/"), ("
 for file in ["robots.txt", "sitemap.xml", "404.html", "images/og-kriscent.jpg", "site.webmanifest", "favicon.ico", "apple-touch-icon.png", "icons/favicon-16x16.png", "icons/favicon-32x32.png", "icons/favicon-48x48.png", "icons/icon-192.png", "icons/icon-512.png"]:
     assert (PROJECT / "out" / file).is_file(), f"Missing export: {file}"
 sitemap = (PROJECT / "out/sitemap.xml").read_text()
-for route in ["/", "/solutions/", "/contact/"]:
+for route in ["/", "/solutions/", "/contact/", "/faq/"]:
     assert f"<loc>https://www.kriscent.com{route}</loc>" in sitemap
 print("Static discovery files and 404 page PASS")
 

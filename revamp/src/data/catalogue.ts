@@ -1,6 +1,10 @@
+import type { CategoryId } from "./categories";
+
 export type CatalogueItem = {
   id: string;
   name: string;
+  /** Industry tags used by filtering; products outside the industry list use "other". */
+  categories: CategoryId[];
   /** Search aliases and business needs, edited alongside the product. */
   keywords: string[];
   /** the old site's own one-line tagline */
@@ -22,6 +26,7 @@ export type CatalogueItem = {
 export const catalogue: CatalogueItem[] = [
   {
     id: "k-services",
+    categories: ["other"],
     image: "/banners/general/k-services.webp",
     keywords: ["multi services", "service portal", "business services"],
     name: "K-Services",
@@ -32,6 +37,7 @@ export const catalogue: CatalogueItem[] = [
 
   {
     id: "kart-grocery",
+    categories: ["other"],
     image: "/banners/general/kart-grocery.webp",
     keywords: ["grocery delivery", "vegetables", "food shopping"],
     name: "Kart-Grocery",
@@ -40,6 +46,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "k-foodies",
+    categories: ["other"],
     image: "/banners/general/k-foodies.webp",
     keywords: ["food delivery", "restaurant orders", "online ordering"],
     name: "K-Foodies",
@@ -49,6 +56,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "k-restro",
+    categories: ["other"],
     image: "/banners/general/k-restro.webp",
     keywords: [
       "restaurant POS",
@@ -63,6 +71,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "k-bazaar-pos",
+    categories: ["other"],
     image: "/banners/general/k-bazaar-pos.webp",
     keywords: ["point of sale", "POS", "inventory", "stock", "retail billing"],
     name: "K-Bazaar POS",
@@ -72,6 +81,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "kart-supermarket",
+    categories: ["other"],
     image: "/banners/general/kart-supermarket.webp",
     keywords: ["supermarket", "grocery store", "online shopping"],
     name: "Kart Supermarket",
@@ -81,6 +91,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "kart-multivendor",
+    categories: ["other"],
     image: "/banners/general/kart-multivendor.webp",
     keywords: ["marketplace", "multiple sellers", "ecommerce", "e commerce"],
     name: "Kart Multivendor",
@@ -90,6 +101,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "kart-multistore",
+    categories: ["other"],
     image: "/banners/general/kart-multistore.webp",
     keywords: ["multiple stores", "ecommerce", "retail"],
     name: "Kart Multistore",
@@ -99,6 +111,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "k-shop",
+    categories: ["other"],
     image: "/banners/general/k-shop.webp",
     keywords: ["online shop", "ecommerce", "WhatsApp store", "CRM"],
     name: "K-Shop",
@@ -108,6 +121,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "k-store",
+    categories: ["other"],
     image: "/banners/general/k-store.webp",
     keywords: ["online store", "ecommerce", "shopping cart"],
     name: "K-Store",
@@ -118,6 +132,7 @@ export const catalogue: CatalogueItem[] = [
 
   {
     id: "k-job",
+    categories: ["other"],
     image: "/banners/general/k-job.webp",
     keywords: ["jobs", "recruitment", "hiring", "careers"],
     name: "K-Job",
@@ -127,6 +142,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "k-klassified",
+    categories: ["other"],
     image: "/banners/general/k-klassified.webp",
     keywords: ["classifieds", "listings", "buy and sell"],
     name: "K-Klassified",
@@ -136,6 +152,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "k-community",
+    categories: ["other"],
     image: "/banners/general/k-community.webp",
     keywords: ["community directory", "members", "business directory"],
     name: "K-Community",
@@ -145,6 +162,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "k-samachar",
+    categories: ["other"],
     image: "/banners/general/k-samachar.webp",
     keywords: ["news", "publishing", "articles"],
     name: "K-Samachar",
@@ -154,6 +172,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "kupon",
+    categories: ["other"],
     image: "/banners/general/kupon.webp",
     keywords: ["coupons", "discounts", "offers", "deals"],
     name: "Kupon",
@@ -163,6 +182,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "k-affiliation",
+    categories: ["other"],
     image: "/banners/general/k-affiliation.webp",
     keywords: ["affiliate", "referrals", "commissions"],
     name: "K-Affiliation",
@@ -173,6 +193,7 @@ export const catalogue: CatalogueItem[] = [
 
   {
     id: "k-academics",
+    categories: ["edtech"],
     image: "/banners/general/k-academics.webp",
     keywords: [
       "school management",
@@ -187,6 +208,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "k-hostel",
+    categories: ["edtech"],
     image: "/banners/general/k-hostel.webp",
     keywords: ["hostel", "accommodation", "room booking", "education"],
     name: "K-Hostel",
@@ -197,6 +219,7 @@ export const catalogue: CatalogueItem[] = [
 
   {
     id: "k-appointment",
+    categories: ["healthcare"],
     image: "/banners/general/k-appointment.webp",
     keywords: ["appointments", "scheduling", "booking", "healthcare"],
     name: "K-Appointment",
@@ -206,6 +229,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "doctor-plus",
+    categories: ["healthcare"],
     image: "/banners/general/doctor-plus.webp",
     keywords: ["doctor", "clinic", "healthcare", "medical directory"],
     name: "Doctor Plus",
@@ -215,6 +239,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "prabal",
+    categories: ["healthcare"],
     image: "/banners/general/prabal.webp",
     keywords: ["hospital ERP", "hospital management", "healthcare", "patients"],
     name: "Prabal Hospital ERP",
@@ -224,6 +249,7 @@ export const catalogue: CatalogueItem[] = [
 
   {
     id: "hrm",
+    categories: ["other"],
     image: "/banners/general/hrm.webp",
     keywords: ["human resources", "employee management", "staff", "HR"],
     name: "HRM",
@@ -233,6 +259,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "k-billing",
+    categories: ["other"],
     image: "/banners/general/k-billing.webp",
     keywords: ["billing", "invoices", "payments"],
     name: "K-Billing",
@@ -242,6 +269,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "k-saksham",
+    categories: ["other"],
     image: "/banners/general/k-saksham.webp",
     keywords: ["accounting", "billing", "accounts", "invoices"],
     name: "K-Saksham",
@@ -251,6 +279,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "k-franchisee",
+    categories: ["other"],
     image: "/banners/general/k-franchisee.webp",
     keywords: ["franchise", "franchise management", "branches"],
     name: "K-Franchisee",
@@ -261,6 +290,7 @@ export const catalogue: CatalogueItem[] = [
 
   {
     id: "k-matrimonial",
+    categories: ["other"],
     image: "/banners/general/k-matrimonial.webp",
     keywords: ["matrimony", "marriage", "wedding", "matchmaking"],
     name: "K-Matrimonial",
@@ -270,6 +300,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "k-matchmaker",
+    categories: ["other"],
     image: "/banners/general/k-matchmaker.webp",
     keywords: ["dating", "matchmaking", "relationships"],
     name: "K-Matchmaker",
@@ -279,6 +310,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "k-loan",
+    categories: ["fintech"],
     image: "/banners/general/k-loan.webp",
     keywords: ["loans", "lending", "finance", "fintech"],
     name: "K-Loan",
@@ -288,6 +320,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "k-laundry",
+    categories: ["other"],
     image: "/banners/general/k-laundry.webp",
     keywords: ["laundry", "dry cleaning", "washing"],
     name: "K-Laundry",
@@ -297,6 +330,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "k-cab",
+    categories: ["logistics"],
     image: "/banners/general/k-cab.webp",
     keywords: ["cab", "taxi", "ride booking", "transport", "logistics"],
     name: "K-Cab",
@@ -305,6 +339,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "car-wash",
+    categories: ["other"],
     image: "/banners/general/car-wash.webp",
     keywords: ["car cleaning", "car wash", "vehicle booking"],
     name: "Car Wash",
@@ -314,6 +349,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "car-wash-multivendor",
+    categories: ["other"],
     image: "/banners/general/car-wash-multivendor.webp",
     keywords: ["car wash", "multiple vendors", "car cleaning"],
     name: "Car Wash Multivendor",
@@ -323,6 +359,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "k-parking",
+    categories: ["other"],
     image: "/banners/general/k-parking.webp",
     keywords: ["parking", "vehicles", "parking booking"],
     name: "K-Parking",
@@ -332,6 +369,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "k-realestate",
+    categories: ["real-estate"],
     image: "/banners/general/k-realestate.webp",
     keywords: ["property", "real estate", "housing", "property management"],
     name: "K-Realestate",
@@ -341,6 +379,7 @@ export const catalogue: CatalogueItem[] = [
   },
   {
     id: "k-cinema",
+    categories: ["other"],
     image: "/banners/general/k-cinema.webp",
     keywords: ["cinema", "movies", "ticket booking"],
     name: "K-Cinema",

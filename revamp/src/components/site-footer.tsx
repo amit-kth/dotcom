@@ -9,12 +9,19 @@ import { categories } from "@/data/categories";
 import { SHELL, T_LABEL } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 
+const SOCIAL_COLORS: Record<string, string> = {
+  LinkedIn: "text-[#0a66c2]",
+  Instagram: "text-[#e4405f]",
+  Facebook: "text-[#1877f2]",
+  X: "text-black",
+  YouTube: "text-[#ff0000]",
+};
+
 type FooterLink = { label: string; href: string; external?: boolean };
 
 const COMPANY_LINKS: FooterLink[] = [
   { label: "About Kriscent", href: contact.aboutPage, external: true },
   { label: "Clients", href: contact.clientsPage, external: true },
-  { label: "How we deliver", href: "/#delivery" },
   { label: "All solutions", href: "/solutions" },
   { label: "FAQs", href: "/faq/" },
   { label: "Contact us", href: contact.contactPath },
@@ -29,7 +36,7 @@ export function SiteFooter() {
     <footer id="contact" className="bg-slate-950 text-slate-50">
       <div className={SHELL}>
         {/* ---- the closing call ---- */}
-        <div className="flex flex-row items-center gap-5 border-b border-white/15 py-8 sm:py-10 lg:flex-row lg:items-center lg:justify-between lg:gap-12">
+        <div className="flex flex-row max-md:flex-wrap items-center gap-5 border-b border-white/15 py-8 sm:py-10 lg:flex-row lg:items-center lg:justify-between lg:gap-12">
           <div>
             <p className={cn(T_LABEL, "text-slate-300")}>Contact</p>
             <h2 className="mt-3 max-w-[20ch] text-2xl max-md:text-xl font-bold leading-tight tracking-tight md:text-4xl max-md:text-xl">
@@ -41,13 +48,15 @@ export function SiteFooter() {
             <p className="hidden text-[1rem] max-md:text-sm leading-relaxed text-slate-300 sm:block">
               One call. We tell you what fits.
             </p>
-            <Link
-              href={contact.contactPath}
-              className={buttonVariants({ variant: "primary", size: "md" })}
-            >
-              Contact us
-              <Mail className="size-4" aria-hidden="true" />
-            </Link>
+            <div className="flex items-center gap-2">
+              <Link href={contact.contactPath} className={buttonVariants({ variant: "primary", size: "md" })}>
+                Contact us
+                <Mail className="size-4" aria-hidden="true" />
+              </Link>
+              <a href={contact.whatsapp} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp enquiry (opens in a new tab)" title="WhatsApp enquiry" className="inline-flex size-11 shrink-0 items-center justify-center rounded-xl border border-green-400/30 bg-green-50 text-green-700 transition-colors hover:bg-green-100">
+                <WhatsAppIcon className="size-5" />
+              </a>
+            </div>
           </div>
         </div>
 
@@ -80,7 +89,7 @@ export function SiteFooter() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`${site.name} on ${social.label}`}
-                      className="flex size-11 items-center justify-center rounded-full border border-white/15 text-slate-300 transition-[background-color,border-color,color,transform] duration-200 hover:-translate-y-0.5 hover:border-white/30 hover:bg-white/[0.07] hover:text-slate-50"
+                      className={cn("flex size-11 items-center justify-center rounded-full border border-white/15 bg-white transition-[background-color,transform] duration-200 hover:-translate-y-0.5 hover:bg-slate-100", SOCIAL_COLORS[social.label] ?? "text-slate-800")}
                     >
                       {Icon ? (
                         <Icon className="size-[1.05rem]" />

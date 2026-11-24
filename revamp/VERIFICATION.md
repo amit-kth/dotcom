@@ -451,3 +451,25 @@ four tests, export audits) and six-viewport discovery/FAQ/WhatsApp browser check
 passed. JavaScript-disabled checks still find the full catalogue and FAQ HTML.
 Work stays on the active Arena branch and updates existing PR #7 rather than
 creating a separate worktree/branch or duplicate PR.
+
+## Footer refinements and sticky selected industries
+
+Added a WhatsApp icon alongside the footer closing Contact button; kept the
+chat number and call links unchanged. Removed How we deliver from Company,
+leaving five links. Footer social marks use default brand hues on white badges
+so black X remains visible. Mobile CTA wrapping avoids overflow.
+
+All Solutions moves the existing industry controls outside the intro wrapper
+so sticky can span the product list. It sticks below the navbar only while
+filters are active and returns to normal flow on reset. Mobile chips scroll
+horizontally without a scrollbar to avoid a tall sticky panel. Selection count
+remains visible; each selected chip has a solid industry fill, contrasting text
+and its existing pressed/removal state. No URL, filter logic or Home styling
+changes; Tailwind utilities only, no global CSS/theme/keyframe changes.
+
+Build, TypeScript, four tests and export audits pass. Browser checks at 320,
+390, 768, 1024, 1366 and 1920 widths verified conditional sticky positioning
+against header height, compact bar bounds, selected-state fill, reset, catalogue
+restoration, hidden mobile scrollbar, correct WhatsApp/new-tab link, five Company
+links, five distinct social brand colors and no document overflow/runtime errors.
+External image/video requests were blocked as in earlier sandbox checks.

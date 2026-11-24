@@ -23,7 +23,7 @@ export function SolutionsContent() {
   const filteredCatalogue = selected.length ? catalogue.filter((item) => catalogueIndustries(item).some((id) => selected.includes(id))) : catalogue;
   return (
       <main className={LIGHT_BAND}>
-        <div className={cn(SHELL, "pt-6 pb-14 sm:pt-8")}>
+        <div className={cn(SHELL, "pt-6 pb-6 sm:pt-8")}>
           <Link
             href="/"
             className="inline-flex min-h-11 items-center gap-2 text-[0.9375rem] font-medium text-slate-600 transition-colors hover:text-slate-950"
@@ -55,11 +55,16 @@ export function SolutionsContent() {
             </Link>
           </div>
           <SearchTrigger />
-          <div className="mt-7">
-            <p className="mb-3 text-sm font-medium text-slate-600">Browse by industry</p>
-            <IndustryFilters selected={selected} onToggle={toggle} onClear={clear} />
-            <p role="status" aria-live="polite" className="mt-4 text-sm text-slate-500">{filteredProducts.length + filteredCatalogue.length} solutions{selected.length ? " match your selected industries. Select All industries to browse the full catalogue." : " available. Select one or more industries to narrow the list."}</p>
+        </div>
+
+        <div data-industry-bar className={cn("py-3", selected.length ? "sticky top-[var(--header-h)] z-40 border-y border-slate-200 bg-white shadow-sm" : "bg-transparent")}>
+          <div className={SHELL}>
+            <p className="mb-3 text-sm font-medium text-slate-600">{selected.length ? `Selected industries (${selected.length})` : "Browse by industry"}</p>
+            <IndustryFilters selected={selected} onToggle={toggle} onClear={clear} solidSelected scrollable />
           </div>
+        </div>
+        <div className={cn(SHELL, "pt-4 pb-10")}>
+          <p role="status" aria-live="polite" className="text-sm text-slate-500">{filteredProducts.length + filteredCatalogue.length} solutions{selected.length ? " match your selected industries. Select All industries to browse the full catalogue." : " available. Select one or more industries to narrow the list."}</p>
         </div>
 
         <section aria-labelledby="featured-solutions-title" className={cn(SHELL, "flex flex-col gap-6 sm:gap-8 lg:gap-10")}>

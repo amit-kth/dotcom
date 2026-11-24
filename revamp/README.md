@@ -312,3 +312,14 @@ support for a product.
 - K-Parking (`k-parking`), Lifestyle
 - K-Realestate (`k-realestate`), Lifestyle
 - K-Cinema (`k-cinema`), Lifestyle
+
+### Footer and active industry reminder
+
+The footer's closing Contact action includes a WhatsApp icon using the same
+chat-only number. Company links omit How we deliver. Social icons use their
+brand colors on white badges (including black X for contrast).
+On All Solutions, selecting an industry makes the existing chip bar sticky
+below the 52px navbar. Clearing all selections returns it to normal flow.
+Selected chips use solid industry colors; amber uses dark text for contrast.
+On phones, the bar uses a compact swipeable chip row with no visible scrollbar
+and a selection count. The Home selected-chip presentation is unchanged.

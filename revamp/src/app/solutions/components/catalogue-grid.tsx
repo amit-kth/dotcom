@@ -1,11 +1,11 @@
 import { ArrowUpRight, ImageIcon } from "lucide-react";
 import { OfferTag } from "@/components/offers/offer-tag";
-import { catalogue } from "@/data/catalogue";
+import { catalogue, type CatalogueItem } from "@/data/catalogue";
 
-export function CatalogueGrid() {
+export function CatalogueGrid({ items = catalogue }: { items?: CatalogueItem[] }) {
   return (
     <ul id="solutions-product-list" className="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-      {catalogue.map((item) => (
+      {items.map((item) => (
         <li key={item.id} id={`catalogue-${item.id}`} className="group">
           <div className="relative">
           <OfferTag productId={item.id} />

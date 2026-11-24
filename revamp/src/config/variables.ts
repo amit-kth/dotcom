@@ -108,6 +108,11 @@ export const metadata = {
     description:
       "The full catalogue of Kriscent ready-made solutions, themes and additional products. Every system can be live in 15 days.",
   },
+  faq: {
+    path: "/faq",
+    title: "Frequently Asked Questions | Kriscent Ready-Made Software",
+    description: "Answers about choosing Kriscent software, requesting demos, implementation, pricing and support. Contact our team about your selected product.",
+  },
   contact: {
     path: "/contact",
     title: "Contact Kriscent | Ready-Made Software, Live in 15 Days",

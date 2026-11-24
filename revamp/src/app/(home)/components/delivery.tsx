@@ -17,10 +17,10 @@ import { BAND, LIGHT_BAND, SHELL, T_BODY, T_HEADING, T_LABEL } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 
 const deliverySteps = [
-  { id: "map", days: "Day 1–2", title: "Map what you run" },
-  { id: "configure", days: "Day 3–7", title: "Configure it" },
-  { id: "migrate", days: "Day 8–12", title: "Bring your data" },
-  { id: "live", days: "Day 13–15", title: "Go live" },
+  { id: "map", days: "Day 1–2", title: "Understand your needs", description: "Confirm the product, workflow and setup requirements." },
+  { id: "configure", days: "Day 3–7", title: "Configure your solution", description: "Prepare the selected software for the agreed workflow." },
+  { id: "migrate", days: "Day 8–12", title: "Set up your data", description: "Prepare the information needed to start using the system." },
+  { id: "live", days: "Day 13–15", title: "Train and go live", description: "Walk through the setup with your team and prepare for launch." },
 ];
 
 /* ============================================================================
@@ -94,7 +94,7 @@ export function Delivery() {
 
           <Reveal delay={0.1}>
             <p className={cn(T_BODY, "max-w-[40ch] text-slate-600 lg:pb-2")}>
-              Four stages, one team, and the date quoted before we start.
+              From choosing the right product to preparing your team for launch. We confirm the scope and schedule before we start.
             </p>
           </Reveal>
         </div>
@@ -157,6 +157,7 @@ export function Delivery() {
                   <h3 className="mt-2 text-[1.125rem] max-md:text-sm font-semibold leading-snug tracking-[-0.02em] text-slate-950">
                     {step.title}
                   </h3>
+                  <p className="mt-2 max-w-[28ch] text-sm leading-relaxed text-slate-600">{step.description}</p>
                 </Stage>
               ))}
             </ol>
@@ -187,6 +188,7 @@ export function Delivery() {
                 <h3 className="mt-1.5 text-[1.0625rem] max-md:text-sm font-semibold tracking-[-0.02em] text-slate-950">
                   {step.title}
                 </h3>
+                <p className="mt-2 text-sm leading-relaxed text-slate-600">{step.description}</p>
               </Stage>
             ))}
           </ol>

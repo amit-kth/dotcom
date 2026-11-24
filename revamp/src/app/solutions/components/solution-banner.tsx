@@ -85,8 +85,9 @@ export function SolutionBanner({
         </p>
 
         <h3 className="mt-3 text-[clamp(1.75rem,4.2vw,3.25rem)] max-md:text-[1.5rem] font-bold leading-[1.02] tracking-[-0.035em] text-slate-50">
-          {product.name}
+          {product.heading}
         </h3>
+        <p className="mt-2 text-sm font-medium text-slate-400 max-md:text-xs">{product.name}{product.id === "k-edusity" ? " · K-LMS ERP" : ""}</p>
 
         <p className="mt-3 max-w-[34ch] text-[1.0625rem] max-md:text-sm leading-relaxed text-slate-300">
           {product.problem}

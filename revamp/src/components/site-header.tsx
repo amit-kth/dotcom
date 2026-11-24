@@ -10,6 +10,7 @@ import { categories } from "@/data/categories";
 import { featuredProducts } from "@/data/products";
 import { buttonVariants } from "@/components/ui/button";
 import { contact } from "@/config/variables";
+import { WhatsAppIcon } from "@/components/social-icons";
 import { SearchTrigger } from "@/components/search/solution-search";
 import { SHELL } from "@/lib/ui";
 import { cn } from "@/lib/utils";
@@ -305,6 +306,9 @@ export function SiteHeader() {
 
         <div className="flex items-center justify-self-end gap-2">
           <SearchTrigger compact light={light} />
+          <a href={contact.whatsapp} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp enquiry (opens in a new tab)" title="WhatsApp enquiry" className="inline-flex size-9 shrink-0 items-center justify-center rounded-xl border border-green-600/30 bg-green-50 text-green-700 transition-colors hover:bg-green-100 max-sm:size-11">
+            <WhatsAppIcon className="size-5" />
+          </a>
           {/* "Contact us" is a general contact action, with no product
               attached: it opens the general contact form. It is
               outlined on purpose, the chips, not this button, are the main

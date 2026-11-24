@@ -147,7 +147,7 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.34, delay: 0.1, ease: EASE }}
         >
-          Pick your industry and we will show you what is already built for it.
+          Choose your industry to find ready-made software we can configure for your business.
         </motion.p>
 
         <div className="mt-[clamp(2.25rem,5vh,3.25rem)] max-md:mt-6">

@@ -8,6 +8,8 @@ export type AccentHue = "blue" | "violet" | "coral" | "teal";
 export type Product = {
   id: string;
   name: string;
+  /** Short software category for the large cards; brand name stays unchanged. */
+  heading: string;
   /** Search aliases, business needs and relevant terms. */
   keywords: string[];
   /** Product logo URL or local asset path; null reserves space until supplied. */
@@ -43,6 +45,7 @@ export const products: Product[] = [
       "calling agents"
     ],
     name: "AI Employees",
+    heading: "AI Calling Agents",
     logo: null,
     // The phrasing is the client's own reference banner: calls that did not
     // need a person.
@@ -76,6 +79,7 @@ export const products: Product[] = [
     ],
     // K-SMART on the old site; "one CRM instead of six tools" is its own line.
     name: "Sales Automation CRM",
+    heading: "Sales CRM",
     logo: "https://www.kriscent.in/product/ksmart/assets/img/software/ksmart_logo.png",
     problem: "Leads live across six tools and three phones.",
     categories: ["manufacturing", "logistics", "real-estate"],
@@ -102,6 +106,7 @@ export const products: Product[] = [
       "education",
     ],
     name: "K-Exam",
+    heading: "Online Exam Software",
     logo: "https://www.kriscent.in/product/kexam/img/logo-2.png",
     // Old site: "Exams that stay secure online".
     problem: "Exams take a week of marking and a folder of paperwork.",
@@ -135,6 +140,7 @@ export const products: Product[] = [
       "e-learning",
     ],
     name: "K-Edusity",
+    heading: "School & College ERP",
     logo: "https://www.kriscent.com/product/kedusity/public/uploads/dark_logo/darklogo-1781938584.png",
     /* Unified school management and learning platform. */
     problem: "Managing school operations and digital learning across disconnected systems.",
@@ -161,6 +167,7 @@ export const products: Product[] = [
       "jyotish",
     ],
     name: "Kastrofy",
+    heading: "Astrology Platform",
     logo: "https://kriscent.in/product/kastrofy/assets/images/logo_white.png",
     // Old site: "Connect with expert astrologers, live … shop curated
     // remedies, and take consultations without leaving the portal."

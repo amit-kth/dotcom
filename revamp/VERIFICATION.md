@@ -400,3 +400,40 @@ for all 12 cases, with 0.25px tolerance for Framer subpixel animation timing.
 No meaningful laptop/desktop geometry or typography changes. Browser fixtures
 and screenshots live in ignored artifacts/browser-check. External ImageKit and
 YouTube requests were blocked; this does not validate external-media loading.
+
+## Approved discovery, WhatsApp and FAQ scope
+
+Home selected-industry chips sit beneath the agreed heading, with matching
+industry colors and remove/clear controls. Existing Hero/nav context retained.
+All Solutions has independent client-side multi-select filters for featured
+and additional products; no query strings, dynamic routes or shared selection.
+Static HTML initially contains all five large products and 35 catalogue items.
+Only existing Education/Health catalogue assignments are mapped; other groups
+remain under All industries and are listed for review in README.
+
+Five large cards use short descriptive headings with brand identities beneath.
+Small catalogue names, product IDs, existing external URLs and new-tab behavior
+are unchanged. Hero headline unchanged; its description and the existing four
+implementation steps explain the process more clearly. Existing timeline layout
+and mobile alignment retained.
+
+New compact homepage FAQ and static /faq/ route share nine editorial questions
+and conservative initial answers from data/faqs.ts. Homepage uses six. Native
+keyboard-accessible details/summary, footer/home links, route SEO and sitemap
+entry added. No FAQ schema or commercial guarantees invented. FAQ answers are
+editable pending final wording from the user.
+
+Header has a green WhatsApp enquiry icon; the Contact option is a green button.
+All enquiry links use the existing +91 8947027625 WhatsApp configuration; calling
+links remain +91 7240560001. No backend changes or live contact submissions.
+
+Full check passes build, TypeScript, four existing functional tests and static
+export audits, including FAQ metadata and sitemap. Browser checks at 320×568,
+390×844, 768×1024, 1024×768, 1366×900 and 1920×1080 covered Home hero selection,
+chip placement/removal state, Home-to-Solutions independence, all/OR multi-filter
+matches and reset/empty states, unchanged URLs, FAQ keyboard expansion,
+WhatsApp/calling destinations, no horizontal overflow and non-overlapping header
+actions. Static catalogue and all FAQ content also checked with JS disabled.
+Sandbox third-party requests were blocked; external media playback not tested.
+Global stylesheet, tokens/keyframes, popup logic, form backend and unrelated
+sections are unchanged.

@@ -1,6 +1,10 @@
+import type { CategoryId } from "./categories";
+
 export type CatalogueItem = {
   id: string;
   name: string;
+  /** Optional explicit industry tags, after internal review. */
+  categories?: CategoryId[];
   /** Search aliases and business needs, edited alongside the product. */
   keywords: string[];
   /** the old site's own one-line tagline */
@@ -349,3 +353,12 @@ export const catalogue: CatalogueItem[] = [
     href: "https://kriscent.com/product/kcinema/",
   },
 ];
+
+/** Only these existing groups directly identify one of our current industries.
+ * Other groups remain available under All industries until internally tagged. */
+export function catalogueIndustries(item: CatalogueItem): CategoryId[] {
+  if (item.categories) return item.categories;
+  if (item.group === "Education") return ["edtech"];
+  if (item.group === "Health") return ["healthcare"];
+  return [];
+}

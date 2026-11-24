@@ -16,6 +16,7 @@ const COMPANY_LINKS: FooterLink[] = [
   { label: "Clients", href: contact.clientsPage, external: true },
   { label: "How we deliver", href: "/#delivery" },
   { label: "All solutions", href: "/solutions" },
+  { label: "FAQs", href: "/faq/" },
   { label: "Contact us", href: contact.contactPath },
 ];
 

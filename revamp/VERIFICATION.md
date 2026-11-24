@@ -481,8 +481,8 @@ Every catalogue item now has required explicit `categories` in
 gone. Assignments use only explicit signals (Education/Health groups, or the
 item's own keywords naming fintech, logistics or real estate); all remaining
 items are tagged `other`. Other joins the category list as a neutral slate chip
-with a solid selected fill and a Shapes icon on the hero pills; the existing
-Home empty-state banner covers selections with no featured products. The footer
+with a solid selected fill; the existing Home empty-state banner covers
+selections with no featured products. The footer
 Industries column excludes Other to keep the three five-link groups.
 
 Build, TypeScript, four tests and export audits pass. Browser checks at 390 and
@@ -512,3 +512,13 @@ navbar at under 45% of every viewport with the chip row scrolling on phones
 spot-checks at 320, 768 and 1536 (screenshots in the same folder) confirm the
 solid selected chips, compact phone bar, balanced footer columns and one-row
 2xl hero chips render as intended.
+
+## Other removed from the hero picker
+
+Per instruction, the hero "What does your business do?" chip row now shows the
+seven real industries only; the `other` catch-all is filtered out there while
+staying available in the All Solutions filter bar and the header industry
+picker. No styles, spacing or selection behaviour changed. TypeScript, build,
+tests and export audits pass; the browser suites confirm seven hero chips with
+no Other chip, unchanged eight-chip All Solutions filtering (including Other),
+and unchanged header-picker Other selection with the Home empty banner.

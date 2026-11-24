@@ -261,7 +261,8 @@ the page. Global theme tokens and shared keyframes are unchanged.
   in `src/data/catalogue.ts`. An item is tagged with an industry only when the
   signal is explicit (its group or its own keywords name the industry); every
   item outside the industry list is tagged `other`. `Other` is a selectable
-  catch-all chip on All Solutions, the hero and the header picker. An empty
+  catch-all chip on All Solutions and in the header industry picker; it is
+  deliberately omitted from the hero chip row. An empty
   filtered catalogue provides a reset action rather than hiding items
   permanently. Edit an item's `categories` array to reassign it.
 - WhatsApp header/contact/footer destinations use `contact.whatsapp`, currently
@@ -291,6 +292,9 @@ is `other` and can be retagged in `src/data/catalogue.ts` after internal review.
 - `other`: the remaining 27 items (Commerce retail/ecommerce, generic Portals,
   and Operations/Lifestyle products such as HR, accounting, matrimony, laundry,
   car wash, parking and cinema booking)
+
+The hero industry picker shows the seven real industries only; `other` is a
+catalogue catch-all, not a business industry, so it is filtered out there.
 
 The footer Industries column stays a curated five-link list (it omits
 Manufacturing, Real Estate and Other) so the three link groups stay balanced.

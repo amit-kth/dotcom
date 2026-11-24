@@ -17,6 +17,10 @@ const nextConfig: NextConfig = {
   output: "export",
   trailingSlash: true,
   reactStrictMode: true,
+  experimental: {
+    // Keep agent-assisted upgrades on the security-patch track.
+    agentUpgrade: "security",
+  },
   /* The app is previewed through a proxied host during development, so the dev
      server has to accept that origin. Production is a static export and never
      uses the dev server, so this has no effect on the deployed site. */

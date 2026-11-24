@@ -437,3 +437,17 @@ actions. Static catalogue and all FAQ content also checked with JS disabled.
 Sandbox third-party requests were blocked; external media playback not tested.
 Global stylesheet, tokens/keyframes, popup logic, form backend and unrelated
 sections are unchanged.
+
+## Next.js security patch: 16.4.3 → 16.4.6
+
+Ran `next upgrade --agent=security` and followed its same-major patch guidance.
+Checked available local/remote history and open GitHub PRs; no equivalent upgrade
+was in progress. Upgraded only Next.js and its lockfile-resolved packages, and
+set supported `experimental.agentUpgrade: "security"`. Existing static-export,
+image and allowed-origin settings retained. No codemods or UI changes needed.
+
+Clean npm ci, exact installed-version check, full npm run check (build, types,
+four tests, export audits) and six-viewport discovery/FAQ/WhatsApp browser checks
+passed. JavaScript-disabled checks still find the full catalogue and FAQ HTML.
+Work stays on the active Arena branch and updates existing PR #7 rather than
+creating a separate worktree/branch or duplicate PR.

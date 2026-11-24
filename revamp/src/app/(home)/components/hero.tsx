@@ -10,6 +10,7 @@ import {
   GraduationCap,
   HeartPulse,
   Landmark,
+  Shapes,
   Sparkles,
   Truck,
   type LucideIcon,
@@ -28,9 +29,10 @@ const ICONS: Record<CategoryId, LucideIcon> = {
   astrology: Sparkles,
   edtech: GraduationCap,
   "real-estate": Building2,
+  other: Shapes,
 };
 
-/** One glass material for all seven chips; the hue only reaches the icon. */
+/** One glass material for all eight chips; the hue only reaches the icon. */
 const CHIP = [
   "relative inline-flex flex-none items-center justify-center gap-2.5 rounded-full",
   "min-h-[3.75rem] px-[1.4375rem] text-[1.0625rem] font-semibold tracking-[-0.01em] whitespace-nowrap",

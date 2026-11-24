@@ -123,7 +123,8 @@ export function SiteFooter() {
                 .filter(
                   (category) =>
                     category.id !== "manufacturing" &&
-                    category.id !== "real-estate",
+                    category.id !== "real-estate" &&
+                    category.id !== "other",
                 )
                 .map((category) => (
                   <li key={category.id}>

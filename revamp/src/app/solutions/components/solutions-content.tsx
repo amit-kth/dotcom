@@ -13,14 +13,14 @@ import { buttonVariants } from "@/components/ui/button";
 import { LIGHT_BAND, SHELL, T_BODY, T_HEADING, T_LABEL } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import { products, DELIVERY_DAYS } from "@/data/products";
-import { catalogue, catalogueIndustries } from "@/data/catalogue";
+import { catalogue } from "@/data/catalogue";
 
 export function SolutionsContent() {
   const [selected, setSelected] = useState<CategoryId[]>([]);
   const toggle = (id: CategoryId) => setSelected((current) => current.includes(id) ? current.filter((value) => value !== id) : [...current, id]);
   const clear = () => setSelected([]);
   const filteredProducts = selected.length ? products.filter((product) => product.categories.some((id) => selected.includes(id))) : products;
-  const filteredCatalogue = selected.length ? catalogue.filter((item) => catalogueIndustries(item).some((id) => selected.includes(id))) : catalogue;
+  const filteredCatalogue = selected.length ? catalogue.filter((item) => item.categories.some((id) => selected.includes(id))) : catalogue;
   return (
       <main className={LIGHT_BAND}>
         <div className={cn(SHELL, "pt-6 pb-6 sm:pt-8")}>

@@ -12,6 +12,7 @@ const FILLED_COLORS: Record<CategoryId, string> = {
   astrology: "aria-pressed:border-fuchsia-700 aria-pressed:bg-fuchsia-700 aria-pressed:text-white aria-pressed:ring-fuchsia-700",
   edtech: "aria-pressed:border-amber-400 aria-pressed:bg-amber-400 aria-pressed:text-slate-950 aria-pressed:ring-amber-400",
   "real-estate": "aria-pressed:border-emerald-700 aria-pressed:bg-emerald-700 aria-pressed:text-white aria-pressed:ring-emerald-700",
+  other: "aria-pressed:border-slate-600 aria-pressed:bg-slate-600 aria-pressed:text-white aria-pressed:ring-slate-600",
 };
 
 export function IndustryFilters({ selected, onToggle, onClear, selectedOnly = false, solidSelected = false, scrollable = false }: {

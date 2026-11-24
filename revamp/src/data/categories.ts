@@ -27,6 +27,11 @@ export const categories = [
     label: "Real Estate",
     color: "[--chip:var(--color-emerald-300)]",
   },
+  {
+    id: "other",
+    label: "Other",
+    color: "[--chip:var(--color-slate-300)]",
+  },
 ] as const;
 
 export type CategoryId = (typeof categories)[number]["id"];

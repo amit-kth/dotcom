@@ -257,12 +257,13 @@ the page. Global theme tokens and shared keyframes are unchanged.
   dynamic routes, network requests or filter persistence were added. Multiple
   industries use OR matching. `IndustryFilters` shares only the visual control,
   not selection state between pages.
-- Catalogue industry tags: existing Education maps to EdTech, Health maps to
-  Healthcare. Optional `categories` can supply explicit approved tags later.
-  Commerce, Operations, Portals and Lifestyle are not automatically mapped to
-  unrelated industries. Their items stay in All industries pending review.
-  An empty filtered catalogue provides a reset action rather than hiding items
-  permanently. Review `catalogueIndustries` in `src/data/catalogue.ts`.
+- Catalogue industry tags: every catalogue item carries explicit `categories`
+  in `src/data/catalogue.ts`. An item is tagged with an industry only when the
+  signal is explicit (its group or its own keywords name the industry); every
+  item outside the industry list is tagged `other`. `Other` is a selectable
+  catch-all chip on All Solutions, the hero and the header picker. An empty
+  filtered catalogue provides a reset action rather than hiding items
+  permanently. Edit an item's `categories` array to reassign it.
 - WhatsApp header/contact/footer destinations use `contact.whatsapp`, currently
   https://wa.me/918947027625. Calling links stay on +91-7240560001; no enquiry
   is submitted by the website when the WhatsApp link opens in a new tab.
@@ -275,43 +276,24 @@ the page. Global theme tokens and shared keyframes are unchanged.
 - Hero headline unchanged; supporting description and existing implementation
   steps clarified. No extra benefits/trust/demo/integration/form sections.
 
-### Catalogue industries awaiting internal assignment
+### Catalogue industry assignments
 
-The following products lack an existing matching industry assignment. They
-remain in All industries; please approve `categories` before adding them to
-filtered results. The broad catalogue group alone does not establish industry
-support for a product.
+All 35 catalogue items have explicit `categories`. The mapping is deliberately
+conservative: only clear signals count (the Education/Health groups, or the
+item's own keywords naming fintech, logistics or real estate). Everything else
+is `other` and can be retagged in `src/data/catalogue.ts` after internal review.
 
-- K-Services (`k-services`), Portals
-- Kart-Grocery (`kart-grocery`), Commerce
-- K-Foodies (`k-foodies`), Commerce
-- K-Restro (`k-restro`), Commerce
-- K-Bazaar POS (`k-bazaar-pos`), Commerce
-- Kart Supermarket (`kart-supermarket`), Commerce
-- Kart Multivendor (`kart-multivendor`), Commerce
-- Kart Multistore (`kart-multistore`), Commerce
-- K-Shop (`k-shop`), Commerce
-- K-Store (`k-store`), Commerce
-- K-Job (`k-job`), Portals
-- K-Klassified (`k-klassified`), Portals
-- K-Community (`k-community`), Portals
-- K-Samachar (`k-samachar`), Portals
-- Kupon (`kupon`), Portals
-- K-Affiliation (`k-affiliation`), Portals
-- HRM (`hrm`), Operations
-- K-Billing (`k-billing`), Operations
-- K-Saksham (`k-saksham`), Operations
-- K-Franchisee (`k-franchisee`), Operations
-- K-Matrimonial (`k-matrimonial`), Lifestyle
-- K-Matchmaker (`k-matchmaker`), Lifestyle
-- K-Loan (`k-loan`), Lifestyle
-- K-Laundry (`k-laundry`), Lifestyle
-- K-Cab (`k-cab`), Lifestyle
-- Car Wash (`car-wash`), Lifestyle
-- Car Wash Multivendor (`car-wash-multivendor`), Lifestyle
-- K-Parking (`k-parking`), Lifestyle
-- K-Realestate (`k-realestate`), Lifestyle
-- K-Cinema (`k-cinema`), Lifestyle
+- `edtech`: K-Academics, K-Hostel
+- `healthcare`: K-Appointment, Doctor Plus, Prabal Hospital ERP
+- `fintech`: K-Loan
+- `logistics`: K-Cab (its keywords name transport/logistics)
+- `real-estate`: K-Realestate
+- `other`: the remaining 27 items (Commerce retail/ecommerce, generic Portals,
+  and Operations/Lifestyle products such as HR, accounting, matrimony, laundry,
+  car wash, parking and cinema booking)
+
+The footer Industries column stays a curated five-link list (it omits
+Manufacturing, Real Estate and Other) so the three link groups stay balanced.
 
 ### Footer and active industry reminder
 

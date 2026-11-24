@@ -473,3 +473,22 @@ against header height, compact bar bounds, selected-state fill, reset, catalogue
 restoration, hidden mobile scrollbar, correct WhatsApp/new-tab link, five Company
 links, five distinct social brand colors and no document overflow/runtime errors.
 External image/video requests were blocked as in earlier sandbox checks.
+
+## Catalogue categories and Other catch-all
+
+Every catalogue item now has required explicit `categories` in
+`src/data/catalogue.ts`; the old group-based `catalogueIndustries` helper is
+gone. Assignments use only explicit signals (Education/Health groups, or the
+item's own keywords naming fintech, logistics or real estate); all remaining
+items are tagged `other`. Other joins the category list as a neutral slate chip
+with a solid selected fill and a Shapes icon on the hero pills; the existing
+Home empty-state banner covers selections with no featured products. The footer
+Industries column excludes Other to keep the three five-link groups.
+
+Build, TypeScript, four tests and export audits pass. Browser checks at 390 and
+1024 verified eight filter chips and exact OR-filtered counts: Other 27
+catalogue-only, EdTech 4, Healthcare 4, Fintech 2, Logistics 3, Real Estate 3,
+Manufacturing 1 featured-only, Astrology 1 featured-only, Other+Fintech 29,
+plus both empty-state messages and the Home Other selection/reset flow. The
+deferred offer dialog was closed before accessibility assertions because it
+correctly hides page content while open.

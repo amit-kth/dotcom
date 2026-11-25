@@ -11,8 +11,10 @@ export const Assetsbaseurl = "https://ik.imagekit.io/qk2ww553c";
    misconfigured deploy fails loudly rather than silently posting nowhere.
 --------------------------------------------------------------------------- */
 
-/** Configure and test a real backend before accepting enquiries. */
-export const CONTACT_ENDPOINT = "TODO_LARAVEL_CONTACT_ENDPOINT"; // e.g. "https://api.kriscent.com/contact"
+/** The enquiry service behind the contact form. The site is static, so the
+ * browser posts here cross-origin: the service must allow the site's origin
+ * via CORS (POST with a JSON content type). */
+export const CONTACT_ENDPOINT = "https://kriscent.in/K-GOD/contact-com";
 
 /* ---------------------------------------------------------------------------
    3. SITE
@@ -55,6 +57,10 @@ export const PHONE_LINE = PHONES.map((phone, index) =>
 
 export const PHONE_HREF = `tel:${PHONES[0].replace(/[^\d+]/g, "")}`;
 
+/** Kept short and neutral: it opens the chat, it is not a pitch. */
+const WHATSAPP_MESSAGE =
+  "Hi Kriscent, I found you through your website and I would like to enquire about your software solutions.";
+
 export const contact = {
   emails: {
     general: "info@kriscent.in",
@@ -68,8 +74,11 @@ export const contact = {
   /** The WhatsApp line is a separate number on purpose: it is the chat
       initiator only, never printed as a call number. */
   whatsappNumber: "+918947027625",
-  /** wa.me link, carried over from the old site's floating button. */
-  whatsapp: "https://wa.me/918947027625",
+  /** The message every WhatsApp button opens with. */
+  whatsappMessage: WHATSAPP_MESSAGE,
+  /** wa.me link, the old site's floating button, with that message prefilled
+      so every WhatsApp button starts a real enquiry instead of a blank box. */
+  whatsapp: `https://wa.me/918947027625?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`,
   /** Our own contact page. */
   contactPath: "/contact",
   aboutPage: "https://kriscent.in/about",

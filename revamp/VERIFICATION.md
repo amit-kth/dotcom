@@ -522,3 +522,65 @@ picker. No styles, spacing or selection behaviour changed. TypeScript, build,
 tests and export audits pass; the browser suites confirm seven hero chips with
 no Other chip, unchanged eight-chip All Solutions filtering (including Other),
 and unchanged header-picker Other selection with the Home empty banner.
+
+## Contact form wired to the live enquiry API
+
+`CONTACT_ENDPOINT` now points at `https://kriscent.in/K-GOD/contact-com`, and
+`submitContact()` posts exactly the legacy field set (`name`, `email`, `phone`,
+`subject`, `message`, `country_name`) — the earlier extra `source` and `form`
+identifiers were dropped so the payload matches the agreed body.
+
+Error handling covers every branch the browser can reach: per-field validation
+before a request, a 20-second abort for a hanging service, non-2xx responses
+(the service's own `message` when present, otherwise a readable fallback),
+network/CORS failures, and an unconfigured endpoint. Every message tells the
+visitor how to reach `info@kriscent.in`, and typed values are preserved. Success
+now shows "Thanks, your message has been sent." with the reply address, the
+phone line and a **Send another message** reset action.
+
+Verification:
+
+- `npm run check` — build, typecheck, 8 tests (5 new mocked-`fetch` contact
+  tests: payload shape/endpoint, 2xx, 422 message, 5xx fallback, network
+  failure, timeout) and the static-export checks all PASS.
+- `artifacts/browser-check/contact-api.mjs` against the static export with
+  `https://kriscent.in/**` fulfilled locally — validation (no request sent),
+  success + payload assertions (`phone`, `country_name`), reset, 422 message,
+  500 fallback, network failure all PASS with no console errors.
+- Success and error panels inspected at 1280px and 320px: no overflow
+  (`scrollWidth` equal to viewport), copy wraps cleanly, buttons reachable.
+- The real endpoint is never contacted from this sandbox; a live submission and
+  the service's CORS headers for the production origin still need one check
+  after deploy.
+
+## Navbar product links open the product sites; WhatsApp opens with a message
+
+The Solutions panel and the menu drawer used to send every product to
+`/#solutions`, a scroll into the homepage list that did nothing visible when
+that product was filtered out. Both menus now render `ProductNavLink`, which
+uses the product's real `href` (AI Employees, KSMART, K-Exam, K-Edusity,
+Kastrofy — the URLs already used by each "Explore <name>" button) with
+`target="_blank"` and `rel="noopener noreferrer"`, plus a small external-link
+mark and an "(opens in a new tab)" label. The panel's two-column drawer layout
+places the mark next to the name so it cannot read as the neighbouring entry's.
+
+Every WhatsApp button opens with a prefilled enquiry, defined once as
+`contact.whatsappMessage` and encoded into `contact.whatsapp`.
+
+Verification:
+
+- `npm run check` — build, typecheck, 10 tests (a new `scripts/links.test.ts`
+  asserts all five featured products have an https URL, that both menus use
+  the external component and neither contains `#solutions`, and that the
+  WhatsApp link's `text` equals the configured message) and the static-export
+  checks PASS.
+- `artifacts/browser-check/nav-links.mjs` against the static export: all five
+  panel entries link to the expected product URL with `_blank`/`noopener`;
+  clicking one opens that URL in a new tab and leaves the page's `scrollY`
+  untouched (popups are stubbed locally, never contacted); all seven WhatsApp
+  links on Home and Contact carry the message; the drawer at 768px has the same
+  five external links. PASS.
+- Panel and drawer screenshots inspected: icons sit with their own product.
+- Links resolved, not invented: the KSMART and K-Edusity URLs were fetched and
+  return their product pages.
+

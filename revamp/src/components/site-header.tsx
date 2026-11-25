@@ -3,7 +3,14 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { ArrowRight, Mail, ChevronDown, Menu, X } from "lucide-react";
+import {
+  ArrowRight,
+  ChevronDown,
+  ExternalLink,
+  Mail,
+  Menu,
+  X,
+} from "lucide-react";
 import { site } from "@/config/variables";
 import { useCategory } from "@/components/category-context";
 import { categories } from "@/data/categories";
@@ -22,6 +29,52 @@ const NAV = [
   { label: "About", href: "/#about", id: "about" },
   { label: "Clients", href: "/#clients", id: "clients" },
 ] as const;
+
+/** A navbar product entry goes to that product's own site in a new tab, the
+ * same destination as its "Explore <name>" button. It never scrolls the page:
+ * a scroll into the solutions list was silent when the product was filtered
+ * out, which looked like a dead link. Products without a URL fall back to the
+ * homepage solutions section so the entry is never inert. */
+function ProductNavLink({
+  product,
+  onNavigate,
+  className,
+  iconClassName,
+  children,
+}: {
+  product: (typeof featuredProducts)[number];
+  onNavigate: () => void;
+  className: string;
+  /** Where the external-link mark sits: the panel's trailing edge, or right
+   * after the name in the drawer's two-column list. */
+  iconClassName?: string;
+  children: React.ReactNode;
+}) {
+  if (product.href) {
+    return (
+      <a
+        href={product.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={onNavigate}
+        aria-label={`${product.name} (opens in a new tab)`}
+        className={className}
+      >
+        {children}
+        <ExternalLink
+          className={cn("size-3.5 shrink-0 opacity-60", iconClassName ?? "ml-auto")}
+          aria-hidden="true"
+        />
+      </a>
+    );
+  }
+
+  return (
+    <Link href="/#solutions" onClick={onNavigate} className={className}>
+      {children}
+    </Link>
+  );
+}
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -226,18 +279,21 @@ export function SiteHeader() {
                   <ul className="mt-2 flex flex-col">
                     {featuredProducts.map((product) => (
                       <li key={product.id}>
-                        <Link
-                          href="/#solutions"
-                          onClick={() => closePanel()}
-                          className="flex flex-col gap-0.5 rounded-[0.625rem] px-2.5 py-2 transition-colors duration-150 hover:bg-slate-100"
+                        <ProductNavLink
+                          product={product}
+                          onNavigate={() => closePanel()}
+                          iconClassName="ml-auto"
+                          className="flex items-center gap-2 rounded-[0.625rem] px-2.5 py-2.5 transition-colors duration-150 hover:bg-slate-100"
                         >
-                          <span className="text-[0.9375rem] font-semibold text-slate-950">
-                            {product.name}
+                          <span className="flex min-w-0 flex-col gap-0.5">
+                            <span className="text-[0.9375rem] font-semibold text-slate-950">
+                              {product.name}
+                            </span>
+                            <span className="line-clamp-1 text-[0.8125rem] leading-[1.45] text-slate-500">
+                              {product.problem}
+                            </span>
                           </span>
-                          <span className="line-clamp-1 text-[0.8125rem] leading-[1.45] text-slate-500">
-                            {product.problem}
-                          </span>
-                        </Link>
+                        </ProductNavLink>
                       </li>
                     ))}
                   </ul>
@@ -386,13 +442,14 @@ export function SiteHeader() {
           <ul className="max-md:hidden mt-1 grid grid-cols-2 gap-x-4">
             {featuredProducts.map((product) => (
               <li key={product.id}>
-                <Link
-                  href="/#solutions"
-                  onClick={() => setOpen(false)}
-                  className="flex min-h-11 items-center text-[0.9375rem] font-medium text-slate-700 hover:text-slate-950"
+                <ProductNavLink
+                  product={product}
+                  onNavigate={() => setOpen(false)}
+                  iconClassName="ml-0.5"
+                  className="flex min-h-11 items-center gap-1.5 text-[0.9375rem] font-medium text-slate-700 hover:text-slate-950"
                 >
                   {product.name}
-                </Link>
+                </ProductNavLink>
               </li>
             ))}
           </ul>

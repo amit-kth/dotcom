@@ -84,9 +84,52 @@ Each page renders `<Seo {...metadata.home} />` (or `.solutions` / `.contact`). `
 
 Icons use the existing blue Kriscent mark: the App Router supplies `favicon.ico` (16/32/48 sizes), `icon.png` and `apple-icon.png`; `layout.tsx` links explicit 16/32/48 PNG favicons, additional Apple touch sizes and `public/site.webmanifest`. Apple artwork is available at 76/120/152/167/180px; manifest app icons are 192/512px. `public/apple-touch-icon.png` also supports the conventional Apple URL. When rebranding, replace the related files together and check the manifest/head links.
 
+## Navigation product links and WhatsApp message
+
+Every navbar product entry (Solutions panel and the menu drawer) goes to that
+product's own site in a new tab, the same destination as its "Explore <name>"
+button, using `product.href` from `src/data/products.ts`. Entries never scroll
+the page: a scroll into the homepage solutions list was silent whenever the
+product had been filtered out of that list, which looked like a dead link.
+`ProductNavLink` in `src/components/site-header.tsx` is the single place this
+happens — add a product's `href` there rather than special-casing the menus.
+The only fallback, for a product with no `href`, is `/#solutions`.
+
+WhatsApp buttons (header, footer, contact card) all read `contact.whatsapp`,
+which now carries the prefilled `contact.whatsappMessage`. Edit that one string
+in `src/config/variables.ts` to change what the chat opens with; the URL text
+is encoded from it automatically.
+
 ## 6. Contact form and integrations
 
-Set `CONTACT_ENDPOINT` in `src/config/variables.ts` to a tested backend. The submission code is `src/app/contact/lib/submit-contact.ts`: JSON POST fields are `name`, `email`, `phone`, `country`, `country_name`, `subject`, `message`, plus `source` and `form` identifiers. The backend must return HTTP 2xx only for accepted submissions and provide suitable validation, CORS, spam protection and email/storage handling.
+The form posts straight to the Laravel enquiry service in `CONTACT_ENDPOINT`
+(`src/config/variables.ts`), currently
+`https://kriscent.in/K-GOD/contact-com`. The submission code is
+`src/app/contact/lib/submit-contact.ts`: one JSON `POST` whose body is exactly
+the legacy form fields — `name`, `email`, `phone` (full international number),
+`subject`, `message` and `country_name` (from the phone input). Nothing else is
+added to the payload.
+
+The endpoint must return HTTP 2xx (`200`/`201`) for an accepted enquiry —
+any other status is treated as a rejection. Because the site is a static
+export, the browser calls the endpoint cross-origin, so the service must allow
+the site origin via CORS for `POST` with `Content-Type: application/json`;
+check the browser console once after deploying. The service should also apply
+its own validation, spam protection and email/storage handling.
+
+How the form behaves on failure:
+
+| Situation | What the visitor sees |
+| --- | --- |
+| 2xx | Success panel: "Thanks, your message has been sent.", the address we will reply to, the phone line, and a **Send another message** button that resets the form |
+| Non-2xx with `{"message": "..."}` | That message, verbatim, in the red alert |
+| Non-2xx without a usable message | "The enquiry service could not accept that right now…" + the info@ address |
+| Network / CORS / offline | "We could not reach the enquiry service…" + the info@ address |
+| No response within 20s | "The enquiry service took too long to respond…" + the info@ address |
+
+Invalid fields are caught before any request is made, and every error message
+keeps the typed values so nothing has to be re-entered. `scripts/contact.test.ts`
+mocks `fetch`; tests never contact the real endpoint or send mail.
 
 The TODO/empty endpoint fails safely: no request, fake success or personal-data logging. **Static hosting alone cannot send email.** The old PHP form contract is different; do not point the JSON form at it without implementing a compatible adapter. Never put API secrets in frontend configuration.
 
@@ -266,7 +309,8 @@ the page. Global theme tokens and shared keyframes are unchanged.
   filtered catalogue provides a reset action rather than hiding items
   permanently. Edit an item's `categories` array to reassign it.
 - WhatsApp header/contact/footer destinations use `contact.whatsapp`, currently
-  https://wa.me/918947027625. Calling links stay on +91-7240560001; no enquiry
+  https://wa.me/918947027625 with `contact.whatsappMessage` prefilled as the
+  chat's first line, so the chat opens as an enquiry instead of an empty box. Calling links stay on +91-7240560001; no enquiry
   is submitted by the website when the WhatsApp link opens in a new tab.
 - Initial FAQ questions and conservative editorial answers are in
   `src/data/faqs.ts`. Replace with final approved answers when supplied. The

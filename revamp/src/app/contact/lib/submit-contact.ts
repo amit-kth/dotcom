@@ -1,6 +1,6 @@
 import { CONTACT_ENDPOINT, contact } from "@/config/variables";
 
-// Static hosting needs a separate, configured enquiry endpoint.
+// Static hosting posts enquiries straight to the configured enquiry service.
 export type ContactPayload = {
   name: string;
   email: string;
@@ -14,30 +14,57 @@ export type ContactPayload = {
 
 export type ContactResult = { ok: true } | { ok: false; error: string };
 
-const GENERIC_ERROR = `We could not send that. Please try again, or email us at ${contact.emails.general}.`;
+/** How long the enquiry service gets before the form says so. */
+export const CONTACT_TIMEOUT_MS = 20_000;
+
+const UNCONFIGURED_ERROR = `Enquiries are not configured yet. Please email us at ${contact.emails.general}.`;
+const TIMEOUT_ERROR = `The enquiry service took too long to respond. Please try again, or email us at ${contact.emails.general}.`;
+const NETWORK_ERROR = `We could not reach the enquiry service. Please check your connection and try again, or email us at ${contact.emails.general}.`;
+const SERVER_ERROR = `The enquiry service could not accept that right now. Please try again in a little while, or email us at ${contact.emails.general}.`;
 
 export async function submitContact(
   payload: ContactPayload,
+  { timeoutMs = CONTACT_TIMEOUT_MS }: { timeoutMs?: number } = {},
 ): Promise<ContactResult> {
   if (!CONTACT_ENDPOINT.trim() || CONTACT_ENDPOINT.startsWith("TODO")) {
-    return { ok: false, error: GENERIC_ERROR };
+    return { ok: false, error: UNCONFIGURED_ERROR };
   }
+
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
 
   try {
     const response = await fetch(CONTACT_ENDPOINT, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      // Exactly the legacy form fields, nothing invented.
       body: JSON.stringify({
-        ...payload,
+        name: payload.name,
+        email: payload.email,
+        phone: payload.phone,
+        subject: payload.subject,
+        message: payload.message,
         country_name: payload.country,
-        source: "kriscent.com",
-        form: "contact",
       }),
+      signal: controller.signal,
     });
 
-    if (!response.ok) return { ok: false, error: GENERIC_ERROR };
+    if (!response.ok) {
+      // Prefer the service's own explanation when it sends one.
+      const serverMessage = await response
+        .json()
+        .then((data) =>
+          typeof data?.message === "string" ? data.message.trim() : "",
+        )
+        .catch(() => "");
+      return { ok: false, error: serverMessage || SERVER_ERROR };
+    }
+
     return { ok: true };
   } catch {
-    return { ok: false, error: GENERIC_ERROR };
+    if (controller.signal.aborted) return { ok: false, error: TIMEOUT_ERROR };
+    return { ok: false, error: NETWORK_ERROR };
+  } finally {
+    clearTimeout(timer);
   }
 }

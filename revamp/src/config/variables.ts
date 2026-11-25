@@ -11,8 +11,10 @@ export const Assetsbaseurl = "https://ik.imagekit.io/qk2ww553c";
    misconfigured deploy fails loudly rather than silently posting nowhere.
 --------------------------------------------------------------------------- */
 
-/** Configure and test a real backend before accepting enquiries. */
-export const CONTACT_ENDPOINT = "TODO_LARAVEL_CONTACT_ENDPOINT"; // e.g. "https://api.kriscent.com/contact"
+/** The enquiry service behind the contact form. The site is static, so the
+ * browser posts here cross-origin: the service must allow the site's origin
+ * via CORS (POST with a JSON content type). */
+export const CONTACT_ENDPOINT = "https://kriscent.in/K-GOD/contact-com";
 
 /* ---------------------------------------------------------------------------
    3. SITE

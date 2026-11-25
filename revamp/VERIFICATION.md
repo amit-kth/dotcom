@@ -522,3 +522,34 @@ picker. No styles, spacing or selection behaviour changed. TypeScript, build,
 tests and export audits pass; the browser suites confirm seven hero chips with
 no Other chip, unchanged eight-chip All Solutions filtering (including Other),
 and unchanged header-picker Other selection with the Home empty banner.
+
+## Contact form wired to the live enquiry API
+
+`CONTACT_ENDPOINT` now points at `https://kriscent.in/K-GOD/contact-com`, and
+`submitContact()` posts exactly the legacy field set (`name`, `email`, `phone`,
+`subject`, `message`, `country_name`) — the earlier extra `source` and `form`
+identifiers were dropped so the payload matches the agreed body.
+
+Error handling covers every branch the browser can reach: per-field validation
+before a request, a 20-second abort for a hanging service, non-2xx responses
+(the service's own `message` when present, otherwise a readable fallback),
+network/CORS failures, and an unconfigured endpoint. Every message tells the
+visitor how to reach `info@kriscent.in`, and typed values are preserved. Success
+now shows "Thanks, your message has been sent." with the reply address, the
+phone line and a **Send another message** reset action.
+
+Verification:
+
+- `npm run check` — build, typecheck, 8 tests (5 new mocked-`fetch` contact
+  tests: payload shape/endpoint, 2xx, 422 message, 5xx fallback, network
+  failure, timeout) and the static-export checks all PASS.
+- `artifacts/browser-check/contact-api.mjs` against the static export with
+  `https://kriscent.in/**` fulfilled locally — validation (no request sent),
+  success + payload assertions (`phone`, `country_name`), reset, 422 message,
+  500 fallback, network failure all PASS with no console errors.
+- Success and error panels inspected at 1280px and 320px: no overflow
+  (`scrollWidth` equal to viewport), copy wraps cleanly, buttons reachable.
+- The real endpoint is never contacted from this sandbox; a live submission and
+  the service's CORS headers for the production origin still need one check
+  after deploy.
+

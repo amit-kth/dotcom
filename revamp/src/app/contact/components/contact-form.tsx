@@ -4,6 +4,7 @@ import { useId, useState } from "react";
 import { PhoneInput } from "react-international-phone";
 import { Check, Loader2, Send } from "lucide-react";
 import { submitContact } from "@/app/contact/lib/submit-contact";
+import { contact } from "@/config/variables";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -98,6 +99,18 @@ export function ContactForm() {
     }
   };
 
+  const startOver = () => {
+    setName("");
+    setEmail("");
+    setPhone("");
+    setCountry("India");
+    setSubject("");
+    setMessage("");
+    setErrors({});
+    setServerError("");
+    setStatus("idle");
+  };
+
   if (status === "success") {
     return (
       <div role="status" className="flex flex-col items-start gap-4 py-4">
@@ -105,9 +118,17 @@ export function ContactForm() {
           <Check className="size-5" aria-hidden="true" />
         </span>
         <div>
-          <p className="text-lg font-semibold">That&apos;s with us.</p>
-          <p className="mt-1 text-slate-600">We will reply to {email}.</p>
+          <p className="text-lg font-semibold">
+            Thanks, your message has been sent.
+          </p>
+          <p className="mt-1 text-slate-600">
+            We will reply to {email} soon. For anything urgent, call{" "}
+            {contact.phoneLine}.
+          </p>
         </div>
+        <Button type="button" variant="secondary" onClick={startOver}>
+          Send another message
+        </Button>
       </div>
     );
   }

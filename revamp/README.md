@@ -86,7 +86,34 @@ Icons use the existing blue Kriscent mark: the App Router supplies `favicon.ico`
 
 ## 6. Contact form and integrations
 
-Set `CONTACT_ENDPOINT` in `src/config/variables.ts` to a tested backend. The submission code is `src/app/contact/lib/submit-contact.ts`: JSON POST fields are `name`, `email`, `phone`, `country`, `country_name`, `subject`, `message`, plus `source` and `form` identifiers. The backend must return HTTP 2xx only for accepted submissions and provide suitable validation, CORS, spam protection and email/storage handling.
+The form posts straight to the Laravel enquiry service in `CONTACT_ENDPOINT`
+(`src/config/variables.ts`), currently
+`https://kriscent.in/K-GOD/contact-com`. The submission code is
+`src/app/contact/lib/submit-contact.ts`: one JSON `POST` whose body is exactly
+the legacy form fields — `name`, `email`, `phone` (full international number),
+`subject`, `message` and `country_name` (from the phone input). Nothing else is
+added to the payload.
+
+The endpoint must return HTTP 2xx (`200`/`201`) for an accepted enquiry —
+any other status is treated as a rejection. Because the site is a static
+export, the browser calls the endpoint cross-origin, so the service must allow
+the site origin via CORS for `POST` with `Content-Type: application/json`;
+check the browser console once after deploying. The service should also apply
+its own validation, spam protection and email/storage handling.
+
+How the form behaves on failure:
+
+| Situation | What the visitor sees |
+| --- | --- |
+| 2xx | Success panel: "Thanks, your message has been sent.", the address we will reply to, the phone line, and a **Send another message** button that resets the form |
+| Non-2xx with `{"message": "..."}` | That message, verbatim, in the red alert |
+| Non-2xx without a usable message | "The enquiry service could not accept that right now…" + the info@ address |
+| Network / CORS / offline | "We could not reach the enquiry service…" + the info@ address |
+| No response within 20s | "The enquiry service took too long to respond…" + the info@ address |
+
+Invalid fields are caught before any request is made, and every error message
+keeps the typed values so nothing has to be re-entered. `scripts/contact.test.ts`
+mocks `fetch`; tests never contact the real endpoint or send mail.
 
 The TODO/empty endpoint fails safely: no request, fake success or personal-data logging. **Static hosting alone cannot send email.** The old PHP form contract is different; do not point the JSON form at it without implementing a compatible adapter. Never put API secrets in frontend configuration.
 

@@ -553,3 +553,34 @@ Verification:
   the service's CORS headers for the production origin still need one check
   after deploy.
 
+## Navbar product links open the product sites; WhatsApp opens with a message
+
+The Solutions panel and the menu drawer used to send every product to
+`/#solutions`, a scroll into the homepage list that did nothing visible when
+that product was filtered out. Both menus now render `ProductNavLink`, which
+uses the product's real `href` (AI Employees, KSMART, K-Exam, K-Edusity,
+Kastrofy — the URLs already used by each "Explore <name>" button) with
+`target="_blank"` and `rel="noopener noreferrer"`, plus a small external-link
+mark and an "(opens in a new tab)" label. The panel's two-column drawer layout
+places the mark next to the name so it cannot read as the neighbouring entry's.
+
+Every WhatsApp button opens with a prefilled enquiry, defined once as
+`contact.whatsappMessage` and encoded into `contact.whatsapp`.
+
+Verification:
+
+- `npm run check` — build, typecheck, 10 tests (a new `scripts/links.test.ts`
+  asserts all five featured products have an https URL, that both menus use
+  the external component and neither contains `#solutions`, and that the
+  WhatsApp link's `text` equals the configured message) and the static-export
+  checks PASS.
+- `artifacts/browser-check/nav-links.mjs` against the static export: all five
+  panel entries link to the expected product URL with `_blank`/`noopener`;
+  clicking one opens that URL in a new tab and leaves the page's `scrollY`
+  untouched (popups are stubbed locally, never contacted); all seven WhatsApp
+  links on Home and Contact carry the message; the drawer at 768px has the same
+  five external links. PASS.
+- Panel and drawer screenshots inspected: icons sit with their own product.
+- Links resolved, not invented: the KSMART and K-Edusity URLs were fetched and
+  return their product pages.
+

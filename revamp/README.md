@@ -84,6 +84,22 @@ Each page renders `<Seo {...metadata.home} />` (or `.solutions` / `.contact`). `
 
 Icons use the existing blue Kriscent mark: the App Router supplies `favicon.ico` (16/32/48 sizes), `icon.png` and `apple-icon.png`; `layout.tsx` links explicit 16/32/48 PNG favicons, additional Apple touch sizes and `public/site.webmanifest`. Apple artwork is available at 76/120/152/167/180px; manifest app icons are 192/512px. `public/apple-touch-icon.png` also supports the conventional Apple URL. When rebranding, replace the related files together and check the manifest/head links.
 
+## Navigation product links and WhatsApp message
+
+Every navbar product entry (Solutions panel and the menu drawer) goes to that
+product's own site in a new tab, the same destination as its "Explore <name>"
+button, using `product.href` from `src/data/products.ts`. Entries never scroll
+the page: a scroll into the homepage solutions list was silent whenever the
+product had been filtered out of that list, which looked like a dead link.
+`ProductNavLink` in `src/components/site-header.tsx` is the single place this
+happens — add a product's `href` there rather than special-casing the menus.
+The only fallback, for a product with no `href`, is `/#solutions`.
+
+WhatsApp buttons (header, footer, contact card) all read `contact.whatsapp`,
+which now carries the prefilled `contact.whatsappMessage`. Edit that one string
+in `src/config/variables.ts` to change what the chat opens with; the URL text
+is encoded from it automatically.
+
 ## 6. Contact form and integrations
 
 The form posts straight to the Laravel enquiry service in `CONTACT_ENDPOINT`
@@ -293,7 +309,8 @@ the page. Global theme tokens and shared keyframes are unchanged.
   filtered catalogue provides a reset action rather than hiding items
   permanently. Edit an item's `categories` array to reassign it.
 - WhatsApp header/contact/footer destinations use `contact.whatsapp`, currently
-  https://wa.me/918947027625. Calling links stay on +91-7240560001; no enquiry
+  https://wa.me/918947027625 with `contact.whatsappMessage` prefilled as the
+  chat's first line, so the chat opens as an enquiry instead of an empty box. Calling links stay on +91-7240560001; no enquiry
   is submitted by the website when the WhatsApp link opens in a new tab.
 - Initial FAQ questions and conservative editorial answers are in
   `src/data/faqs.ts`. Replace with final approved answers when supplied. The

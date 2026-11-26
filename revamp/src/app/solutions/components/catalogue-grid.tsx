@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ArrowUpRight, ImageIcon } from "lucide-react";
 import { OfferTag } from "@/components/offers/offer-tag";
 import { catalogue, type CatalogueItem } from "@/data/catalogue";
@@ -49,16 +50,26 @@ export function CatalogueGrid({ items = catalogue }: { items?: CatalogueItem[] }
               </p>
             </div>
 
-            {item.href && (
-              <a
-                href={item.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`${item.name}, open the product page`}
+            {item.comingSoon ? (
+              <Link
+                href="/coming-soon/"
+                aria-label={`${item.name}, coming soon`}
                 className="mt-0.5 inline-flex size-9 shrink-0 items-center justify-center rounded-full border border-slate-200 text-slate-600 transition-colors hover:border-blue-600 hover:text-blue-600"
               >
                 <ArrowUpRight className="size-4" aria-hidden="true" />
-              </a>
+              </Link>
+            ) : (
+              item.href && (
+                <a
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${item.name}, open the product page`}
+                  className="mt-0.5 inline-flex size-9 shrink-0 items-center justify-center rounded-full border border-slate-200 text-slate-600 transition-colors hover:border-blue-600 hover:text-blue-600"
+                >
+                  <ArrowUpRight className="size-4" aria-hidden="true" />
+                </a>
+              )
             )}
           </div>
         </li>

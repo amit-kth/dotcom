@@ -126,7 +126,7 @@ export const metadata = {
     path: "/coming-soon",
     title: "Coming Soon | Kriscent Ready-Made Software",
     description:
-      "Software from Kriscent that is still in development. Tell us what you need and we will confirm when it can be ready.",
+      "This Kriscent product is still in development. Tell us what you need and we will confirm when it can be ready.",
   },
   contact: {
     path: "/contact",

@@ -656,3 +656,33 @@ Tests updated in `scripts/contact.test.ts` to use the real body, adding explicit
 cases for `success: true`, `200 + success:false` (with and without a message)
 and a 5xx carrying the envelope. `npm test` 16/16 PASS, `npm run check` PASS.
 
+## Correction: K-Cab stays in the catalogue; /coming-soon is a title only
+
+The earlier version removed K-Cab from the catalogue and listed it on
+`/coming-soon/`. That was wrong: the product keeps its original card and only
+its destination changes.
+
+- **K-Cab is back in `catalogue`** at its exact old position (after K-Laundry,
+  before Car Wash), same `logistics` category and `Lifestyle` group, so the
+  filters behave as before. Its description stays "Bike and taxi booking portal".
+- It carries `comingSoon: true`, and `CatalogueGrid` sends that card's action to
+  `/coming-soon/` instead of an external site. Every other card is unchanged.
+- **`/coming-soon/` is now just the page**: a large centred "Coming Soon", one
+  line of explanation, Contact us and See all solutions. It renders no product
+  data, and the temporary "Coming soon" link added to the end of All solutions
+  was removed.
+- K-Klassified stays removed.
+
+Verification:
+
+- `npm run check` PASS — 17 tests, including the reworked
+  `scripts/products.test.ts`: K-Cab present and at `indexOf("k-laundry") + 1`,
+  followed by `car-wash`, logistics/Lifestyle unchanged, new description, and
+  exactly one `comingSoon` entry that has no `href`; the page file is asserted
+  to contain no catalogue import and no `.map(`.
+- `artifacts/browser-check` run: the card sits between K-Laundry and Car Wash in
+  All solutions, its action is `/coming-soon/`, clicking it lands there, the page
+  shows "Coming Soon" at 104px, horizontally centred within 12px, contains no
+  product name or "In development", and has no overflow; the card is still
+  visible under the Logistics filter. No console errors. PASS.
+

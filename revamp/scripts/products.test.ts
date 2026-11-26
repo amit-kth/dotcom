@@ -1,15 +1,13 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { readFileSync } from "node:fs";
-import { catalogue, comingSoon } from "../src/data/catalogue";
+import { catalogue } from "../src/data/catalogue";
 import { searchIndex } from "../src/lib/solution-search";
 
-const ids = (items: { id: string }[]) => items.map((item) => item.id);
+const byId = (id: string) => catalogue.find((item) => item.id === id);
 
 test("K-Klassified is withdrawn completely", () => {
-  assert.equal(ids(catalogue).includes("k-klassified"), false);
-  assert.equal(ids(comingSoon).includes("k-klassified"), false);
-  // It must not survive in search, artwork or the data file.
+  assert.equal(byId("k-klassified"), undefined);
   assert.equal(
     searchIndex.some((item) => item.id === "k-klassified"),
     false,
@@ -20,28 +18,40 @@ test("K-Klassified is withdrawn completely", () => {
   );
 });
 
-test("K-Cab is coming soon, not on sale", () => {
-  // In development: not in the catalogue or search, only on /coming-soon.
-  assert.equal(ids(catalogue).includes("k-cab"), false);
-  assert.equal(searchIndex.some((item) => item.id === "k-cab"), false);
-  const cab = comingSoon.find((item) => item.id === "k-cab");
-  assert.ok(cab, "K-Cab is listed as coming soon");
-  assert.equal(cab.comingSoon, true);
-  // The description now names bike and taxi booking, not cab booking.
+test("K-Cab stays in the catalogue, in its original place", () => {
+  const ids = catalogue.map((item) => item.id);
+  const cab = byId("k-cab");
+  assert.ok(cab, "K-Cab must remain a catalogue card");
+  // It used to sit between K-Laundry and Car Wash; keep it there.
+  assert.equal(ids.indexOf("k-cab"), ids.indexOf("k-laundry") + 1);
+  assert.equal(ids[ids.indexOf("k-cab") + 1], "car-wash");
+  // Same industry and group as before, so filters behave as they did.
+  assert.deepEqual(cab.categories, ["logistics"]);
+  assert.equal(cab.group, "Lifestyle");
+  // The description names bike and taxi booking, not cab booking.
   assert.match(cab.line, /bike and taxi booking/i);
   assert.doesNotMatch(cab.line, /^cab booking/i);
-  // No outbound product page: nothing to send people to yet.
-  assert.equal(cab.href, undefined);
 });
 
-test("coming-soon entries never leak into the catalogue or search", () => {
-  for (const item of comingSoon) {
-    assert.equal(ids(catalogue).includes(item.id), false, `${item.id} in catalogue`);
-    assert.equal(
-      searchIndex.some((entry) => entry.id === item.id),
-      false,
-      `${item.id} in search`,
-    );
-    assert.equal(item.comingSoon, true);
-  }
+test("only the not-yet-launched card points at /coming-soon", () => {
+  const soon = catalogue.filter((item) => item.comingSoon);
+  assert.deepEqual(soon.map((item) => item.id), ["k-cab"]);
+  // A coming-soon card must not link to a product site.
+  assert.equal(soon[0].href, undefined);
+  // The card component routes it to the page instead.
+  const grid = readFileSync(
+    "src/app/solutions/components/catalogue-grid.tsx",
+    "utf8",
+  );
+  assert.match(grid, /item\.comingSoon \?/);
+  assert.match(grid, /href="\/coming-soon\/"/);
+});
+
+test("the coming-soon page is a single centred title, not a product list", () => {
+  const page = readFileSync("src/app/coming-soon/page.tsx", "utf8");
+  assert.match(page, /Coming Soon/);
+  assert.match(page, /text-center/);
+  // It must not render catalogue data.
+  assert.doesNotMatch(page, /from "@\/data\/catalogue"/);
+  assert.doesNotMatch(page, /\.map\(/);
 });

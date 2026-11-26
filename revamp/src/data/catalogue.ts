@@ -13,7 +13,8 @@ export type CatalogueItem = {
   href?: string;
   /** Local path from public/ once artwork exists, or a complete image URL. */
   image?: string;
-  /** Not for sale yet: shown on /coming-soon, never in the catalogue. */
+  /** Still in development: the card stays in the catalogue but opens
+   *  /coming-soon/ instead of a product site. */
   comingSoon?: boolean;
   /** which of our industries this belongs to, for grouping */
   group:
@@ -237,6 +238,8 @@ export const catalogue: CatalogueItem[] = [
     name: "Prabal Hospital ERP",
     line: "Hospital management system",
     group: "Health",
+    // The old site's live hospital product theme.
+    href: "https://www.kriscent.com/theme/k-hospital/",
   },
 
   {
@@ -321,6 +324,18 @@ export const catalogue: CatalogueItem[] = [
     href: "https://www.kriscent.com/product/klaundry/",
   },
   {
+    id: "k-cab",
+    categories: ["logistics"],
+    image: "/banners/general/k-cab.webp",
+    keywords: ["bike taxi", "bike booking", "taxi booking", "ride booking"],
+    name: "K-Cab",
+    line: "Bike and taxi booking portal",
+    group: "Lifestyle",
+    // Still in development, so its card opens /coming-soon/ instead of a
+    // product site. Everything else about the entry is unchanged.
+    comingSoon: true,
+  },
+  {
     id: "car-wash",
     categories: ["other"],
     image: "/banners/general/car-wash.webp",
@@ -369,22 +384,5 @@ export const catalogue: CatalogueItem[] = [
     line: "Cinema ticket booking portal",
     group: "Lifestyle",
     href: "https://kriscent.com/product/kcinema/",
-  },
-];
-
-/** Products under development. They are listed on /coming-soon and are
- *  deliberately absent from `catalogue`, so they never appear in the
- *  solutions list, the industry filters or search results. To launch one:
- *  delete `comingSoon` here and move the entry into `catalogue` above. */
-export const comingSoon: CatalogueItem[] = [
-  {
-    id: "k-cab",
-    categories: ["logistics"],
-    image: "/banners/general/k-cab.webp",
-    keywords: ["bike taxi", "bike booking", "taxi booking", "ride booking"],
-    name: "K-Cab",
-    line: "Bike and taxi booking portal",
-    group: "Lifestyle",
-    comingSoon: true,
   },
 ];

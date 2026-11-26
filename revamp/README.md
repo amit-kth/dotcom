@@ -69,6 +69,14 @@ Two sources, on purpose:
 **Adding a new image? Save it in `public/` and reference it as `/name.webp`.**
 Do not add hotlinks to random external hosts — they break silently.
 
+## Search
+
+The dialog searches `searchIndex` in `src/lib/solution-search.ts`. Every result
+leaves the page: it opens that product's own site in a new tab, `/coming-soon/`
+for a product that is not launched, and the contact form for that product
+(`/contact?solution=<id>`) when the product has no site yet. Results never
+scroll to an anchor on our own pages.
+
 ## SEO
 
 Each page renders one `<Seo {...metadata.x} />` from `src/lib/seo.tsx`, which
@@ -111,15 +119,19 @@ must allow our domain via CORS. Code: `src/app/contact/lib/submit-contact.ts`.
 
 ## Coming soon products
 
-Some products are not for sale yet. They live in `comingSoon` in
-`src/data/catalogue.ts` and appear only on `/coming-soon`. They are deliberately
-absent from `catalogue`, so they never show in the solutions list, the industry
-filters or search.
+A product that is not ready yet stays in its normal place in the catalogue and
+gets one line added:
 
-- **Move one to the catalogue:** delete its `comingSoon: true` line and move the
-  entry into the `catalogue` array above it.
-- **Remove a product for good:** delete the entry, its image in `public/banners/`
-  and any mention in `products.ts` or the FAQ.
+```ts
+comingSoon: true,
+```
+
+Its card then opens `/coming-soon/` instead of a product site. That page is just
+a big centred "Coming Soon" with a contact button — it never lists products.
+
+To launch the product: delete the `comingSoon: true` line and give it its
+`href`. To remove a product for good: delete the entry and its image in
+`public/banners/`.
 
 ## Offers
 

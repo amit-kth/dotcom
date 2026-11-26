@@ -14,6 +14,15 @@ export type ContactPayload = {
 
 export type ContactResult = { ok: true } | { ok: false; error: string };
 
+/** The service answers `{ success, message, data }`. A 2xx is not proof on its
+ *  own: `success: false` with a 200 is a rejection and must not be confirmed
+ *  to the visitor. */
+type EnquiryResponse = {
+  success?: boolean;
+  message?: string;
+  data?: { id?: number | string; enq_id?: string } | null;
+};
+
 /** How long the enquiry service gets before the form says so. */
 export const CONTACT_TIMEOUT_MS = 20_000;
 
@@ -49,14 +58,16 @@ export async function submitContact(
       signal: controller.signal,
     });
 
-    if (!response.ok) {
-      // Prefer the service's own explanation when it sends one.
-      const serverMessage = await response
-        .json()
-        .then((data) =>
-          typeof data?.message === "string" ? data.message.trim() : "",
-        )
-        .catch(() => "");
+    // The body decides the outcome; a non-JSON body is not treated as failure
+    // when the status itself says the enquiry was accepted.
+    const body: EnquiryResponse | null = await response
+      .json()
+      .catch(() => null);
+    const serverMessage =
+      typeof body?.message === "string" ? body.message.trim() : "";
+
+    // `success: false` on a 200 is still a rejection.
+    if (!response.ok || body?.success === false) {
       return { ok: false, error: serverMessage || SERVER_ERROR };
     }
 

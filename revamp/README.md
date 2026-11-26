@@ -98,8 +98,16 @@ Body:
 }
 ```
 
-A 2xx means accepted; anything else is shown to the visitor as an error. The
-endpoint must allow our domain via CORS. Code: `src/app/contact/lib/submit-contact.ts`.
+Success is decided by the body, not just the status:
+
+```json
+{ "success": true, "message": "Message Sent successfully", "data": { "id": 74 } }
+```
+
+`success: true` (any 2xx) shows the success panel. A 2xx with `"success": false`
+is still a rejection, and its `message` is shown to the visitor; a non-2xx uses
+the same `message`, or a readable fallback with `info@kriscent.in`. The endpoint
+must allow our domain via CORS. Code: `src/app/contact/lib/submit-contact.ts`.
 
 ## Coming soon products
 

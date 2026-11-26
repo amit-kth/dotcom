@@ -15,6 +15,25 @@ const payload: ContactPayload = {
   message: "Contact form test message.",
 };
 
+/** The service's actual success body, trimmed to the parts we rely on. */
+const successBody = {
+  success: true,
+  message: "Message Sent successfully",
+  data: {
+    enq_id: "",
+    priority_odr: 2,
+    enq_name: "test",
+    enq_country: "India",
+    enq_mobile: "",
+    enq_email: "priyatam@kriscent.in",
+    enq_subject: "test",
+    enq_message: "hello test",
+    crt_on: "2026-11-26 12:26:53",
+    status_prim: 0,
+    id: 74,
+  },
+};
+
 const jsonResponse = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), {
     status,
@@ -26,7 +45,7 @@ const mockFetch = (impl: (...args: unknown[]) => Promise<Response>) =>
   mock.method(globalThis, "fetch", impl as unknown as typeof fetch);
 
 test("the enquiry posts the legacy field set to the configured endpoint", async () => {
-  const request = mockFetch(async () => jsonResponse({}));
+  const request = mockFetch(async () => jsonResponse(successBody));
   try {
     const result = await submitContact(payload);
     assert.equal(result.ok, true);
@@ -56,6 +75,41 @@ test("the enquiry posts the legacy field set to the configured endpoint", async 
   }
 });
 
+test("the service's success envelope is accepted", async () => {
+  const request = mockFetch(async () => jsonResponse(successBody));
+  try {
+    const result = await submitContact(payload);
+    assert.deepEqual(result, { ok: true });
+  } finally {
+    request.mock.restore();
+  }
+});
+
+test("a 200 with success:false is a rejection, not a success", async () => {
+  // The envelope, not the HTTP status, decides: this must never confirm.
+  const request = mockFetch(async () =>
+    jsonResponse({ success: false, message: "Email already exists", data: null }),
+  );
+  try {
+    const result = await submitContact(payload);
+    if (result.ok) assert.fail("success:false must not be confirmed");
+    assert.equal(result.error, "Email already exists");
+  } finally {
+    request.mock.restore();
+  }
+});
+
+test("a 200 with success:false and no message uses the fallback", async () => {
+  const request = mockFetch(async () => jsonResponse({ success: false }));
+  try {
+    const result = await submitContact(payload);
+    if (result.ok) assert.fail("success:false must not be confirmed");
+    assert.match(result.error, /@/);
+  } finally {
+    request.mock.restore();
+  }
+});
+
 test("a rejected enquiry surfaces the service's own message", async () => {
   const request = mockFetch(async () =>
     jsonResponse({ message: "Invalid input" }, 422),
@@ -70,7 +124,9 @@ test("a rejected enquiry surfaces the service's own message", async () => {
 });
 
 test("a rejected enquiry without a message falls back to the contact email", async () => {
-  const request = mockFetch(async () => jsonResponse({}, 500));
+  const request = mockFetch(async () =>
+    jsonResponse({ success: false, message: "" }, 500),
+  );
   try {
     const result = await submitContact(payload);
     if (result.ok) assert.fail("expected a failure");

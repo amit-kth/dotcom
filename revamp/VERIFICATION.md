@@ -638,3 +638,21 @@ Verification:
 2xx/success and error handling. README updated to match. `npm run check` PASS;
 the browser check mocks the endpoint host, so it still passes against the new
 URL.
+
+## Contact success follows the service's response envelope
+
+The endpoint answers `{ success, message, data }`, so a 2xx is no longer treated
+as proof on its own. `submitContact()` reads the body and:
+
+- `success: true` on any 2xx → success panel.
+- `success: false` on a 200 → rejection, with the service's `message` shown
+  (this is the case that would otherwise have wrongly confirmed an enquiry, for
+  example a duplicate email).
+- non-2xx → same `message`, or the fallback naming `info@kriscent.in`.
+- non-JSON body → judged by the HTTP status alone, so a proxy page or an empty
+  200 does not break the form.
+
+Tests updated in `scripts/contact.test.ts` to use the real body, adding explicit
+cases for `success: true`, `200 + success:false` (with and without a message)
+and a 5xx carrying the envelope. `npm test` 16/16 PASS, `npm run check` PASS.
+

@@ -5,7 +5,6 @@ import { contact, site } from "@/config/variables";
 import { SOCIAL_ICONS, WhatsAppIcon } from "@/components/social-icons";
 import { buttonVariants } from "@/components/ui/button";
 import { products, DELIVERY_DAYS } from "@/data/products";
-import { categories } from "@/data/categories";
 import { SHELL, T_LABEL } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 
@@ -63,7 +62,7 @@ export function SiteFooter() {
         <OfficeLocations />
 
         {/* ---- five columns, one baseline ---- */}
-        <div className="grid grid-cols-2 gap-x-6 gap-y-6 border-t border-white/15 py-8 lg:grid-cols-[minmax(15rem,1.2fr)_repeat(3,minmax(0,0.8fr))_minmax(14rem,1.3fr)]">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-6 border-t border-white/15 py-8 lg:grid-cols-[minmax(15rem,1.3fr)_repeat(2,minmax(0,0.85fr))_minmax(15rem,1.2fr)] lg:gap-x-12">
           <div className="col-span-2 lg:col-span-1">
             <img
               src="/logo/logo.png"
@@ -108,31 +107,26 @@ export function SiteFooter() {
             <ul className="mt-2 flex flex-col">
               {products.map((product) => (
                 <li key={product.id}>
-                  <Link href="/#solutions" className={LINK}>
-                    {product.name}
-                  </Link>
+                  {product.href ? (
+                    <a
+                      href={product.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={cn(LINK, "gap-1.5")}
+                    >
+                      {product.name}
+                      <ArrowUpRight
+                        className="size-3.5 opacity-60"
+                        aria-hidden="true"
+                      />
+                    </a>
+                  ) : (
+                    <Link href={`/contact?solution=${product.id}`} className={LINK}>
+                      {product.name}
+                    </Link>
+                  )}
                 </li>
               ))}
-            </ul>
-          </nav>
-
-          <nav aria-label="Industries">
-            <h2 className={cn(T_LABEL, "text-slate-300")}>Industries</h2>
-            <ul className="mt-2 flex flex-col">
-              {categories
-                .filter(
-                  (category) =>
-                    category.id !== "manufacturing" &&
-                    category.id !== "real-estate" &&
-                    category.id !== "other",
-                )
-                .map((category) => (
-                  <li key={category.id}>
-                    <Link href="/#solutions" className={LINK}>
-                      {category.label}
-                    </Link>
-                  </li>
-                ))}
             </ul>
           </nav>
 

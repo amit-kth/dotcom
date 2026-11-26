@@ -729,3 +729,25 @@ clicking ksmart opens `https://www.kriscent.in/product/ksmart/` in a new tab
 while the page stays put; Enter on k-exam opens its site; "grocery" leads to the
 contact form.
 
+## Footer: real solution links, Industries column removed
+
+- **Solutions** sent every name to `/#solutions`, a scroll that did nothing once
+  the product was filtered out. Each name now opens that product's own site in a
+  new tab (the same destinations as the navbar and the cards), with an
+  external-link mark. A product with no site falls back to
+  `/contact?solution=<id>`.
+- **Industries removed.** The column repeated filter labels, every one pointing
+  at the same anchor, so it was noise rather than navigation. Its `categories`
+  import went with it.
+- **Gaps rebalanced** for four columns: `minmax(15rem,1.3fr)`,
+  `repeat(2,minmax(0,0.85fr))`, `minmax(15rem,1.2fr)` with `lg:gap-x-12`,
+  replacing the five-column template and its 1.5rem gutters.
+
+Verified: `npm run check` PASS (19 tests; the new footer test asserts the old
+`/#solutions` pattern is gone, the products link to `product.href` in a new tab,
+the contact fallback exists, and that no Industries nav or `categories` import
+remains). Browser run at 1440/1280/1920/768/390: the five solution links carry
+their real URLs with `_blank`, no Industries nav, `scrollWidth` never exceeds the
+viewport, and the desktop grid computes as four evenly spaced columns
+(365/239/239/337px). Screenshots of desktop, 768px and 390px inspected.
+

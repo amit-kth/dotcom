@@ -45,3 +45,28 @@ test("every WhatsApp link opens with a prefilled enquiry", () => {
     );
   }
 });
+
+test("footer solutions go to each product's own site, and there is no Industries column", () => {
+  const footer = readFileSync("src/components/site-footer.tsx", "utf8");
+
+  // The old footer sent every solution to the homepage list.
+  assert.doesNotMatch(
+    footer,
+    /products\.map[\s\S]{0,200}href="\/#solutions"/,
+    "solutions must not scroll to the homepage list",
+  );
+  // Each product links to its own site in a new tab, like the navbar.
+  assert.match(footer, /href=\{product\.href\}/);
+  assert.match(footer, /target="_blank"/);
+  assert.match(footer, /rel="noopener noreferrer"/);
+  // A product without a site asks about it on Contact instead of doing nothing.
+  assert.match(footer, /\/contact\?solution=\$\{product\.id\}/);
+
+  // Industries carried filter names, not destinations, so the column is gone.
+  assert.doesNotMatch(footer, /aria-label="Industries"/);
+  assert.doesNotMatch(footer, /from "@\/data\/categories"/);
+
+  // Four columns now, and the remaining ones are evenly spaced.
+  assert.match(footer, /repeat\(2,minmax\(0,0\.85fr\)\)/);
+  assert.match(footer, /lg:gap-x-12/);
+});

@@ -77,6 +77,13 @@ for a product that is not launched, and the contact form for that product
 (`/contact?solution=<id>`) when the product has no site yet. Results never
 scroll to an anchor on our own pages.
 
+## Footer
+
+Four columns: brand, Solutions, Company, Get in touch. The Solutions column
+reads `product.href`, so each name opens that product's site in a new tab — a
+product without a site sends the visitor to the contact form for it. There is
+no Industries column: it listed filter names, not links.
+
 ## SEO
 
 Each page renders one `<Seo {...metadata.x} />` from `src/lib/seo.tsx`, which

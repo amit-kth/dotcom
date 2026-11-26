@@ -702,3 +702,30 @@ where clicking "ksmart" opened `https://www.kriscent.in/product/ksmart/` in a
 new tab, Enter on the highlighted "k-exam" result opened its page, and "cab"
 opened `/coming-soon/` in the same tab.
 
+## Search results always leave the page
+
+The first fix sent products to their own site, but any product with no URL
+still fell back to an anchor (`/solutions/#catalogue-…`), which only scrolled
+the list the visitor was already looking at — that is what "it just scrolls to
+that product" was. The anchor fallback is gone:
+
+- product with a URL → its site, new tab;
+- `comingSoon` product → `/coming-soon/`;
+- product with no URL → the contact form for it, `/contact?solution=<id>`.
+
+Two products were the reason this showed up, and both are now handled:
+
+- **Prabal Hospital ERP** has a real product site on the old site,
+  `https://www.kriscent.com/theme/k-hospital/` (taken from `index.php`, fetched
+  and confirmed live), so it now links there.
+- **Kart-Grocery** has no product page — `/product/kart-grocery/` is only a
+  GoGrocer installer screen — so it asks about the product on Contact.
+
+Verified: `npm run check` PASS (18 tests; the search test now asserts no result
+href contains `#solution-` or `#catalogue-`, and that every href is a site, the
+coming-soon page or the contact form). Browser run: ksmart, k-edusity and
+Prabal land on their own sites in a new tab with the page itself unchanged;
+clicking ksmart opens `https://www.kriscent.in/product/ksmart/` in a new tab
+while the page stays put; Enter on k-exam opens its site; "grocery" leads to the
+contact form.
+

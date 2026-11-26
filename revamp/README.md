@@ -71,9 +71,11 @@ Do not add hotlinks to random external hosts — they break silently.
 
 ## Search
 
-The dialog searches `searchIndex` in `src/lib/solution-search.ts`. A result
-points at the same destination as that product's card: its own product page,
-opened in a new tab. A coming-soon product goes to `/coming-soon/` instead.
+The dialog searches `searchIndex` in `src/lib/solution-search.ts`. Every result
+leaves the page: it opens that product's own site in a new tab, `/coming-soon/`
+for a product that is not launched, and the contact form for that product
+(`/contact?solution=<id>`) when the product has no site yet. Results never
+scroll to an anchor on our own pages.
 
 ## SEO
 

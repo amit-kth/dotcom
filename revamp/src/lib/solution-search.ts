@@ -1,6 +1,11 @@
 import { products } from "@/data/products";
 import { catalogue } from "@/data/catalogue";
 import { categoryLabel } from "@/data/categories";
+import { contact } from "@/config/variables";
+
+/** A product with no page of its own must still lead somewhere real: an
+ *  in-page anchor only scrolled the list the visitor was already looking at. */
+const askAbout = (id: string) => `${contact.contactPath}?solution=${id}`;
 
 export const suggestedSearches = [
   "School management",
@@ -26,7 +31,7 @@ export const searchIndex = [
     keywords: product.keywords,
     group: product.categories.map(categoryLabel).join(", "),
     // Same destination as the card's own action: the product's page.
-    href: product.href ?? `/solutions/#solution-${product.id}`,
+    href: product.href ?? askAbout(product.id),
   })),
   ...catalogue.map((product) => ({
     id: product.id,
@@ -37,7 +42,7 @@ export const searchIndex = [
     // Not launched yet: its page is the coming-soon notice.
     href: product.comingSoon
       ? "/coming-soon/"
-      : (product.href ?? `/solutions/#catalogue-${product.id}`),
+      : (product.href ?? askAbout(product.id)),
   })),
 ].map((item) => ({
   ...item,

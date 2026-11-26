@@ -70,11 +70,16 @@ test("search results open the product, like the card's own action", () => {
     if (item.comingSoon) assert.equal(href, "/coming-soon/", item.name);
     else if (item.href) assert.equal(href, item.href, item.name);
   }
-  // No result may send anyone at a bare in-page anchor when the product has a
-  // real page. (K-Cab is the one deliberate coming-soon exception.)
+  // No result may scroll to an anchor on our own pages: every one must lead to
+  // the product site, the coming-soon notice, or the contact form for that
+  // product (used only when it has no page of its own).
   for (const item of searchIndex) {
-    if (item.href.startsWith("#")) continue;
-    assert.match(item.href, /^(https?:\/\/|\/coming-soon\/|\/solutions\/#)/, item.name);
+    assert.doesNotMatch(item.href, /#(?:solution|catalogue)-/, item.name);
+    assert.match(
+      item.href,
+      /^(https?:\/\/|\/coming-soon\/|\/contact\?solution=)/,
+      item.name,
+    );
   }
   // External results open in a new tab.
   const dialog = readFileSync("src/components/search/solution-search.tsx", "utf8");

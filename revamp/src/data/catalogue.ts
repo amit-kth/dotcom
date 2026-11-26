@@ -238,6 +238,8 @@ export const catalogue: CatalogueItem[] = [
     name: "Prabal Hospital ERP",
     line: "Hospital management system",
     group: "Health",
+    // The old site's live hospital product theme.
+    href: "https://www.kriscent.com/theme/k-hospital/",
   },
 
   {

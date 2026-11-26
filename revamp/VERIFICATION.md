@@ -1,8 +1,12 @@
-# Revamp verification
+# Verification log
+
+Build/test/browser checks for each change, newest last. Setup and daily
+commands are in README.md.
 
 ## Scope and commands
 
-All tracked changes are inside `revamp/`. The legacy PHP site is read-only.
+All tracked changes are inside the dated app folder. The legacy PHP site
+(index.php and friends) is read-only.
 
 `npm run check` passes: static production build, strict TypeScript with unused
 locals/parameters enabled, six tests, and the exported-HTML audit. `npm audit
@@ -583,4 +587,46 @@ Verification:
 - Panel and drawer screenshots inspected: icons sit with their own product.
 - Links resolved, not invented: the KSMART and K-Edusity URLs were fetched and
   return their product pages.
+
+## README rewritten; K-Klassified withdrawn; K-Cab on /coming-soon
+
+README.md was replaced with a short, task-oriented version: two local commands,
+a checks section, a concise SSG section (what is allowed and what breaks the
+build), a data table, the two image sources with the "new images go in
+public/" rule, one short SEO paragraph, the endpoint and body only, offer and
+coming-soon instructions, and deployment as four numbered steps plus the
+`.htaccess` and no-product-folder rules. The project map, navigation, popup and
+`/revamp` references were removed, and a note explains that the repo root holds
+the legacy PHP site while the company GitHub keeps updated on `main` and the old
+code on `old-code-backup`.
+
+Product changes:
+
+- **K-Klassified removed** from `catalogue.ts` entirely (it is in no list, no
+  filter and no search result).
+- **K-Cab moved to `comingSoon`**, so it no longer appears in the catalogue,
+  industry filters or search, and its description now reads "Bike and taxi
+  booking portal" instead of "Cab booking portal". It has no outbound product
+  URL; its action opens the contact form for that product.
+- **New `/coming-soon/` page**: lists `comingSoon` with an "In development"
+  badge, an "Ask about <name>" action and a route to the live catalogue. Added
+  to the sitemap, the export audit and one quiet link at the end of All
+  solutions; no footer or navbar slot, so the 5-5-5 footer and the hero stay
+  untouched.
+
+Verification:
+
+- `npm run check` — build, typecheck, 13 tests and the export audit PASS,
+  including the new `scripts/products.test.ts` (K-Klassified gone from data and
+  search; K-Cab absent from catalogue and search, present in `comingSoon` with
+  the new description and no href; nothing coming-soon leaks into the catalogue).
+- `artifacts/browser-check/coming-soon.mjs` on the static export: the All
+  solutions link opens `/coming-soon/`, title and canonical are correct, K-Cab
+  and "Bike and taxi booking portal" are shown while "Cab booking portal" is not,
+  "Ask about K-Cab" points at the contact form, neither K-Cab nor K-Klassified
+  appears in All solutions, the catalogue anchors, search or the homepage, with
+  no console errors. PASS.
+- Page inspected at 1280px and 320px: no overflow (`scrollWidth` equals the
+  viewport), the single card sits with its badge and action, and the band was
+  tightened so the page does not carry a half-empty grid.
 

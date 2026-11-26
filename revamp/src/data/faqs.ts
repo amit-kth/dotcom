@@ -8,6 +8,7 @@ export const faqs = [
   { id: "support", group: "Pricing and support", question: "What training and support are available?", answer: "Discuss your team's needs when requesting a demo or quote. The training, support arrangements and any ongoing charges should be confirmed for your chosen product and agreed scope." },
   { id: "data", group: "Setup and implementation", question: "Can I bring data from my existing system?", answer: "Tell us which system you use and the data you want to move. Our team will review the available format and confirm whether an import is supported and what preparation is needed." },
   { id: "product-site", group: "Choosing a solution", question: "Where can I find more product details?", answer: "Use the Explore button on a product card to open its dedicated website in a new tab. Use those websites for product details, or contact our team to discuss a demonstration." },
+  { id: "coming-soon", group: "Choosing a solution", question: "What does Coming soon mean on a product?", answer: "That product is still in development and is not available to buy yet. It is listed on the Coming soon page rather than with the ready-made solutions. Contact us and we will tell you what it covers and when it can be ready." },
   { id: "hosting", group: "Pricing and support", question: "Are hosting, ownership and renewals the same for every product?", answer: "These arrangements can differ by product. Our team can confirm hosting, licensing or ownership terms, renewals and third-party charges for the solution you are considering." },
 ];
 

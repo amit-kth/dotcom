@@ -122,6 +122,12 @@ export const metadata = {
     title: "Frequently Asked Questions | Kriscent Ready-Made Software",
     description: "Answers about choosing Kriscent software, requesting demos, implementation, pricing and support. Contact our team about your selected product.",
   },
+  comingSoon: {
+    path: "/coming-soon",
+    title: "Coming Soon | Kriscent Ready-Made Software",
+    description:
+      "Software from Kriscent that is still in development. Tell us what you need and we will confirm when it can be ready.",
+  },
   contact: {
     path: "/contact",
     title: "Contact Kriscent | Ready-Made Software, Live in 15 Days",

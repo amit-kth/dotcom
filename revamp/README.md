@@ -1,355 +1,156 @@
-# Kriscent website revamp
+# Kriscent website
 
-A Next.js App Router website using TypeScript, React, Tailwind CSS, Framer Motion and self-hosted Poppins. **Production is a static site, not a Next.js server.** All new work belongs in `/revamp`; the legacy PHP website outside this directory is separate and must not be changed accidentally.
+Next.js (App Router) + TypeScript + Tailwind. Built locally, deployed as plain
+HTML to cPanel. No server, no database.
 
-## 1. Local development
+The repo root also holds the old PHP site (`index.php`, `css/`, `js/`, `img/`)
+and its dated app folder. These are legacy: the updated code is on `main` and
+the old code on the `old-code-backup` branch of the company GitHub. Work in the
+dated app folder only as described below, and never edit the root PHP files.
 
-Requirements: Node.js 22+, npm, and Python 3 for the exported-HTML audit.
+## Local development
 
 ```sh
-cd revamp
-npm ci
-npm run dev       # development server
-npm run check     # build + TypeScript + tests + exported SEO audit
-npm start         # preview the built out/ directory; downloads serve if needed
+npm i
+npm run dev
 ```
 
-Individual commands: `npm run build`, `npm run typecheck`, `npm test`, and `python3 scripts/verify-export.py` after a build. TypeScript checks unused locals and parameters. There is no configured ESLint command.
+That is all you need. The dev server runs at http://localhost:3000.
 
-## 2. Project map and rendering
+### Checks
 
-| Location | Responsibility |
+Run before you hand anything over:
+
+```sh
+npm run check
+```
+
+It builds the site, type-checks, runs the tests and checks the exported HTML for
+SEO, headings and assets. Nothing here touches the live enquiry API.
+
+## SSG (why the site is static)
+
+`next.config.ts` sets `output: "export"`, so `next build` writes the whole site
+to a folder of plain HTML. That is what lets it run on cPanel with no Node.
+
+What that means for you:
+
+- Allowed: pages, components, client-side state (filters, search, forms).
+- Not allowed: API routes, server actions, middleware, `searchParams`, dynamic
+  routes without `generateStaticParams`, anything that needs a server at request
+  time. It will fail the build.
+- Images are not optimised by Next; use plain `<img>`.
+- `trailingSlash: true` means `/solutions/` builds to `solutions/index.html`.
+
+## Data
+
+Everything editable lives in `src/data/`. Nothing is fetched at runtime.
+
+| File | What it holds |
 | --- | --- |
-| `src/app/layout.tsx` | Shared header/footer, fonts, providers, icons, GTM and Organization/WebSite schemas |
-| `src/app/(home)/page.tsx` | Homepage; its section components live alongside it |
-| `src/app/solutions/` | Featured product cards and general catalogue |
-| `src/app/contact/` | Contact page, form and submission/query helpers |
-| `src/components/` | Shared navigation, search, footer and UI primitives |
-| `src/config/variables.ts` | Site/contact settings, ImageKit origin, metadata and backend URL |
-| `src/data/` | Products, catalogue, categories, clients, locations and shared content |
-| `src/lib/` | SEO wrapper, search logic, styling helpers and reduced-motion hook |
-| `public/` | Local banners, logos, social image, icons and crawl files |
-| `prompts/` | Banner and offer image-generation briefs and prompts |
-
-### What SSG means here
-
-`next.config.ts` sets `output: "export"`, `trailingSlash: true` and unoptimized images. `next build` prerenders each route into `out/`: `/solutions/` becomes `out/solutions/index.html`, for example. HTML, CSS, JavaScript and images are served directly by Apache on cPanel. **Node.js is needed to build, not to host.**
-
-Search, filters, animation and form validation run in the browser after hydration; the page content is already in the exported HTML. Do not add API routes, server actions, request-time rendering or other server-only features without revisiting this deployment model. A manifest and app icons are provided, but there is no offline service worker or offline-app guarantee.
-
-## 3. Managing content and product data
-
-Content is maintained in version-controlled TypeScript files, not a CMS or database. Changes require a rebuild and upload.
-
-- `src/data/products.ts`: the five large products, including IDs, names, search keywords, all categories, outcomes, banner paths, logos and external product links. Both the homepage and Solutions page use `SolutionBanner`.
-- `src/data/catalogue.ts`: the 35 smaller general-product cards and their artwork.
-- `src/data/categories.ts`: industry IDs and labels. A product can belong to several categories; **all its categories are displayed**, and the homepage filters use the full array.
-- `src/data/site-content.ts`: client logos, written testimonials, manually maintained platform ratings and video testimonial URLs/thumbnails.
-- Other files in `src/data/`: office locations and shared content. The fixed delivery steps remain in the homepage delivery component.
-- `src/lib/solution-search.ts`: builds the shared search index from products/catalogue. Update keywords in the data, not separate hand-written search results.
-
-For a product change, edit its existing object. Keep IDs stable where possible because they form card anchors, contact query values and search links. Use only category IDs declared in `categories.ts`. If a name/ID changes intentionally, update search tests and check incoming links. Do not invent external product URLs, certification claims or reviews.
-
-To add another product, supply its real content, image and keywords, then update relevant count-based tests. A large card takes its logo from `product.logo`; `null` means no logo. Keep product website links separate from logo-image URLs.
-
-## 4. Images and why ImageKit matters
-
-There are **three distinct asset sources**:
-
-1. **ImageKit:** shared office photography and the supplied CMMI/ISO artwork. `Assetsbaseurl` in `src/config/variables.ts` is the only ImageKit origin. Components/data append the relative asset path:
-
-   ```tsx
-   src={`${Assetsbaseurl}/tempAssets/awards/2015.webp`}
-   ```
-
-   The CMMI path retains its supplied `updatedAt` query. Keep spaces encoded and preserve meaningful query parameters. Centralizing the origin lets us change the CDN account in one place and avoids storing duplicate certification/office images in this repository. ImageKit is external: availability, caching and any CDN configuration remain its responsibility; these files are not bundled in `out/`.
-
-2. **Product servers:** K-Edusity, Kastrofy, K-Exam and K-SMART logos use their complete supplied website URLs in `products.ts`. **Do not prefix or replace those URLs with `Assetsbaseurl`.** They are hosted by the respective product sites, not ImageKit.
-3. **Local assets:** banners, brand icons and the OG image live under `public/` and use `/...` paths. Next copies these files into `out/`. Delete a local asset only after checking every reference, including filters, marquees, CSS and metadata.
-
-Images currently use plain `<img>` elements, so production does not depend on a Next.js image-optimization server. Set dimensions to reserve layout space and meaningful alt text where the image conveys information; decorative images can use empty alt text. External images still require reachable hosts and public, hotlink-compatible URLs. `next.config.ts` image host rules do not fetch or validate plain images.
-
-Banner rules and reusable prompts are in `prompts/BANNER-DIRECTION.md`: premium cards use 1680×735 artwork with a calm left text zone; general cards use full-frame 1280×800 scenes. Keep source/output sizes and WebP optimization in mind when replacing artwork.
-
-## 5. SEO wrapper, sharing image and icons
-
-Each page renders `<Seo {...metadata.home} />` (or `.solutions` / `.contact`). `src/lib/seo.tsx` emits its title, description, canonical, Open Graph/Twitter tags and WebPage schema. **Do not add a second page-metadata implementation** that duplicates these tags. Root Organization/WebSite schemas and GTM belong in `layout.tsx` once.
-
-- Edit page titles/descriptions in `metadata` and shared company/domain details in `site`, both in `src/config/variables.ts`.
-- Legitimate legacy homepage text metadata is preserved through `legacySeo`. Placeholder ratings and obsolete scripts were intentionally excluded.
-- `site.ogImage` points to `/images/og-kriscent.jpg`, a 1200×630 branded social banner. OG and Twitter share this image; Twitter uses `summary_large_image`. Update `site.ogImageAlt` when the artwork changes. Use a new filename when replacing an already-cached social image.
-- `public/robots.txt` and `public/sitemap.xml` are static. Update their production URLs and route list whenever the domain or public routes change. Keep canonical URLs, sitemap URLs and real hosting redirects consistent.
-- Use one H1 per page and an appropriate H2/H3 hierarchy. The featured Solutions section has a screen-reader-only H2 so product H3s have a parent section without changing the visible layout.
-- `scripts/verify-export.py` checks the actual exported pages against the legacy source and the intentional social-image changes. It requires the legacy `index.php` to remain available in the repository.
-
-Icons use the existing blue Kriscent mark: the App Router supplies `favicon.ico` (16/32/48 sizes), `icon.png` and `apple-icon.png`; `layout.tsx` links explicit 16/32/48 PNG favicons, additional Apple touch sizes and `public/site.webmanifest`. Apple artwork is available at 76/120/152/167/180px; manifest app icons are 192/512px. `public/apple-touch-icon.png` also supports the conventional Apple URL. When rebranding, replace the related files together and check the manifest/head links.
-
-## Navigation product links and WhatsApp message
-
-Every navbar product entry (Solutions panel and the menu drawer) goes to that
-product's own site in a new tab, the same destination as its "Explore <name>"
-button, using `product.href` from `src/data/products.ts`. Entries never scroll
-the page: a scroll into the homepage solutions list was silent whenever the
-product had been filtered out of that list, which looked like a dead link.
-`ProductNavLink` in `src/components/site-header.tsx` is the single place this
-happens — add a product's `href` there rather than special-casing the menus.
-The only fallback, for a product with no `href`, is `/#solutions`.
-
-WhatsApp buttons (header, footer, contact card) all read `contact.whatsapp`,
-which now carries the prefilled `contact.whatsappMessage`. Edit that one string
-in `src/config/variables.ts` to change what the chat opens with; the URL text
-is encoded from it automatically.
-
-## 6. Contact form and integrations
-
-The form posts straight to the Laravel enquiry service in `CONTACT_ENDPOINT`
-(`src/config/variables.ts`), currently
-`https://kriscent.in/K-GOD/contact-com`. The submission code is
-`src/app/contact/lib/submit-contact.ts`: one JSON `POST` whose body is exactly
-the legacy form fields — `name`, `email`, `phone` (full international number),
-`subject`, `message` and `country_name` (from the phone input). Nothing else is
-added to the payload.
-
-The endpoint must return HTTP 2xx (`200`/`201`) for an accepted enquiry —
-any other status is treated as a rejection. Because the site is a static
-export, the browser calls the endpoint cross-origin, so the service must allow
-the site origin via CORS for `POST` with `Content-Type: application/json`;
-check the browser console once after deploying. The service should also apply
-its own validation, spam protection and email/storage handling.
-
-How the form behaves on failure:
-
-| Situation | What the visitor sees |
-| --- | --- |
-| 2xx | Success panel: "Thanks, your message has been sent.", the address we will reply to, the phone line, and a **Send another message** button that resets the form |
-| Non-2xx with `{"message": "..."}` | That message, verbatim, in the red alert |
-| Non-2xx without a usable message | "The enquiry service could not accept that right now…" + the info@ address |
-| Network / CORS / offline | "We could not reach the enquiry service…" + the info@ address |
-| No response within 20s | "The enquiry service took too long to respond…" + the info@ address |
-
-Invalid fields are caught before any request is made, and every error message
-keeps the typed values so nothing has to be re-entered. `scripts/contact.test.ts`
-mocks `fetch`; tests never contact the real endpoint or send mail.
-
-The TODO/empty endpoint fails safely: no request, fake success or personal-data logging. **Static hosting alone cannot send email.** The old PHP form contract is different; do not point the JSON form at it without implementing a compatible adapter. Never put API secrets in frontend configuration.
-
-GTM settings are in `site`; the root layout installs it and `RouteTracker` reports client-side navigation. Tawk settings are retained but the widget is not enabled. Other external dependencies include office images, product logos and the phone-input library's flag images. Verify these on the real domain, not just a network-restricted build environment.
-
-## 7. Deploy to cPanel
-
-1. Back up the live document root and hosting rules. Confirm the intended domain and HTTPS/canonical-host redirects.
-2. From `revamp/`, run `npm ci && npm run check`. Deploy only if all checks pass.
-3. Upload the **contents of `out/`**, including `_next/`, route directories, images, icons, `robots.txt`, sitemap and manifest, to the domain's document root. Do not upload `node_modules`, `.next`, source code or development artifacts. No Node process is required on cPanel.
-4. Preserve existing product directories, PHP endpoints and unrelated files. Do not delete/replace the entire legacy hosting directory. Review file collisions before extracting an archive.
-5. Update the existing hosting `.htaccess` as needed; do not overwrite unrelated rules. `DirectoryIndex` must prefer `index.html` to the old `index.php`. Map real HTTP 404 responses to `/404.html`; do not use a blanket SPA fallback to the homepage.
-6. Test direct loads and refreshes of `/`, `/solutions/` and `/contact/`; test an unknown URL, local/external images, favicon/manifest, social metadata, search, mobile navigation, GTM and a real contact submission. Check browser console/network errors and HTTPS redirects. Purge relevant hosting/CDN caches if needed.
-
-This configuration assumes deployment at the domain root. Hosting under a subfolder needs a separate review of `basePath`, asset URLs, canonicals, sitemap and manifest scope; do not simply upload the current export into a random subfolder.
-
-To roll back, restore the backed-up files and hosting rules. Keep older `_next` files during a safe transition so cached pages do not request deleted chunks; remove stale build assets only after the cache window is understood.
-
-## 8. Offer strip and popup
-
-**A dummy festive offer is currently enabled for review**, labelled "Demo offer"
-with 20% off K-Exam and K-Edusity. This is test content, not an approved live
-promotion. Set `offer` to `null` or replace it with an approved offer before launch.
-
-**Only edit `src/data/offer.ts` to add/remove an offer.** Its opening comment
-has filled all-product and two-product examples, field explanations and the
-handoff steps. Keep `offer = null` for the ordinary Contact popup. An offer
-object switches to the offer popup, the 32px strip and matching banner tags.
-Use a descriptive `id` for each offer; use discounts, never rupee prices.
-
-Product IDs come from `products.ts` and `catalogue.ts`. Incorrect IDs warn in
-development. Popup triggers are positional, not timed:
-
-- Home (`/`): the bottom of `#top` has passed the sticky header.
-- Solutions (`/solutions`): the bottom of `#solutions-product-list` is visible,
-  meaning the visitor reached the end of all catalogue products.
-- Contact and other routes: no automatic popup.
-
-`SitePopup` checks those element positions after mount and on scroll, resize,
-`pageshow` (including restored scroll), visibility changes and relevant DOM
-changes. It defers while another dialog is open. There is no random delay or
-eight-second fallback. Closing hides it for that route visit; navigation resets
-the route's in-memory flag. No popup localStorage/sessionStorage is used, so
-reloads recheck the restored page position without requiring a return to the hero.
-
-Both variants link to the same `/contact` page as navigation; the enquiry form
-is not a modal, so there is no second modal or prefilled-message integration.
-The existing backend requirement still applies.
-
-The strip renders above the header, scrolls away normally and has a dismiss
-button. Dismissal lasts until reload. An enabled strip occupies 32px from the first paint;
-it does not insert space later or change the header/stacking offsets. The popup
-is portalled and does not participate in hero layout. Reduced motion stops the
-marquee and uses a fade-only popup entrance.
-
-All four popups are square. Dedicated generated artwork is bundled in
-`public/popups/` for Contact, New, Hot and Festive, with communication artwork for Contact and promotional campaign artwork for
-New, Hot and Festive. Gifts, coupons and celebration props signal an offer;
-Festive has no Diwali-specific or other occasion-specific symbols. `popupImages` in the offer data file selects them.
-The images ship locally so they work immediately; move them to ImageKit only
-after uploading, then update those four URLs in the same file. The original
-product-banner prompt has not been changed. Mobile square cards are centered with viewport-bounded sizing; laptop and
-desktop popup positioning is unchanged. The offer
-palette uses solid blue, red and crimson with white text, defined once in the
-`:root` offer tokens in `src/app/globals.css`, consumed through the
-`offerColors` Tailwind class map in `src/data/offer.ts`. Strip CTAs are not underlined.
-
-After editing, build, test on staging, then zip `out/` contents and send to Kapil
-sir. No date scheduler, API, new provider or offer backend is involved.
-
-### Shared popup component
-
-All modal popups (Contact, Offer and Search) use the shadcn-style components
-in `src/components/ui/dialog.tsx`. This is the single owner of the Radix portal,
-overlay and accessible dialog primitives. Keep route-specific content and
-presentation in the caller; do not create another direct Radix dialog wrapper.
-Existing focus trapping, Escape handling and scroll lock come from the installed
-Radix dependency. No extra dialog package or context provider is needed.
-
-### Client ratings and video testimonials
-
-The one-row client-logo strip is `app/(home)/components/client-strip.tsx`,
-rendered directly after the hero. It uses all existing client logos in one
-continuous loop, with hover/focus pause and reduced-motion support.
-
-`app/(home)/components/platform-ratings.tsx` renders all three rating links
-inside About, replacing the former “Based in” location cell, with the original dark glass
-cell styling and light rating text. Locations remain
-in the footer. The ratings are no longer part of the review section.
-
-`app/(home)/components/clients.tsx` now contains only the client-stories heading
-and `testimonials.tsx`: one featured written review with previous/next controls,
-plus three compact video rows with square, uncropped thumbnails. They sit side by side from tablet widths and
-stack on phones. Five written reviews remain available (Sudha Agarwal removed). Reviews
-advance every six seconds while in view, with explicit pause/resume controls.
-Rotation pauses on hover/focus, while a video is open or the tab is hidden;
-reduced-motion preferences disable automatic rotation. Inactive reviews are inert and hidden from assistive technology;
-shared grid sizing prevents section jumps as reviews change.
-
-All three videos share one shadcn Dialog. YouTube iframes are created only on
-click and removed on close; focus returns to the clicked thumbnail. Thumbnails
-and supplied platform/reviewer logos use the shared ImageKit base.
-
-Edit `platformRatings`, `testimonials` and `videoTestimonials` in `site-content.ts`.
-Testimonial content is editable data, not a test fixture. Update it here only;
-there are no tests locking reviewer names, wording, review counts, scores or
-video URLs to their current values. Preview changes to verify layout, links
-and actual playback.
-
-Scores are manually supplied, not fetched live. Keep exact review/source URLs,
-use excerpts for compact cards and do not invent individual star ratings,
-review counts or aggregate-rating schema. Test actual external images and video
-playback on the final domain as well as the local dialog behavior.
-
-## 9. Before handing off a change
-
-Run `npm run check`, inspect phone/tablet/laptop/large-monitor layouts and verify reduced-motion behavior. Recheck logo and certification URLs in a browser with external access. Confirm the form backend before claiming enquiries work. Keep changes confined to `/revamp`, and discuss SEO-driven visible design changes before making them.
-
-`VERIFICATION.md` records validation and deployment limitations. Generated `out/`, local browser checks and deployment archives are ignored build artifacts, not source files to commit.
-
-### Styling rule
-
-Use Tailwind utility classes in components, including responsive, container,
-focus and reduced-motion variants. `src/app/globals.css` owns global theme
-configuration: stylesheet imports, `:root` design tokens, `.dark` token
-values, the dark variant and `@theme inline` mappings for shadcn-compatible
-colors, radius and fonts. These tokens belong here and must not be removed
-when cleaning component CSS. Use semantic utilities such as `bg-background`,
-`text-foreground`, `bg-primary`, `border-border` and `ring-ring` to consume them.
-Existing fixed-palette utilities remain supported; token definitions do not
-add a site-wide dark-mode toggle or automatically recolor every component.
-
-Animation tokens and their shared keyframes also belong in the global Tailwind
-theme. Components consume them with `animate-*` utilities and reduced-motion
-variants. Keep these definitions when cleaning up component CSS.
-
-Do not add component selectors, handwritten layout rules or
-`@apply` in globals.css. Site-wide style defaults use low-specificity Tailwind
-variants on the root layout so component utilities still win. Campaign values
-live in the root offer tokens; the shared class map is in `src/data/offer.ts`.
-Shared keyframes handle the hero/gold drift, menu/popup entry and continuous
-marquees. Hover/focus pause and reduced motion use Tailwind variants. Existing
-Framer Motion remains responsible for interactive reveals and scroll effects.
-
-### Mobile-only layout scope
-
-Phone refinements use `max-md:` (below 768px). Do not change the laptop/desktop
-layouts while adjusting these utilities. Hero chips remain a compact two-column
-grid; homepage product cards have 20px outer gutters in normal and reduced-motion
-modes. Body/copy/headings/counters have explicit phone sizes; form inputs stay
-16px to avoid iOS focus zoom and interactive controls retain practical tap areas.
-The mobile menu contains Home, All solutions, How it works, About, Clients and
-Contact us; no product or industry submenus below 768px. Footer locations expand
-horizontally in a swipeable row and follow the selected card without scrolling
-the page. Global theme tokens and shared keyframes are unchanged.
-
-## Approved discovery and FAQ improvements
-
-- Large-card display headings are `heading` in `src/data/products.ts`. Names,
-  IDs, logos, product links, demo-query behavior and small catalogue headings
-  are unchanged. Brand names appear beneath the descriptive large-card title.
-- Home keeps its existing hero/nav selection context. Its selected chips now
-  sit immediately under "Solutions for selected industries" and share the
-  industry hues. Clear and individual removal are retained.
-- `/solutions/` is still statically exported. Its `SolutionsContent` uses local
-  React state for multi-industry filtering of featured and catalogue products.
-  It starts at All industries, independent of Home. No query parameters,
-  dynamic routes, network requests or filter persistence were added. Multiple
-  industries use OR matching. `IndustryFilters` shares only the visual control,
-  not selection state between pages.
-- Catalogue industry tags: every catalogue item carries explicit `categories`
-  in `src/data/catalogue.ts`. An item is tagged with an industry only when the
-  signal is explicit (its group or its own keywords name the industry); every
-  item outside the industry list is tagged `other`. `Other` is a selectable
-  catch-all chip on All Solutions and in the header industry picker; it is
-  deliberately omitted from the hero chip row. An empty
-  filtered catalogue provides a reset action rather than hiding items
-  permanently. Edit an item's `categories` array to reassign it.
-- WhatsApp header/contact/footer destinations use `contact.whatsapp`, currently
-  https://wa.me/918947027625 with `contact.whatsappMessage` prefilled as the
-  chat's first line, so the chat opens as an enquiry instead of an empty box. Calling links stay on +91-7240560001; no enquiry
-  is submitted by the website when the WhatsApp link opens in a new tab.
-- Initial FAQ questions and conservative editorial answers are in
-  `src/data/faqs.ts`. Replace with final approved answers when supplied. The
-  homepage uses the first six; `/faq/` groups all nine from the same source.
-  Native details/summary controls work by keyboard and without JavaScript.
-  Footer and homepage link to `/faq/`; it is not added to the main navigation.
-  No FAQ rich-result eligibility or FAQ schema claim is made.
-- Hero headline unchanged; supporting description and existing implementation
-  steps clarified. No extra benefits/trust/demo/integration/form sections.
-
-### Catalogue industry assignments
-
-All 35 catalogue items have explicit `categories`. The mapping is deliberately
-conservative: only clear signals count (the Education/Health groups, or the
-item's own keywords naming fintech, logistics or real estate). Everything else
-is `other` and can be retagged in `src/data/catalogue.ts` after internal review.
-
-- `edtech`: K-Academics, K-Hostel
-- `healthcare`: K-Appointment, Doctor Plus, Prabal Hospital ERP
-- `fintech`: K-Loan
-- `logistics`: K-Cab (its keywords name transport/logistics)
-- `real-estate`: K-Realestate
-- `other`: the remaining 27 items (Commerce retail/ecommerce, generic Portals,
-  and Operations/Lifestyle products such as HR, accounting, matrimony, laundry,
-  car wash, parking and cinema booking)
-
-The hero industry picker shows the seven real industries only; `other` is a
-catalogue catch-all, not a business industry, so it is filtered out there.
-
-The footer Industries column stays a curated five-link list (it omits
-Manufacturing, Real Estate and Other) so the three link groups stay balanced.
-
-### Footer and active industry reminder
-
-The footer's closing Contact action includes a WhatsApp icon using the same
-chat-only number. Company links omit How we deliver. Social icons use their
-brand colors on white badges (including black X for contrast).
-On All Solutions, selecting an industry makes the existing chip bar sticky
-below the 52px navbar. Clearing all selections returns it to normal flow.
-Selected chips use solid industry colors; amber uses dark text for contrast.
-On phones, the bar uses a compact swipeable chip row with no visible scrollbar
-and a selection count. The Home selected-chip presentation is unchanged.
+| `products.ts` | The large featured product cards |
+| `catalogue.ts` | The smaller catalogue cards, plus `comingSoon` |
+| `categories.ts` | Industry filters and their labels |
+| `offer.ts` | The offer tag/popup |
+| `faqs.ts` | FAQ questions and answers |
+
+Edit the existing object; keep its `id` stable (ids are used by links, filters
+and the contact form). Product links must be real URLs — never invent one.
+
+## Images
+
+Two sources, on purpose:
+
+- **ImageKit** (`https://ik.imagekit.io/qk2ww553c/...`) for large hero and
+  section photography.
+- **Local `public/`** for banners, logos and artwork that must always load:
+  `public/banners/`, `public/logo/`, etc.
+
+**Adding a new image? Save it in `public/` and reference it as `/name.webp`.**
+Do not add hotlinks to random external hosts — they break silently.
+
+## SEO
+
+Each page renders one `<Seo {...metadata.x} />` from `src/lib/seo.tsx`, which
+outputs the title, description, canonical, Open Graph/Twitter tags and page
+schema. Page copy lives in `metadata` in `src/config/variables.ts`. Site-wide
+schema, GTM and icons are set once in `src/app/layout.tsx`. Do not add a second
+SEO implementation.
+
+## Contact form API
+
+The form posts JSON to:
+
+```
+https://kriscent.in/K-GOD/api/v1/dotcom-enquiry
+```
+
+Body:
+
+```json
+{
+  "name": "…",
+  "email": "…",
+  "phone": "+917240560001",
+  "subject": "…",
+  "message": "…",
+  "country_name": "India"
+}
+```
+
+Success is decided by the body, not just the status:
+
+```json
+{ "success": true, "message": "Message Sent successfully", "data": { "id": 74 } }
+```
+
+`success: true` (any 2xx) shows the success panel. A 2xx with `"success": false`
+is still a rejection, and its `message` is shown to the visitor; a non-2xx uses
+the same `message`, or a readable fallback with `info@kriscent.in`. The endpoint
+must allow our domain via CORS. Code: `src/app/contact/lib/submit-contact.ts`.
+
+## Coming soon products
+
+Some products are not for sale yet. They live in `comingSoon` in
+`src/data/catalogue.ts` and appear only on `/coming-soon`. They are deliberately
+absent from `catalogue`, so they never show in the solutions list, the industry
+filters or search.
+
+- **Move one to the catalogue:** delete its `comingSoon: true` line and move the
+  entry into the `catalogue` array above it.
+- **Remove a product for good:** delete the entry, its image in `public/banners/`
+  and any mention in `products.ts` or the FAQ.
+
+## Offers
+
+Offers are changed in `src/data/offer.ts` and nowhere else.
+
+```ts
+export const offer: Offer | null = {
+  id: "school-offer-1",          // new id per offer, so it shows again
+  tone: "new",                   // "new" | "hot" | "festive" (sets colours)
+  heading: "Education offer",
+  discount: "20% off",           // never write rupee prices
+  products: ["k-exam", "k-edusity"], // or "all"
+  cta: "Claim offer",
+};
+```
+
+To remove one, set `export const offer: Offer | null = null`. Product ids come
+from `products.ts` and `catalogue.ts`; a wrong id logs a warning in dev.
+
+## Deployment
+
+1. `npm run build`
+2. An `out/` folder is generated.
+3. Zip the **contents** of `out/` (not the folder itself).
+4. Give the zip to sir; he extracts it into the root of `public_html` on cPanel.
+
+Rules:
+
+- **Never add or edit `.htaccess` in this project.** Hosting rules are handled
+  on cPanel; a stray file here will overwrite them.
+- **Never create a product folder** (e.g. `public/product/...`) in this project.
+  Product pages are hosted elsewhere and linked to, not copied in.
+- Do not upload source, `node_modules` or `.next` to cPanel. Only `out/`.
+- Node.js is needed to build, not to host.

@@ -14,7 +14,7 @@ export const Assetsbaseurl = "https://ik.imagekit.io/qk2ww553c";
 /** The enquiry service behind the contact form. The site is static, so the
  * browser posts here cross-origin: the service must allow the site's origin
  * via CORS (POST with a JSON content type). */
-export const CONTACT_ENDPOINT = "https://kriscent.in/K-GOD/contact-com";
+export const CONTACT_ENDPOINT = "https://kriscent.in/K-GOD/api/v1/dotcom-enquiry";
 
 /* ---------------------------------------------------------------------------
    3. SITE
@@ -121,6 +121,12 @@ export const metadata = {
     path: "/faq",
     title: "Frequently Asked Questions | Kriscent Ready-Made Software",
     description: "Answers about choosing Kriscent software, requesting demos, implementation, pricing and support. Contact our team about your selected product.",
+  },
+  comingSoon: {
+    path: "/coming-soon",
+    title: "Coming Soon | Kriscent Ready-Made Software",
+    description:
+      "Software from Kriscent that is still in development. Tell us what you need and we will confirm when it can be ready.",
   },
   contact: {
     path: "/contact",

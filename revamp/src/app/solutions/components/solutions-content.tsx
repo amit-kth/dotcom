@@ -104,7 +104,15 @@ export function SolutionsContent() {
         >
           <p className="text-[1.0625rem] max-md:text-sm text-slate-600">
             Something else in mind? That is a build rather than a solution, tell
-            us what you run and we will say which it is.
+            us what you run and we will say which it is. A few products are
+            still in development on our{" "}
+            <Link
+              href="/coming-soon/"
+              className="font-medium text-blue-700 hover:underline hover:underline-offset-4"
+            >
+              Coming soon
+            </Link>{" "}
+            page.
           </p>
           <Link
             href={contact.contactPath}

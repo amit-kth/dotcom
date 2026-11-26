@@ -14,7 +14,7 @@ export const Assetsbaseurl = "https://ik.imagekit.io/qk2ww553c";
 /** The enquiry service behind the contact form. The site is static, so the
  * browser posts here cross-origin: the service must allow the site's origin
  * via CORS (POST with a JSON content type). */
-export const CONTACT_ENDPOINT = "https://kriscent.in/K-GOD/contact-com";
+export const CONTACT_ENDPOINT = "https://kriscent.in/K-GOD/api/v1/dotcom-enquiry";
 
 /* ---------------------------------------------------------------------------
    3. SITE

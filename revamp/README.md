@@ -82,7 +82,7 @@ SEO implementation.
 The form posts JSON to:
 
 ```
-https://kriscent.in/K-GOD/contact-com
+https://kriscent.in/K-GOD/api/v1/dotcom-enquiry
 ```
 
 Body:

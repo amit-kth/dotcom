@@ -529,7 +529,7 @@ and unchanged header-picker Other selection with the Home empty banner.
 
 ## Contact form wired to the live enquiry API
 
-`CONTACT_ENDPOINT` now points at `https://kriscent.in/K-GOD/contact-com`, and
+`CONTACT_ENDPOINT` points at `https://kriscent.in/K-GOD/api/v1/dotcom-enquiry`, and
 `submitContact()` posts exactly the legacy field set (`name`, `email`, `phone`,
 `subject`, `message`, `country_name`) — the earlier extra `source` and `form`
 identifiers were dropped so the payload matches the agreed body.
@@ -630,3 +630,11 @@ Verification:
   viewport), the single card sits with its badge and action, and the band was
   tightened so the page does not carry a half-empty grid.
 
+## Contact endpoint moved to the versioned path
+
+`CONTACT_ENDPOINT` is now `https://kriscent.in/K-GOD/api/v1/dotcom-enquiry`
+(was `/K-GOD/contact-com`). The request itself is unchanged: one JSON `POST` of
+`name`, `email`, `phone`, `subject`, `message` and `country_name`, with the same
+2xx/success and error handling. README updated to match. `npm run check` PASS;
+the browser check mocks the endpoint host, so it still passes against the new
+URL.

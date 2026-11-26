@@ -686,3 +686,19 @@ Verification:
   product name or "In development", and has no overflow; the card is still
   visible under the Logistics filter. No console errors. PASS.
 
+## Search results open the product page
+
+Search used to send every product to an in-page anchor (`/#solution-…`,
+`/#catalogue-…`) on our own pages, so clicking a result never reached the
+product. Results now use the same destination as the card's own action:
+`product.href` for real products, `/coming-soon/` for the one not-yet-launched
+product, and the anchor only as a fallback for entries with no URL at all.
+External results open in a new tab with `rel="noopener noreferrer"`.
+
+Verified: `npm run check` PASS (18 tests; the new test asserts every
+featured and catalogue product's search href equals its card href, and that the
+dialog carries the new-tab attributes), plus a browser run on the static export
+where clicking "ksmart" opened `https://www.kriscent.in/product/ksmart/` in a
+new tab, Enter on the highlighted "k-exam" result opened its page, and "cab"
+opened `/coming-soon/` in the same tab.
+

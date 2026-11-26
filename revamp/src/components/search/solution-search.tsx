@@ -220,6 +220,15 @@ export function SolutionSearchProvider({
                   key={result.id}
                   id={`${id}-result-${index}`}
                   href={result.href}
+                  // Product pages leave the site, so they open in a new tab.
+                  {...(/^https?:/.test(result.href)
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {})}
+                  aria-label={
+                    /^https?:/.test(result.href)
+                      ? `${result.name} (opens in a new tab)`
+                      : undefined
+                  }
                   role="option"
                   tabIndex={-1}
                   aria-selected={activeIndex === index}

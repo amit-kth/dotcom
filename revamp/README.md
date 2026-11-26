@@ -69,6 +69,12 @@ Two sources, on purpose:
 **Adding a new image? Save it in `public/` and reference it as `/name.webp`.**
 Do not add hotlinks to random external hosts — they break silently.
 
+## Search
+
+The dialog searches `searchIndex` in `src/lib/solution-search.ts`. A result
+points at the same destination as that product's card: its own product page,
+opened in a new tab. A coming-soon product goes to `/coming-soon/` instead.
+
 ## SEO
 
 Each page renders one `<Seo {...metadata.x} />` from `src/lib/seo.tsx`, which

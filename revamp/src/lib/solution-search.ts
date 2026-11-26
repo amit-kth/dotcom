@@ -25,7 +25,8 @@ export const searchIndex = [
     description: product.problem,
     keywords: product.keywords,
     group: product.categories.map(categoryLabel).join(", "),
-    href: `/solutions/#solution-${product.id}`,
+    // Same destination as the card's own action: the product's page.
+    href: product.href ?? `/solutions/#solution-${product.id}`,
   })),
   ...catalogue.map((product) => ({
     id: product.id,
@@ -33,7 +34,10 @@ export const searchIndex = [
     description: product.line,
     keywords: product.keywords,
     group: product.group,
-    href: product.href ?? `/solutions/#catalogue-${product.id}`,
+    // Not launched yet: its page is the coming-soon notice.
+    href: product.comingSoon
+      ? "/coming-soon/"
+      : (product.href ?? `/solutions/#catalogue-${product.id}`),
   })),
 ].map((item) => ({
   ...item,
